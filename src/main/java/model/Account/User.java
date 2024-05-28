@@ -87,7 +87,7 @@ public class User implements Comparable<User> {
 
     public static User getUserByUsername(String username){
         for (User user : allUsers){
-            if (user.getName()){
+            if (user.getName().equals(username)){
                 return user;
             }
         }
