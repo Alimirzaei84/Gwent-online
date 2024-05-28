@@ -8,7 +8,7 @@ public class User implements Comparable<User> {
     private String password;
     private String email;
     private String nickname;
-
+    private static User loggedInUser = null;
 
 
     // mapping questions to answers
@@ -71,6 +71,14 @@ public class User implements Comparable<User> {
 
     public void setAnswers(HashMap<String, String> answers) {
         this.answers = answers;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User loggedInUser) {
+        User.loggedInUser = loggedInUser;
     }
 
     @Override
