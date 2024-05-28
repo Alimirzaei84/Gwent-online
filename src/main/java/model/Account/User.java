@@ -1,24 +1,29 @@
 package model.Account;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User implements Comparable<User> {
 
-    private String name;
+    private String username;
     private String password;
     private String email;
     private String nickname;
+    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static User loggedInUser = null;
 
 
 
     // mapping questions to answers
     private HashMap<String, String> answers;
 
-    public User(String name, String password, String email, String nickname) {
-        this.name = name;
+    public User(String username, String password, String email, String nickname) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
+        allUsers.add(this);
+        answers = new HashMap<>();
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
@@ -26,19 +31,15 @@ public class User implements Comparable<User> {
             throw new Exception("Question or answer is null");
         }
 
-        if (answers.containsKey(question)) {
-            throw new Exception("Question already answered");
-        }
-
         answers.put(question, answer);
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public String getEmail() {
@@ -71,6 +72,24 @@ public class User implements Comparable<User> {
 
     public void setAnswers(HashMap<String, String> answers) {
         this.answers = answers;
+    }
+
+    public static void setLoggedInUser(User user){
+        loggedInUser = user;
+    }
+
+    public static User getLoggedInUser(){
+        return loggedInUser;
+    }
+
+    public static User getUserByUsername(String username){
+        for (User user : allUsers){
+            if (user.getName().equals(username)){
+                return user;
+            }
+        }
+
+        return null;
     }
 
     @Override
