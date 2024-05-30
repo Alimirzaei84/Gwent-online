@@ -36,6 +36,5 @@ public class RegisterMenuController {
             throw new Exception("[ERR]: the passwords are not the same");
         }
         return "[SUCC]: User registered successfully";
-
     }
 }

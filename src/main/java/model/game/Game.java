@@ -5,7 +5,7 @@ import model.Account.User;
 
 public class Game {
 
-    private Player[] players;
+    private final Player[] players;
     private int turn;
 
 

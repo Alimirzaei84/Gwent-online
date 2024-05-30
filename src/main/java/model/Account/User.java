@@ -9,7 +9,7 @@ public class User implements Comparable<User> {
     private String password;
     private String email;
     private String nickname;
-    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser = null;
 
 

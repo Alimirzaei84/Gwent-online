@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -44,12 +45,17 @@ public class PickQuestions extends AppMenu {
     }
 
     public void setFavoriteFood() throws Exception {
-        if (food.getText() != null && food.getText().length() > 2) {
+        if (food.getText() != null && food.getText().length() > 1) {
             User.getLoggedInUser().addQuestionAnswer("your favorite food?", food.getText());
             System.out.println("[INFO]: user favorite food is -->>  " + food.getText());
         }
     }
 
-    public void goToLoginMenu() {
+    public void goToLoginMenu() throws Exception {
+        setFavoriteColor();
+        setFavoriteFood();
+        setFavoriteMonth();
+        LoginMenu loginMenu = new LoginMenu();
+        loginMenu.start(ApplicationController.getStage());
     }
 }

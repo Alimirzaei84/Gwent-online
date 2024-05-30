@@ -72,7 +72,9 @@ public class RegisterMenu extends AppMenu {
         alert.show();
     }
 
-    public void goToLoginMenu() {
+    public void goToLoginMenu() throws Exception {
+        LoginMenu loginMenu = new LoginMenu();
+        loginMenu.start(ApplicationController.getStage());
     }
 
     public void register() {
