@@ -1,5 +1,6 @@
 package model.Account;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User implements Comparable<User> {
