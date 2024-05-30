@@ -14,8 +14,9 @@ import javafx.stage.Stage;
 import model.Account.User;
 
 import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ProfileMenu {
+public class ProfileMenu extends AppMenu{
 
     @FXML
     private Label usernameLabel;
@@ -56,17 +57,6 @@ public class ProfileMenu {
         stage.show();
     }
 
-    public void initialize() {
-        setUsernameLabel(User.getLoggedInUser().getName());
-        setEmailLabel(User.getLoggedInUser().getEmail());
-        setNicknameLabel(User.getLoggedInUser().getNickname());
-        setGamesPlayedLabel(String.valueOf(User.getLoggedInUser().getGamesPlayed()));
-        setLossesLabel(String.valueOf(User.getLoggedInUser().getLosses()));
-        setWinsLabel(String.valueOf(User.getLoggedInUser().getWins()));
-        setTieLabel(String.valueOf(User.getLoggedInUser().getTies()));
-        setRankLabel(String.valueOf(User.getLoggedInUser().getRank()));
-        setHighestScoreLabel(String.valueOf(User.getLoggedInUser().getHighestScore()));
-    }
 
     public void setRankLabel(String rank) {
         rankLabel.setText(rank);
@@ -197,6 +187,19 @@ public class ProfileMenu {
     }
 
     public void showGameHistories(MouseEvent mouseEvent){
-        //TODO
+        //TODO : add after the Game Object is made.
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setUsernameLabel(User.getLoggedInUser().getName());
+        setEmailLabel(User.getLoggedInUser().getEmail());
+        setNicknameLabel(User.getLoggedInUser().getNickname());
+        setGamesPlayedLabel(String.valueOf(User.getLoggedInUser().getGamesPlayed()));
+        setLossesLabel(String.valueOf(User.getLoggedInUser().getLosses()));
+        setWinsLabel(String.valueOf(User.getLoggedInUser().getWins()));
+        setTieLabel(String.valueOf(User.getLoggedInUser().getTies()));
+        setRankLabel(String.valueOf(User.getLoggedInUser().getRank()));
+        setHighestScoreLabel(String.valueOf(User.getLoggedInUser().getHighestScore()));
     }
 }
