@@ -8,8 +8,6 @@ public class User implements Comparable<User> {
     private String password;
     private String email;
     private String nickname;
-<<<<<<< Updated upstream
-=======
     private int rank; //TODO : UPDATE AFTER EACH GAME
     private int highestScore;
     private int ties;
@@ -17,7 +15,6 @@ public class User implements Comparable<User> {
     private int losses;
     private int gamesPlayed;
     private static ArrayList<User> allUsers = new ArrayList<>();
->>>>>>> Stashed changes
     private static User loggedInUser = null;
 
 
@@ -29,15 +26,12 @@ public class User implements Comparable<User> {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-<<<<<<< Updated upstream
-=======
         highestScore = 0;
         ties = 0;
         wins = 0;
         losses = 0;
         gamesPlayed = 0;
         allUsers.add(this);
->>>>>>> Stashed changes
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
@@ -140,21 +134,14 @@ public class User implements Comparable<User> {
         this.answers = answers;
     }
 
-<<<<<<< Updated upstream
-=======
     public static void setLoggedInUser(User user) {
         loggedInUser = user;
     }
 
->>>>>>> Stashed changes
     public static User getLoggedInUser() {
         return loggedInUser;
     }
 
-<<<<<<< Updated upstream
-    public static void setLoggedInUser(User loggedInUser) {
-        User.loggedInUser = loggedInUser;
-=======
     public static User getUserByUsername(String username) {
         for (User user : allUsers) {
             if (user.getName().equals(username)) {
@@ -163,7 +150,6 @@ public class User implements Comparable<User> {
         }
 
         return null;
->>>>>>> Stashed changes
     }
 
     @Override
