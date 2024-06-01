@@ -18,6 +18,10 @@ public class ProfileMenuController {
             throw new Exception("Username format is not valid!");
         }
 
+        if (User.getLoggedInUser().getName().equals(username)) {
+            throw new Exception("Enter a new username!");
+        }
+
         User.getLoggedInUser().setName(username);
         return "Username changed successfully";
     }
@@ -30,6 +34,10 @@ public class ProfileMenuController {
 
         if (!Regexes.VALID_EMAIL.matches(email)) {
             throw new Exception("Email format is invalid!");
+        }
+
+        if (email.equals(User.getLoggedInUser().getEmail())) {
+            throw new Exception("Enter a new email!");
         }
 
         User.getLoggedInUser().setEmail(email);
