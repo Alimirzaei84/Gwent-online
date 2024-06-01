@@ -1,10 +1,11 @@
 package model.role;
 
 public enum Type {
-    CLOSED,
+    CLOSE,
     RANGED,
     AGILE,
     SIEGE,
+    SPELL,
     WEATHER,
     LEADER,
     ALL
