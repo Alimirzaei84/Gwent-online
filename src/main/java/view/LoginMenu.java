@@ -52,8 +52,10 @@ public class LoginMenu extends AppMenu {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
             alert.show();
-//             TODO: MainMenu mainMenu = new MainMenu();
-//             TODO: mainMenu.start(ApplicationController.getStage());
+
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.start(ApplicationController.getStage());
+
         } catch (Exception e) {
             result = e.getMessage();
             System.out.println(result);
@@ -73,7 +75,7 @@ public class LoginMenu extends AppMenu {
             return;
         }
         ApplicationController.setForgetPasswordUser(user);
-      ForgetPassword forgetPassword = new ForgetPassword();
-      forgetPassword.start(ApplicationController.getStage());
+        ForgetPassword forgetPassword = new ForgetPassword();
+        forgetPassword.start(ApplicationController.getStage());
     }
 }
