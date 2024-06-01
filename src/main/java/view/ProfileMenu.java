@@ -141,6 +141,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText("Nickname changed successfully!");
             alert.show();
             System.out.println("[SUCC] : nickname changed successfully!");
+            setNicknameLabel(User.getLoggedInUser().getNickname());
         }
     }
 
@@ -155,6 +156,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
             alert.show();
+            setUsernameLabel(User.getLoggedInUser().getName());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -176,6 +178,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
             alert.show();
+            setEmailLabel(User.getLoggedInUser().getEmail());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
