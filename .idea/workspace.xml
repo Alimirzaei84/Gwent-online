@@ -4,19 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcf1fa7e-e9c3-4f75-a661-94d7bcb42b4f" name="Changes" comment="extracting cards data">
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
+
+    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/MainMenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Faction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Faction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Hero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Special.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Special.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/leader cards" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/leader cards" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/unit cards" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/unit cards" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="module-info" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -40,35 +39,36 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CardController.executor&quot;: &quot;Run&quot;,
-    &quot;Application.LoginMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;model-structure&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/hadij/Desktop/AntEaters&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/hadij/IdeaProjects/testAnt/src/main/java/org/example/Main.java&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.46091953" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/data" />
@@ -78,12 +78,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="CardController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="controller.CardController" />
-      <module name="testAnt" />
+    <configuration name="RegisterMenu" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -93,7 +93,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CardController" />
+        <item itemvalue="Application.RegisterMenu" />
       </list>
     </recent_temporary>
   </component>
@@ -108,22 +108,25 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bcf1fa7e-e9c3-4f75-a661-94d7bcb42b4f" name="Changes" comment="" />
+      <changelist id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User." />
       <created>1716838699015</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1716838699015</updated>
-      <workItem from="1716925078816" duration="28000" />
-      <workItem from="1717055126048" duration="7020000" />
-      <workItem from="1717073380155" duration="665000" />
+
+      <workItem from="1717062348582" duration="1058000" />
+      <workItem from="1717063429813" duration="942000" />
+      <workItem from="1717064392244" duration="5353000" />
+      <workItem from="1717240115907" duration="455000" />
+      <workItem from="1717316913036" duration="5986000" />
     </task>
-    <task id="LOCAL-00001" summary="extracting cards data">
+    <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
-      <created>1716900316677</created>
+      <created>1716840884730</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1716900316677</updated>
+      <updated>1716840884730</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -143,7 +146,8 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="extracting cards data" />
-    <option name="LAST_COMMIT_MESSAGE" value="extracting cards data" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="view package created" />
+    <option name="LAST_COMMIT_MESSAGE" value="view package created" />
   </component>
 </project>

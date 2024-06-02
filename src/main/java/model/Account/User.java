@@ -1,24 +1,39 @@
 package model.Account;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User implements Comparable<User> {
 
-    private String name;
+    private String username;
     private String password;
     private String email;
     private String nickname;
-
+    private int rank; //TODO : UPDATE AFTER EACH GAME
+    private int highestScore;
+    private int ties;
+    private int wins;
+    private int losses;
+    private int gamesPlayed;
+    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static User loggedInUser = null;
 
 
     // mapping questions to answers
     private HashMap<String, String> answers;
 
-    public User(String name, String password, String email, String nickname) {
-        this.name = name;
+    public User(String username, String password, String email, String nickname) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
+        highestScore = 0;
+        ties = 0;
+        wins = 0;
+        losses = 0;
+        gamesPlayed = 0;
+        answers = new HashMap<>();
+        allUsers.add(this);
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
@@ -26,19 +41,63 @@ public class User implements Comparable<User> {
             throw new Exception("Question or answer is null");
         }
 
-        if (answers.containsKey(question)) {
-            throw new Exception("Question already answered");
-        }
-
         answers.put(question, answer);
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public int getHighestScore() {
+        return highestScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
+    }
+
+    public int getTies() {
+        return ties;
+    }
+
+    public void setTies(int ties) {
+        this.ties = ties;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
     }
 
     public String getEmail() {
@@ -71,6 +130,24 @@ public class User implements Comparable<User> {
 
     public void setAnswers(HashMap<String, String> answers) {
         this.answers = answers;
+    }
+
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static User getUserByUsername(String username) {
+        for (User user : allUsers) {
+            if (user.getName().equals(username)) {
+                return user;
+            }
+        }
+
+        return null;
     }
 
     @Override

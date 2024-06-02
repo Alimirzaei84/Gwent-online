@@ -8,6 +8,5 @@ module testAnt {
     requires java.logging;
 //    requires com.google.gson;
     exports view;
-//    exports model;
     opens view to javafx.fxml;
 }
