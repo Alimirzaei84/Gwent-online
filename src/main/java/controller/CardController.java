@@ -2,10 +2,7 @@ package controller;
 
 import model.role.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,21 +18,14 @@ public class CardController {
     public static HashMap<String, Integer> power = new HashMap<>();
     public static HashMap<String, String> ability = new HashMap<>();
     public static HashMap<String, String> description = new HashMap<>();
+    public static HashMap<String, String> imagePath = new HashMap<>();
+
 
     public static ArrayList<String> units = new ArrayList<>();
     public static ArrayList<String> specials = new ArrayList<>();
     public static ArrayList<String> leaders = new ArrayList<>();
     public static ArrayList<String> heroes = new ArrayList<>();
 
-    public static void main(String[] args) {
-        try {
-            load_data();
-            Card card = createCardWithName("cow");
-            System.out.println(card);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void load_data() throws FileNotFoundException, IOException {
         String unitPath = "./src/main/resources/data/unit cards",
@@ -89,7 +79,7 @@ public class CardController {
 
     private static void addSpecialToRecord(String[] data) {
         String index = data[0];
-        String name = data[1];
+        String name = data[1].toLowerCase();
         String factionStr = data[2];
         String numStr = data[3];
         String typeStr = data[4].toUpperCase();
@@ -103,7 +93,6 @@ public class CardController {
 
         // default
         power.put(name, 0);
-
     }
 
     private static void addUnitToRecord(String[] line) {
@@ -130,6 +119,41 @@ public class CardController {
         ability.put(cardName, abilityStr);
         description.put(cardName, descriptionStr);
 
+        // creating a path to imag
+        String tmp = cardName.toLowerCase().split(" ")[0];
+        String tmp1 = factionName.toLowerCase();
+        if (tmp.equals("clan") || tmp.equals("young") || tmp.equals("war")) {
+            tmp = cardName.toLowerCase().split(" ")[1];
+        }
+
+        else if (tmp.equals("vrihedd") || tmp.equals("dol")) {
+            tmp = cardName.toLowerCase().split(" ")[2];
+        }
+
+        if (tmp1.equals("all")) {
+            tmp1 = "neutral";
+        }
+
+        else if (tmp1.equals("scoia'tael")) {
+            tmp1 = "scoiatael";
+        }
+
+        else if (tmp1.startsWith("northern")) {
+            tmp1 = tmp1.split(" ")[1];
+        }
+
+        else if (tmp1.startsWith("nilfgaardian")) {
+            tmp1 = "nilfgaard";
+        }
+
+        String img_path = "./src/main/resources/assets/lg/" + tmp1 + "_" + tmp + ".jpg";
+        imagePath.put(cardName, img_path);
+
+        File file = new File(img_path);
+        if (!file.exists()) {
+            System.out.println(img_path);
+            System.out.println(cardName);
+        }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);
         if (isHero)
