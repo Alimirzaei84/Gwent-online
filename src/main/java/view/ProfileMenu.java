@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import controller.menuConrollers.ProfileMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,7 @@ import model.Account.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProfileMenu extends AppMenu{
+public class ProfileMenu extends AppMenu {
 
     @FXML
     private Label usernameLabel;
@@ -189,8 +190,17 @@ public class ProfileMenu extends AppMenu{
         }
     }
 
-    public void showGameHistories(MouseEvent mouseEvent){
+    public void showGameHistories(MouseEvent mouseEvent) {
         //TODO : add after the Game Object is made.
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        MainMenu mainMenu = new MainMenu();
+        try {
+            mainMenu.start(ApplicationController.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
