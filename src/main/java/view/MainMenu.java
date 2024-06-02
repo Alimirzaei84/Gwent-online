@@ -17,6 +17,7 @@ public class MainMenu extends AppMenu {
     @Override
     public void start(Stage stage) throws Exception {
         URL url = MainMenu.class.getResource("/FXML/MainMenu.fxml");
+        assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
