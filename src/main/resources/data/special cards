@@ -1,0 +1,10 @@
+,Card Name,Faction,Max No.,Type,Ability,Description
+0,Mardoeme,Skellige,3,Spell,Mardoeme,This Spell card has Mardoeme Ability and can be placed in the commmander's Horn spot . it effects the row that it was placed in
+1,Scorch,All,3,Spell,,Remove card(s) with the maximum power points in the field (ignores heroes)
+2,Commander’s horn,All,3,Spell,,Doubles the power of the cards in the row that was placed. Only one of this type can be played in a row
+3,Decoy,All,3,Spell,,The description has been given before
+4,Biting Frost,All,3,Weather,,Sets the power of all close combat units of both sides to 1
+5,Impenetrable fog,All,3,Weather,,Sets the power of all ranged units of both sides to 1
+6,Torrential Rain,All,3,Weather,,Sets the power of all siege units of both sides to 1
+7,Skellige Storm,All,3,Weather,,Sets the power of all siege and ranged units of both sides to 1
+8,Clear Weather,All,3,Weather,,Cancel all the weather cards

@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import controller.menuConrollers.ProfileMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,7 @@ import model.Account.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProfileMenu extends AppMenu{
+public class ProfileMenu extends AppMenu {
 
     @FXML
     private Label usernameLabel;
@@ -141,6 +142,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText("Nickname changed successfully!");
             alert.show();
             System.out.println("[SUCC] : nickname changed successfully!");
+            setNicknameLabel(User.getLoggedInUser().getNickname());
         }
     }
 
@@ -155,6 +157,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
             alert.show();
+            setUsernameLabel(User.getLoggedInUser().getName());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -176,6 +179,7 @@ public class ProfileMenu extends AppMenu{
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
             alert.show();
+            setEmailLabel(User.getLoggedInUser().getEmail());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -186,8 +190,17 @@ public class ProfileMenu extends AppMenu{
         }
     }
 
-    public void showGameHistories(MouseEvent mouseEvent){
+    public void showGameHistories(MouseEvent mouseEvent) {
         //TODO : add after the Game Object is made.
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        MainMenu mainMenu = new MainMenu();
+        try {
+            mainMenu.start(ApplicationController.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

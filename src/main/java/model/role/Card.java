@@ -7,16 +7,38 @@ public abstract class Card {
     private String description;
     private final Type type;
     private final int power;
+    private final int maxNum;
     private final Faction faction;
-    private final ArrayList<String> abilities;
+    private final String ability;
 
 
-    public Card(String name, Type type, int power, Faction faction, ArrayList<String> abilities) {
+    public Card(String name, Type type, int power, int maxNum, Faction faction, String ability) {
         this.name = name;
         this.type = type;
         this.power = power;
+        this.maxNum = maxNum;
         this.faction = faction;
-        this.abilities = abilities;
+        this.ability = ability;
+    }
+
+    public Card(String name, Faction faction, int maxNum, Type type, String description) {
+        this.name = name;
+        this.faction = faction;
+        this.maxNum = maxNum;
+        this.type = type;
+        this.description = description;
+        this.power = -1;
+        this.ability = null;
+    }
+
+    public Card(String name, Faction faction, String description, Type type) {
+        this.name = name;
+        this.faction = faction;
+        this.maxNum = 1;
+        this.description = description;
+        this.power = -1;
+        this.ability = null;
+        this.type = type;
     }
 
     public String getName() {
@@ -43,8 +65,23 @@ public abstract class Card {
         return faction;
     }
 
-    public ArrayList<String> getAbilities() {
-        return abilities;
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Card [name=");
+        builder.append(name);
+        builder.append(", type=");
+        builder.append(type);
+        builder.append(", power=");
+        builder.append(power);
+        builder.append(", maxNum=");
+        builder.append(maxNum);
+        builder.append(", faction=");
+        builder.append(faction);
+        builder.append(", ability=");
+        builder.append(ability);
+        builder.append("]");
+        return builder.toString();
     }
 }
 

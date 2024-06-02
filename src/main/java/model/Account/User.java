@@ -32,6 +32,7 @@ public class User implements Comparable<User> {
         wins = 0;
         losses = 0;
         gamesPlayed = 0;
+        answers = new HashMap<>();
         allUsers.add(this);
     }
 

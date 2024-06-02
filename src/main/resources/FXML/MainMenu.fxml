@@ -7,7 +7,8 @@
             fx:controller="view.MainMenu">
    <Button layoutX="246.0" layoutY="245.0" mnemonicParsing="false" onKeyPressed="#logout" onMouseClicked="#logout"
            prefHeight="50.0" prefWidth="108.0" text="Logout"/>
-   <Button layoutX="246.0" layoutY="115.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="108.0" text="Play"/>
+   <Button layoutX="246.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#playGame" prefHeight="50.0"
+           prefWidth="108.0" text="Play"/>
    <Button layoutX="246.0" layoutY="182.0" mnemonicParsing="false" onKeyPressed="#profileMenu"
            onMouseClicked="#profileMenu" prefHeight="50.0" prefWidth="108.0" text="Profile"/>
 </AnchorPane>
