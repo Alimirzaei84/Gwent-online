@@ -1,10 +1,10 @@
 package model.role;
 
 public enum Faction {
-    NORTHERN_REALMS(0),
-    NILFGAARDIAN_EMPIRE(1),
+    REALMS(0),
+    NILFGAARD(1),
     MONSTERS(2),
-    SCOIA_TAEL(3),
+    SCOIATAEL(3),
     SKELLIGE(4),
     ALL(-1);
 

@@ -52,6 +52,7 @@ public class ProfileMenu extends AppMenu {
 
     public void start(Stage stage) throws Exception {
         URL url = ProfileMenu.class.getResource("/FXML/ProfileMenu.fxml");
+        assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -120,7 +121,7 @@ public class ProfileMenu extends AppMenu {
     public void changeNickName(MouseEvent mouseEvent) {
         String nickname = nicknameField.getText();
 
-        if (nickname.equals("")) {
+        if (nickname.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Nickname Error");
             alert.setHeaderText("Problem in nickname");

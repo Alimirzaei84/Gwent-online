@@ -4,7 +4,7 @@ import model.game.Row;
 
 public class Player {
     private User user;
-    private Row[] rows;
+    private final Row[] rows;
 
     public Player(User user) {
         this.user = user;

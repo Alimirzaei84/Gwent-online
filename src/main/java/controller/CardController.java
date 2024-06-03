@@ -6,9 +6,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/*
-* @Info i change the num of card Vreemde.
-* */
+// @Info I change the num of card Redeem.
+
 
 public class CardController {
 

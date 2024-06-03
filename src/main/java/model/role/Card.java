@@ -67,22 +67,18 @@ public abstract class Card {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Card [name=");
-        builder.append(name);
-        builder.append(", type=");
-        builder.append(type);
-        builder.append(", power=");
-        builder.append(power);
-        builder.append(", maxNum=");
-        builder.append(maxNum);
-        builder.append(", faction=");
-        builder.append(faction);
-        builder.append(", ability=");
-        builder.append(ability);
-        builder.append("]");
-        return builder.toString();
+        return "Card [name=" +
+                name +
+                ", type=" +
+                type +
+                ", power=" +
+                power +
+                ", maxNum=" +
+                maxNum +
+                ", faction=" +
+                faction +
+                ", ability=" +
+                ability +
+                "]";
     }
 }
-
-

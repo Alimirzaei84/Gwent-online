@@ -1,5 +1,7 @@
 package model.Account;
 
+import model.role.Faction;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +17,8 @@ public class User implements Comparable<User> {
     private int wins;
     private int losses;
     private int gamesPlayed;
-    private static ArrayList<User> allUsers = new ArrayList<>();
+    private Faction faction;
+    private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser = null;
 
 
@@ -27,6 +30,7 @@ public class User implements Comparable<User> {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
+        faction = Faction.MONSTERS;
         highestScore = 0;
         ties = 0;
         wins = 0;
@@ -42,6 +46,22 @@ public class User implements Comparable<User> {
         }
 
         answers.put(question, answer);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Faction getFaction() {
+        return faction;
+    }
+
+    public void setFaction(Faction faction) {
+        this.faction = faction;
     }
 
     public String getName() {

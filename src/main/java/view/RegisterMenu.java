@@ -68,7 +68,7 @@ public class RegisterMenu extends AppMenu {
         password.setText(generatedString);
         passwordAgain.setText(generatedString);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
+        alert.setContentText(STR."your random password is -->>  \{generatedString}  <<--");
         alert.show();
     }
 
