@@ -26,7 +26,7 @@ public class CardController {
     public static ArrayList<String> heroes = new ArrayList<>();
 
 
-    public static void load_data() throws FileNotFoundException, IOException {
+    public static void load_data() throws IOException {
         String unitPath = "./src/main/resources/data/unit cards",
                 leaderPath = "./src/main/resources/data/leader cards",
                 specialPath = "./src/main/resources/data/special cards";

@@ -8,7 +8,7 @@ public class MainMenuController {
 
     public static String opponentValidation(String opponentUsername) throws Exception {
 
-        if (opponentUsername == null || opponentUsername.equals("")) {
+        if (opponentUsername == null || opponentUsername.isEmpty()) {
             throw new Exception("Username is empty!");
         }
 

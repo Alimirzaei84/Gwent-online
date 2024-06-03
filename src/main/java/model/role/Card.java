@@ -67,18 +67,6 @@ public abstract class Card {
 
     @Override
     public String toString() {
-        return "Card [name=" +
-                name +
-                ", type=" +
-                type +
-                ", power=" +
-                power +
-                ", maxNum=" +
-                maxNum +
-                ", faction=" +
-                faction +
-                ", ability=" +
-                ability +
-                "]";
+        return STR."Card [name=\{name}, type=\{type}, power=\{power}, maxNum=\{maxNum}, faction=\{faction}, ability=\{ability}]";
     }
 }

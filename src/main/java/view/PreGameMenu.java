@@ -1,35 +1,48 @@
 package view;
 
 import controller.ApplicationController;
+import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Account.User;
+import model.game.Game;
+import model.role.Card;
 import model.role.Faction;
+import model.role.Unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.NonWritableChannelException;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
     private ImageView currentImageView;
+    private User currentUser;
+
     public PreGameMenu() {
         controller = new PreGameMenuController();
         currentImageView = null;
+        currentUser = Game.getCurrentGame().getPlayer1().getUser();
     }
 
     @Override
@@ -55,7 +68,7 @@ public class PreGameMenu extends AppMenu {
                 Image image = new Image(file.toURI().toURL().toString());
                 AnchorPane anchorPane = new AnchorPane();
                 ImageView imageView = new ImageView(image);
-                String factionName = file.getName().substring(8, file.getName().length() - 4);
+                String factionName = buildFactionName(file.getName());
 
 
                 if (User.getLoggedInUser().getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
@@ -94,6 +107,17 @@ public class PreGameMenu extends AppMenu {
         ApplicationController.getStage().show();
     }
 
+    private String buildFactionName(String name) {
+        return switch (name) {
+            case "faction_monsters.jpg" -> "MONSTERS";
+            case "faction_nilfgaard.jpg" -> "NILFGAARDIAN_EMPIRE";
+            case "faction_realms.jpg" -> "NORTHERN_REALMS";
+            case "faction_scoiatael.jpg" -> "SCOIA_TAEL";
+            case "faction_skellige.jpg" -> "SKELLIGE";
+            default -> "";
+        };
+    }
+
     private void handleDifferentColor(ImageView imageView, String factionName) {
         controller.setFaction(User.getLoggedInUser(), factionName);
         ColorAdjust grayscaleEffect = new ColorAdjust();
@@ -109,7 +133,18 @@ public class PreGameMenu extends AppMenu {
     public void showDeck() {
     }
 
-    public void shewCards() {
+    public void showCards() throws MalformedURLException {
+        ArrayList<String> result = new ArrayList<>(CardController.heroes);
+        ArrayList<String> out = new ArrayList<>();
+        result.addAll(CardController.leaders);
+        result.addAll(CardController.units);
+        result.addAll(CardController.specials);
+        for (String cardName : result) {
+            if (CardController.faction.getOrDefault(cardName, Faction.ALL).equals(currentUser.getFaction())) {
+                out.add(cardName);
+            }
+        }
+        showManyCardsInScrollBar(out);
     }
 
     public void uploadDeck() {
@@ -119,15 +154,132 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void changeTurn() {
+        if (currentUser.getUnitCount() >= 22) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            currentUser = Game.getCurrentGame().getPlayer2().getUser();
+            alert.setContentText(STR."now player2: \{currentUser.getName()} should pick cards");
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You should pick at least 22 unit cards");
+            alert.show();
+        }
     }
+
+    private int unitCount(User user) {
+        int out = 0;
+        for (Card card : user.getDeck()) {
+            if (card instanceof Unit) out++;
+        }
+        return out;
+    }
+
 
     public void startGame() {
     }
 
     public void showCurrentUserInfo() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(STR."Player name: \{currentUser.getName()}\nFaction: \{currentUser.getFaction().name()}\nCards count: \{currentUser.getDeck().size()}\nUnit count: \{currentUser.getUnitCount()}\nSpecial count: \{currentUser.getSpecialCount()}\nHero count: \{currentUser.getHeroCount()}\nSum of power: \{currentUser.getSumOfPower()}");
+        alert.show();
     }
 
-    public void showLeaders() {
+    private void showManyCardsInScrollBar(ArrayList<String> cardsNames) throws MalformedURLException {
+        VBox vBox = new VBox();
+        HBox hBox = new HBox();
+        boolean shouldCreateNew = true;
+        vBox.setAlignment(Pos.CENTER);
+        for (String cardName : cardsNames) {
+            if (shouldCreateNew) {
+                hBox = new HBox();
+                vBox.getChildren().add(hBox);
+            }
+            String imagePath = CardController.imagePath.getOrDefault(cardName, "");
+            if (imagePath.isEmpty()) {
+                continue;
+            }
+
+            ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+            hBox.getChildren().add(imageView);
+            int countInDeck = currentUser.getUnitCount();
+
+            hBox.getChildren().add(new Text(STR."count in deck: \{countInDeck}"));
+            shouldCreateNew = !shouldCreateNew;
+        }
+
+
+        ScrollPane scrollPane = new ScrollPane(vBox);
+        scrollPane.setFitToWidth(true);
+        Scene scene = new Scene(scrollPane, 1200, 1200);
+        ApplicationController.getStage().setScene(scene);
+        ApplicationController.getStage().setTitle("show cards");
+        ApplicationController.getStage().show();
+    }
+
+    public void showLeaders() throws MalformedURLException {
+        // TODO: until we find leaders assets
+        VBox content = new VBox();
+        content.setAlignment(Pos.CENTER);
+        for (String leaderName : CardController.leaders) {
+//            System.out.println(STR."\{CardController.faction.get(leaderName)}++++\{User.getLoggedInUser().getFaction()}");
+            if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
+//            Leader leader = (Leader) CardController.createLeaderCard(leaderName);
+            System.out.println(CardController.imagePath.get(leaderName.toLowerCase()));
+            System.out.println(leaderName);
+            for (Map.Entry<String, String> entry : CardController.imagePath.entrySet()) {
+                System.out.println(STR."\{entry.getKey()}++\{entry.getValue()}");
+            }
+//            if (file.isFile() && file.getName().contains("faction_")) {
+//                Image image = new Image(file.toURI().toURL().toString());
+//                AnchorPane anchorPane = new AnchorPane();
+//                ImageView imageView = new ImageView(image);
+//                String factionName = file.getName().substring(8, file.getName().length() - 4);
+//
+//
+//                if (User.getLoggedInUser().getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
+//                    ColorAdjust grayscaleEffect = new ColorAdjust();
+//                    grayscaleEffect.setSaturation(-1.0);
+//                    imageView.setEffect(grayscaleEffect);
+//                    currentImageView = imageView;
+//                }
+
+//            imageView.setOnMouseClicked(_ -> handleDifferentColor(imageView, factionName));
+//            anchorPane.getChildren().add(imageView);
+//            Label label = new Label(factionName);
+//            label.setMinSize(30, 30);
+//            anchorPane.getChildren().add(label);
+//            content.getChildren().add(anchorPane);
+//        }
+        }
+
+//    Button button = new Button("back");
+//        button.setMinHeight(100);
+//        button.setMinWidth(100);
+//        button.setOnMouseClicked(_ ->
+//
+//    {
+//        try {
+//            start(ApplicationController.getStage());
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    });
+//        content.getChildren().
+//
+//    add(button);
+//
+//    ScrollPane scrollPane = new ScrollPane(content);
+//        scrollPane.setFitToWidth(true);
+//    Scene scene = new Scene(scrollPane, 800, 800);
+//        ApplicationController.getStage().
+//
+//    setScene(scene);
+//        ApplicationController.getStage().
+//
+//    setTitle("select faction");
+//        ApplicationController.getStage().
+//
+//    show();
     }
 
     public void backToMainMenu() throws Exception {

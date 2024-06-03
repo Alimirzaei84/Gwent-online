@@ -28,8 +28,9 @@ public class RegisterMenu extends AppMenu {
     public TextField email;
     private final RegisterMenuController controller;
 
-    public RegisterMenu() {
+    public RegisterMenu() throws IOException {
         controller = new RegisterMenuController();
+        CardController.load_data();
     }
 
     public static void main(String[] args) {

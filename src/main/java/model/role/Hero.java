@@ -8,5 +8,4 @@ public class Hero extends Card {
         super(name, type, power, 1, faction, ability);
     }
 
-
 }

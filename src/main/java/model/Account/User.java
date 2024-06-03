@@ -1,6 +1,6 @@
 package model.Account;
 
-import model.role.Faction;
+import model.role.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +18,7 @@ public class User implements Comparable<User> {
     private int losses;
     private int gamesPlayed;
     private Faction faction;
+    private ArrayList<Card> deck;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser = null;
 
@@ -38,6 +39,7 @@ public class User implements Comparable<User> {
         gamesPlayed = 0;
         answers = new HashMap<>();
         allUsers.add(this);
+        deck = new ArrayList<>();
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
@@ -46,6 +48,14 @@ public class User implements Comparable<User> {
         }
 
         answers.put(question, answer);
+    }
+
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(ArrayList<Card> deck) {
+        this.deck = deck;
     }
 
     public String getUsername() {
@@ -173,5 +183,37 @@ public class User implements Comparable<User> {
     @Override
     public int compareTo(User o) {
         return 0;
+    }
+
+    public int getUnitCount() {
+        int out = 0;
+        for (Card card : deck) {
+            if(card instanceof Unit) out++;
+        }
+        return out;
+    }
+
+    public int getSpecialCount() {
+        int out = 0;
+        for (Card card : deck) {
+            if(card instanceof Special) out++;
+        }
+        return out;
+    }
+
+    public int getHeroCount() {
+        int out = 0;
+        for (Card card : deck) {
+            if(card instanceof Hero) out++;
+        }
+        return out;
+    }
+
+    public long getSumOfPower() {
+        long result = 0;
+        for (Card card : deck) {
+            result += card.getPower();
+        }
+        return result;
     }
 }
