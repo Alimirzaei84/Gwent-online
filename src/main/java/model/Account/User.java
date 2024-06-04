@@ -201,6 +201,14 @@ public class User implements Comparable<User> {
         return out;
     }
 
+    public int getCardCount(String cardName){
+        int out = 0;
+        for (Card card : deck) {
+            if(card.getName().equals(cardName)) out++;
+        }
+        return out;
+    }
+
     public int getHeroCount() {
         int out = 0;
         for (Card card : deck) {

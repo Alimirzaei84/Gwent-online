@@ -28,11 +28,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
@@ -130,10 +130,15 @@ public class PreGameMenu extends AppMenu {
 
     }
 
-    public void showDeck() {
+    public void showDeck() throws Exception {
+        ArrayList<String> cardNames = new ArrayList<>();
+        for (Card card : currentUser.getDeck()) {
+            cardNames.add(card.getName());
+        }
+        showManyCardsInScrollBar(cardNames, true);
     }
 
-    public void showCards() throws MalformedURLException {
+    public void showCards() throws Exception {
         ArrayList<String> result = new ArrayList<>(CardController.heroes);
         ArrayList<String> out = new ArrayList<>();
         result.addAll(CardController.leaders);
@@ -144,7 +149,7 @@ public class PreGameMenu extends AppMenu {
                 out.add(cardName);
             }
         }
-        showManyCardsInScrollBar(out);
+        showManyCardsInScrollBar(out, false);
     }
 
     public void uploadDeck() {
@@ -184,7 +189,7 @@ public class PreGameMenu extends AppMenu {
         alert.show();
     }
 
-    private void showManyCardsInScrollBar(ArrayList<String> cardsNames) throws MalformedURLException {
+    private void showManyCardsInScrollBar(ArrayList<String> cardsNames, Boolean deckOrAll) throws Exception {
         VBox vBox = new VBox();
         HBox hBox = new HBox();
         boolean shouldCreateNew = true;
@@ -192,6 +197,7 @@ public class PreGameMenu extends AppMenu {
         for (String cardName : cardsNames) {
             if (shouldCreateNew) {
                 hBox = new HBox();
+                hBox.setSpacing(4);
                 vBox.getChildren().add(hBox);
             }
             String imagePath = CardController.imagePath.getOrDefault(cardName, "");
@@ -200,12 +206,44 @@ public class PreGameMenu extends AppMenu {
             }
 
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+            imageView.setOnMouseClicked(_ -> addToDeck(cardName));
+            imageView.setOnDragExited(_ -> System.out.println("swipe down"));
+            Button button;
+            if (deckOrAll) {
+                button = new Button("remove");
+                button.setMinWidth(20);
+                button.setMinHeight(20);
+                hBox.getChildren().add(button);
+                button.setLayoutX(imageView.getLayoutX() + 20);
+                button.setLayoutY(imageView.getLayoutY() + 20);
+            } else {
+                button = null;
+            }
             hBox.getChildren().add(imageView);
-            int countInDeck = currentUser.getUnitCount();
-
-            hBox.getChildren().add(new Text(STR."count in deck: \{countInDeck}"));
+            int countInDeck = currentUser.getCardCount(cardName);
+            Text text = new Text(STR."count in deck: \{countInDeck}");
+            hBox.getChildren().add(text);
+            HBox finalHBox = hBox;
+            if (deckOrAll)
+                button.setOnMouseClicked(_ -> {
+                    removeFromDeck(cardName, finalHBox, imageView, text, button);
+                });
             shouldCreateNew = !shouldCreateNew;
         }
+
+
+        // Add back button
+        Button button = new Button("Back");
+        button.setMinWidth(100);
+        button.setMinHeight(100);
+        button.setOnMouseClicked(_ -> {
+            try {
+                start(ApplicationController.getStage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        vBox.getChildren().add(button);
 
 
         ScrollPane scrollPane = new ScrollPane(vBox);
@@ -216,19 +254,44 @@ public class PreGameMenu extends AppMenu {
         ApplicationController.getStage().show();
     }
 
+    private void removeFromDeck(String cardName, HBox currentHbox, ImageView imageView, Text text, Button button) {
+        try {
+            System.out.println(controller.removeFromDeck(cardName, currentUser, currentHbox, imageView, text, button));
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
+            System.out.println(STR."[ERR]: \{e.getMessage()}");
+        }
+    }
+
+    private void addToDeck(String cardName) {
+        try {
+            String result = controller.addToDeck(cardName, currentUser);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(result);
+            System.out.println(result);
+            alert.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
+        }
+    }
+
     public void showLeaders() throws MalformedURLException {
-        // TODO: until we find leaders assets
-        VBox content = new VBox();
-        content.setAlignment(Pos.CENTER);
-        for (String leaderName : CardController.leaders) {
-//            System.out.println(STR."\{CardController.faction.get(leaderName)}++++\{User.getLoggedInUser().getFaction()}");
-            if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
-//            Leader leader = (Leader) CardController.createLeaderCard(leaderName);
-            System.out.println(CardController.imagePath.get(leaderName.toLowerCase()));
-            System.out.println(leaderName);
-            for (Map.Entry<String, String> entry : CardController.imagePath.entrySet()) {
-                System.out.println(STR."\{entry.getKey()}++\{entry.getValue()}");
-            }
+        // TODO: until I find leaders assets
+//        VBox content = new VBox();
+//        content.setAlignment(Pos.CENTER);
+//        for (String leaderName : CardController.leaders) {
+////            System.out.println(STR."\{CardController.faction.get(leaderName)}++++\{User.getLoggedInUser().getFaction()}");
+//            if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
+////            Leader leader = (Leader) CardController.createLeaderCard(leaderName);
+//            System.out.println(CardController.imagePath.get(leaderName.toLowerCase()));
+//            System.out.println(leaderName);
+//            for (Map.Entry<String, String> entry : CardController.imagePath.entrySet()) {
+//                System.out.println(STR."\{entry.getKey()}++\{entry.getValue()}");
+//            }
 //            if (file.isFile() && file.getName().contains("faction_")) {
 //                Image image = new Image(file.toURI().toURL().toString());
 //                AnchorPane anchorPane = new AnchorPane();
@@ -250,7 +313,7 @@ public class PreGameMenu extends AppMenu {
 //            anchorPane.getChildren().add(label);
 //            content.getChildren().add(anchorPane);
 //        }
-        }
+//        }
 
 //    Button button = new Button("back");
 //        button.setMinHeight(100);
