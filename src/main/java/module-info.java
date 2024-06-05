@@ -6,7 +6,8 @@ module testAnt {
     requires javafx.swing;
     requires java.base;
     requires java.logging;
-//    requires com.google.gson;
+    requires com.google.gson;
+    opens model.role to com.google.gson;
     exports view;
     opens view to javafx.fxml;
 }

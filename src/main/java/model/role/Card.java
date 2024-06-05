@@ -1,15 +1,56 @@
 package model.role;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class Card {
-    private final String name;
+public  class Card extends TypeAdapter<Card> {
+    private String name;
     private String description;
     private final Type type;
     private final int power;
     private final int maxNum;
     private final Faction faction;
     private final String ability;
+
+
+
+    @Override
+    public void write(JsonWriter out, Card card) throws IOException {
+        out.beginObject();
+        out.name("name").value(card.getName());
+        // Other fields (excluding 'name')...
+        out.endObject();
+    }
+
+
+
+    @Override
+    public Card read(JsonReader in) throws IOException {
+//        Card card = new Card(); // Create a new Card object
+//
+//        in.beginObject();
+//        while (in.hasNext()) {
+//            String fieldName = in.nextName();
+//            switch (fieldName) {
+//                case "name":
+//                    card.setName(in.nextString());
+//                    break;
+//                // Handle other fields here (if needed)
+//                default:
+//                    in.skipValue(); // Skip unknown fields
+//                    break;
+//            }
+//        }
+//        in.endObject();
+//
+//        return card;
+        return null;
+    }
+
 
 
     public Card(String name, Type type, int power, int maxNum, Faction faction, String ability) {
@@ -64,6 +105,11 @@ public abstract class Card {
     public Faction getFaction() {
         return faction;
     }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
 
     @Override
     public String toString() {

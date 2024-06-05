@@ -1,8 +1,11 @@
 package view;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Account.User;
 import model.game.Game;
@@ -24,14 +28,14 @@ import model.role.Card;
 import model.role.Faction;
 import model.role.Unit;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.dnd.DragSource;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PreGameMenu extends AppMenu {
@@ -71,7 +75,7 @@ public class PreGameMenu extends AppMenu {
                 String factionName = buildFactionName(file.getName());
 
 
-                if (User.getLoggedInUser().getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
+                if (currentUser.getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
                     ColorAdjust grayscaleEffect = new ColorAdjust();
                     grayscaleEffect.setSaturation(-1.0);
                     imageView.setEffect(grayscaleEffect);
@@ -153,9 +157,49 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void uploadDeck() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        fileChooser.setTitle("Select an image");
+        File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
+        try (FileReader reader = new FileReader(selectedFile)) {
+            Type listType = new com.google.gson.reflect.TypeToken<ArrayList<String>>() {
+            }.getType();
+            List<String> restoredList = new Gson().fromJson(reader, listType);
+            for (String string : restoredList) {
+                currentUser.getDeck().add(CardController.createCardWithName(string));
+            }
+            if (currentUser.getSpecialCount() > 10) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("you have more than 10 special cards please change your deck first\n    " +
+                        "we clear your deck");
+                alert.show();
+                currentUser.getDeck().clear();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("your deck is now ready");
+                alert.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void downloadDeck() {
+    public void downloadDeck() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        fileChooser.setTitle("Select an image");
+        File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
+
+        ArrayList<String> cardNames = new ArrayList<>();
+        for (Card card : currentUser.getDeck()) {
+            cardNames.add(card.getName());
+        }
+        if (selectedFile != null) {
+            Gson gson = new Gson();
+            try (Writer writer = new FileWriter(selectedFile)) {
+                gson.toJson(cardNames, writer);
+            }
+        }
     }
 
     public void changeTurn() {
@@ -224,10 +268,9 @@ public class PreGameMenu extends AppMenu {
             Text text = new Text(STR."count in deck: \{countInDeck}");
             hBox.getChildren().add(text);
             HBox finalHBox = hBox;
-            if (deckOrAll)
-                button.setOnMouseClicked(_ -> {
-                    removeFromDeck(cardName, finalHBox, imageView, text, button);
-                });
+            if (deckOrAll) button.setOnMouseClicked(_ -> {
+                removeFromDeck(cardName, finalHBox, imageView, text, button);
+            });
             shouldCreateNew = !shouldCreateNew;
         }
 
