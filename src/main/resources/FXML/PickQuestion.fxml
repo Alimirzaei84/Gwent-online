@@ -3,13 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
+<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PickQuestions">
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PickQuestions">
-   <children>
-      <Label alignment="CENTER" layoutX="74.0" layoutY="30.0" prefHeight="18.0" prefWidth="396.0" style="-fx-background-color: black;" text="pick your favorite questions" textFill="#eabb30" />
-      <TextField fx:id="color" alignment="CENTER" layoutX="77.0" layoutY="69.0" onMouseClicked="#setFavoriteColor" prefHeight="26.0" prefWidth="387.0" promptText="your favorite color?" style="-fx-background-color: yellow;" />
-      <TextField fx:id="month" alignment="CENTER" layoutX="77.0" layoutY="110.0" onMouseClicked="#setFavoriteMonth" prefHeight="26.0" prefWidth="387.0" promptText="your favorite month?" style="-fx-background-color: yellow;" />
-      <TextField fx:id="food" alignment="CENTER" layoutX="77.0" layoutY="151.0" onMouseClicked="#setFavoriteFood" prefHeight="26.0" prefWidth="387.0" promptText="your favorite food?" style="-fx-background-color: yellow;" />
-      <Button layoutX="174.0" layoutY="215.0" mnemonicParsing="false" onMouseClicked="#goToLoginMenu" prefHeight="50.0" prefWidth="196.0" style="-fx-background-color: purple;" text="go to login menu" textFill="#cc499c" />
-   </children>
+    <stylesheets>
+        <URL value="@../CSS/RegisterMenu.css"/>
+    </stylesheets>
+
+    <children>
+        <Label alignment="CENTER" layoutX="602.0" layoutY="309.0" prefHeight="18.0" prefWidth="396.0"
+               text="pick your sacurity questions"/>
+        <TextField fx:id="color" alignment="CENTER" layoutX="606.0" layoutY="355.0" onMouseClicked="#setFavoriteColor"
+                   prefHeight="26.0" prefWidth="387.0" promptText="your favorite color?"/>
+        <TextField fx:id="month" alignment="CENTER" layoutX="606.0" layoutY="401.0" onMouseClicked="#setFavoriteMonth"
+                   prefHeight="26.0" prefWidth="387.0" promptText="your favorite month?"/>
+        <TextField fx:id="food" alignment="CENTER" layoutX="606.0" layoutY="444.0" onMouseClicked="#setFavoriteFood"
+                   prefHeight="26.0" prefWidth="387.0" promptText="your favorite food?"/>
+        <Button layoutX="702.0" layoutY="507.0" mnemonicParsing="false" onMouseClicked="#goToLoginMenu"
+                prefHeight="50.0" prefWidth="196.0" text="Login Menu"/>
+    </children>
 </AnchorPane>

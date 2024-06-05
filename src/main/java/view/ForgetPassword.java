@@ -42,7 +42,10 @@ public class ForgetPassword extends AppMenu {
         if (user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("no user found");
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
         }
         assert user != null;
         HashMap<String, String> answers = user.getAnswers();
@@ -55,28 +58,40 @@ public class ForgetPassword extends AppMenu {
         ) {
             error.setContentText("your answers does not correct!");
             System.out.println("[ERR]: your answers does not correct!");
-            error.show();
+
+            Scene scene = error.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            error.showAndWait();
             return;
         }
 
         if (newPassword.getText().length() < 8) {
             error.setContentText("password must be at least 8 characters");
             System.out.println("[ERR]: password must be at least 8 characters");
-            error.show();
+
+            Scene scene = error.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            error.showAndWait();
             return;
         }
 
         if (!newPassword.getText().equals(newPasswordAgain.getText())) {
             error.setContentText("passwords does not mathe");
             System.out.println("[ERR]: passwords does not mathe");
-            error.show();
+
+            Scene scene = error.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            error.showAndWait();
             return;
         }
 
         user.setPassword(newPassword.getText());
         System.out.println("[SUCC]: password changed successfully");
         succ.setContentText("password changed successfully");
-        succ.show();
+
+        Scene scene = succ.getDialogPane().getScene();
+        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        succ.showAndWait();
         ApplicationController.setForgetPasswordUser(null);
         LoginMenu loginMenu = new LoginMenu();
         loginMenu.start(ApplicationController.getStage());
@@ -95,6 +110,9 @@ public class ForgetPassword extends AppMenu {
         newPasswordAgain.setText(generatedString);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
-        alert.show();
+
+        Scene scene = alert.getDialogPane().getScene();
+        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        alert.showAndWait();
     }
 }

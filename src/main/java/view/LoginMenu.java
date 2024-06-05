@@ -30,6 +30,7 @@ public class LoginMenu extends AppMenu {
     public void start(Stage stage) throws Exception {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/LoginMenu.fxml")));
         Scene scene = new Scene(pane);
+        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -50,9 +51,10 @@ public class LoginMenu extends AppMenu {
             result = controller.login(username.getText(), password.getText());
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.setContentText(result);
-            alert.show();
-
+            alert.showAndWait();
             MainMenu mainMenu = new MainMenu();
             mainMenu.start(ApplicationController.getStage());
 
@@ -61,8 +63,11 @@ public class LoginMenu extends AppMenu {
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login failed!");
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.setContentText(result);
-            alert.show();
+            alert.showAndWait();
         }
     }
 
@@ -71,9 +76,13 @@ public class LoginMenu extends AppMenu {
         if (user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("no user found with this username " + "\"" + username.getText() + "\"");
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
             return;
         }
+
         ApplicationController.setForgetPasswordUser(user);
         ForgetPassword forgetPassword = new ForgetPassword();
         forgetPassword.start(ApplicationController.getStage());

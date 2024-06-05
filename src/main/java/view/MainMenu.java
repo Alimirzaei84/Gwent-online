@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Account.User;
 
@@ -25,7 +26,9 @@ public class MainMenu extends AppMenu {
     public void start(Stage stage) throws Exception {
         URL url = MainMenu.class.getResource("/FXML/MainMenu.fxml");
         AnchorPane root = FXMLLoader.load(url);
+
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/CSS/MainMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
@@ -43,6 +46,9 @@ public class MainMenu extends AppMenu {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         boolean alertShown = false; // Flag to track if the alert has been shown
 
+        Scene scene = alert.getDialogPane().getScene();
+        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+
         while (!validUsername) {
             if (alertShown) { // Check if the alert has been shown
                 if (!alert.isShowing()) { // Check if the alert is closed
@@ -54,6 +60,9 @@ public class MainMenu extends AppMenu {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Enter Username");
             dialog.setHeaderText("Please enter the username of the target player:");
+            dialog.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
 
             ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
@@ -63,7 +72,9 @@ public class MainMenu extends AppMenu {
 
             VBox dialogVBox = new VBox(10);
             dialogVBox.setPadding(new Insets(20));
-            dialogVBox.getChildren().addAll(new Label("Username:"), usernameField);
+            Label label = new Label("Username:");
+            label.setTextFill(Color.WHITE);
+            dialogVBox.getChildren().addAll(label, usernameField);
 
             dialog.getDialogPane().setContent(dialogVBox);
 
@@ -87,7 +98,10 @@ public class MainMenu extends AppMenu {
                     message = e.getMessage();
                     System.out.println("[ERR]:" + message);
                     alert.setTitle("Error");
+
+                    scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
                     alert.setContentText(message);
+                    alert.showAndWait();
                     alert.showAndWait(); // Show the alert and wait for user acknowledgment
                     alertShown = true; // Set the flag indicating that the alert has been shown
                 }

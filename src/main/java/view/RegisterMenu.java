@@ -43,7 +43,10 @@ public class RegisterMenu extends AppMenu {
         stage.setTitle("AntEater");
         ApplicationController.setStage(stage);
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
-        stage.setScene(new Scene(pane));
+
+        Scene scene = new Scene(pane);
+        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -69,7 +72,9 @@ public class RegisterMenu extends AppMenu {
         passwordAgain.setText(generatedString);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
-        alert.show();
+        Scene scene = alert.getDialogPane().getScene();
+        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        alert.showAndWait();
     }
 
     public void goToLoginMenu() throws Exception {
@@ -84,7 +89,9 @@ public class RegisterMenu extends AppMenu {
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             User newUser = new User(username.getText(), password.getText(), email.getText(), nickname.getText());
             User.setLoggedInUser(newUser);
             PickQuestions pickQuestions = new PickQuestions();
@@ -93,8 +100,10 @@ public class RegisterMenu extends AppMenu {
             result = e.getMessage();
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.setContentText(result);
-            alert.show();
+            alert.showAndWait();
         }
     }
 }
