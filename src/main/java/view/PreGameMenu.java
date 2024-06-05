@@ -1,11 +1,9 @@
 package view;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -26,17 +25,13 @@ import model.Account.User;
 import model.game.Game;
 import model.role.Card;
 import model.role.Faction;
+import model.role.Leader;
 import model.role.Unit;
-
-import javax.imageio.ImageIO;
-import java.awt.dnd.DragSource;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
@@ -82,7 +77,11 @@ public class PreGameMenu extends AppMenu {
                     currentImageView = imageView;
                 }
 
-                imageView.setOnMouseClicked(_ -> handleDifferentColor(imageView, factionName));
+                imageView.setOnMouseClicked(_ -> {
+                    handleDifferentColor(imageView, factionName);
+                    currentUser.setFaction(Faction.valueOf(factionName.toUpperCase()));
+                    currentUser.getDeck().clear();
+                });
                 anchorPane.getChildren().add(imageView);
                 Label label = new Label(factionName);
                 label.setMinSize(30, 30);
@@ -145,7 +144,7 @@ public class PreGameMenu extends AppMenu {
     public void showCards() throws Exception {
         ArrayList<String> result = new ArrayList<>(CardController.heroes);
         ArrayList<String> out = new ArrayList<>();
-        result.addAll(CardController.leaders);
+//        result.addAll(CardController.leaders);
         result.addAll(CardController.units);
         result.addAll(CardController.specials);
         for (String cardName : result) {
@@ -153,6 +152,8 @@ public class PreGameMenu extends AppMenu {
                 out.add(cardName);
             }
         }
+        //TODO just for test
+//        out.addAll(CardController.leaders);
         showManyCardsInScrollBar(out, false);
     }
 
@@ -225,6 +226,7 @@ public class PreGameMenu extends AppMenu {
 
 
     public void startGame() {
+        //TODO: start the game and initialize the game object
     }
 
     public void showCurrentUserInfo() {
@@ -324,12 +326,22 @@ public class PreGameMenu extends AppMenu {
 
     public void showLeaders() throws MalformedURLException {
         // TODO: until I find leaders assets
-//        VBox content = new VBox();
-//        content.setAlignment(Pos.CENTER);
-//        for (String leaderName : CardController.leaders) {
-////            System.out.println(STR."\{CardController.faction.get(leaderName)}++++\{User.getLoggedInUser().getFaction()}");
-//            if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
-////            Leader leader = (Leader) CardController.createLeaderCard(leaderName);
+        VBox content = new VBox();
+        content.setAlignment(Pos.CENTER);
+        for (String leaderName : CardController.leaders) {
+            if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
+            Card card = CardController.createLeaderCard(leaderName);
+            ImageView imageView = new ImageView(new Image(new File("src/main/resources/assets/lg/skellige_king_bran.jpg").toURI().toURL().toString()));
+            imageView.setOnMouseClicked(_->{
+                currentUser.setLeader((Leader)card);
+                try {
+                    start(ApplicationController.getStage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            content.getChildren().add(imageView);
+
 //            System.out.println(CardController.imagePath.get(leaderName.toLowerCase()));
 //            System.out.println(leaderName);
 //            for (Map.Entry<String, String> entry : CardController.imagePath.entrySet()) {
@@ -386,6 +398,15 @@ public class PreGameMenu extends AppMenu {
 //        ApplicationController.getStage().
 //
 //    show();
+        }
+        Pane pane = new Pane();
+        pane.getChildren().add(content);
+        System.out.println("403");
+        Scene scene= new Scene(pane);
+        System.out.println("403");
+        ApplicationController.getStage().setScene(scene);
+        System.out.println("403");
+        ApplicationController.getStage().show();
     }
 
     public void backToMainMenu() throws Exception {

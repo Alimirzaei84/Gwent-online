@@ -4,6 +4,7 @@ import model.role.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 // @Info I change the num of card Redeem.
@@ -61,7 +62,10 @@ public class CardController {
             addLeaderToRecord(data);
         }
         leaderReader.close();
-
+        System.out.println(Arrays.toString(leaders.toArray()));
+        for (String leader : leaders) {
+            imagePath.put(leader,"src/main/resources/assets/lg/skellige_king_bran.jpg");
+        }
     }
 
     private static void addLeaderToRecord(String[] data) {
@@ -147,6 +151,7 @@ public class CardController {
 
         String img_path = "./src/main/resources/assets/lg/" + tmp1 + "_" + tmp + ".jpg";
         imagePath.put(cardName, img_path);
+
 
         File file = new File(img_path);
         if (!file.exists()) {

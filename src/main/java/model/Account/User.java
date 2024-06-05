@@ -19,6 +19,7 @@ public class User implements Comparable<User> {
     private int gamesPlayed;
     private Faction faction;
     private ArrayList<Card> deck;
+    private Leader leader;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser = null;
 
@@ -40,6 +41,14 @@ public class User implements Comparable<User> {
         answers = new HashMap<>();
         allUsers.add(this);
         deck = new ArrayList<>();
+    }
+
+    public Leader getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Leader leader) {
+        this.leader = leader;
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
