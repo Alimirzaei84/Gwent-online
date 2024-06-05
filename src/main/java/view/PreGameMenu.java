@@ -1,6 +1,7 @@
 package view;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
@@ -152,8 +153,6 @@ public class PreGameMenu extends AppMenu {
                 out.add(cardName);
             }
         }
-        //TODO just for test
-//        out.addAll(CardController.leaders);
         showManyCardsInScrollBar(out, false);
     }
 
@@ -163,7 +162,7 @@ public class PreGameMenu extends AppMenu {
         fileChooser.setTitle("Select an image");
         File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
         try (FileReader reader = new FileReader(selectedFile)) {
-            Type listType = new com.google.gson.reflect.TypeToken<ArrayList<String>>() {
+            Type listType = new TypeToken<ArrayList<String>>() {
             }.getType();
             List<String> restoredList = new Gson().fromJson(reader, listType);
             for (String string : restoredList) {
@@ -237,42 +236,35 @@ public class PreGameMenu extends AppMenu {
 
     private void showManyCardsInScrollBar(ArrayList<String> cardsNames, Boolean deckOrAll) throws Exception {
         VBox vBox = new VBox();
+        vBox.setSpacing(10);
         HBox hBox = new HBox();
         boolean shouldCreateNew = true;
         vBox.setAlignment(Pos.CENTER);
         for (String cardName : cardsNames) {
             if (shouldCreateNew) {
                 hBox = new HBox();
-                hBox.setSpacing(4);
+                hBox.setSpacing(10);
+                hBox.setAlignment(Pos.CENTER);
                 vBox.getChildren().add(hBox);
             }
-            String imagePath = CardController.imagePath.getOrDefault(cardName, "");
-            if (imagePath.isEmpty()) {
-                continue;
-            }
-
+            String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(_ -> addToDeck(cardName));
             imageView.setOnDragExited(_ -> System.out.println("swipe down"));
-            Button button;
+            int countInDeck = currentUser.getCardCount(cardName);
+            Text text = new Text(STR."count in deck: \{countInDeck}");
             if (deckOrAll) {
-                button = new Button("remove");
+                Button button = new Button("remove");
                 button.setMinWidth(20);
                 button.setMinHeight(20);
                 hBox.getChildren().add(button);
                 button.setLayoutX(imageView.getLayoutX() + 20);
                 button.setLayoutY(imageView.getLayoutY() + 20);
-            } else {
-                button = null;
+                HBox finalHBox = hBox;
+                button.setOnMouseClicked(_ -> removeFromDeck(cardName, finalHBox, imageView, text, button));
             }
             hBox.getChildren().add(imageView);
-            int countInDeck = currentUser.getCardCount(cardName);
-            Text text = new Text(STR."count in deck: \{countInDeck}");
             hBox.getChildren().add(text);
-            HBox finalHBox = hBox;
-            if (deckOrAll) button.setOnMouseClicked(_ -> {
-                removeFromDeck(cardName, finalHBox, imageView, text, button);
-            });
             shouldCreateNew = !shouldCreateNew;
         }
 
@@ -293,9 +285,11 @@ public class PreGameMenu extends AppMenu {
 
         ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setFitToWidth(true);
-        Scene scene = new Scene(scrollPane, 1200, 1200);
+        scrollPane.setVvalue(0.0);
+        Scene scene = new Scene(scrollPane, 1500, 800);
         ApplicationController.getStage().setScene(scene);
         ApplicationController.getStage().setTitle("show cards");
+        ApplicationController.getStage().centerOnScreen();
         ApplicationController.getStage().show();
     }
 
@@ -327,11 +321,14 @@ public class PreGameMenu extends AppMenu {
     public void showLeaders() throws MalformedURLException {
         // TODO: until I find leaders assets
         VBox content = new VBox();
+        content.setSpacing(10);
+        HBox hBox = new HBox();
+        boolean shouldCreateNew = true;
         content.setAlignment(Pos.CENTER);
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
             Card card = CardController.createLeaderCard(leaderName);
-            ImageView imageView = new ImageView(new Image(new File("src/main/resources/assets/lg/skellige_king_bran.jpg").toURI().toURL().toString()));
+            ImageView imageView = new ImageView(new Image(new File(CardController.imagePath.getOrDefault(card.getName(), "src/main/resources/assets/lg/skellige_king_bran.jpg")).toURI().toURL().toString()));
             imageView.setOnMouseClicked(_ -> {
                 currentUser.setLeader((Leader) card);
                 try {
@@ -340,73 +337,23 @@ public class PreGameMenu extends AppMenu {
                     throw new RuntimeException(e);
                 }
             });
-            content.getChildren().add(imageView);
+            if(shouldCreateNew) {
+                hBox = new HBox();
+                content.getChildren().add(hBox);
+                hBox.setSpacing(10);
+                hBox.setAlignment(Pos.CENTER);
+            }
+            hBox.getChildren().add(imageView);
+            shouldCreateNew = !shouldCreateNew;
 
-//            System.out.println(CardController.imagePath.get(leaderName.toLowerCase()));
-//            System.out.println(leaderName);
-//            for (Map.Entry<String, String> entry : CardController.imagePath.entrySet()) {
-//                System.out.println(STR."\{entry.getKey()}++\{entry.getValue()}");
-//            }
-//            if (file.isFile() && file.getName().contains("faction_")) {
-//                Image image = new Image(file.toURI().toURL().toString());
-//                AnchorPane anchorPane = new AnchorPane();
-//                ImageView imageView = new ImageView(image);
-//                String factionName = file.getName().substring(8, file.getName().length() - 4);
-//
-//
-//                if (User.getLoggedInUser().getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
-//                    ColorAdjust grayscaleEffect = new ColorAdjust();
-//                    grayscaleEffect.setSaturation(-1.0);
-//                    imageView.setEffect(grayscaleEffect);
-//                    currentImageView = imageView;
-//                }
-
-//            imageView.setOnMouseClicked(_ -> handleDifferentColor(imageView, factionName));
-//            anchorPane.getChildren().add(imageView);
-//            Label label = new Label(factionName);
-//            label.setMinSize(30, 30);
-//            anchorPane.getChildren().add(label);
-//            content.getChildren().add(anchorPane);
-//        }
-//        }
-
-//    Button button = new Button("back");
-//        button.setMinHeight(100);
-//        button.setMinWidth(100);
-//        button.setOnMouseClicked(_ ->
-//
-//    {
-//        try {
-//            start(ApplicationController.getStage());
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    });
-//        content.getChildren().
-//
-//    add(button);
-//
-//    ScrollPane scrollPane = new ScrollPane(content);
-//        scrollPane.setFitToWidth(true);
-//    Scene scene = new Scene(scrollPane, 800, 800);
-//        ApplicationController.getStage().
-//
-//    setScene(scene);
-//        ApplicationController.getStage().
-//
-//    setTitle("select faction");
-//        ApplicationController.getStage().
-//
-//    show();
+            ScrollPane scrollPane = new ScrollPane(content);
+            scrollPane.setFitToWidth(true);
+            Scene scene = new Scene(scrollPane, 800, 800);
+            ApplicationController.getStage().setScene(scene);
+            ApplicationController.getStage().setTitle("show Leaders");
+            ApplicationController.getStage().centerOnScreen();
+            ApplicationController.getStage().show();
         }
-        Pane pane = new Pane();
-        pane.getChildren().add(content);
-        System.out.println("403");
-        Scene scene = new Scene(pane);
-        System.out.println("403");
-        ApplicationController.getStage().setScene(scene);
-        System.out.println("403");
-        ApplicationController.getStage().show();
     }
 
     public void backToMainMenu() throws Exception {
