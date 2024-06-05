@@ -332,8 +332,8 @@ public class PreGameMenu extends AppMenu {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
             Card card = CardController.createLeaderCard(leaderName);
             ImageView imageView = new ImageView(new Image(new File("src/main/resources/assets/lg/skellige_king_bran.jpg").toURI().toURL().toString()));
-            imageView.setOnMouseClicked(_->{
-                currentUser.setLeader((Leader)card);
+            imageView.setOnMouseClicked(_ -> {
+                currentUser.setLeader((Leader) card);
                 try {
                     start(ApplicationController.getStage());
                 } catch (Exception e) {
@@ -402,7 +402,7 @@ public class PreGameMenu extends AppMenu {
         Pane pane = new Pane();
         pane.getChildren().add(content);
         System.out.println("403");
-        Scene scene= new Scene(pane);
+        Scene scene = new Scene(pane);
         System.out.println("403");
         ApplicationController.getStage().setScene(scene);
         System.out.println("403");
