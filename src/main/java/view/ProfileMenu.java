@@ -55,10 +55,10 @@ public class ProfileMenu extends AppMenu {
         assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/CSS/ProfileMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
-
 
     public void setRankLabel(String rank) {
         rankLabel.setText(rank);
@@ -107,14 +107,19 @@ public class ProfileMenu extends AppMenu {
             alert.setTitle("Success");
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.setContentText(res);
+            alert.showAndWait();
             System.out.println("[ERR] : " + res);
-            alert.show();
         }
     }
 
@@ -126,22 +131,30 @@ public class ProfileMenu extends AppMenu {
             alert.setTitle("Nickname Error");
             alert.setHeaderText("Problem in nickname");
             alert.setContentText("Nickname field is empty!");
-            System.out.println("[ERR] : Nickname field is empty!");
-            alert.show();
 
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
+            System.out.println("[ERR] : Nickname field is empty!");
         } else if (nickname.equals(User.getLoggedInUser().getNickname())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Nickname Error");
             alert.setHeaderText("Problem in nickname");
             alert.setContentText("Enter a new nickname!");
             System.out.println("[ERR] : Enter a new nickname!");
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
         } else {
             ProfileMenuController.changeNickname(nickname);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setContentText("Nickname changed successfully!");
-            alert.show();
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
             System.out.println("[SUCC] : nickname changed successfully!");
             setNicknameLabel(User.getLoggedInUser().getNickname());
         }
@@ -157,15 +170,19 @@ public class ProfileMenu extends AppMenu {
             alert.setTitle("Success");
             alert.setContentText(res);
             System.out.println("[SUCC] : " + res);
-            alert.show();
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
             setUsernameLabel(User.getLoggedInUser().getName());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
-            alert.setContentText(res);
             System.out.println("[ERR] : " + res);
-            alert.show();
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.setContentText(res);
+            alert.showAndWait();
         }
     }
 
@@ -177,17 +194,22 @@ public class ProfileMenu extends AppMenu {
             res = ProfileMenuController.changeEmail(email);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
+
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.setContentText(res);
+            alert.showAndWait();
             System.out.println("[SUCC] : " + res);
-            alert.show();
             setEmailLabel(User.getLoggedInUser().getEmail());
         } catch (Exception e) {
             res = e.getMessage();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
-            alert.setContentText(res);
             System.out.println("[ERR] : " + res);
-            alert.show();
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.setContentText(res);
+            alert.showAndWait();
         }
     }
 
