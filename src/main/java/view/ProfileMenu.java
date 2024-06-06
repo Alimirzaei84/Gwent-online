@@ -54,11 +54,10 @@ public class ProfileMenu extends AppMenu {
         URL url = ProfileMenu.class.getResource("/FXML/ProfileMenu.fxml");
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/CSS/MainMenu.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/CSS/ProfileMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
-
 
     public void setRankLabel(String rank) {
         rankLabel.setText(rank);

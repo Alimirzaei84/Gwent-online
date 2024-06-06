@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ProfileMenu">
    <stylesheets>
-      <URL value="@../CSS/MainMenu.css" />
+      <URL value="@../CSS/ProfileMenu.css" />
    </stylesheets>
 
 

@@ -5,27 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/AlertStyler.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/MainMenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/labelRaw.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/mainMenuBackground.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/menuBackground.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/rawButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/registerMenuBackground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/ProfileMenu.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/hi.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/profileMenuBackground.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PickQuestions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/LoginMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/LoginMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PickQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PickQuestion.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +121,8 @@
       <workItem from="1717064392244" duration="5353000" />
       <workItem from="1717240115907" duration="455000" />
       <workItem from="1717316913036" duration="5986000" />
-      <workItem from="1717580002506" duration="18188000" />
+      <workItem from="1717580002506" duration="18319000" />
+      <workItem from="1717677950121" duration="318000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
