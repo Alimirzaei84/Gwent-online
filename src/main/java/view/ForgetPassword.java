@@ -28,6 +28,7 @@ public class ForgetPassword extends AppMenu {
     public void start(Stage stage) throws Exception {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ForgotPassword.fxml")));
         Scene scene = new Scene(pane);
+        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
