@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,10 +60,12 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.46091953" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -93,7 +94,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />
@@ -159,7 +160,10 @@
       <workItem from="1717240115907" duration="455000" />
       <workItem from="1717316913036" duration="5986000" />
       <workItem from="1717580002506" duration="18319000" />
-      <workItem from="1717677950121" duration="1427000" />
+      <workItem from="1717677950121" duration="2022000" />
+      <workItem from="1717842766654" duration="1327000" />
+      <workItem from="1718362798869" duration="1233000" />
+      <workItem from="1718438838413" duration="3093000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

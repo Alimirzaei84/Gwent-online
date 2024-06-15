@@ -94,13 +94,13 @@ public class MainMenu extends AppMenu {
                 String message;
                 try {
                     message = MainMenuController.opponentValidation(username);
-                    System.out.println(STR."[SUCC]:\{message}");
+                    System.out.println("[SUCC]:" + message);
                     validUsername = true;
                     PreGameMenu preGameMenu = new PreGameMenu();
                     preGameMenu.start(ApplicationController.getStage());
                 } catch (Exception e) {
                     message = e.getMessage();
-                    System.out.println(STR."[ERR]:\{message}");
+                    System.out.println("[ERR]:" + message);
                     alert.setTitle("Error");
 
                     scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
@@ -115,7 +115,7 @@ public class MainMenu extends AppMenu {
         }
 
         if (validUsername) {
-            System.out.println(STR."Valid username entered: \{username}");
+            System.out.println("Valid username entered: " + username);
         }
     }
 
