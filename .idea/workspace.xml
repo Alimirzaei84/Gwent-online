@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

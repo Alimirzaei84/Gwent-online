@@ -232,7 +232,7 @@ public class PreGameMenu extends AppMenu {
 
     public void showCurrentUserInfo() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Player name: " + currentUser.getName() + "\\nFaction: " + currentUser.getFaction().name() + "\\nCards count: " + currentUser.getDeck().size() + "\nUnit count: " + currentUser.getUnitCount() + "\\nSpecial count: " + currentUser.getSpecialCount() + "\\nHero count: " + currentUser.getHeroCount() + "\\nSum of power: " + currentUser.getSumOfPower());
+        alert.setContentText("Player name: " + currentUser.getName() + "\nFaction: " + currentUser.getFaction().name() + "\nCards count: " + currentUser.getDeck().size() + "\nUnit count: " + currentUser.getUnitCount() + "\nSpecial count: " + currentUser.getSpecialCount() + "\nHero count: " + currentUser.getHeroCount() + "\nSum of power: " + currentUser.getSumOfPower());
         alert.show();
     }
 
