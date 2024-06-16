@@ -96,7 +96,7 @@ public class PreGameMenu extends AppMenu {
         Button button = new Button("back");
         button.setMinHeight(100);
         button.setMinWidth(100);
-        button.setOnMouseClicked(event -> {
+        button.setOnMouseClicked(mouseEvent -> {
             try {
                 start(ApplicationController.getStage());
             } catch (Exception e) {
@@ -275,7 +275,7 @@ public class PreGameMenu extends AppMenu {
         Button button = new Button("Back");
         button.setMinWidth(100);
         button.setMinHeight(100);
-        button.setOnMouseClicked( event-> {
+        button.setOnMouseClicked( mouseEvent-> {
             try {
                 start(ApplicationController.getStage());
             } catch (Exception e) {

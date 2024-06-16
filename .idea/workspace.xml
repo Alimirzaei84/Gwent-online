@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/PreGameMenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/pregamemenubackground.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/MainMenu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/MainMenu.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +169,8 @@
       <workItem from="1718523358873" duration="3053000" />
       <workItem from="1718526667084" duration="112000" />
       <workItem from="1718527503426" duration="47000" />
-      <workItem from="1718527574330" duration="2405000" />
+      <workItem from="1718527574330" duration="2409000" />
+      <workItem from="1718541916689" duration="1037000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
