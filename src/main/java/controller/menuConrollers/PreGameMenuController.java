@@ -22,7 +22,7 @@ public class PreGameMenuController {
                 currentHbox.getChildren().remove(text);
                 currentHbox.getChildren().remove(imageView);
                 currentHbox.getChildren().remove(button);
-                return STR."[SUCC]: \{cardName} removed from deck";
+                return "[SUCC]: " + cardName + "removed from deck";
             }
         }
         throw new Exception("[ERR]: you don't have this card in your deck");
@@ -35,6 +35,6 @@ public class PreGameMenuController {
             currentUser.getDeck().remove(card);
             throw new Exception("[ERR]: you already have 10 special cards");
         }
-        return STR."[SUCC]: \{cardName} added to deck";
+        return "[SUCC]: " + cardName + "added to deck";
     }
 }

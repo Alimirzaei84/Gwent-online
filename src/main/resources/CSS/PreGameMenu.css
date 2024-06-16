@@ -2,7 +2,7 @@
 
 /* Style for the background of the scene */
 .root {
-    -fx-background-image: url("../Images/mainMenuBackground.jpg");
+    -fx-background-image: url("../Images/pregamemenubackground.gif");
     -fx-background-size: cover;
 }
 
@@ -16,19 +16,8 @@
     -fx-font-family: "Castellar";
     -fx-padding: 10 20 10 20; /* Padding */
     -fx-border-width: 2px; /* Border width */
-    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-color: #6b737d; /* Light blue border color */
     -fx-border-radius: 5px; /* Rounded corners for the border */
-}
-
-.text-field {
-    -fx-background-color: #713840; /* Background color */
-    -fx-border-color: #a15e67; /* Border color */
-    -fx-font-family: "Castellar";
-    -fx-border-width: 1px; /* Border width */
-    -fx-border-radius: 5px; /* Border radius */
-    -fx-padding: 5px; /* Padding inside the text field */
-    -fx-font-size: 14px; /* Font size */
-    -fx-text-fill: white; /* Text color */
 }
 
 .label{
@@ -39,7 +28,7 @@
     -fx-font-size: 16px; /* Font size */
     -fx-padding: 2.5 5 2.5 5; /* Padding */
     -fx-border-width: 2px; /* Border width */
-    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-color: #6b737d; /* Light blue border color */
     -fx-border-radius: 5px; /* Rounded corners for the border */
 }
 
@@ -61,3 +50,4 @@
     -fx-background-color: #444444; /* Button background color */
     -fx-text-fill: white;          /* Button text color */
 }
+

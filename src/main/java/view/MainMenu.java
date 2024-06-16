@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static java.lang.StringTemplate.STR;
 
 public class MainMenu extends AppMenu {
 

@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public  class Card extends TypeAdapter<Card> {
+public class Card extends TypeAdapter<Card> {
     private String name;
     private String description;
     private final Type type;
@@ -17,7 +17,6 @@ public  class Card extends TypeAdapter<Card> {
     private final String ability;
 
 
-
     @Override
     public void write(JsonWriter out, Card card) throws IOException {
         out.beginObject();
@@ -25,7 +24,6 @@ public  class Card extends TypeAdapter<Card> {
         // Other fields (excluding 'name')...
         out.endObject();
     }
-
 
 
     @Override
@@ -50,7 +48,6 @@ public  class Card extends TypeAdapter<Card> {
 //        return card;
         return null;
     }
-
 
 
     public Card(String name, Type type, int power, int maxNum, Faction faction, String ability) {
@@ -106,13 +103,13 @@ public  class Card extends TypeAdapter<Card> {
         return faction;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
 
     @Override
     public String toString() {
-        return STR."Card [name=\{name}, type=\{type}, power=\{power}, maxNum=\{maxNum}, faction=\{faction}, ability=\{ability}]";
+        return "Card [name=" + name + ", type=" + type + ", power=" + power + ", maxNum=" + maxNum + ", faction=" + faction + ", ability=" + ability + "]";
     }
 }

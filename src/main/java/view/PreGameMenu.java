@@ -28,6 +28,7 @@ import model.role.Card;
 import model.role.Faction;
 import model.role.Leader;
 import model.role.Unit;
+
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -51,6 +52,7 @@ public class PreGameMenu extends AppMenu {
         assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/CSS/PreGameMenu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -78,7 +80,7 @@ public class PreGameMenu extends AppMenu {
                     currentImageView = imageView;
                 }
 
-                imageView.setOnMouseClicked(_ -> {
+                imageView.setOnMouseClicked(event -> {
                     handleDifferentColor(imageView, factionName);
                     currentUser.setFaction(Faction.valueOf(factionName.toUpperCase()));
                     currentUser.getDeck().clear();
@@ -94,7 +96,7 @@ public class PreGameMenu extends AppMenu {
         Button button = new Button("back");
         button.setMinHeight(100);
         button.setMinWidth(100);
-        button.setOnMouseClicked(_ -> {
+        button.setOnMouseClicked(event -> {
             try {
                 start(ApplicationController.getStage());
             } catch (Exception e) {
@@ -206,7 +208,7 @@ public class PreGameMenu extends AppMenu {
         if (currentUser.getUnitCount() >= 22) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             currentUser = Game.getCurrentGame().getPlayer2().getUser();
-            alert.setContentText(STR."now player2: \{currentUser.getName()} should pick cards");
+            alert.setContentText("now player2: " + currentUser.getName() + " should pick cards");
             alert.show();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -230,7 +232,7 @@ public class PreGameMenu extends AppMenu {
 
     public void showCurrentUserInfo() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(STR."Player name: \{currentUser.getName()}\nFaction: \{currentUser.getFaction().name()}\nCards count: \{currentUser.getDeck().size()}\nUnit count: \{currentUser.getUnitCount()}\nSpecial count: \{currentUser.getSpecialCount()}\nHero count: \{currentUser.getHeroCount()}\nSum of power: \{currentUser.getSumOfPower()}");
+        alert.setContentText("Player name: " + currentUser.getName() + "\\nFaction: " + currentUser.getFaction().name() + "\\nCards count: " + currentUser.getDeck().size() + "\nUnit count: " + currentUser.getUnitCount() + "\\nSpecial count: " + currentUser.getSpecialCount() + "\\nHero count: " + currentUser.getHeroCount() + "\\nSum of power: " + currentUser.getSumOfPower());
         alert.show();
     }
 
@@ -249,10 +251,10 @@ public class PreGameMenu extends AppMenu {
             }
             String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
-            imageView.setOnMouseClicked(_ -> addToDeck(cardName));
-            imageView.setOnDragExited(_ -> System.out.println("swipe down"));
+            imageView.setOnMouseClicked(event -> addToDeck(cardName));
+            imageView.setOnDragExited(event -> System.out.println("swipe down"));
             int countInDeck = currentUser.getCardCount(cardName);
-            Text text = new Text(STR."count in deck: \{countInDeck}");
+            Text text = new Text("count in deck: " + countInDeck);
             if (deckOrAll) {
                 Button button = new Button("remove");
                 button.setMinWidth(20);
@@ -261,7 +263,7 @@ public class PreGameMenu extends AppMenu {
                 button.setLayoutX(imageView.getLayoutX() + 20);
                 button.setLayoutY(imageView.getLayoutY() + 20);
                 HBox finalHBox = hBox;
-                button.setOnMouseClicked(_ -> removeFromDeck(cardName, finalHBox, imageView, text, button));
+                button.setOnMouseClicked(event -> removeFromDeck(cardName, finalHBox, imageView, text, button));
             }
             hBox.getChildren().add(imageView);
             hBox.getChildren().add(text);
@@ -273,7 +275,7 @@ public class PreGameMenu extends AppMenu {
         Button button = new Button("Back");
         button.setMinWidth(100);
         button.setMinHeight(100);
-        button.setOnMouseClicked(_ -> {
+        button.setOnMouseClicked( event-> {
             try {
                 start(ApplicationController.getStage());
             } catch (Exception e) {
@@ -300,7 +302,7 @@ public class PreGameMenu extends AppMenu {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
             alert.show();
-            System.out.println(STR."[ERR]: \{e.getMessage()}");
+            System.out.println("[ERR]: " + e.getMessage());
         }
     }
 
@@ -329,7 +331,7 @@ public class PreGameMenu extends AppMenu {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
             Card card = CardController.createLeaderCard(leaderName);
             ImageView imageView = new ImageView(new Image(new File(CardController.imagePath.getOrDefault(card.getName(), "src/main/resources/assets/lg/skellige_king_bran.jpg")).toURI().toURL().toString()));
-            imageView.setOnMouseClicked(_ -> {
+            imageView.setOnMouseClicked(event -> {
                 currentUser.setLeader((Leader) card);
                 try {
                     start(ApplicationController.getStage());
@@ -337,7 +339,7 @@ public class PreGameMenu extends AppMenu {
                     throw new RuntimeException(e);
                 }
             });
-            if(shouldCreateNew) {
+            if (shouldCreateNew) {
                 hBox = new HBox();
                 content.getChildren().add(hBox);
                 hBox.setSpacing(10);
