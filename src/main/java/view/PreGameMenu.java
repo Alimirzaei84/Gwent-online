@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,6 +41,21 @@ public class PreGameMenu extends AppMenu {
     private ImageView currentImageView;
     private User currentUser;
 
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label factionLabel;
+    @FXML
+    private Label cardsCount;
+    @FXML
+    private Label unitCount;
+    @FXML
+    private Label specialCount;
+    @FXML
+    private Label heroCount;
+    @FXML
+    private Label totalPower;
+
     public PreGameMenu() {
         controller = new PreGameMenuController();
         currentImageView = null;
@@ -59,6 +75,7 @@ public class PreGameMenu extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        showCurrentUserInfo();
     }
 
     public void showAndChangeFaction() throws IOException {
@@ -210,6 +227,7 @@ public class PreGameMenu extends AppMenu {
             currentUser = Game.getCurrentGame().getPlayer2().getUser();
             alert.setContentText("now player2: " + currentUser.getName() + " should pick cards");
             alert.show();
+            showCurrentUserInfo();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should pick at least 22 unit cards");
@@ -225,15 +243,18 @@ public class PreGameMenu extends AppMenu {
         return out;
     }
 
-
     public void startGame() {
         //TODO: start the game and initialize the game object
     }
 
     public void showCurrentUserInfo() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Player name: " + currentUser.getName() + "\\nFaction: " + currentUser.getFaction().name() + "\\nCards count: " + currentUser.getDeck().size() + "\nUnit count: " + currentUser.getUnitCount() + "\\nSpecial count: " + currentUser.getSpecialCount() + "\\nHero count: " + currentUser.getHeroCount() + "\\nSum of power: " + currentUser.getSumOfPower());
-        alert.show();
+        usernameLabel.setText(currentUser.getName());
+        factionLabel.setText(currentUser.getFaction().name());
+        cardsCount.setText(String.valueOf(currentUser.getDeck().size()));
+        unitCount.setText(String.valueOf(currentUser.getUnitCount()));
+        specialCount.setText(String.valueOf(currentUser.getSpecialCount()));
+        heroCount.setText(String.valueOf(currentUser.getHeroCount()));
+        totalPower.setText(String.valueOf(currentUser.getSumOfPower()));
     }
 
     private void showManyCardsInScrollBar(ArrayList<String> cardsNames, Boolean deckOrAll) throws Exception {
