@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User.">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/PreGamePages.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/pregamebackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/stone.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
@@ -173,6 +176,9 @@
       <workItem from="1718541916689" duration="1037000" />
       <workItem from="1718960551084" duration="668000" />
       <workItem from="1718962064506" duration="5245000" />
+      <workItem from="1718998528963" duration="2983000" />
+      <workItem from="1719041793085" duration="5623000" />
+      <workItem from="1719136658174" duration="1633000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

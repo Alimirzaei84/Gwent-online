@@ -8,6 +8,7 @@ import controller.menuConrollers.PreGameMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,10 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -79,16 +77,15 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void showAndChangeFaction() throws IOException {
-        VBox content = new VBox();
-        content.setAlignment(Pos.CENTER);
+        HBox content = new HBox(20); // Add spacing between each VBox
+        content.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
         File directory = new File("src/main/resources/assets/lg");
+
         for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.isFile() && file.getName().contains("faction_")) {
                 Image image = new Image(file.toURI().toURL().toString());
-                AnchorPane anchorPane = new AnchorPane();
                 ImageView imageView = new ImageView(image);
                 String factionName = buildFactionName(file.getName());
-
 
                 if (currentUser.getFaction().equals(Faction.valueOf(factionName.toUpperCase()))) {
                     ColorAdjust grayscaleEffect = new ColorAdjust();
@@ -102,11 +99,15 @@ public class PreGameMenu extends AppMenu {
                     currentUser.setFaction(Faction.valueOf(factionName.toUpperCase()));
                     currentUser.getDeck().clear();
                 });
-                anchorPane.getChildren().add(imageView);
+
                 Label label = new Label(factionName);
                 label.setMinSize(30, 30);
-                anchorPane.getChildren().add(label);
-                content.getChildren().add(anchorPane);
+                label.setAlignment(Pos.CENTER);
+
+                VBox vbox = new VBox(10, imageView, label); // Add spacing between ImageView and Label
+                vbox.setAlignment(Pos.CENTER);
+
+                content.getChildren().add(vbox);
             }
         }
 
@@ -122,9 +123,19 @@ public class PreGameMenu extends AppMenu {
         });
         content.getChildren().add(button);
 
-        ScrollPane scrollPane = new ScrollPane(content);
-        scrollPane.setFitToWidth(true);
-        Scene scene = new Scene(scrollPane, 800, 800);
+        VBox rootVbox = new VBox(content);
+        rootVbox.setAlignment(Pos.CENTER);
+
+        StackPane root = new StackPane(rootVbox);
+        Image backgroundImage = new Image(getClass().getResource("/Images/stone.jpg").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        root.setBackground(new Background(background));
+
+        Scene scene = new Scene(root, 1600, 900);
+        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+
+        content.setAlignment(Pos.CENTER);
+
         ApplicationController.getStage().setScene(scene);
         ApplicationController.getStage().setTitle("select faction");
         ApplicationController.getStage().show();
@@ -296,7 +307,7 @@ public class PreGameMenu extends AppMenu {
         Button button = new Button("Back");
         button.setMinWidth(100);
         button.setMinHeight(100);
-        button.setOnMouseClicked( mouseEvent-> {
+        button.setOnMouseClicked(mouseEvent -> {
             try {
                 start(ApplicationController.getStage());
             } catch (Exception e) {

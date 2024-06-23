@@ -1,0 +1,53 @@
+/* styles.css */
+
+/* Style for the background of the scene */
+.root {
+    -fx-background-image: url("../Images/stone.jpg");
+    -fx-background-size: cover;
+}
+
+/* Style for buttons */
+/* Style for buttons */
+.button {
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 16px; /* Font size */
+    -fx-font-family: "Castellar";
+    -fx-padding: 10 20 10 20; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #6b737d; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+
+.label{
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-family: "Castellar";
+    -fx-font-size: 16px; /* Font size */
+    -fx-padding: 2.5 5 2.5 5; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #6b737d; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+
+.alert {
+    -fx-background-color: #2a2a2a; /* Background color */
+    -fx-text-fill: white;          /* Text color */
+}
+
+.dialog-pane {
+    -fx-background-color: #333333; /* Dialog background color */
+}
+
+.dialog-pane .content.label {
+    -fx-font-size: 14px;           /* Font size */
+    -fx-text-fill: white;          /* Text color */
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #444444; /* Button background color */
+    -fx-text-fill: white;          /* Button text color */
+}
+

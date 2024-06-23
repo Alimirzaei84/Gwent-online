@@ -15,8 +15,7 @@
    <Button layoutX="866.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#downloadDeck" text="download deck" />
    <Button layoutX="535.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#changeTurn" text="change turn" />
    <Button layoutX="695.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="start game" />
-   <Button layoutX="713.0" layoutY="141.0" mnemonicParsing="false" onMouseClicked="#showCurrentUserInfo" prefHeight="46.0" prefWidth="173.0" text=" show info" />
-   <Button layoutX="734.0" layoutY="534.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
+   <Button layoutX="734.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
    <Button layoutX="704.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#showLeaders" prefHeight="46.0" prefWidth="191.0" text="show leaders" />
    <Label layoutX="182.0" layoutY="177.0" text="username" />
    <Label fx:id="usernameLabel" layoutX="336.0" layoutY="177.0" text="Label" />
