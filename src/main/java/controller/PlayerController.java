@@ -12,21 +12,16 @@ import java.util.regex.Pattern;
 
 public class PlayerController {
     private final Player player;
-    private final Game game;
     private String responseToGame;
 
-    public PlayerController(Game game, Player player) {
+    public PlayerController(Player player) {
         this.player = player;
-        this.game = game;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public Game getGame() {
-        return game;
-    }
 
     public String getResponseToGame()  {
         return responseToGame;

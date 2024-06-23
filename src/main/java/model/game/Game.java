@@ -4,6 +4,14 @@ import controller.PlayerController;
 import model.Account.Player;
 import model.Account.User;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,20 +19,132 @@ public class Game implements Runnable {
 
     private final Player[] players;
     private PlayerController[] playerControllers;
+    private CommunicationHandler[] communicationHandlers;
+
+    private ServerSocket server;
+    private ExecutorService pool;
+
     private int turn;
-    private boolean hasFinished = false;
+    private boolean running = false;
     private StringBuilder log;
     private int numTurn = 0;
 
     private static Game currentGame = null;
 
     public Game(User user1, User user2) {
+        communicationHandlers = new CommunicationHandler[2];
         players = new Player[2];
         createPlayers(user1, user2);
     }
 
     public Game(Player player1, Player player2) {
+        communicationHandlers = new CommunicationHandler[2];
         players = new Player[]{player1, player2};
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            server = new ServerSocket(8080);
+            pool = Executors.newCachedThreadPool();
+
+            for (Player player : players) {
+                player.run();
+            }
+
+
+            // TODO
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // creating controllers
+//        createControllers();
+        // players choose their cards
+        try {
+            playersChooseCard();
+
+            goNextTurn();
+            // while the game is still on
+            // start the turn
+            // ask the first player for action
+            // get response from player
+            // ask the second player for action
+            // get response from sec player
+            // store the data
+
+            while (gameStillOn()) {
+
+                // start the turn from first player
+                openCommunication(getController1());
+                startTurn(getController1());
+                break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    class CommunicationHandler implements Runnable {
+        private Socket socket;
+        private DataInputStream in;
+        private DataOutputStream out;
+
+        public CommunicationHandler(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+
+            try {
+                out = new DataOutputStream(socket.getOutputStream());
+                in = new DataInputStream(socket.getInputStream());
+                System.out.println("[SUCC] communication has established");
+
+                String inMessage;
+                while ((inMessage = in.readUTF()) != null) {
+                    // TODO handle input from player (player ?)
+
+                    // for debug purpose
+                    System.out.println(inMessage);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void sendMessage(String message) throws IOException {
+            out.writeUTF(message);
+        }
+
+        public void shutdown() {
+
+            try {
+                in.close();
+                out.close();
+                if (!socket.isClosed()) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                // TODO handle exception (perhaps ignore)
+            }
+        }
+    }
+
+    private void shutdown() {
+        try {
+            running = false;
+
+            // TODO
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void createPlayers(User user1, User user2) {
@@ -56,43 +176,13 @@ public class Game implements Runnable {
         currentGame = game;
     }
 
-    @Override
-    public void run() {
-        // creating controllers
-        createControllers();
-        // players choose their cards
-        try {
-            playersChooseCard();
 
-            goNextTurn();
-            // while the game is still on
-            // start the turn
-            // ask the first player for action
-            // get response from player
-            // ask the second player for action
-            // get response from sec player
-            // store the data
-
-            while (gameStillOn()) {
-
-                // start the turn from first player
-                openCommunication(getController1());
-                startTurn(getController1());
-                break;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void createControllers() {
-        playerControllers = new PlayerController[players.length];
-        for (int i = 0; i < players.length; i++) {
-            playerControllers[i] = new PlayerController(this, players[i]);
-        }
-    }
+//    private void createControllers() {
+//        playerControllers = new PlayerController[players.length];
+//        for (int i = 0; i < players.length; i++) {
+//            playerControllers[i] = new PlayerController(players[i]);
+//        }
+//    }
 
 
     // commands
