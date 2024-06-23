@@ -104,7 +104,7 @@ public class PreGameMenu extends AppMenu {
                 label.setMinSize(30, 30);
                 label.setAlignment(Pos.CENTER);
 
-                VBox vbox = new VBox(10, imageView, label); // Add spacing between ImageView and Label
+                VBox vbox = new VBox(10, imageView, label);
                 vbox.setAlignment(Pos.CENTER);
 
                 content.getChildren().add(vbox);
@@ -131,7 +131,7 @@ public class PreGameMenu extends AppMenu {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         root.setBackground(new Background(background));
 
-        Scene scene = new Scene(root, 1600, 900);
+        Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
 
         content.setAlignment(Pos.CENTER);
@@ -357,7 +357,8 @@ public class PreGameMenu extends AppMenu {
         VBox content = new VBox();
         content.setSpacing(10);
         HBox hBox = new HBox();
-        boolean shouldCreateNew = true;
+        int MAX_LEADER = 5;
+        int leaderCo = 0;
         content.setAlignment(Pos.CENTER);
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
@@ -371,18 +372,24 @@ public class PreGameMenu extends AppMenu {
                     throw new RuntimeException(e);
                 }
             });
-            if (shouldCreateNew) {
+
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(300);
+
+            leaderCo++;
+            if (leaderCo % MAX_LEADER == 0) {
                 hBox = new HBox();
                 content.getChildren().add(hBox);
                 hBox.setSpacing(10);
                 hBox.setAlignment(Pos.CENTER);
+                leaderCo = 0;
             }
             hBox.getChildren().add(imageView);
-            shouldCreateNew = !shouldCreateNew;
 
             ScrollPane scrollPane = new ScrollPane(content);
             scrollPane.setFitToWidth(true);
-            Scene scene = new Scene(scrollPane, 800, 800);
+            Scene scene = new Scene(scrollPane, 1600, 900);
             ApplicationController.getStage().setScene(scene);
             ApplicationController.getStage().setTitle("show Leaders");
             ApplicationController.getStage().centerOnScreen();

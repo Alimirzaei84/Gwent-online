@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PreGameMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PreGameMenu">
    <stylesheets>
       <URL value="@../CSS/PreGameMenu.css" />
    </stylesheets>
@@ -17,18 +17,18 @@
    <Button layoutX="695.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="start game" />
    <Button layoutX="734.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
    <Button layoutX="704.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#showLeaders" prefHeight="46.0" prefWidth="191.0" text="show leaders" />
-   <Label layoutX="182.0" layoutY="177.0" text="username" />
-   <Label fx:id="usernameLabel" layoutX="336.0" layoutY="177.0" text="Label" />
-   <Label layoutX="190.0" layoutY="232.0" text="Faction" />
-   <Label fx:id="factionLabel" layoutX="336.0" layoutY="232.0" text="Label" />
-   <Label layoutX="165.0" layoutY="287.0" text="Cards count" />
-   <Label fx:id="cardsCount" layoutX="336.0" layoutY="287.0" text="Label" />
-   <Label fx:id="unitCount" layoutX="336.0" layoutY="350.0" text="Label" />
-   <Label layoutX="172.0" layoutY="350.0" text="Unit count" />
-   <Label fx:id="specialCount" layoutX="336.0" layoutY="411.0" text="Label" />
-   <Label layoutX="160.0" layoutY="411.0" text="special count" />
-   <Label fx:id="heroCount" layoutX="336.0" layoutY="465.0" text="Label" />
-   <Label layoutX="169.0" layoutY="465.0" text="Hero count" />
-   <Label fx:id="totalPower" layoutX="336.0" layoutY="518.0" text="Label" />
-   <Label layoutX="166.0" layoutY="518.0" text="Total power" />
+   <Label layoutX="134.0" layoutY="177.0" text="username" />
+   <Label fx:id="usernameLabel" layoutX="302.0" layoutY="177.0" text="Label" />
+   <Label layoutX="142.0" layoutY="232.0" text="Faction" />
+   <Label fx:id="factionLabel" layoutX="302.0" layoutY="233.0" text="Label" />
+   <Label layoutX="117.0" layoutY="287.0" text="Cards count" />
+   <Label fx:id="cardsCount" layoutX="302.0" layoutY="287.0" text="Label" />
+   <Label fx:id="unitCount" layoutX="302.0" layoutY="350.0" text="Label" />
+   <Label layoutX="124.0" layoutY="350.0" text="Unit count" />
+   <Label fx:id="specialCount" layoutX="302.0" layoutY="411.0" text="Label" />
+   <Label layoutX="112.0" layoutY="411.0" text="special count" />
+   <Label fx:id="heroCount" layoutX="302.0" layoutY="465.0" text="Label" />
+   <Label layoutX="122.0" layoutY="465.0" text="Hero count" />
+   <Label fx:id="totalPower" layoutX="302.0" layoutY="518.0" text="Label" />
+   <Label layoutX="118.0" layoutY="518.0" text="Total power" />
 </AnchorPane>
