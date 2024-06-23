@@ -127,7 +127,7 @@ public class PreGameMenu extends AppMenu {
         rootVbox.setAlignment(Pos.CENTER);
 
         StackPane root = new StackPane(rootVbox);
-        Image backgroundImage = new Image(getClass().getResource("/Images/stone.jpg").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         root.setBackground(new Background(background));
 
@@ -191,6 +191,11 @@ public class PreGameMenu extends AppMenu {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         fileChooser.setTitle("Select an image");
         File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
+
+        if (selectedFile == null){
+            return;
+        }
+
         try (FileReader reader = new FileReader(selectedFile)) {
             Type listType = new TypeToken<ArrayList<String>>() {
             }.getType();
@@ -354,14 +359,32 @@ public class PreGameMenu extends AppMenu {
 
     public void showLeaders() throws MalformedURLException {
         // TODO: until I find leaders assets
+
+        HBox body = new HBox();
         VBox content = new VBox();
         content.setSpacing(10);
         HBox hBox = new HBox();
         int MAX_LEADER = 5;
         int leaderCo = 0;
         content.setAlignment(Pos.CENTER);
+        Button button = new Button("back");
+        button.setMinHeight(60);
+        button.setMinWidth(100);
+        button.setOnMouseClicked(mouseEvent -> {
+            try {
+                start(ApplicationController.getStage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        body.getChildren().add(button);
+        button.setLayoutX(40);
+        button.setLayoutY(40);
+
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
+
             Card card = CardController.createLeaderCard(leaderName);
             ImageView imageView = new ImageView(new Image(new File(CardController.imagePath.getOrDefault(card.getName(), "src/main/resources/assets/lg/skellige_king_bran.jpg")).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> {
@@ -374,27 +397,45 @@ public class PreGameMenu extends AppMenu {
             });
 
             imageView.preserveRatioProperty();
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(300);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(250);
 
-            leaderCo++;
             if (leaderCo % MAX_LEADER == 0) {
                 hBox = new HBox();
                 content.getChildren().add(hBox);
-                hBox.setSpacing(10);
+                hBox.setSpacing(40);
                 hBox.setAlignment(Pos.CENTER);
-                leaderCo = 0;
             }
             hBox.getChildren().add(imageView);
+            leaderCo++;
 
-            ScrollPane scrollPane = new ScrollPane(content);
-            scrollPane.setFitToWidth(true);
-            Scene scene = new Scene(scrollPane, 1600, 900);
-            ApplicationController.getStage().setScene(scene);
-            ApplicationController.getStage().setTitle("show Leaders");
-            ApplicationController.getStage().centerOnScreen();
-            ApplicationController.getStage().show();
+
         }
+
+        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+
+
+        body.getChildren().add(content);
+        body.setSpacing(80);
+
+
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(body);
+        stackPane.setBackground(new Background(background));
+
+        ScrollPane scrollPane = new ScrollPane(stackPane);
+        scrollPane.setFitToWidth(true);
+        Scene scene = new Scene(scrollPane, 1280, 700);
+        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+
+        ApplicationController.getStage().setScene(scene);
+        ApplicationController.getStage().setTitle("show Leaders");
+        ApplicationController.getStage().centerOnScreen();
+        ApplicationController.getStage().show();
+
+
     }
 
     public void backToMainMenu() throws Exception {

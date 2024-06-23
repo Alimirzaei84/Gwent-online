@@ -17,19 +17,19 @@
       <Label fx:id="nicknameLabel" layoutX="292.0" layoutY="183.0" text="Label" />
       <Label layoutX="119.0" layoutY="248.0" text="Email" />
       <Label fx:id="emailLabel" layoutX="292.0" layoutY="248.0" text="Label" />
-      <TextField fx:id="emailField" layoutX="1021.0" layoutY="181.0" text="Enter email" />
+      <TextField fx:id="emailField" layoutX="1021.0" layoutY="181.0"  />
       <Label layoutX="1061.0" layoutY="128.0" text="New Email" />
       <Button layoutX="1029.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#changeEmail" text="Change Email" />
-      <TextField fx:id="nicknameField" layoutX="1021.0" layoutY="360.0" text="Enter nickname" />
+      <TextField fx:id="nicknameField" layoutX="1021.0" layoutY="360.0"  />
       <Label layoutX="1039.0" layoutY="310.0" text="New Nickname" />
       <Button layoutX="1007.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#changeNickName" text="Change Nickname" />
       <Label layoutX="730.0" layoutY="128.0" text="New Username" />
-      <TextField fx:id="usernameField" layoutX="710.0" layoutY="181.0" text="Enter username" />
+      <TextField fx:id="usernameField" layoutX="710.0" layoutY="181.0"  />
       <Button layoutX="697.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#changeUsername" prefHeight="46.0" prefWidth="223.0" text="Change Username" />
-      <PasswordField fx:id="newPasswordField" layoutX="710.0" layoutY="356.0" text="Enter password" />
+      <PasswordField fx:id="newPasswordField" layoutX="710.0" layoutY="356.0" />
       <Label layoutX="730.0" layoutY="310.0" text="New Password" />
       <Label layoutX="732.0" layoutY="404.0" text="Old Password" />
-      <PasswordField fx:id="oldPasswordField" layoutX="710.0" layoutY="450.0" text="Enter password" />
+      <PasswordField fx:id="oldPasswordField" layoutX="710.0" layoutY="450.0"  />
       <Button layoutX="699.0" layoutY="496.0" mnemonicParsing="false" onMouseClicked="#changePassword" text="Change Password" />
       <Label layoutX="120.0" layoutY="325.0" text="Rank" />
       <Label fx:id="rankLabel" layoutX="292.0" layoutY="325.0" text="Label" />
