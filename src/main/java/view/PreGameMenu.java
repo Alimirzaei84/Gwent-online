@@ -38,6 +38,9 @@ public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
     private ImageView currentImageView;
     private User currentUser;
+    private final int MAX_CARD_IN_LINE = 4;
+    private final int BACK_BUTTON_SPACING = 80;
+    private final int LAYOUT_BUTTON = 40;
 
     @FXML
     private Label usernameLabel;
@@ -66,6 +69,7 @@ public class PreGameMenu extends AppMenu {
         assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
+
         scene.getStylesheets().add(getClass().getResource("/CSS/PreGameMenu.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -192,7 +196,7 @@ public class PreGameMenu extends AppMenu {
         fileChooser.setTitle("Select an image");
         File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
 
-        if (selectedFile == null){
+        if (selectedFile == null) {
             return;
         }
 
@@ -203,17 +207,21 @@ public class PreGameMenu extends AppMenu {
             for (String string : restoredList) {
                 currentUser.getDeck().add(CardController.createCardWithName(string));
             }
+
             if (currentUser.getSpecialCount() > 10) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("you have more than 10 special cards please change your deck first\n    " +
                         "we clear your deck");
+                alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
                 alert.show();
                 currentUser.getDeck().clear();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("your deck is now ready");
+                alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
                 alert.show();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -242,11 +250,13 @@ public class PreGameMenu extends AppMenu {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             currentUser = Game.getCurrentGame().getPlayer2().getUser();
             alert.setContentText("now player2: " + currentUser.getName() + " should pick cards");
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.show();
             showCurrentUserInfo();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should pick at least 22 unit cards");
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.show();
         }
     }
@@ -274,44 +284,64 @@ public class PreGameMenu extends AppMenu {
     }
 
     private void showManyCardsInScrollBar(ArrayList<String> cardsNames, Boolean deckOrAll) throws Exception {
+
+        AnchorPane pane = new AnchorPane();
+        HBox body = new HBox();
+
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         HBox hBox = new HBox();
-        boolean shouldCreateNew = true;
+        body.setSpacing(BACK_BUTTON_SPACING);
+
+        int cardCo = 0;
         vBox.setAlignment(Pos.CENTER);
+
+        //TODO : CARDS ARE DUPLICATE
+        //TODO : put a transition for the count in deck!
         for (String cardName : cardsNames) {
-            if (shouldCreateNew) {
+            if (cardCo % MAX_CARD_IN_LINE == 0) {
                 hBox = new HBox();
-                hBox.setSpacing(10);
+                hBox.setSpacing(60);
                 hBox.setAlignment(Pos.CENTER);
                 vBox.getChildren().add(hBox);
             }
+
+            cardCo++;
             String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> addToDeck(cardName));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(250);
+
             int countInDeck = currentUser.getCardCount(cardName);
-            Text text = new Text("count in deck: " + countInDeck);
+            Label label = new Label("count in deck: " + countInDeck);
+            label.setAlignment(Pos.CENTER);
+
+            VBox cardBox = new VBox();
+            cardBox.setSpacing(5);
+            cardBox.setAlignment(Pos.CENTER);
+            cardBox.getChildren().addAll(imageView, label);
+
             if (deckOrAll) {
                 Button button = new Button("remove");
-                button.setMinWidth(20);
+                button.setMinWidth(30);
                 button.setMinHeight(20);
-                hBox.getChildren().add(button);
+                cardBox.getChildren().add(button);
                 button.setLayoutX(imageView.getLayoutX() + 20);
                 button.setLayoutY(imageView.getLayoutY() + 20);
                 HBox finalHBox = hBox;
-                button.setOnMouseClicked(event -> removeFromDeck(cardName, finalHBox, imageView, text, button));
+                button.setOnMouseClicked(event -> removeFromDeck(cardBox, cardName, finalHBox, imageView, label, button));
             }
-            hBox.getChildren().add(imageView);
-            hBox.getChildren().add(text);
-            shouldCreateNew = !shouldCreateNew;
-        }
 
+            hBox.getChildren().add(cardBox);
+        }
 
         // Add back button
         Button button = new Button("Back");
         button.setMinWidth(100);
-        button.setMinHeight(100);
+        button.setMinHeight(60);
         button.setOnMouseClicked(mouseEvent -> {
             try {
                 start(ApplicationController.getStage());
@@ -319,25 +349,40 @@ public class PreGameMenu extends AppMenu {
                 throw new RuntimeException(e);
             }
         });
-        vBox.getChildren().add(button);
 
+        button.setLayoutX(LAYOUT_BUTTON);
+        button.setLayoutY(LAYOUT_BUTTON);
+        body.getChildren().add(button);
 
-        ScrollPane scrollPane = new ScrollPane(vBox);
+        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
+        BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+
+        body.getChildren().add(vBox);
+        body.setMinHeight(720);
+        body.setMinWidth(1280);
+        pane.getChildren().add(body);
+        pane.setBackground(new Background(background));
+
+        ScrollPane scrollPane = new ScrollPane(pane);
         scrollPane.setFitToWidth(true);
         scrollPane.setVvalue(0.0);
-        Scene scene = new Scene(scrollPane, 1500, 800);
+        Scene scene = new Scene(scrollPane, 1270, 710);
+        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+
+
         ApplicationController.getStage().setScene(scene);
-        ApplicationController.getStage().setTitle("show cards");
+        ApplicationController.getStage().setTitle("Show Cards");
         ApplicationController.getStage().centerOnScreen();
         ApplicationController.getStage().show();
     }
 
-    private void removeFromDeck(String cardName, HBox currentHbox, ImageView imageView, Text text, Button button) {
+    private void removeFromDeck(VBox cardBox, String cardName, HBox currentHbox, ImageView imageView, Label label, Button button) {
         try {
-            System.out.println(controller.removeFromDeck(cardName, currentUser, currentHbox, imageView, text, button));
+            System.out.println(controller.removeFromDeck(cardBox, cardName, currentUser, currentHbox, imageView, label, button));
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.show();
             System.out.println("[ERR]: " + e.getMessage());
         }
@@ -348,11 +393,13 @@ public class PreGameMenu extends AppMenu {
             String result = controller.addToDeck(cardName, currentUser);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             System.out.println(result);
             alert.show();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.show();
         }
     }
@@ -364,7 +411,6 @@ public class PreGameMenu extends AppMenu {
         VBox content = new VBox();
         content.setSpacing(10);
         HBox hBox = new HBox();
-        int MAX_LEADER = 5;
         int leaderCo = 0;
         content.setAlignment(Pos.CENTER);
         Button button = new Button("back");
@@ -379,8 +425,8 @@ public class PreGameMenu extends AppMenu {
         });
 
         body.getChildren().add(button);
-        button.setLayoutX(40);
-        button.setLayoutY(40);
+        button.setLayoutX(LAYOUT_BUTTON);
+        button.setLayoutY(LAYOUT_BUTTON);
 
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
@@ -400,10 +446,10 @@ public class PreGameMenu extends AppMenu {
             imageView.setFitWidth(150);
             imageView.setFitHeight(250);
 
-            if (leaderCo % MAX_LEADER == 0) {
+            if (leaderCo % MAX_CARD_IN_LINE == 0) {
                 hBox = new HBox();
                 content.getChildren().add(hBox);
-                hBox.setSpacing(40);
+                hBox.setSpacing(60);
                 hBox.setAlignment(Pos.CENTER);
             }
             hBox.getChildren().add(imageView);
@@ -417,8 +463,7 @@ public class PreGameMenu extends AppMenu {
 
 
         body.getChildren().add(content);
-        body.setSpacing(80);
-
+        body.setSpacing(120);
 
 
         StackPane stackPane = new StackPane();

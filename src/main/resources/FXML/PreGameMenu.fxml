@@ -8,27 +8,27 @@
    <stylesheets>
       <URL value="@../CSS/PreGameMenu.css" />
    </stylesheets>
-   <Button layoutX="519.0" layoutY="226.0" mnemonicParsing="false" onMouseClicked="#showAndChangeFaction" prefHeight="46.0" prefWidth="209.0" text="change faction" />
-   <Button layoutX="878.0" layoutY="226.0" mnemonicParsing="false" onMouseClicked="#showDeck" prefHeight="46.0" prefWidth="185.0" text="show deck" />
-   <Button layoutX="867.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#showCards" prefHeight="46.0" prefWidth="207.0" text="show cards" />
-   <Button layoutX="538.0" layoutY="292.0" mnemonicParsing="false" onMouseClicked="#uploadDeck" text="upload deck" />
-   <Button layoutX="866.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#downloadDeck" text="download deck" />
-   <Button layoutX="535.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#changeTurn" text="change turn" />
-   <Button layoutX="695.0" layoutY="481.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="start game" />
-   <Button layoutX="734.0" layoutY="147.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
-   <Button layoutX="704.0" layoutY="427.0" mnemonicParsing="false" onMouseClicked="#showLeaders" prefHeight="46.0" prefWidth="191.0" text="show leaders" />
-   <Label layoutX="134.0" layoutY="177.0" text="username" />
-   <Label fx:id="usernameLabel" layoutX="302.0" layoutY="177.0" text="Label" />
-   <Label layoutX="142.0" layoutY="232.0" text="Faction" />
-   <Label fx:id="factionLabel" layoutX="302.0" layoutY="233.0" text="Label" />
-   <Label layoutX="117.0" layoutY="287.0" text="Cards count" />
-   <Label fx:id="cardsCount" layoutX="302.0" layoutY="287.0" text="Label" />
-   <Label fx:id="unitCount" layoutX="302.0" layoutY="350.0" text="Label" />
-   <Label layoutX="124.0" layoutY="350.0" text="Unit count" />
-   <Label fx:id="specialCount" layoutX="302.0" layoutY="411.0" text="Label" />
-   <Label layoutX="112.0" layoutY="411.0" text="special count" />
-   <Label fx:id="heroCount" layoutX="302.0" layoutY="465.0" text="Label" />
-   <Label layoutX="122.0" layoutY="465.0" text="Hero count" />
-   <Label fx:id="totalPower" layoutX="302.0" layoutY="518.0" text="Label" />
-   <Label layoutX="118.0" layoutY="518.0" text="Total power" />
+   <Button layoutX="486.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#showAndChangeFaction" prefHeight="46.0" prefWidth="209.0" text="change faction" />
+   <Button layoutX="716.0" layoutY="257.0" mnemonicParsing="false" onMouseClicked="#showDeck" prefHeight="46.0" prefWidth="207.0" text="show deck" />
+   <Button layoutX="716.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#showCards" prefHeight="46.0" prefWidth="207.0" text="show cards" />
+   <Button layoutX="716.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#uploadDeck" prefHeight="46.0" prefWidth="207.0" text="upload deck" />
+   <Button layoutX="486.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#downloadDeck" text="download deck" />
+   <Button layoutX="487.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#changeTurn" prefHeight="46.0" prefWidth="207.0" text="change turn" />
+   <Button layoutX="715.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="start game" />
+   <Button layoutX="26.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
+   <Button layoutX="487.0" layoutY="257.0" mnemonicParsing="false" onMouseClicked="#showLeaders" prefHeight="46.0" prefWidth="207.0" text="change leaders" />
+   <Label layoutX="101.0" layoutY="177.0" text="username" />
+   <Label fx:id="usernameLabel" layoutX="268.0" layoutY="177.0" text="Label" />
+   <Label layoutX="109.0" layoutY="233.0" text="Faction" />
+   <Label fx:id="factionLabel" layoutX="268.0" layoutY="233.0" text="Label" />
+   <Label layoutX="84.0" layoutY="287.0" text="Cards count" />
+   <Label fx:id="cardsCount" layoutX="268.0" layoutY="287.0" text="Label" />
+   <Label fx:id="unitCount" layoutX="268.0" layoutY="350.0" text="Label" />
+   <Label layoutX="91.0" layoutY="350.0" text="Unit count" />
+   <Label fx:id="specialCount" layoutX="268.0" layoutY="411.0" text="Label" />
+   <Label layoutX="79.0" layoutY="411.0" text="special count" />
+   <Label fx:id="heroCount" layoutX="268.0" layoutY="465.0" text="Label" />
+   <Label layoutX="89.0" layoutY="465.0" text="Hero count" />
+   <Label fx:id="totalPower" layoutX="268.0" layoutY="518.0" text="Label" />
+   <Label layoutX="85.0" layoutY="518.0" text="Total power" />
 </AnchorPane>
