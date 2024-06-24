@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -177,16 +178,20 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void showCards() throws Exception {
-        ArrayList<String> result = new ArrayList<>(CardController.heroes);
         ArrayList<String> out = new ArrayList<>();
-//        result.addAll(CardController.leaders);
+        ArrayList<String> result = new ArrayList<>();
         result.addAll(CardController.units);
         result.addAll(CardController.specials);
+        result.addAll(CardController.heroes);
         for (String cardName : result) {
-            if (CardController.faction.getOrDefault(cardName, Faction.ALL).equals(currentUser.getFaction())) {
+            Faction faction = CardController.faction.getOrDefault(cardName, Faction.ALL);
+            if (faction.equals(currentUser.getFaction())
+                    || faction.equals(Faction.ALL)) {
                 out.add(cardName);
             }
+
         }
+
         showManyCardsInScrollBar(out, false);
     }
 
@@ -296,9 +301,9 @@ public class PreGameMenu extends AppMenu {
         int cardCo = 0;
         vBox.setAlignment(Pos.CENTER);
 
-        //TODO : CARDS ARE DUPLICATE
-        //TODO : put a transition for the count in deck!
-        for (String cardName : cardsNames) {
+        //handling duplicate cards in scroll bar
+        HashSet<String> cardsInShow = new HashSet<>(cardsNames);
+        for (String cardName : cardsInShow) {
             if (cardCo % MAX_CARD_IN_LINE == 0) {
                 hBox = new HBox();
                 hBox.setSpacing(60);
@@ -309,7 +314,7 @@ public class PreGameMenu extends AppMenu {
             cardCo++;
             String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
-            imageView.setOnMouseClicked(event -> addToDeck(cardName));
+            imageView.setOnMouseClicked(event -> addToDeck(cardName, (VBox) imageView.getParent()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
             imageView.preserveRatioProperty();
             imageView.setFitWidth(150);
@@ -358,15 +363,15 @@ public class PreGameMenu extends AppMenu {
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 
         body.getChildren().add(vBox);
-        body.setMinHeight(720);
-        body.setMinWidth(1280);
+        body.setMinHeight(715);
+        body.setMinWidth(1260);
         pane.getChildren().add(body);
         pane.setBackground(new Background(background));
 
         ScrollPane scrollPane = new ScrollPane(pane);
         scrollPane.setFitToWidth(true);
         scrollPane.setVvalue(0.0);
-        Scene scene = new Scene(scrollPane, 1270, 710);
+        Scene scene = new Scene(scrollPane, 1280, 720);
         scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
 
 
@@ -376,9 +381,15 @@ public class PreGameMenu extends AppMenu {
         ApplicationController.getStage().show();
     }
 
-    private void removeFromDeck(VBox cardBox, String cardName, HBox currentHbox, ImageView imageView, Label label, Button button) {
+    private void removeFromDeck(VBox cardBox, String cardName, HBox currentHBox, ImageView imageView, Label label, Button button) {
         try {
-            System.out.println(controller.removeFromDeck(cardBox, cardName, currentUser, currentHbox, imageView, label, button));
+            if (currentUser.getCardCount(cardName) - 1 == 0) {
+                System.out.println(controller.removeFromDeck(cardBox, cardName, currentUser, currentHBox, imageView, label, button));
+                return;
+            }
+
+            currentUser.getDeck().remove(currentUser.getCardFromDeckByName(cardName));
+            label.setText("count in deck :" + String.valueOf(currentUser.getCardCount(cardName)));
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
@@ -388,8 +399,16 @@ public class PreGameMenu extends AppMenu {
         }
     }
 
-    private void addToDeck(String cardName) {
+    private void addToDeck(String cardName, VBox cardBox) {
         try {
+            for (Node node : cardBox.getChildren()) {
+                if (node instanceof Label) {
+                    Label label = (Label) node;
+                    label.setText("count in deck :" + String.valueOf(currentUser.getCardCount(cardName) + 1));
+                    break;
+                }
+            }
+
             String result = controller.addToDeck(cardName, currentUser);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);

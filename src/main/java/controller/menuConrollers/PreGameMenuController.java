@@ -39,6 +39,6 @@ public class PreGameMenuController {
             currentUser.getDeck().remove(card);
             throw new Exception("[ERR]: you already have 10 special cards");
         }
-        return "[SUCC]: " + cardName + "added to deck";
+        return "[SUCC]: " + cardName + " added to deck";
     }
 }
