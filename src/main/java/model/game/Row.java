@@ -33,4 +33,40 @@ public class Row {
         special = null;
         point = 0;
     }
+
+    public void addCard(Card card){
+        cards.add(card);
+    }
+
+    public RowName getName() {
+        return name;
+    }
+
+    public void increaseScore(int score){
+        point += score;
+    }
+
+    public Special getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(Special special) {
+        this.special = special;
+    }
+
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
 }

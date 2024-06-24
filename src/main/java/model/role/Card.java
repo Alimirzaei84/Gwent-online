@@ -11,7 +11,7 @@ public class Card extends TypeAdapter<Card> {
     private String name;
     private String description;
     private final Type type;
-    private final int power;
+    private int power;
     private final int maxNum;
     private final Faction faction;
     private final String ability;
@@ -23,6 +23,10 @@ public class Card extends TypeAdapter<Card> {
         out.name("name").value(card.getName());
         // Other fields (excluding 'name')...
         out.endObject();
+    }
+
+    public void setPower(int power){
+        this.power = power;
     }
 
 
@@ -107,6 +111,14 @@ public class Card extends TypeAdapter<Card> {
         this.name = name;
     }
 
+    public int getMaxNum() {
+        return maxNum;
+    }
+
+
+    public String getAbility() {
+        return ability;
+    }
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package model.game;
 import controller.PlayerController;
 import model.Account.Player;
 import model.Account.User;
+import model.Enum.GameRegexes;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -46,10 +47,10 @@ public class Game implements Runnable {
         createPlayers(user1, user2);
     }
 
-    public Game(Player player1, Player player2) {
-        communicationHandlers = new CommunicationHandler[2];
-        players = new Player[]{player1, player2};
-    }
+//    public Game(Player player1, Player player2) {
+//        communicationHandlers = new CommunicationHandler[2];
+//        players = new Player[]{player1, player2};
+//    }
 
     @Override
     public void run() {
@@ -63,38 +64,38 @@ public class Game implements Runnable {
             // player 1
             Thread t = new Thread(getPlayer1());
             t.start();
-            CommunicationHandler handler1 = new CommunicationHandler(p1);
-            communicationHandlers[0] = handler1;
-            pool.execute(handler1);
+            CommunicationHandler tunnel1 = new CommunicationHandler(p1);
+            communicationHandlers[0] = tunnel1;
+            pool.execute(tunnel1);
 
             // player 2
             Socket p2 = server.accept();
             Thread t2 = new Thread(getPlayer2());
             t2.start();
-            CommunicationHandler handler2 = new CommunicationHandler(p2);
-            communicationHandlers[1] = handler2;
-            pool.execute(handler2);
+            CommunicationHandler tunnel2 = new CommunicationHandler(p2);
+            communicationHandlers[1] = tunnel2;
+            pool.execute(tunnel2);
 
+            isPlayerListening = true;
 
-            isPlayerListening = false;
-            handler1.startCommunication();
+            // choose card
+            chooseCard();
 
-            waitUntilPlayerIsAvailable();
-            isPlayerListening = false;
-            handler1.sendMessage("start turn");
+            while (gameStillOn()) {
+                tunnel1.startCommunication();
 
-            waitUntilPlayerIsAvailable();
-            isPlayerListening = false;
-            handler2.startCommunication();
+                tunnel1.startTurn();
 
-            waitUntilPlayerIsAvailable();
-            isPlayerListening = false;
-            handler2.sendMessage("start turn");
+                tunnel2.startCommunication();
 
+                tunnel2.startTurn();
+            }
 
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return;
@@ -181,6 +182,7 @@ public class Game implements Runnable {
         }
 
         public void sendMessage(String message) throws IOException {
+            waitUntilPlayerIsAvailable();
             out.writeUTF(message);
         }
 
@@ -196,6 +198,10 @@ public class Game implements Runnable {
                 // TODO handle exception (perhaps ignore)
             }
         }
+
+        public void startTurn() throws IOException {
+            sendMessage(GameRegexes.START_TURN.toString());
+        }
     }
 
     private void shutdown() {
@@ -208,19 +214,31 @@ public class Game implements Runnable {
         }
     }
 
+    private void getReadyToCommuincateWithPlayer() {
+        waitUntilPlayerIsAvailable();
+        isPlayerListening = false;
+    }
+
+
 
     // commands
-    private final static String openCommunicationCommand = "open communication",
-        startTurnCommand = "start turn"; // num turn will place at the end of this command
+//    private final static String openCommunicationCommand = "open communication",
+//        startTurnCommand = "start turn ", // num turn will place at the end of this command
+//        chooseCardCommand = "choose card";
 
     // regex
     private final static String playerCommunicationAcceptedRegex = "^communication accepted$",
         endTurnRegex = "^end turn$";
 
 
-    private String handleCommand(String command) {
+    private String handleCommand(String command) throws IOException {
 
-        if (command.matches(playerCommunicationAcceptedRegex)) {
+        if(GameRegexes.A_USER_PUT_CARD.matches(command)){
+            getTunel1().sendMessage(command);
+            getTunel2().sendMessage(command);
+        }
+
+        else if (command.matches(playerCommunicationAcceptedRegex)) {
             System.out.println("[SUCC] communication has established");
             isPlayerListening = true;
             return null;
@@ -232,75 +250,56 @@ public class Game implements Runnable {
             return null;
         }
 
+//        String[] splitted = command.split("\\|");
+//        if(GameRegexes.PUT_CARD.matches(splitted[1])){
+            getTunel1().sendMessage(command);
+            getTunel2().sendMessage(command);
+//        }
+
         return "invalid command";
     }
-    // communicator functions
-//    private void playersChooseCard() throws Exception {
-//        String command = "choose card";
-//
-//        // TODO log
-//
-//        // first player:
-//        try {
-//            sendCommand(command, getController1());
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        Player secondPlayer = getPlayer2();
-//    }
-//
-//    private boolean gameStillOn() throws Exception {
-//        // TODO define the rule for finishing the game
-//        return true;
-//    }
-//
-//    private void openCommunication(PlayerController controller) throws Exception {
-//        sendCommand(openCommunicationCommand, controller);
-//        String response = getResponse(controller);
-//
-//        if (!getMatcher(playerCommunicationAcceptedRegex, response).find()) {
-//            throw new Exception("can not establish communication");
-//        }
-//
-//        System.out.println("start communication with player");
-//    }
-//
-//    private void startTurn(PlayerController controller) throws Exception {
-//        sendCommand(startTurnCommand + numTurn, controller);
-//
-//        String playerCommand;
-//        do {
-//            playerCommand = getResponse(controller);
-//
-//            // TODO handle player demands
-//        } while (!playerCommand.matches(endTurnRegex));
-//    }
-//
-//    public String getResponse(PlayerController controller) throws Exception {
-//        return controller.getResponseToGame();
-//    }
-//
-//    private void sendCommand(String command, PlayerController controller) throws Exception {
-//        controller.getCommand(command);
-//    }
+
+    private void chooseCard() {
+        CommunicationHandler t1 = getTunel1(),
+                t2 = getTunel2();
+
+        try {
+            t1.startCommunication();
+            waitUntilPlayerIsAvailable();
+            t1.sendMessage(GameRegexes.CHOOSE_CARD.toString());
+
+            waitUntilPlayerIsAvailable();
+            t2.startCommunication();
+            waitUntilPlayerIsAvailable();
+            t2.sendMessage(GameRegexes.CHOOSE_CARD.toString());
+
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    private boolean gameStillOn() throws Exception {
+        // TODO define the rule for finishing the game
+        return true;
+    }
 //
 //    private void addToLog(CharSequence sequence) {
 //        log.append(sequence).append("\n");
 //    }
 //
-//    private void goNextTurn() throws Exception {
-//        numTurn++;
-//
+    private void goNextTurn() throws Exception {
+        numTurn++;
+
 //        addToLog("start turn " + numTurn);
-//
-//        // TODO
-//    }
-//
-//    private static Matcher getMatcher(String regex, String command) {
-//        return Pattern.compile(regex).matcher(command);
-//    }
+
+        // TODO
+    }
+
+    private static Matcher getMatcher(String regex, String command) {
+        return Pattern.compile(regex).matcher(command);
+    }
 
 
     public void createPlayers(User user1, User user2) {
@@ -330,6 +329,15 @@ public class Game implements Runnable {
 
     public static void setCurrentGame(Game game) {
         currentGame = game;
+    }
+
+    private CommunicationHandler getTunel1() {
+        return communicationHandlers[0];
+    }
+
+
+    private CommunicationHandler getTunel2() {
+        return communicationHandlers[1];
     }
 
 

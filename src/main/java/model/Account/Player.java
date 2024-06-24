@@ -1,9 +1,14 @@
 package model.Account;
 
+import controller.ApplicationController;
+import controller.CardController;
 import controller.PlayerController;
+import model.Enum.GameRegexes;
 import model.game.Row;
 import model.role.Card;
 import model.role.Leader;
+import model.role.Type;
+import model.role.Weather;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,16 +21,19 @@ import java.util.Scanner;
 public class Player implements Runnable {
     private User user;
     private final Row[] rows;
+    private final Row[] opponentRows;
     private ArrayList<Card> inHand;
+    private ArrayList<Card> discardCards;
     private final Leader leader;
     private final PlayerController controller;
-
+    private ArrayList<Card> transformers;
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
     private boolean running;
 
     private InputHandler inHandler;
+    private final ArrayList<Weather> weathers;
 
     private boolean isServerListening;
 
@@ -34,6 +42,11 @@ public class Player implements Runnable {
         this.leader = user.getLeader();
         running = true;
         rows = new Row[3];
+        opponentRows = new Row[3];
+        weathers = new ArrayList<>();
+        inHand = new ArrayList<>();
+        discardCards = new ArrayList<>();
+        transformers = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
         isServerListening = false;
@@ -42,7 +55,7 @@ public class Player implements Runnable {
             socket = new Socket("127.0.0.1", 8080);
         } catch (IOException e) {
             e.printStackTrace();
-            // TODO handle
+            // TODO Erfan handle
         }
 
     }
@@ -75,8 +88,8 @@ public class Player implements Runnable {
     }
 
     /*
-    * @Info get input from terminal or view
-    * */
+     * @Info get input from terminal or view
+     * */
     class InputHandler implements Runnable {
 
         @Override
@@ -94,16 +107,6 @@ public class Player implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            Scanner scanner = new Scanner(System.in);
-//
-//            while (running) {
-//                String message = scanner.nextLine();
-//
-//                // TODO handle inputs
-//
-//                // for debug purpose:
-//                System.out.println("message: " + message);
-//            }
         }
 
         public void sendMessage(String message) {
@@ -119,38 +122,228 @@ public class Player implements Runnable {
     /*
      * @Info this function process the message from user
      * */
-    private void userCommandHandler(String inMessage) {
-        // TODO replace this conditions with regex
-        if (inMessage.equals("end turn")) {
-            endTurn();
-            inHandler.sendMessage("end turn");
-        }
 
-        else {
-            System.out.println("invalid command");
+    public void putACard(String cardName) {
+        inHandler.sendMessage(user.getName() + " put card " + cardName);
+        endTurn();
+    }
+
+    private void userCommandHandler(String inMessage) {
+//        else if (GameRegexes.PUT_CARD.matches(inMessage)) {
+////            putCard(inMessage);
+//        }
+        if (GameRegexes.PASS_ROUND.matches(inMessage)) {
+            passRound(inMessage);
+        } else {
+            //TODO: Handle Alert for invalid action
         }
         // TODO
     }
 
+    private void passRound(String string) {
+        inHandler.sendMessage(user.getName() + "|" + string);
+        endTurn();
+    }
+
+
+    private void areKhobi() {
+        inHandler.sendMessage("sre khobam");
+    }
+
     /*
-    * @Info this function process the message from server
-    * */
+     * @Info this function process the message from server
+     * */
     private void serverCommandHandler(String message) throws IOException {
         if (message.equals("start communication")) {
+            areKhobi();
             inHandler.sendMessage("communication accepted");
-        }
-
-        else if (message.equals("start turn")) {
+        } else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
+        } else if (message.equals(GameRegexes.START_TURN.toString())) {
             startTurn();
+        } else if (message.equals("ok")) {
+
+        }
+    }
+
+    public void handlePuttingACard(String username, String cardName) {
+
+        // handle adding the card to the appropriate list
+        addCardToBoard(username, cardName);
+
+        // handle powers of cards if needed
+        updatePointOfARow();
+    }
+
+    void addCardToBoard(String username, String cardName) {
+        boolean isMe = user.getUsername().equals(username);
+        int rowNum = CardController.getRowNumber(cardName);
+        Card card = CardController.createCardWithName(cardName);
+        if (card.getAbility().equals("Spy")) {
+            if (isMe) {
+                opponentRows[rowNum].addCard(card);
+            } else {
+                rows[rowNum].addCard(card);
+            }
+        } else if (rowNum != -1) {
+            if (isMe) {
+                rows[rowNum].addCard(card);
+            } else {
+                opponentRows[rowNum].addCard(card);
+            }
         }
 
-        else if (message.equals("ok")) {
+        // TODO: difference between SPELL and WEATHER ????
+        if (card.getType().equals(Type.WEATHER) || card.getType().equals(Type.SPELL) || card instanceof Weather) {
+            weathers.add((Weather) card);
+            doWeatherAbility(card);
+        }
 
+        // handle abilities
+        actionTheAbility(card, username, cardName, card.getAbility());
+
+
+    }
+
+    private void freeze(Row... rows) {
+        // TODO: effects and others
+    }
+
+    private void doWeatherAbility(Card card) {
+        switch (card.getName()) {
+            case "fog":
+                freeze(rows[1], opponentRows[1]);
+                break;
+            case "rain":
+                freeze(rows[2], opponentRows[2]);
+                break;
+            case "biting frost":
+                freeze(rows[0], opponentRows[0]);
+                break;
+        }
+    }
+
+    void actionTheAbility(Card newCard, String username, String cardName, String ability) {
+        boolean isMe = user.getUsername().equals(username);
+        int rowNum = CardController.getRowNumber(cardName);
+
+        switch (ability) {
+            case "Muster":
+
+
+                break;
+            case "Transformer":
+                transformers.add(newCard);
+                break;
+
+            case "Scorch":
+
+
+                break;
+
+            case "Moral Boost":
+                Row[] array;
+                if (isMe) {
+                    array = rows;
+                } else {
+                    array = opponentRows;
+                }
+                for (Card card : array[rowNum].getCards()) {
+                    card.setPower(card.getPower() - 1);
+                }
+                updatePointOfARow();
+                // TODO: update the score icons on cards...
+
+
+                break;
+            case "Commander’s horn":
+                Row[] array1;
+                if (isMe) {
+                    array1 = rows;
+                } else {
+                    array1 = opponentRows;
+                }
+                for (Card card : array1[rowNum].getCards()) {
+                    card.setPower(card.getPower() * 2);
+                }
+                updatePointOfARow();
+                // TODO: update the score icon on each card...
+                break;
+
+
+            case "Medic":
+                if (isMe && discardCards.size() > 1) {
+                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
+                    discardCards.remove(card);
+                    rows[CardController.getRowNumber(card.getName())].addCard(card);
+                }
+                break;
+            case "Spy":
+                if (isMe) {
+                    ArrayList<Card> deck = user.getDeck();
+                    ApplicationController.getRandom().nextInt(0, deck.size() - 1);
+                    Card card1 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+                    deck.remove(card1);
+                    inHand.add(card1);
+                    Card card2 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+                    deck.remove(card2);
+                    inHand.add(card2);
+                }
+                break;
+
+            case "Tight Bond":
+                Row[] array2;
+                if (isMe) {
+                    array2 = rows;
+                } else {
+                    array2 = opponentRows;
+                }
+                int count = 0;
+                for (Card card : array2[rowNum].getCards()) {
+                    if (card.getAbility().equals("Tight Bond")) count++;
+                }
+                for (Card card : array2[rowNum].getCards()) {
+                    card.setPower(card.getPower() * count);
+                }
+                updatePointOfARow();
+                // TODO: update the score icon on each card...
+                break;
+
+
+            // TODO: Why we have this ???
+            case "NORTHERN_REALMS":
+                break;
+
+            // TODO: And this ???
+            case "NILFGAARDIAN_EMPIRE":
+                break;
+
+        }
+        updatePointOfARow();
+    }
+
+
+    void updatePointOfARow() {
+        for (Row row : rows) {
+            int point = 0;
+            for (Card card : row.getCards()) {
+                point += card.getPower();
+            }
+            row.setPoint(point);
+        }
+
+        for (Row row : opponentRows) {
+            int point = 0;
+            for (Card card : row.getCards()) {
+                point += card.getPower();
+            }
+            row.setPoint(point);
         }
     }
 
     private void startTurn() {
         isServerListening = true;
+        inHandler.sendMessage("khbgkjhb");
         // TODO
     }
 
@@ -179,6 +372,9 @@ public class Player implements Runnable {
         rows[0] = new Row(Row.RowName.FIRST);
         rows[1] = new Row(Row.RowName.SEC);
         rows[2] = new Row(Row.RowName.THIRD);
+        opponentRows[0] = new Row(Row.RowName.FIRST);
+        opponentRows[1] = new Row(Row.RowName.SEC);
+        opponentRows[2] = new Row(Row.RowName.THIRD);
     }
 
     public User getUser() {
@@ -191,14 +387,14 @@ public class Player implements Runnable {
 
     @Override
     public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (!(obj instanceof Player)) {
-                return false;
-            }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Player)) {
+            return false;
+        }
 
-            return this.user.equals(((Player) obj).user);
+        return this.user.equals(((Player) obj).user);
     }
 
     public ArrayList<Card> getInHand() {

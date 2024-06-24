@@ -17,6 +17,20 @@ public class CardController {
     public static HashMap<String, String> ability = new HashMap<>();
     public static HashMap<String, String> description = new HashMap<>();
     public static HashMap<String, String> imagePath = new HashMap<>();
+    public static int getRowNumber(String cardName){
+        switch (CardController.type.get(cardName)) {
+            case SIEGE -> {
+                return 2;
+            }
+            case CLOSE -> {
+                return  0;
+            }
+            case RANGED -> {
+                return  1;
+            }
+        }
+        return -1;
+    }
 
 
     public static ArrayList<String> units = new ArrayList<>();

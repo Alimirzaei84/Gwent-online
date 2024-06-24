@@ -22,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Account.Player;
 import model.Account.User;
 import model.game.Game;
 import model.role.Card;
@@ -191,7 +192,12 @@ public class PreGameMenu extends AppMenu {
             }
 
         }
-
+        for (String s : out) {
+            System.out.println(CardController.createCardWithName(s).getAbility());
+        }
+        for (String s : out) {
+            System.out.println(s);
+        }
         showManyCardsInScrollBar(out, false);
     }
 
@@ -275,7 +281,10 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void startGame() {
-        //TODO: start the game and initialize the game object
+        User user1 = Game.getCurrentGame().getPlayer1().getUser();
+        User user2 = Game.getCurrentGame().getPlayer2().getUser();
+        Game game = new Game(user1, user2);
+        game.run();
     }
 
     public void showCurrentUserInfo() {

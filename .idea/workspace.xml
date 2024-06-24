@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Enum/GameRegexes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/NetTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/NetTests.java" afterDir="false" />
-
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Row.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Row.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +28,8 @@
         <option value="module-info" />
         <option value="FxmlFile" />
         <option value="CSS File" />
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -65,31 +68,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Game.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.NetTests.test.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;game-structure&quot;,
-    &quot;ignore.preview.features.used&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Game.executor": "Run",
+    "Application.RegisterMenu.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.NetTests.test.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
+    "git-widget-placeholder": "game-structure",
+    "ignore.preview.features.used": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/data" />
@@ -104,7 +108,7 @@
       <recent name="model.game" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.NetTests.test">
+  <component name="RunManager" selected="Application.Game">
     <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="model.game.Game" />
       <module name="testAnt" />
@@ -133,7 +137,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
-      <module name="advanced-programming-project-group-17" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />
@@ -182,8 +186,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.NetTests.test" />
         <item itemvalue="Application.Game" />
+        <item itemvalue="JUnit.NetTests.test" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.PreGameMenu" />
         <item itemvalue="Application.PreGameMenu" />
@@ -229,7 +233,6 @@
       <workItem from="1719141589171" duration="4851000" />
       <workItem from="1719165433877" duration="8466000" />
       <workItem from="1719214785500" duration="5433000" />
-     
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
