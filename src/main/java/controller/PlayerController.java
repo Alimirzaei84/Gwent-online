@@ -1,7 +1,6 @@
 package controller;
 
 import model.Account.Player;
-import model.game.Game;
 import model.role.Card;
 
 import java.util.ArrayList;
