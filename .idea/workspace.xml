@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/NetTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/NetTests.java" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,13 +219,17 @@
       <workItem from="1718523358873" duration="3053000" />
       <workItem from="1718526667084" duration="112000" />
       <workItem from="1718527503426" duration="47000" />
-      <workItem from="1718527574330" duration="2405000" />
-      <workItem from="1718642443187" duration="4502000" />
-      <workItem from="1719043565039" duration="7590000" />
-      <workItem from="1719144756055" duration="7190000" />
-      <workItem from="1719172713905" duration="3928000" />
-      <workItem from="1719211216737" duration="8155000" />
-      <workItem from="1719227132978" duration="1207000" />
+      <workItem from="1718527574330" duration="2409000" />
+      <workItem from="1718541916689" duration="1037000" />
+      <workItem from="1718960551084" duration="668000" />
+      <workItem from="1718962064506" duration="5245000" />
+      <workItem from="1718998528963" duration="2983000" />
+      <workItem from="1719041793085" duration="5623000" />
+      <workItem from="1719136658174" duration="4866000" />
+      <workItem from="1719141589171" duration="4851000" />
+      <workItem from="1719165433877" duration="8466000" />
+      <workItem from="1719214785500" duration="5433000" />
+     
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

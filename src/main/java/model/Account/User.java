@@ -233,4 +233,13 @@ public class User implements Comparable<User> {
         }
         return result;
     }
+
+    public Card getCardFromDeckByName(String cardName){
+        for (Card card : deck){
+            if (card.getName().equals(cardName))
+                return card;
+        }
+
+        return null;
+    }
 }

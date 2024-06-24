@@ -11,6 +11,8 @@ public class LoginMenuController {
         if (!user.getPassword().equals(password)) {
             throw new Exception("[ERR]: Password is incorrect");
         }
+
+        User.setLoggedInUser(user);
         return "[INFO]: user << " + username + " >> logged in successfully";
     }
 }

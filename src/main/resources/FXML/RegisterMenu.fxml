@@ -5,31 +5,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterMenu">
    <stylesheets>
       <URL value="@../CSS/RegisterMenu.css" />
    </stylesheets>
 
    <children>
-      <Button layoutX="768.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#exitFromGame" prefHeight="49.0" prefWidth="117.0" styleClass="button" text="exit" />
-      <Label alignment="CENTER" layoutX="738.0" layoutY="174.0" prefHeight="18.0" prefWidth="178.0" text="Register menu">
+      <Button layoutX="581.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#exitFromGame" prefHeight="49.0" prefWidth="117.0" styleClass="button" text="exit" />
+      <Label alignment="CENTER" layoutX="551.0" layoutY="176.0" prefHeight="18.0" prefWidth="178.0" text="Register menu">
          <font>
             <Font name="Castellar" size="12.0" />
          </font></Label>
-      <TextField fx:id="username" alignment="CENTER" layoutX="705.0" layoutY="215.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your username" />
-      <TextField fx:id="nickname" alignment="CENTER" layoutX="705.0" layoutY="266.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your nick name" />
-      <PasswordField fx:id="password" alignment="CENTER" layoutX="705.0" layoutY="325.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your password" />
-      <PasswordField fx:id="passwordAgain" alignment="CENTER" layoutX="705.0" layoutY="379.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your password again" />
-      <TextField fx:id="email" alignment="CENTER" layoutX="705.0" layoutY="424.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your email" />
-      <Button layoutX="444.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#generateRandomPassword" prefHeight="73.0" prefWidth="235.0" styleClass="button" text="random password">
+      <TextField fx:id="username" alignment="CENTER" layoutX="518.0" layoutY="222.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your username" />
+      <TextField fx:id="nickname" alignment="CENTER" layoutX="518.0" layoutY="273.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your nick name" />
+      <PasswordField fx:id="password" alignment="CENTER" layoutX="518.0" layoutY="325.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your password" />
+      <PasswordField fx:id="passwordAgain" alignment="CENTER" layoutX="518.0" layoutY="376.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your password again" />
+      <TextField fx:id="email" alignment="CENTER" layoutX="518.0" layoutY="424.0" prefHeight="26.0" prefWidth="244.0" promptText="Enter your email" />
+      <Button layoutX="254.0" layoutY="303.0" mnemonicParsing="false" onMouseClicked="#generateRandomPassword" prefHeight="73.0" prefWidth="235.0" styleClass="button" text="random password">
          <font>
             <Font name="Castellar" size="12.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="716.0" layoutY="472.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="49.0" prefWidth="221.0" styleClass="button" text="register">
+      <Button alignment="CENTER" layoutX="529.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="49.0" prefWidth="221.0" styleClass="button" text="register">
          <font>
             <Font name="Castellar" size="12.0" />
          </font></Button>
-      <Button layoutX="724.0" layoutY="537.0" mnemonicParsing="false" onMouseClicked="#goToLoginMenu" prefHeight="45.0" prefWidth="206.0" styleClass="button" text="Login Menu" />
+      <Button layoutX="537.0" layoutY="537.0" mnemonicParsing="false" onMouseClicked="#goToLoginMenu" prefHeight="45.0" prefWidth="206.0" styleClass="button" text="Login Menu" />
    </children>
 </AnchorPane>
