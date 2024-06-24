@@ -4,26 +4,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginMenu">
 
     <stylesheets>
-        <URL value="@../CSS/RegisterMenu.css"/>
+        <URL value="@../CSS/RegisterMenu.css" />
     </stylesheets>
 
     <children>
-        <Button layoutX="655.0" layoutY="608.0" mnemonicParsing="false" onMouseClicked="#goToRegisterMenu"
-                prefHeight="46.0" prefWidth="290.0" text="back to register menu"
-        />
-        <Label alignment="CENTER" layoutX="712.0" layoutY="233.0" prefHeight="31.0" prefWidth="175.0"
-               text="Login menu"/>
-        <TextField fx:id="username" alignment="CENTER" layoutX="675.0" layoutY="294.0" prefHeight="38.0"
-                   prefWidth="250.0" promptText="Enter your username"/>
-        <PasswordField fx:id="password" alignment="CENTER" layoutX="675.0" layoutY="359.0" prefHeight="47.0"
-                       prefWidth="250.0" promptText="Enter your password"/>
-        <Button alignment="CENTER" layoutX="675.0" layoutY="443.0" mnemonicParsing="false" onMouseClicked="#login"
-                prefHeight="76.0" prefWidth="250.0" text="login"/>
-        <Button alignment="CENTER" layoutX="655.0" layoutY="541.0" mnemonicParsing="false"
-                onMouseClicked="#forgetPassword" prefHeight="47.0" prefWidth="290.0" text="forget your password?"/>
+        <Button layoutX="495.0" layoutY="575.0" mnemonicParsing="false" onMouseClicked="#goToRegisterMenu" prefHeight="46.0" prefWidth="290.0" text="back to register menu" />
+        <Label alignment="CENTER" layoutX="552.0" layoutY="182.0" prefHeight="31.0" prefWidth="175.0" text="Login menu" />
+        <TextField fx:id="username" alignment="CENTER" layoutX="515.0" layoutY="237.0" prefHeight="38.0" prefWidth="250.0" promptText="Enter your username" />
+        <PasswordField fx:id="password" alignment="CENTER" layoutX="515.0" layoutY="293.0" prefHeight="47.0" prefWidth="250.0" promptText="Enter your password" />
+        <Button alignment="CENTER" layoutX="515.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="76.0" prefWidth="250.0" text="login" />
+        <Button alignment="CENTER" layoutX="495.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#forgetPassword" prefHeight="47.0" prefWidth="290.0" text="forget your password?" />
     </children>
 </AnchorPane>

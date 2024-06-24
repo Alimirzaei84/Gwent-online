@@ -16,6 +16,7 @@ import model.Account.User;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -31,6 +32,13 @@ public class RegisterMenu extends AppMenu {
     public RegisterMenu() throws IOException {
         controller = new RegisterMenuController();
         CardController.load_data();
+        removeDuplicate();
+    }
+
+    public void removeDuplicate(){
+        CardController.heroes = CardController.removeDuplicates(CardController.heroes);
+        CardController.units = CardController.removeDuplicates(CardController.units);
+        CardController.specials = CardController.removeDuplicates(CardController.specials);
     }
 
     public static void main(String[] args) {

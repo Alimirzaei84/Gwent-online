@@ -2,7 +2,7 @@
 
 /* Style for the background of the scene */
 .root {
-    -fx-background-image: url("../Images/pregamemenubackground.gif");
+    -fx-background-image: url("../Images/pregamebackground.jpg");
     -fx-background-size: cover;
 }
 
@@ -50,6 +50,40 @@
     -fx-background-color: #444444; /* Button background color */
     -fx-text-fill: white;          /* Button text color */
 }
+/* Customize the scroll bar */
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #82736bb3; /* Red color for the vertical scroll thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #82736bb3; /* Green color for the horizontal scroll thumb */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5;
+}
+
+/* Customize the scroll bar track */
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: #82736bb3; /* Light grey color for the vertical scroll track */
+}
+
+.scroll-pane .scroll-bar:horizontal .track {
+    -fx-background-color: #82736bb3; /* Light grey color for the horizontal scroll track */
+}
+
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #82736bb3; /* Red color for vertical scroll buttons */
+    -fx-background-radius: 0; /* Optional: Removes any rounded corners */
+}
+
+/* Customize the horizontal scroll bar buttons */
+.scroll-pane .scroll-bar:horizontal .increment-button,
+.scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: #82736bb3; /* Green color for horizontal scroll buttons */
+    -fx-background-radius: 0; /* Optional: Removes any rounded corners */
+}
 
 /* alert-styles.css */
 .dialog-pane {
@@ -85,4 +119,5 @@
     -fx-background-color: #2a2a2a; /* Background color of the header title */
     -fx-text-fill: white; /* Text color of the header title */
 }
+
 

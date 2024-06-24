@@ -3,9 +3,7 @@ package controller;
 import model.role.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 // @Info I change the num of card Redeem.
 
@@ -26,6 +24,11 @@ public class CardController {
     public static ArrayList<String> leaders = new ArrayList<>();
     public static ArrayList<String> heroes = new ArrayList<>();
 
+
+    public static ArrayList<String> removeDuplicates(List<String> list) {
+        Set<String> set = new HashSet<>(list);
+        return new ArrayList<>(set);
+    }
 
     public static void load_data() throws IOException {
         String unitPath = "./src/main/resources/data/unit cards",
