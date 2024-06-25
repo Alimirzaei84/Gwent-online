@@ -17,6 +17,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Player implements Runnable {
     private User user;
@@ -73,7 +75,7 @@ public class Player implements Runnable {
 
             String inMessage;
             while ((inMessage = in.readUTF()) != null) {
-                System.out.println("[PLAYER] server saying: " + inMessage);
+                System.out.println("[PLAYER " + getUser().getName() + "] server saying: " + inMessage);
                 serverCommandHandler(inMessage);
             }
 
@@ -100,7 +102,7 @@ public class Player implements Runnable {
 
                     if (isServerListening) {
                         String message = scanner.nextLine();
-                        System.out.println("[PLAYER] recieve form user: " + message);
+                        System.out.println("[PLAYER " + getUser().getName() + "] recieve form user: " + message);
                         userCommandHandler(message);
                     }
                 }
@@ -128,13 +130,27 @@ public class Player implements Runnable {
         endTurn();
     }
 
+    private static final String putCardRegex= "^put card (\\S+) (\\S+)$";
+
     private void userCommandHandler(String inMessage) {
 //        else if (GameRegexes.PUT_CARD.matches(inMessage)) {
 ////            putCard(inMessage);
 //        }
         if (GameRegexes.PASS_ROUND.matches(inMessage)) {
             passRound(inMessage);
-        } else {
+        }
+
+        else if (inMessage.matches(putCardRegex)) {
+            inHandler.sendMessage(inMessage);
+        }
+
+        else if (inMessage.equals("end turn")) {
+            isServerListening = false;
+            System.out.println("[PLAYER] this turn has ended");
+            inHandler.sendMessage("end turn");
+        }
+
+        else {
             //TODO: Handle Alert for invalid action
         }
         // TODO
@@ -145,24 +161,20 @@ public class Player implements Runnable {
         endTurn();
     }
 
-
-    private void areKhobi() {
-        inHandler.sendMessage("sre khobam");
-    }
-
     /*
      * @Info this function process the message from server
      * */
     private void serverCommandHandler(String message) throws IOException {
         if (message.equals("start communication")) {
-            areKhobi();
             inHandler.sendMessage("communication accepted");
-        } else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
-            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
-        } else if (message.equals(GameRegexes.START_TURN.toString())) {
+        }
+//        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+//            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
+//        }
+        else if (message.equals(GameRegexes.START_TURN.toString())) {
             startTurn();
-        } else if (message.equals("ok")) {
-
+        }
+        else if (message.equals("ok")) {
         }
     }
 
@@ -343,7 +355,6 @@ public class Player implements Runnable {
 
     private void startTurn() {
         isServerListening = true;
-        inHandler.sendMessage("khbgkjhb");
         // TODO
     }
 
@@ -407,5 +418,10 @@ public class Player implements Runnable {
 
     public PlayerController getController() {
         return controller;
+    }
+
+
+    private static Matcher getMatcher(String regex, String command) {
+        return Pattern.compile(regex).matcher(command);
     }
 }

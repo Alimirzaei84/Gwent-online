@@ -1,9 +1,11 @@
 package model.game;
 
+import controller.CardController;
 import controller.PlayerController;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
+import model.role.Card;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -44,13 +46,9 @@ public class Game implements Runnable {
         }
         communicationHandlers = new CommunicationHandler[2];
         players = new Player[2];
+        log = new StringBuilder();
         createPlayers(user1, user2);
     }
-
-//    public Game(Player player1, Player player2) {
-//        communicationHandlers = new CommunicationHandler[2];
-//        players = new Player[]{player1, player2};
-//    }
 
     @Override
     public void run() {
@@ -64,7 +62,7 @@ public class Game implements Runnable {
             // player 1
             Thread t = new Thread(getPlayer1());
             t.start();
-            CommunicationHandler tunnel1 = new CommunicationHandler(p1);
+            CommunicationHandler tunnel1 = new CommunicationHandler(p1, getPlayer1());
             communicationHandlers[0] = tunnel1;
             pool.execute(tunnel1);
 
@@ -72,22 +70,26 @@ public class Game implements Runnable {
             Socket p2 = server.accept();
             Thread t2 = new Thread(getPlayer2());
             t2.start();
-            CommunicationHandler tunnel2 = new CommunicationHandler(p2);
+            CommunicationHandler tunnel2 = new CommunicationHandler(p2, getPlayer2());
             communicationHandlers[1] = tunnel2;
             pool.execute(tunnel2);
 
             isPlayerListening = true;
 
             // choose card
-            chooseCard();
+//            chooseCard();
 
             while (gameStillOn()) {
+                getReadyToCommuincateWithPlayer();
                 tunnel1.startCommunication();
 
+                getReadyToCommuincateWithPlayer();
                 tunnel1.startTurn();
 
+                getReadyToCommuincateWithPlayer();
                 tunnel2.startCommunication();
 
+                getReadyToCommuincateWithPlayer();
                 tunnel2.startTurn();
             }
 
@@ -143,10 +145,11 @@ public class Game implements Runnable {
         private Socket socket;
         private DataInputStream in;
         private DataOutputStream out;
+        private Player player;
 
-        public CommunicationHandler(Socket socket) {
+        public CommunicationHandler(Socket socket, Player player) {
             this.socket = socket;
-
+            this.player = player;
             try {
                 out = new DataOutputStream(socket.getOutputStream());
                 in = new DataInputStream(socket.getInputStream());
@@ -164,12 +167,12 @@ public class Game implements Runnable {
                 while ((inMessage = in.readUTF()) != null) {
                     // for debug purpose
                     System.out.println("[SERVER] message from player: \"" + inMessage + "\"");
-                    String response = handleCommand(inMessage);
-
-                    if (response != null) {
-                        System.out.println("[SERVER] response to player: \"" + response + "\"");
-                        sendMessage(response);
-                    }
+                    handleCommand(inMessage, getPlayer(), getOpp().getPlayer());
+//
+//                    if (response != null) {
+//                        System.out.println("[SERVER] response to player: \"" + response + "\"");
+//                        sendMessage(response);
+//                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -177,12 +180,24 @@ public class Game implements Runnable {
 
         }
 
+        public Player getPlayer() {
+            return player;
+        }
+
+        private CommunicationHandler getOpp() {
+            for (CommunicationHandler c : communicationHandlers)  {
+                if (c.equals(this)) continue;
+                else    return c;
+            }
+
+            throw new IllegalStateException();
+        }
+
         public void startCommunication() throws IOException {
             sendMessage("start communication");
         }
 
         public void sendMessage(String message) throws IOException {
-            waitUntilPlayerIsAvailable();
             out.writeUTF(message);
         }
 
@@ -219,8 +234,6 @@ public class Game implements Runnable {
         isPlayerListening = false;
     }
 
-
-
     // commands
 //    private final static String openCommunicationCommand = "open communication",
 //        startTurnCommand = "start turn ", // num turn will place at the end of this command
@@ -231,11 +244,22 @@ public class Game implements Runnable {
         endTurnRegex = "^end turn$";
 
 
-    private String handleCommand(String command) throws IOException {
+
+    private static final String putCardRegex= "^put card (\\S+) (\\S+)$";
+
+
+
+    private String handleCommand(String command, Player caller, Player opp) throws IOException {
 
         if(GameRegexes.A_USER_PUT_CARD.matches(command)){
             getTunel1().sendMessage(command);
             getTunel2().sendMessage(command);
+        }
+
+        else if (command.matches(putCardRegex)) {
+            Matcher matcher = getMatcher(putCardRegex, command);
+            matcher.find();
+            putCard(matcher, caller, opp);
         }
 
         else if (command.matches(playerCommunicationAcceptedRegex)) {
@@ -250,13 +274,58 @@ public class Game implements Runnable {
             return null;
         }
 
-//        String[] splitted = command.split("\\|");
-//        if(GameRegexes.PUT_CARD.matches(splitted[1])){
-            getTunel1().sendMessage(command);
-            getTunel2().sendMessage(command);
+        return "invalid command";
+    }
+
+    private boolean putCard(Matcher matcher, Player caller, Player opp) {
+        String cardName = matcher.group(1);
+        String pos = matcher.group(2);
+
+//        Card card;
+//        try {
+//            card = CardController.createCardWithName(cardName);
+//        } catch (RuntimeException e) {
+//            return false;
 //        }
 
-        return "invalid command";
+
+//        System.out.println(card);
+
+
+        // accepted
+//        String s = affectOnOpponent();
+
+        LOG("[" + caller.getUser().getName() + "]: put card " + cardName  + " " + pos);
+//        LOG(s);
+
+        broadcastLog();
+        cleanLog();
+
+        return true;
+    }
+
+    private void LOG(CharSequence sequence) {
+        log.append(sequence).append('\n');
+    }
+
+    private void cleanLog() {
+        log = new StringBuilder();
+    }
+
+    private void broadcastLog() {
+        CommunicationHandler t1 = getTunel1(),
+                    t2 = getTunel2();
+
+        String[] arr = log.toString().split("\n");
+
+        try {
+            for (String l : arr) {
+                t1.sendMessage(l);
+                t2.sendMessage(l);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
     }
 
     private void chooseCard() {
@@ -264,13 +333,16 @@ public class Game implements Runnable {
                 t2 = getTunel2();
 
         try {
+            getReadyToCommuincateWithPlayer();
             t1.startCommunication();
-            waitUntilPlayerIsAvailable();
+
+            getReadyToCommuincateWithPlayer();
             t1.sendMessage(GameRegexes.CHOOSE_CARD.toString());
 
-            waitUntilPlayerIsAvailable();
+            getReadyToCommuincateWithPlayer();
             t2.startCommunication();
-            waitUntilPlayerIsAvailable();
+
+            getReadyToCommuincateWithPlayer();
             t2.sendMessage(GameRegexes.CHOOSE_CARD.toString());
 
 
@@ -284,11 +356,7 @@ public class Game implements Runnable {
         // TODO define the rule for finishing the game
         return true;
     }
-//
-//    private void addToLog(CharSequence sequence) {
-//        log.append(sequence).append("\n");
-//    }
-//
+
     private void goNextTurn() throws Exception {
         numTurn++;
 
@@ -296,11 +364,6 @@ public class Game implements Runnable {
 
         // TODO
     }
-
-    private static Matcher getMatcher(String regex, String command) {
-        return Pattern.compile(regex).matcher(command);
-    }
-
 
     public void createPlayers(User user1, User user2) {
         players[0] = new Player(user1);
@@ -340,6 +403,9 @@ public class Game implements Runnable {
         return communicationHandlers[1];
     }
 
+    private static Matcher getMatcher(String regex, String command) {
+        return Pattern.compile(regex).matcher(command);
+    }
 
     public static void main(String[] args) {
         User u1 = new User("a", "a", "a", "a");
