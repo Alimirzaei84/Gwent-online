@@ -332,7 +332,39 @@ public class Player implements Runnable {
                 break;
 
             case "Scorch":
-
+                switch (card.getName()) {
+                    case "clan dimun pirate" -> {
+                        Card maxMe = getTheMostPowerFullCard(rows);
+                        Card maxOpp = getTheMostPowerFullCard(opponentRows);
+                        if (maxMe.getPower() > maxOpp.getPower()) {
+                            removeMyCard(maxMe);
+                        } else if (maxOpp.getPower() > maxMe.getPower()) {
+                            removeOppCard(maxOpp);
+                        }
+                    }
+                    case "villentretenmerth" -> {
+                        Card removableCard = getTheMostPowerFullCard(rows[0].getCards());
+                        rows[0].getCards().remove(removableCard);
+                        discardCards.add(removableCard);
+                        updatePointOfRows();
+                    }
+                    case "schirru"->{
+                        if(getSumPowerOfARow(rows[2]) >= 10){
+                            Card removableCard = getTheMostPowerFullCard(rows[2].getCards());
+                            rows[2].getCards().remove(removableCard);
+                            discardCards.add(removableCard);
+                            updatePointOfRows();
+                        }
+                    }
+                    case "toad" ->{
+                        if(getSumPowerOfARow(rows[1]) >= 10){
+                            Card removableCard = getTheMostPowerFullCard(rows[1].getCards());
+                            rows[1].getCards().remove(removableCard);
+                            discardCards.add(removableCard);
+                            updatePointOfRows();
+                        }
+                    }
+                }
 
                 break;
 
@@ -388,7 +420,15 @@ public class Player implements Runnable {
                 break;
 
         }
+        updatePointOfRows();
 
+    }
+
+    private int getSumPowerOfARow(Row row) {
+        int out = 0;
+        for (Card card : row.getCards()) {
+            out += card.getPower();
+        }
     }
 
 
@@ -429,8 +469,14 @@ public class Player implements Runnable {
                             removeOppCard(maxOpp);
                         }
                     }
+                    case "villentretenmerth" -> {
+                        // It is ok
+                    }
+                    case "schirru"->{
+                        // It is ok
+                    }
                 }
-
+                break;
             case "Moral Boost":
                 for (Card card1 : rows[rowNumber].getCards()) {
                     card1.setPower(card1.getPower() - 1);
