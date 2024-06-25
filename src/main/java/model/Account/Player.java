@@ -208,8 +208,7 @@ public class Player implements Runnable {
             String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
             putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
             sendMyRowsToOpp();
-        }
-        else if(GameRegexes.JSON_OF_ROWS.matches(message)){
+        } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
             updateRows(message);
         }
 //        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
@@ -223,16 +222,28 @@ public class Player implements Runnable {
     }
 
     private void updateRows(String message) {
-        if(user.getName().equals(GameRegexes.JSON_OF_ROWS.getGroup(message, "username"))) return;
+        if (user.getName().equals(GameRegexes.JSON_OF_ROWS.getGroup(message, "username"))) return;
         Gson gson = new Gson();
-        ArrayList<String> row0 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json0"), new TypeToken<ArrayList<String>>() {}.getType());
-        ArrayList<String> row1 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json1"), new TypeToken<ArrayList<String>>() {}.getType());
-        ArrayList<String> row2 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json2"), new TypeToken<ArrayList<String>>() {}.getType());
+        ArrayList<String> row0 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json0"), new TypeToken<ArrayList<String>>() {
+        }.getType());
+        ArrayList<String> row1 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json1"), new TypeToken<ArrayList<String>>() {
+        }.getType());
+        ArrayList<String> row2 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json2"), new TypeToken<ArrayList<String>>() {
+        }.getType());
 
+        opponentRows[0].setCards(generateCardsOfTheirNames(row0));
+        opponentRows[1].setCards(generateCardsOfTheirNames(row1));
+        opponentRows[2].setCards(generateCardsOfTheirNames(row2));
+
+        updatePointOfRows();
     }
 
-    private ArrayList<Card> generateCardsOfTheirNames(ArrayList<String> arrayList){
-
+    private ArrayList<Card> generateCardsOfTheirNames(ArrayList<String> arrayList) {
+        ArrayList<Card> out = new ArrayList<>();
+        for (String string : arrayList) {
+            out.add(CardController.createCardWithName(string));
+        }
+        return out;
     }
 
     private void sendMyRowsToOpp() {
