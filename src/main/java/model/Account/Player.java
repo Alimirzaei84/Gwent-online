@@ -1,5 +1,7 @@
 package model.Account;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.PlayerController;
@@ -16,30 +18,43 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Player implements Runnable {
+    private short diamond;
+    private int totalPoint;
+    private int round;
     private User user;
+    private short vetoCounter;
+    private int opponentTotalPoints;
+    private int X;
     private final Row[] rows;
     private final Row[] opponentRows;
     private ArrayList<Card> inHand;
     private ArrayList<Card> discardCards;
     private final Leader leader;
     private final PlayerController controller;
-    private ArrayList<Card> transformers;
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
     private boolean running;
 
     private InputHandler inHandler;
-    private final ArrayList<Weather> weathers;
+    private final ArrayList<Card> weathers;
 
     private boolean isServerListening;
 
     public Player(User user) {
+        totalPoint = 0;
+        opponentTotalPoints = 0;
+        diamond = 0;
+        vetoCounter = 0;
+        round = 0;
+        X = 0;
         this.user = user;
         this.leader = user.getLeader();
         running = true;
@@ -48,7 +63,6 @@ public class Player implements Runnable {
         weathers = new ArrayList<>();
         inHand = new ArrayList<>();
         discardCards = new ArrayList<>();
-        transformers = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
         isServerListening = false;
@@ -64,7 +78,6 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-
         try {
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
@@ -130,35 +143,57 @@ public class Player implements Runnable {
         endTurn();
     }
 
-    private static final String putCardRegex= "^put card (\\S+) (\\S+)$";
+    private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
 
     private void userCommandHandler(String inMessage) {
 //        else if (GameRegexes.PUT_CARD.matches(inMessage)) {
 ////            putCard(inMessage);
 //        }
-        if (GameRegexes.PASS_ROUND.matches(inMessage)) {
-            passRound(inMessage);
-        }
-
-        else if (inMessage.matches(putCardRegex)) {
+        if (inMessage.equals("pass round")) {
+            passRound();
+        } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
+            makeHandReady();
+        } else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
+            placeCardRequest(inMessage);
+        } else if (inMessage.matches(putCardRegex)) {
             inHandler.sendMessage(inMessage);
-        }
-
-        else if (inMessage.equals("end turn")) {
+        } else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
+            veto(inHand.get(Integer.parseInt(GameRegexes.VETO_A_CARD.getGroup(inMessage, "cardIndex"))));
+        } else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
+            round++;
             isServerListening = false;
             System.out.println("[PLAYER] this turn has ended");
             inHandler.sendMessage("end turn");
-        }
-
-        else {
+        } else if (inMessage.equals("test")) {
+            inHandler.sendMessage(Integer.toString(++X));
+        } else {
             //TODO: Handle Alert for invalid action
         }
         // TODO
     }
 
-    private void passRound(String string) {
-        inHandler.sendMessage(user.getName() + "|" + string);
-        endTurn();
+    private void placeCardRequest(String message) {
+        inHandler.sendMessage(user.getName() + " " + message);
+    }
+
+    private void veto(Card card) {
+        inHand.remove(card);
+        inHand.add(getRandomCard(user.getDeck()));
+        inHandler.sendMessage(user.getName() + "'s has been completed");
+    }
+
+    private void makeHandReady() {
+        for (int i = 0; i < 10; i++) {
+            inHand.add(getRandomCard(user.getDeck()));
+        }
+        inHandler.sendMessage(user.getName() + " has ready hand");
+    }
+
+    private void passRound() {
+        round++;
+        isServerListening = false;
+        System.out.println("[PLAYER] this turn has ended");
+        inHandler.sendMessage(user.getName() + " passed");
     }
 
     /*
@@ -167,85 +202,122 @@ public class Player implements Runnable {
     private void serverCommandHandler(String message) throws IOException {
         if (message.equals("start communication")) {
             inHandler.sendMessage("communication accepted");
+        } else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+            String username = GameRegexes.A_USER_PUT_CARD.getGroup(message, "username");
+            String cardName = GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName");
+            String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
+            putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
+            sendMyRowsToOpp();
+        }
+        else if(GameRegexes.JSON_OF_ROWS.matches(message)){
+            updateRows(message);
         }
 //        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
 //            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
 //        }
         else if (message.equals(GameRegexes.START_TURN.toString())) {
             startTurn();
-        }
-        else if (message.equals("ok")) {
+            handleTransformers();
+        } else if (message.equals("ok")) {
         }
     }
 
-    public void handlePuttingACard(String username, String cardName) {
+    private void updateRows(String message) {
+        if(user.getName().equals(GameRegexes.JSON_OF_ROWS.getGroup(message, "username"))) return;
+        Gson gson = new Gson();
+        ArrayList<String> row0 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json0"), new TypeToken<ArrayList<String>>() {}.getType());
+        ArrayList<String> row1 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json1"), new TypeToken<ArrayList<String>>() {}.getType());
+        ArrayList<String> row2 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json2"), new TypeToken<ArrayList<String>>() {}.getType());
 
-        // handle adding the card to the appropriate list
-        addCardToBoard(username, cardName);
-
-        // handle powers of cards if needed
-        updatePointOfARow();
     }
 
-    void addCardToBoard(String username, String cardName) {
-        boolean isMe = user.getUsername().equals(username);
-        int rowNum = CardController.getRowNumber(cardName);
+    private ArrayList<Card> generateCardsOfTheirNames(ArrayList<String> arrayList){
+
+    }
+
+    private void sendMyRowsToOpp() {
+        Gson gson = new Gson();
+        String json0 = gson.toJson(converCardsToTheirNames(rows[0].getCards()));
+        String json1 = gson.toJson(converCardsToTheirNames(rows[1].getCards()));
+        String json2 = gson.toJson(converCardsToTheirNames(rows[2].getCards()));
+        inHandler.sendMessage(user.getName() + "Row0" + json0 + "Row1" + json1 + "Row2" + json2);
+    }
+
+
+    private ArrayList<String> converCardsToTheirNames(ArrayList<Card> cards) {
+        ArrayList<String> result = new ArrayList<>();
+        for (Card card : cards) {
+            result.add(card.getName());
+        }
+        return result;
+    }
+
+
+    private void handleTransformers() {
+        String cardName;
+
+        for (Row row : rows) {
+            for (Card rowCard : row.getCards()) {
+                if (rowCard.getAbility().equals("Transformer") || rowCard.getAbility().equals("Berserker")) {
+                    cardName = switch (rowCard.getName()) {
+                        case "young berserker" -> "young vidkaarl";
+                        case "berserker" -> "vidkaarl";
+                        case "cow" -> "triss";
+                        case "kambi" -> "ermion";
+                        default -> "vesemir";
+                    };
+                    Card card = CardController.createCardWithName(cardName);
+                    row.getCards().set(row.getCards().indexOf(rowCard), card);
+                }
+            }
+        }
+
+
+        for (Row row : opponentRows) {
+            for (Card rowCard : row.getCards()) {
+                if (rowCard.getAbility().equals("Transformer") || rowCard.getAbility().equals("Berserker")) {
+                    cardName = switch (rowCard.getName()) {
+                        case "young berserker" -> "young vidkaarl";
+                        case "berserker" -> "vidkaarl";
+                        case "cow" -> "triss";
+                        case "kambi" -> "ermion";
+                        default -> "vesemir";
+                    };
+                    Card card = CardController.createCardWithName(cardName);
+                    row.getCards().set(row.getCards().indexOf(rowCard), card);
+                }
+            }
+        }
+        updatePointOfRows();
+    }
+
+    private void putCard(String cardName, int rowNumber, boolean isMe) {
         Card card = CardController.createCardWithName(cardName);
-        if (card.getAbility().equals("Spy")) {
-            if (isMe) {
-                opponentRows[rowNum].addCard(card);
-            } else {
-                rows[rowNum].addCard(card);
+        if (card.getType().equals(Type.WEATHER)) {
+            weathers.add(card);
+            String weatherType = cardName.split(" ")[1];
+            int whichRow = 0;
+            switch (weatherType) {
+                case "rain" -> whichRow = 2;
+                case "fog" -> whichRow = 1;
             }
-        } else if (rowNum != -1) {
-            if (isMe) {
-                rows[rowNum].addCard(card);
-            } else {
-                opponentRows[rowNum].addCard(card);
-            }
+            freeze(rows[whichRow], opponentRows[whichRow]);
+            return;
         }
-
-        // TODO: difference between SPELL and WEATHER ????
-        if (card.getType().equals(Type.WEATHER) || card.getType().equals(Type.SPELL) || card instanceof Weather) {
-            weathers.add((Weather) card);
-            doWeatherAbility(card);
-        }
-
-        // handle abilities
-        actionTheAbility(card, username, cardName, card.getAbility());
-
-
+        if (isMe) putCardForMe(card, rowNumber);
+        else putCardForOpponent(card, rowNumber);
     }
 
-    private void freeze(Row... rows) {
-        // TODO: effects and others
-    }
+    private void putCardForOpponent(Card card, int rowNumber) {
+        opponentRows[rowNumber].addCard(card);
 
-    private void doWeatherAbility(Card card) {
-        switch (card.getName()) {
-            case "fog":
-                freeze(rows[1], opponentRows[1]);
-                break;
-            case "rain":
-                freeze(rows[2], opponentRows[2]);
-                break;
-            case "biting frost":
-                freeze(rows[0], opponentRows[0]);
-                break;
-        }
-    }
 
-    void actionTheAbility(Card newCard, String username, String cardName, String ability) {
-        boolean isMe = user.getUsername().equals(username);
-        int rowNum = CardController.getRowNumber(cardName);
-
-        switch (ability) {
+        switch (card.getAbility()) {
             case "Muster":
 
-
                 break;
-            case "Transformer":
-                transformers.add(newCard);
+            case "Transformer", "Berserker":
+                //It is ok...
                 break;
 
             case "Scorch":
@@ -254,70 +326,44 @@ public class Player implements Runnable {
                 break;
 
             case "Moral Boost":
-                Row[] array;
-                if (isMe) {
-                    array = rows;
-                } else {
-                    array = opponentRows;
+                for (Card card1 : opponentRows[rowNumber].getCards()) {
+                    card1.setPower(card1.getPower() - 1);
                 }
-                for (Card card : array[rowNum].getCards()) {
-                    card.setPower(card.getPower() - 1);
-                }
-                updatePointOfARow();
+                updatePointOfRows();
                 // TODO: update the score icons on cards...
 
 
                 break;
             case "Commander’s horn":
-                Row[] array1;
-                if (isMe) {
-                    array1 = rows;
-                } else {
-                    array1 = opponentRows;
+
+                for (Card card1 : opponentRows[rowNumber].getCards()) {
+                    card1.setPower(card1.getPower() * 2);
                 }
-                for (Card card : array1[rowNum].getCards()) {
-                    card.setPower(card.getPower() * 2);
-                }
-                updatePointOfARow();
+                updatePointOfRows();
                 // TODO: update the score icon on each card...
                 break;
 
 
             case "Medic":
-                if (isMe && discardCards.size() > 1) {
-                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
-                    discardCards.remove(card);
-                    rows[CardController.getRowNumber(card.getName())].addCard(card);
-                }
+//                if (isMe && discardCards.size() > 1) {
+//                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
+//                    discardCards.remove(card);
+//                    rows[CardController.getRowNumber(card.getName())].addCard(card);
+//                }
                 break;
             case "Spy":
-                if (isMe) {
-                    ArrayList<Card> deck = user.getDeck();
-                    ApplicationController.getRandom().nextInt(0, deck.size() - 1);
-                    Card card1 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
-                    deck.remove(card1);
-                    inHand.add(card1);
-                    Card card2 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
-                    deck.remove(card2);
-                    inHand.add(card2);
-                }
+                rows[rowNumber].addCard(card);
                 break;
 
             case "Tight Bond":
-                Row[] array2;
-                if (isMe) {
-                    array2 = rows;
-                } else {
-                    array2 = opponentRows;
-                }
                 int count = 0;
-                for (Card card : array2[rowNum].getCards()) {
-                    if (card.getAbility().equals("Tight Bond")) count++;
+                for (Card card1 : opponentRows[rowNumber].getCards()) {
+                    if (card1.getAbility().equals("Tight Bond")) count++;
                 }
-                for (Card card : array2[rowNum].getCards()) {
-                    card.setPower(card.getPower() * count);
+                for (Card card1 : opponentRows[rowNumber].getCards()) {
+                    card1.setPower(card.getPower() * count);
                 }
-                updatePointOfARow();
+                updatePointOfRows();
                 // TODO: update the score icon on each card...
                 break;
 
@@ -331,18 +377,334 @@ public class Player implements Runnable {
                 break;
 
         }
-        updatePointOfARow();
+
     }
 
 
-    void updatePointOfARow() {
+    private void putCardForMe(Card card, int rowNumber) {
+        if (!card.getAbility().equals("Spy")) rows[rowNumber].addCard(card);
+
+        switch (card.getAbility()) {
+            case "Muster":
+                ArrayList<Card> musters = new ArrayList<>();
+                for (Card card1 : inHand) {
+                    if (card1.getAbility().equals("Muster")) musters.add(card1);
+                }
+                inHand.removeAll(musters);
+                for (Card muster : musters)
+                    rows[rowNumber].addCard(muster);
+
+                musters.clear();
+                for (Card card1 : user.getDeck()) {
+                    if (card1.getAbility().equals("Muster")) musters.add(card1);
+                }
+                user.getDeck().removeAll(musters);
+                for (Card muster : musters)
+                    rows[rowNumber].addCard(muster);
+
+                break;
+            case "Transformer", "Berserker":
+                //It is ok...
+                break;
+
+            case "Scorch":
+                switch (card.getName()) {
+                    case "clan dimun pirate" -> {
+                        Card maxMe = getTheMostPowerFullCard(rows);
+                        Card maxOpp = getTheMostPowerFullCard(opponentRows);
+                        if (maxMe.getPower() > maxOpp.getPower()) {
+                            removeMyCard(maxMe);
+                        } else if (maxOpp.getPower() > maxMe.getPower()) {
+                            removeOppCard(maxOpp);
+                        }
+                    }
+                }
+
+            case "Moral Boost":
+                for (Card card1 : rows[rowNumber].getCards()) {
+                    card1.setPower(card1.getPower() - 1);
+                }
+                updatePointOfRows();
+                // TODO: update the score icons on cards...
+
+
+                break;
+            case "Commander’s horn":
+                for (Card card1 : rows[rowNumber].getCards()) {
+                    card1.setPower(card1.getPower() * 2);
+                }
+                updatePointOfRows();
+                // TODO: update the score icon on each card...
+                break;
+
+
+            case "Medic":
+                if (!discardCards.isEmpty()) {
+                    Card card1 = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
+                    discardCards.remove(card1);
+                    rows[rowNumber].addCard(card1);
+                }
+                break;
+            case "Spy":
+                ArrayList<Card> deck = user.getDeck();
+                Card card1 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+                deck.remove(card1);
+                inHand.add(card1);
+                Card card2 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+                deck.remove(card2);
+                inHand.add(card2);
+                updatePointOfRows();
+                break;
+
+            case "Tight Bond":
+                int count = 0;
+                for (Card card10 : rows[rowNumber].getCards()) {
+                    if (card10.getAbility().equals("Tight Bond")) count++;
+                }
+                for (Card card10 : rows[rowNumber].getCards()) {
+                    card10.setPower(card.getPower() * count);
+                }
+                updatePointOfRows();
+                // TODO: update the score icon on each card...
+                break;
+
+
+            // TODO: Why we have this ???
+            case "NORTHERN_REALMS":
+                break;
+
+            // TODO: And this ???
+            case "NILFGAARDIAN_EMPIRE":
+                break;
+
+        }
+    }
+
+    private void removeOppCard(Card maxOpp) {
+        for (Row row : opponentRows) {
+            for (Card card : row.getCards()) {
+                if (card.equals(maxOpp)) {
+                    row.getCards().remove(card);
+                }
+            }
+        }
+        updatePointOfRows();
+    }
+
+    private void removeMyCard(Card maxMe) {
+        for (Row row : rows) {
+            for (Card card : row.getCards()) {
+                if (card.equals(maxMe)) {
+                    row.getCards().remove(card);
+                    discardCards.add(card);
+                }
+            }
+        }
+        updatePointOfRows();
+    }
+
+//    public void handlePuttingACard(String username, String cardName) {
+//
+//        // handle adding the card to the appropriate list
+//        addCardToBoard(username, cardName);
+//
+//        // handle powers of cards if needed
+//        updatePointOfRows();
+//    }
+
+    //    void addCardToBoard(String username, String cardName) {
+//        boolean isMe = user.getUsername().equals(username);
+//        int rowNum = CardController.getRowNumber(cardName);
+//        Card card = CardController.createCardWithName(cardName);
+//        if (card.getAbility().equals("Spy")) {
+//            if (isMe) {
+//                opponentRows[rowNum].addCard(card);
+//            } else {
+//                rows[rowNum].addCard(card);
+//            }
+//        } else if (rowNum != -1) {
+//            if (isMe) {
+//                rows[rowNum].addCard(card);
+//            } else {
+//                opponentRows[rowNum].addCard(card);
+//            }
+//        }
+//
+//        // TODO: difference between SPELL and WEATHER ????
+//        if (card.getType().equals(Type.WEATHER) || card.getType().equals(Type.SPELL) || card instanceof Weather) {
+//            weathers.add((Weather) card);
+//            doWeatherAbility(card);
+//        }
+//
+//        // handle abilities
+//        actionTheAbility(card, username, cardName, card.getAbility());
+//
+//
+//    }
+//
+    private void freeze(Row... rows) {
+        // TODO: effects and others
+    }
+//
+//    private void doWeatherAbility(Card card) {
+//        switch (card.getName()) {
+//            case "fog":
+//                freeze(rows[1], opponentRows[1]);
+//                break;
+//            case "rain":
+//                freeze(rows[2], opponentRows[2]);
+//                break;
+//            case "biting frost":
+//                freeze(rows[0], opponentRows[0]);
+//                break;
+//        }
+//    }
+//
+//    void actionTheAbility(Card newCard, String username, String cardName, String ability) {
+//        boolean isMe = user.getUsername().equals(username);
+//        int rowNum = CardController.getRowNumber(cardName);
+//
+//        switch (ability) {
+//            case "Muster":
+//
+//
+//                break;
+//            case "Transformer":
+//                // It is ok
+//                break;
+//
+//            case "Scorch":
+//                switch (cardName) {
+//                    case "clan dimun pirate" -> {
+//                        boolean forMe = false;
+//
+//                    }
+//
+//                }
+//
+//                break;
+//
+//            case "Moral Boost":
+//                Row[] array;
+//                if (isMe) {
+//                    array = rows;
+//                } else {
+//                    array = opponentRows;
+//                }
+//                for (Card card : array[rowNum].getCards()) {
+//                    card.setPower(card.getPower() - 1);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icons on cards...
+//
+//
+//                break;
+//            case "Commander’s horn":
+//                Row[] array1;
+//                if (isMe) {
+//                    array1 = rows;
+//                } else {
+//                    array1 = opponentRows;
+//                }
+//                for (Card card : array1[rowNum].getCards()) {
+//                    card.setPower(card.getPower() * 2);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icon on each card...
+//                break;
+//
+//
+//            case "Medic":
+//                if (isMe && discardCards.size() > 1) {
+//                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
+//                    discardCards.remove(card);
+//                    rows[CardController.getRowNumber(card.getName())].addCard(card);
+//                }
+//                break;
+//            case "Spy":
+//                if (isMe) {
+//                    ArrayList<Card> deck = user.getDeck();
+//                    ApplicationController.getRandom().nextInt(0, deck.size() - 1);
+//                    Card card1 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+//                    deck.remove(card1);
+//                    inHand.add(card1);
+//                    Card card2 = deck.get(ApplicationController.getRandom().nextInt(0, deck.size() - 1));
+//                    deck.remove(card2);
+//                    inHand.add(card2);
+//                }
+//                break;
+//
+//            case "Tight Bond":
+//                Row[] array2;
+//                if (isMe) {
+//                    array2 = rows;
+//                } else {
+//                    array2 = opponentRows;
+//                }
+//                int count = 0;
+//                for (Card card : array2[rowNum].getCards()) {
+//                    if (card.getAbility().equals("Tight Bond")) count++;
+//                }
+//                for (Card card : array2[rowNum].getCards()) {
+//                    card.setPower(card.getPower() * count);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icon on each card...
+//                break;
+//
+//
+//            // TODO: Why we have this ???
+//            case "NORTHERN_REALMS":
+//                break;
+//
+//            // TODO: And this ???
+//            case "NILFGAARDIAN_EMPIRE":
+//                break;
+//
+//        }
+//        updatePointOfRows();
+//    }
+
+    private Card getTheMostPowerFullCard(Row[] array) {
+        ArrayList<Card> result = new ArrayList<>();
+        result.add(getTheMostPowerFullCard(array[0].getCards()));
+        result.add(getTheMostPowerFullCard(array[1].getCards()));
+        result.add(getTheMostPowerFullCard(array[2].getCards()));
+        return getTheMostPowerFullCard(result);
+    }
+
+    private Card getTheMostPowerFullCard(ArrayList<Card> arrayList) {
+        Card out = null;
+        int count = 0;
+        for (Card card : arrayList) {
+            if (card.getPower() >= count) {
+                out = card;
+            }
+        }
+        return out;
+    }
+
+    private Card getTheMostPowerFullCard(Card[] arrayList) {
+        Card out = null;
+        int count = 0;
+        for (Card card : arrayList) {
+            if (card.getPower() >= count) {
+                out = card;
+            }
+        }
+        return out;
+    }
+
+    void updatePointOfRows() {
         for (Row row : rows) {
             int point = 0;
             for (Card card : row.getCards()) {
                 point += card.getPower();
             }
             row.setPoint(point);
+            totalPoint += point;
         }
+
 
         for (Row row : opponentRows) {
             int point = 0;
@@ -350,6 +712,7 @@ public class Player implements Runnable {
                 point += card.getPower();
             }
             row.setPoint(point);
+            opponentTotalPoints += point;
         }
     }
 
@@ -423,5 +786,10 @@ public class Player implements Runnable {
 
     private static Matcher getMatcher(String regex, String command) {
         return Pattern.compile(regex).matcher(command);
+    }
+
+    private Card getRandomCard(ArrayList<Card> arrayList) {
+        if (arrayList.isEmpty()) return null;
+        return arrayList.get(ApplicationController.getRandom().nextInt(0, arrayList.size()));
     }
 }

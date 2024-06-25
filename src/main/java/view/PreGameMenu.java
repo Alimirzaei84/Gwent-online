@@ -25,10 +25,7 @@ import javafx.stage.Stage;
 import model.Account.Player;
 import model.Account.User;
 import model.game.Game;
-import model.role.Card;
-import model.role.Faction;
-import model.role.Leader;
-import model.role.Unit;
+import model.role.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -193,10 +190,9 @@ public class PreGameMenu extends AppMenu {
 
         }
         for (String s : out) {
-            System.out.println(CardController.createCardWithName(s).getAbility());
-        }
-        for (String s : out) {
-            System.out.println(s);
+            Card card = CardController.createCardWithName(s);
+            if (card.getAbility() != null && card.getAbility().equals("Scorch"))
+                System.out.println(STR."\{card.getName()}--->\{card.getAbility()}");
         }
         showManyCardsInScrollBar(out, false);
     }
@@ -218,6 +214,7 @@ public class PreGameMenu extends AppMenu {
             for (String string : restoredList) {
                 currentUser.getDeck().add(CardController.createCardWithName(string));
             }
+
 
             if (currentUser.getSpecialCount() > 10) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

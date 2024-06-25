@@ -10,6 +10,11 @@ public enum GameRegexes {
     PUT_CARD("put card (?<cardName>.+)"),
     PASS_ROUND("passed"),
     A_USER_PUT_CARD("(?<username>.+) put card (?<cardName>.+)"),
+    VETO_A_CARD("veto (?<cardIndex>\\d+)"),
+    VETO_COMPLETED(".+'s has been completed"),
+    PLACE_CARD("place card (?<cardName>.+) (?<rowNumber>\\d+)"),
+    A_USER_PLACED_A_CARD("(?<username>.+) place card (?<cardName>.+) (?<rowNumber>\\d+)"),
+    JSON_OF_ROWS("(?<username>.+)Row0(?<json0>.+)Row1(?<json1>.+)Row2(?<json2>.+)"),
     EXIT("^exit$"),
     ;
 

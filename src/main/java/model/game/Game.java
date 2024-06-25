@@ -1,21 +1,17 @@
 package model.game;
 
-import controller.CardController;
 import controller.PlayerController;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
-import model.role.Card;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +20,7 @@ public class Game implements Runnable {
     private final Player[] players;
     private PlayerController[] playerControllers;
     private CommunicationHandler[] communicationHandlers;
+    private short passedTurnCounter;
 
     private ServerSocket server;
     private ExecutorService pool;
@@ -48,6 +45,7 @@ public class Game implements Runnable {
         players = new Player[2];
         log = new StringBuilder();
         createPlayers(user1, user2);
+        passedTurnCounter = 0;
     }
 
     @Override
@@ -108,13 +106,13 @@ public class Game implements Runnable {
 //            playersChooseCard();
 
 //            goNextTurn();
-            // while the game is still on
-            // start the turn
-            // ask the first player for action
-            // get response from player
-            // ask the second player for action
-            // get response from sec player
-            // store the data
+        // while the game is still on
+        // start the turn
+        // ask the first player for action
+        // get response from player
+        // ask the second player for action
+        // get response from sec player
+        // store the data
 
 //            while (gameStillOn()) {
 //
@@ -166,7 +164,7 @@ public class Game implements Runnable {
                 String inMessage;
                 while ((inMessage = in.readUTF()) != null) {
                     // for debug purpose
-                    System.out.println("[SERVER] message from player: \"" + inMessage + "\"");
+                    System.out.println("[SERVER] message from player " + player.getUser().getName() + " :  \"" + inMessage + "\"");
                     handleCommand(inMessage, getPlayer(), getOpp().getPlayer());
 //
 //                    if (response != null) {
@@ -185,9 +183,9 @@ public class Game implements Runnable {
         }
 
         private CommunicationHandler getOpp() {
-            for (CommunicationHandler c : communicationHandlers)  {
+            for (CommunicationHandler c : communicationHandlers) {
                 if (c.equals(this)) continue;
-                else    return c;
+                else return c;
             }
 
             throw new IllegalStateException();
@@ -241,40 +239,72 @@ public class Game implements Runnable {
 
     // regex
     private final static String playerCommunicationAcceptedRegex = "^communication accepted$",
-        endTurnRegex = "^end turn$";
+            endTurnRegex = "^end turn$";
 
 
-
-    private static final String putCardRegex= "^put card (\\S+) (\\S+)$";
-
+    private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
 
 
     private String handleCommand(String command, Player caller, Player opp) throws IOException {
 
-        if(GameRegexes.A_USER_PUT_CARD.matches(command)){
+//        if(GameRegexes.A_USER_PUT_CARD.matches(command)){
+//            getTunel1().sendMessage(command);
+//            getTunel2().sendMessage(command);
+//        }
+
+//        else
+        if (command.matches(putCardRegex)) {
+            Matcher matcher = getMatcher(putCardRegex, command);
+            matcher.find();
+            putCard(matcher, caller, opp);
+        } else if (command.matches(playerCommunicationAcceptedRegex)) {
+            System.out.println("[SUCC] communication has established");
+            isPlayerListening = true;
+            return null;
+        } else if (command.matches(endTurnRegex)) {
+            System.out.println("[SERVER] the turn has ended");
+            isPlayerListening = true;
+            passedTurnCounter = 0;
+            return null;
+        } else if (command.matches(".+ passed")) {
+            System.out.println("[SERVER] the turn has passed");
+            if (++passedTurnCounter >= 2) {
+                checkForWinnerOfADiamond();
+            }
+            isPlayerListening = true;
+            return null;
+        } else if (GameRegexes.A_USER_PUT_CARD.matches(command)) {
+            puttingCardBroadCast(command);
+
+        } else if (command.matches("\\d")) {
+            testMethod(command, caller, opp);
+        } else if (command.matches(".+ has ready hand")) {
+            getTunel1().sendMessage(command);
+            getTunel2().sendMessage(command);
+        } else if (GameRegexes.VETO_COMPLETED.matches(command)) {
+            getTunel1().sendMessage(command);
+            getTunel2().sendMessage(command);
+        }
+        else if(GameRegexes.JSON_OF_ROWS.matches(command)){
             getTunel1().sendMessage(command);
             getTunel2().sendMessage(command);
         }
 
-        else if (command.matches(putCardRegex)) {
-            Matcher matcher = getMatcher(putCardRegex, command);
-            matcher.find();
-            putCard(matcher, caller, opp);
-        }
-
-        else if (command.matches(playerCommunicationAcceptedRegex)) {
-            System.out.println("[SUCC] communication has established");
-            isPlayerListening = true;
-            return null;
-        }
-
-        else if (command.matches(endTurnRegex)){
-            System.out.println("[SERVER] the turn has ended");
-            isPlayerListening = true;
-            return null;
-        }
-
         return "invalid command";
+    }
+
+    private void puttingCardBroadCast(String command) throws IOException {
+        getTunel1().sendMessage(command);
+        getTunel2().sendMessage(command);
+    }
+
+    private void checkForWinnerOfADiamond() {
+        // TODO: compare players points
+    }
+
+    private void testMethod(String command, Player caller, Player opp) throws IOException {
+        getTunel1().sendMessage(command);
+        getTunel2().sendMessage(command);
     }
 
     private boolean putCard(Matcher matcher, Player caller, Player opp) {
@@ -295,7 +325,7 @@ public class Game implements Runnable {
         // accepted
 //        String s = affectOnOpponent();
 
-        LOG("[" + caller.getUser().getName() + "]: put card " + cardName  + " " + pos);
+        LOG("[" + caller.getUser().getName() + "]: put card " + cardName + " " + pos);
 //        LOG(s);
 
         broadcastLog();
@@ -314,7 +344,7 @@ public class Game implements Runnable {
 
     private void broadcastLog() {
         CommunicationHandler t1 = getTunel1(),
-                    t2 = getTunel2();
+                t2 = getTunel2();
 
         String[] arr = log.toString().split("\n");
 
@@ -370,19 +400,19 @@ public class Game implements Runnable {
         players[1] = new Player(user2);
     }
 
-    public Player getPlayer1(){
+    public Player getPlayer1() {
         return players[0];
     }
 
-    public Player getPlayer2(){
+    public Player getPlayer2() {
         return players[1];
     }
 
-    public PlayerController getController1(){
+    public PlayerController getController1() {
         return playerControllers[0];
     }
 
-    public PlayerController getController2(){
+    public PlayerController getController2() {
         return playerControllers[1];
     }
 
