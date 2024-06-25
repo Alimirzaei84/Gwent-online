@@ -166,10 +166,16 @@ public class Player implements Runnable {
             inHandler.sendMessage("end turn");
         } else if (inMessage.equals("test")) {
             inHandler.sendMessage(Integer.toString(++X));
+        } else if (inMessage.equals("play leader")) {
+            playLeader();
         } else {
             //TODO: Handle Alert for invalid action
         }
         // TODO
+    }
+
+    private void playLeader() {
+        inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
     }
 
     private void placeCardRequest(String message) {
@@ -208,6 +214,11 @@ public class Player implements Runnable {
             String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
             putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
             sendMyRowsToOpp();
+        } else if (GameRegexes.PLAY_LEADER.matches(message)) {
+            String username = GameRegexes.PLAY_LEADER.getGroup(message, "username");
+            String leaderName = GameRegexes.PLAY_LEADER.getGroup(message, "leaderName");
+            actionLeader(username, leaderName);
+
         } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
             updateRows(message);
         }
@@ -217,7 +228,188 @@ public class Player implements Runnable {
         else if (message.equals(GameRegexes.START_TURN.toString())) {
             startTurn();
             handleTransformers();
+            removeDeadCards();
         } else if (message.equals("ok")) {
+        }
+    }
+
+    private void removeDeadCards() {
+        ArrayList<Card> toRemove = new ArrayList<>();
+
+        for (Row row : rows) {
+            toRemove.clear();
+            for (Card card : row.getCards()) {
+                if (card.getPower() <= 0) {
+                    toRemove.add(card);
+                }
+            }
+            row.getCards().removeAll(toRemove);
+            discardCards.addAll(toRemove);
+        }
+
+        for (Row row : opponentRows) {
+            toRemove.clear();
+            for (Card card : row.getCards()) {
+                if (card.getPower() <= 0) {
+                    toRemove.add(card);
+                }
+            }
+            row.getCards().removeAll(toRemove);
+            discardCards.addAll(toRemove);
+        }
+    }
+
+    private void actionLeader(String username, String leaderName) {
+        if (username.equals(user.getName()))
+            actionLeaderForMe(leaderName);
+        else actionLeaderForOpp(leaderName);
+    }
+
+    private void actionLeaderForOpp(String leaderName) {
+        switch (leaderName) {
+            case "madman lugos" -> {
+
+            }
+            case "The Siegemaster" -> {
+
+            }
+            case "The Steel-Forged" -> {
+
+            }
+            case "King of Temeria" -> {
+
+            }
+            case "Lord Commander of the North" -> {
+
+            }
+            case "Son of Medell" -> {
+
+            }
+            case "The White Flame" -> {
+
+            }
+            case "His Imperial Majesty" -> {
+
+            }
+            case "Emperor of Nilfgaard" -> {
+
+            }
+            case "The Relentless" -> {
+
+            }
+            case "Invader of the North" -> {
+
+            }
+            case "Bringer of Death" -> {
+
+            }
+            case "King of the wild Hunt" -> {
+
+            }
+            case "Destroyer of Worlds" -> {
+
+            }
+            case "Commander of the Red Riders" -> {
+
+            }
+            case "The Treacherous" -> {
+
+            }
+            case "Queen of Dol Blathanna" -> {
+
+            }
+            case "The Beautiful" -> {
+
+            }
+            case "Daisy of the Valley" -> {
+
+            }
+            case "Pureblood Elf" -> {
+
+            }
+            case "Hope of the Aen Seidhe" -> {
+
+            }
+            case "Crach an Craite" -> {
+
+            }
+            case "King Bran" -> {
+
+            }
+        }
+    }
+
+    private void actionLeaderForMe(String leaderName) {
+        switch (leaderName) {
+            case "madman lugos" -> {
+
+            }
+            case "The Siegemaster" -> {
+
+            }
+            case "The Steel-Forged" -> {
+
+            }
+            case "King of Temeria" -> {
+
+            }
+            case "Lord Commander of the North" -> {
+
+            }
+            case "Son of Medell" -> {
+
+            }
+            case "The White Flame" -> {
+
+            }
+            case "His Imperial Majesty" -> {
+
+            }
+            case "Emperor of Nilfgaard" -> {
+
+            }
+            case "The Relentless" -> {
+
+            }
+            case "Invader of the North" -> {
+
+            }
+            case "Bringer of Death" -> {
+
+            }
+            case "King of the wild Hunt" -> {
+
+            }
+            case "Destroyer of Worlds" -> {
+
+            }
+            case "Commander of the Red Riders" -> {
+
+            }
+            case "The Treacherous" -> {
+
+            }
+            case "Queen of Dol Blathanna" -> {
+
+            }
+            case "The Beautiful" -> {
+
+            }
+            case "Daisy of the Valley" -> {
+
+            }
+            case "Pureblood Elf" -> {
+
+            }
+            case "Hope of the Aen Seidhe" -> {
+
+            }
+            case "Crach an Craite" -> {
+
+            }
+            case "King Bran" -> {
+
+            }
         }
     }
 
@@ -348,16 +540,16 @@ public class Player implements Runnable {
                         discardCards.add(removableCard);
                         updatePointOfRows();
                     }
-                    case "schirru"->{
-                        if(getSumPowerOfARow(rows[2]) >= 10){
+                    case "schirru" -> {
+                        if (getSumPowerOfARow(rows[2]) >= 10) {
                             Card removableCard = getTheMostPowerFullCard(rows[2].getCards());
                             rows[2].getCards().remove(removableCard);
                             discardCards.add(removableCard);
                             updatePointOfRows();
                         }
                     }
-                    case "toad" ->{
-                        if(getSumPowerOfARow(rows[1]) >= 10){
+                    case "toad" -> {
+                        if (getSumPowerOfARow(rows[1]) >= 10) {
                             Card removableCard = getTheMostPowerFullCard(rows[1].getCards());
                             rows[1].getCards().remove(removableCard);
                             discardCards.add(removableCard);
@@ -429,6 +621,7 @@ public class Player implements Runnable {
         for (Card card : row.getCards()) {
             out += card.getPower();
         }
+        return out;
     }
 
 
@@ -469,10 +662,7 @@ public class Player implements Runnable {
                             removeOppCard(maxOpp);
                         }
                     }
-                    case "villentretenmerth" -> {
-                        // It is ok
-                    }
-                    case "schirru"->{
+                    case "villentretenmerth", "schirru" -> {
                         // It is ok
                     }
                 }
@@ -560,9 +750,11 @@ public class Player implements Runnable {
         updatePointOfRows();
     }
 
+    //
     private void freeze(Row... rows) {
         // TODO: effects and others
     }
+
 
     private Card getTheMostPowerFullCard(Row[] array) {
         ArrayList<Card> result = new ArrayList<>();
@@ -682,6 +874,10 @@ public class Player implements Runnable {
         return controller;
     }
 
+
+    private static Matcher getMatcher(String regex, String command) {
+        return Pattern.compile(regex).matcher(command);
+    }
 
     private Card getRandomCard(ArrayList<Card> arrayList) {
         if (arrayList.isEmpty()) return null;

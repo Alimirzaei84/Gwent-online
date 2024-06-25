@@ -57,6 +57,10 @@ public class RegisterMenu extends AppMenu {
         scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
+
+        for (String leader : CardController.leaders) {
+            System.out.println(leader);
+        }
     }
 
     @Override

@@ -245,7 +245,7 @@ public class Game implements Runnable {
     private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
 
 
-    private String handleCommand(String command, Player caller, Player opp) throws IOException {
+    private void handleCommand(String command, Player caller, Player opp) throws IOException {
 
 //        if(GameRegexes.A_USER_PUT_CARD.matches(command)){
 //            getTunel1().sendMessage(command);
@@ -260,19 +260,18 @@ public class Game implements Runnable {
         } else if (command.matches(playerCommunicationAcceptedRegex)) {
             System.out.println("[SUCC] communication has established");
             isPlayerListening = true;
-            return null;
+        } else if (GameRegexes.PLAY_LEADER.matches(command)) {
+            broadcastLeader(command);
         } else if (command.matches(endTurnRegex)) {
             System.out.println("[SERVER] the turn has ended");
             isPlayerListening = true;
             passedTurnCounter = 0;
-            return null;
         } else if (command.matches(".+ passed")) {
             System.out.println("[SERVER] the turn has passed");
             if (++passedTurnCounter >= 2) {
                 checkForWinnerOfADiamond();
             }
             isPlayerListening = true;
-            return null;
         } else if (GameRegexes.A_USER_PUT_CARD.matches(command)) {
             puttingCardBroadCast(command);
 
@@ -290,7 +289,11 @@ public class Game implements Runnable {
             getTunel2().sendMessage(command);
         }
 
-        return "invalid command";
+    }
+
+    private void broadcastLeader(String command) throws IOException {
+        getTunel1().sendMessage(command);
+        getTunel2().sendMessage(command);
     }
 
     private void puttingCardBroadCast(String command) throws IOException {
