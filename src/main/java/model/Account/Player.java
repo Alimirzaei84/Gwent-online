@@ -232,6 +232,7 @@ public class Player implements Runnable {
             startTurn();
             handleTransformers();
             removeDeadCards();
+
         } else if (message.equals("ok")) {
         }
     }
@@ -270,28 +271,28 @@ public class Player implements Runnable {
     private void actionLeaderForOpp(String leaderName) {
         switch (leaderName) {
             case "madman lugos" -> {
-
+                //TODO: we don't have this leader
             }
             case "The Siegemaster" -> {
-
+                // It's Okay
             }
             case "The Steel-Forged" -> {
-
+                avoidFreezingAspect();
             }
             case "King of Temeria" -> {
                 increaseThePowerOfSiegeForOpp();
             }
             case "Lord Commander of the North" -> {
-
+                killMostPowerfullSiegIfNeeded();
             }
             case "Son of Medell" -> {
                 destroyMyMostPowerFullRanged();
             }
             case "The White Flame" -> {
-
+                // update later by json
             }
             case "His Imperial Majesty" -> {
-
+                show3CardsOfMeToOpponents();
             }
             case "Emperor of Nilfgaard" -> {
                 actionLeaderDone = true;
@@ -306,13 +307,13 @@ public class Player implements Runnable {
                 increaseThePowerOfARowForOpp(0);
             }
             case "King of the wild Hunt" -> {
-
+                // Never used...
             }
             case "Destroyer of Worlds" -> {
                 // Extra information
             }
             case "Commander of the Red Riders" -> {
-
+                // Later it will update by json
             }
             case "The Treacherous" -> {
                 increasePowerOfSpies();
@@ -330,7 +331,7 @@ public class Player implements Runnable {
                 // Just update by json
             }
             case "Hope of the Aen Seidhe" -> {
-
+                //TODO: I don't understand this
             }
             case "Crach an Craite" -> {
                 recoverDiscardPiles();
@@ -338,6 +339,20 @@ public class Player implements Runnable {
             case "King Bran" -> {
                 // just update by json
             }
+        }
+    }
+
+    private void show3CardsOfMeToOpponents() {
+
+        // TODO:
+    }
+
+    private void killMostPowerfullSiegIfNeeded() {
+        if (getSumPowerOfARow(rows[2]) > 10) {
+            Card card = getTheMostPowerFullCard(rows[2].getCards());
+            rows[2].getCards().remove(card);
+            discardCards.add(card);
+            updatePointOfRows();
         }
     }
 
@@ -388,25 +403,25 @@ public class Player implements Runnable {
     private void actionLeaderForMe(String leaderName) {
         switch (leaderName) {
             case "madman lugos" -> {
-
+                //TODO: we don't have this leader
             }
             case "The Siegemaster" -> {
-
+                actionAImpenetrableFog();
             }
             case "The Steel-Forged" -> {
-
+                avoidFreezingAspect();
             }
             case "King of Temeria" -> {
                 increaseThePowerOfSiegeForMe();
             }
             case "Lord Commander of the North" -> {
-
+                // update by json
             }
             case "Son of Medell" -> {
                 destroyOpponentMostPowerFullRanged();
             }
             case "The White Flame" -> {
-
+                doRandomWeatherCard("torrential rain");
             }
             case "His Imperial Majesty" -> {
 
@@ -415,7 +430,7 @@ public class Player implements Runnable {
                 // We do not need this information
             }
             case "The Relentless" -> {
-
+                recoverFromOppDiscardPile();
             }
             case "Invader of the North" -> {
                 recoverARandomCard();
@@ -424,13 +439,13 @@ public class Player implements Runnable {
                 increaseThePowerOfARowForMe(0);
             }
             case "King of the wild Hunt" -> {
-
+                recoverFromDiscardPile();
             }
             case "Destroyer of Worlds" -> {
                 changeWithDistraction();
             }
             case "Commander of the Red Riders" -> {
-
+                doRandomWeatherCard();
             }
             case "The Treacherous" -> {
                 increasePowerOfSpies();
@@ -448,7 +463,7 @@ public class Player implements Runnable {
                 putAFrost();
             }
             case "Hope of the Aen Seidhe" -> {
-
+                //TODO: I don't understand this
             }
             case "Crach an Craite" -> {
                 recoverDiscardPiles();
@@ -457,6 +472,69 @@ public class Player implements Runnable {
                 decreaseFreezingAspect();
             }
         }
+    }
+
+    private void recoverFromOppDiscardPile() {
+        // TODO:
+    }
+
+    private void recoverFromDiscardPile() {
+        recoverARandomCard();
+        updatePointOfRows();
+    }
+
+    // method Over Loading...
+    private void doRandomWeatherCard() {
+        ArrayList<Card> weathersOfMyhand = new ArrayList<>();
+        for (Card card : inHand) {
+            if (card.getType().equals(Type.WEATHER)) weathersOfMyhand.add(card);
+        }
+        Card card = getRandomCard(weathersOfMyhand);
+        if (card == null) return;
+        inHand.remove(card);
+        weathers.add(card);
+        String weatherType = card.getName().split(" ")[1];
+        int whichRow = 0;
+        switch (weatherType) {
+            case "rain" -> whichRow = 2;
+            case "fog" -> whichRow = 1;
+        }
+        freeze(rows[whichRow], opponentRows[whichRow]);
+    }
+
+
+    // method Over Loading...
+    private void doRandomWeatherCard(String cardName) {
+        ArrayList<Card> weathersOfMyhand = new ArrayList<>();
+        for (Card card : inHand) {
+            if (card.getName().equals(cardName)) weathersOfMyhand.add(card);
+        }
+        Card card = getRandomCard(weathersOfMyhand);
+        inHand.remove(card);
+        weathers.add(card);
+        String weatherType = cardName.split(" ")[1];
+        int whichRow = 0;
+        switch (weatherType) {
+            case "rain" -> whichRow = 2;
+            case "fog" -> whichRow = 1;
+        }
+        freeze(rows[whichRow], opponentRows[whichRow]);
+    }
+
+    private void avoidFreezingAspect() {
+        // TODO: Ignore Weather cards and remove graphical effects
+    }
+
+    private void actionAImpenetrableFog() {
+        if (!isExistInMyHand("impenetrable fog")) return;
+        putCardForMe(CardController.createCardWithName("impenetrable fog"), CardController.getRowNumber("impenetrable fog"));
+    }
+
+    private boolean isExistInMyHand(String cardName) {
+        for (Card card : inHand) {
+            if (card.getName().equals(cardName)) return true;
+        }
+        return false;
     }
 
 
@@ -629,6 +707,7 @@ public class Player implements Runnable {
     private void putCard(String cardName, int rowNumber, boolean isMe) {
         Card card = CardController.createCardWithName(cardName);
         if (card.getType().equals(Type.WEATHER)) {
+            inHand.remove(card);
             weathers.add(card);
             String weatherType = cardName.split(" ")[1];
             int whichRow = 0;

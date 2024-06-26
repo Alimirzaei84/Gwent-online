@@ -283,8 +283,7 @@ public class Game implements Runnable {
         } else if (GameRegexes.VETO_COMPLETED.matches(command)) {
             getTunel1().sendMessage(command);
             getTunel2().sendMessage(command);
-        }
-        else if(GameRegexes.JSON_OF_ROWS.matches(command)){
+        } else if (GameRegexes.JSON_OF_ROWS.matches(command)) {
             getTunel1().sendMessage(command);
             getTunel2().sendMessage(command);
         }
@@ -303,6 +302,7 @@ public class Game implements Runnable {
 
     private void checkForWinnerOfADiamond() {
         // TODO: compare players points
+        // TODO: if(++ diamond == 2) WIN and LOOSE handling
     }
 
     private void testMethod(String command, Player caller, Player opp) throws IOException {
