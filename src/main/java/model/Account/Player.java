@@ -10,7 +10,6 @@ import model.game.Row;
 import model.role.Card;
 import model.role.Leader;
 import model.role.Type;
-import model.role.Weather;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,8 +17,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +24,7 @@ import java.util.regex.Pattern;
 public class Player implements Runnable {
     private short diamond;
     private int totalPoint;
+    private boolean actionLeaderDone;
     private int round;
     private User user;
     private short vetoCounter;
@@ -49,6 +47,7 @@ public class Player implements Runnable {
     private boolean isServerListening;
 
     public Player(User user) {
+        actionLeaderDone = false;
         totalPoint = 0;
         opponentTotalPoints = 0;
         diamond = 0;
@@ -67,6 +66,8 @@ public class Player implements Runnable {
         controller = new PlayerController(this);
         isServerListening = false;
 
+
+        // Handle network
         try {
             socket = new Socket("127.0.0.1", 8080);
         } catch (IOException e) {
@@ -175,7 +176,8 @@ public class Player implements Runnable {
     }
 
     private void playLeader() {
-        inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
+        if (!actionLeaderDone) inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
+        actionLeaderDone = true;
     }
 
     private void placeCardRequest(String message) {
@@ -189,7 +191,8 @@ public class Player implements Runnable {
     }
 
     private void makeHandReady() {
-        for (int i = 0; i < 10; i++) {
+        int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
+        for (int i = 0; i < counter; i++) {
             inHand.add(getRandomCard(user.getDeck()));
         }
         inHandler.sendMessage(user.getName() + " has ready hand");
@@ -260,8 +263,7 @@ public class Player implements Runnable {
     }
 
     private void actionLeader(String username, String leaderName) {
-        if (username.equals(user.getName()))
-            actionLeaderForMe(leaderName);
+        if (username.equals(user.getName())) actionLeaderForMe(leaderName);
         else actionLeaderForOpp(leaderName);
     }
 
@@ -277,13 +279,13 @@ public class Player implements Runnable {
 
             }
             case "King of Temeria" -> {
-
+                increaseThePowerOfSiegeForOpp();
             }
             case "Lord Commander of the North" -> {
 
             }
             case "Son of Medell" -> {
-
+                destroyMyMostPowerFullRanged();
             }
             case "The White Flame" -> {
 
@@ -292,49 +294,93 @@ public class Player implements Runnable {
 
             }
             case "Emperor of Nilfgaard" -> {
-
+                actionLeaderDone = true;
             }
             case "The Relentless" -> {
 
             }
             case "Invader of the North" -> {
-
+                recoverARandomCard();
             }
             case "Bringer of Death" -> {
-
+                increaseThePowerOfARowForOpp(0);
             }
             case "King of the wild Hunt" -> {
 
             }
             case "Destroyer of Worlds" -> {
-
+                // Extra information
             }
             case "Commander of the Red Riders" -> {
 
             }
             case "The Treacherous" -> {
-
+                increasePowerOfSpies();
             }
             case "Queen of Dol Blathanna" -> {
-
+                destroyMyMostPowerFullRangedIfNeeded();
             }
             case "The Beautiful" -> {
-
+                increaseThePowerOfRangedForOpp();
             }
             case "Daisy of the Valley" -> {
-
+                // We handled it in choosing random cards
             }
             case "Pureblood Elf" -> {
-
+                // Just update by json
             }
             case "Hope of the Aen Seidhe" -> {
 
             }
             case "Crach an Craite" -> {
-
+                recoverDiscardPiles();
             }
             case "King Bran" -> {
+                // just update by json
+            }
+        }
+    }
 
+    private void increaseThePowerOfSiegeForOpp() {
+        increaseThePowerOfARowForOpp(2);
+    }
+
+    private void destroyMyMostPowerFullRangedIfNeeded() {
+        if (getSumPowerOfARow(rows[0]) > 10) {
+            Card card = getTheMostPowerFullCard(rows[1].getCards());
+            rows[1].getCards().remove(card);
+            discardCards.add(card);
+            updatePointOfRows();
+        }
+    }
+
+
+    // This method prevents duplicate in code
+    private void increaseThePowerOfARowForOpp(int rowNum) {
+        if (opponentRows[rowNum].getSpecial().getName().equals("Commander’s horn")) return;
+        for (Card card : opponentRows[rowNum].getCards()) {
+            card.setPower(card.getPower() * 2);
+        }
+        updatePointOfRows();
+    }
+
+    private void increaseThePowerOfRangedForOpp() {
+        increaseThePowerOfARowForOpp(1);
+    }
+
+    private void destroyMyMostPowerFullRanged() {
+        if (getSumPowerOfARow(rows[1]) > 10) {
+            Card card = getTheMostPowerFullCard(rows[1].getCards());
+            rows[1].getCards().remove(card);
+            discardCards.add(card);
+            updatePointOfRows();
+        }
+    }
+
+    private void increasePowerOfSpies() {
+        for (Row row : rows) {
+            for (Card card : row.getCards()) {
+                if (card.getAbility().equals("Spy")) card.setPower(card.getPower() * 2);
             }
         }
     }
@@ -351,13 +397,13 @@ public class Player implements Runnable {
 
             }
             case "King of Temeria" -> {
-
+                increaseThePowerOfSiegeForMe();
             }
             case "Lord Commander of the North" -> {
 
             }
             case "Son of Medell" -> {
-
+                destroyOpponentMostPowerFullRanged();
             }
             case "The White Flame" -> {
 
@@ -366,51 +412,137 @@ public class Player implements Runnable {
 
             }
             case "Emperor of Nilfgaard" -> {
-
+                // We do not need this information
             }
             case "The Relentless" -> {
 
             }
             case "Invader of the North" -> {
-
+                recoverARandomCard();
             }
             case "Bringer of Death" -> {
-
+                increaseThePowerOfARowForMe(0);
             }
             case "King of the wild Hunt" -> {
 
             }
             case "Destroyer of Worlds" -> {
-
+                changeWithDistraction();
             }
             case "Commander of the Red Riders" -> {
 
             }
             case "The Treacherous" -> {
-
+                increasePowerOfSpies();
             }
             case "Queen of Dol Blathanna" -> {
-
+                destroyOpponentMostPowerFullRangedIfNeeded();
             }
             case "The Beautiful" -> {
-
+                increaseThePowerOfRangedForMe();
             }
             case "Daisy of the Valley" -> {
-
+                // We handled it in choosing random cards
             }
             case "Pureblood Elf" -> {
-
+                putAFrost();
             }
             case "Hope of the Aen Seidhe" -> {
 
             }
             case "Crach an Craite" -> {
-
+                recoverDiscardPiles();
             }
             case "King Bran" -> {
-
+                decreaseFreezingAspect();
             }
         }
+    }
+
+
+    // This method prevents duplicate in code
+    private void increaseThePowerOfARowForMe(int rowNum) {
+        if (rows[rowNum].getSpecial().getName().equals("Commander’s horn")) return;
+        for (Card card : rows[rowNum].getCards()) {
+            card.setPower(card.getPower() * 2);
+        }
+        updatePointOfRows();
+    }
+
+    private void increaseThePowerOfSiegeForMe() {
+        increaseThePowerOfARowForMe(2);
+    }
+
+    private void increaseThePowerOfRangedForMe() {
+        increaseThePowerOfARowForMe(1);
+    }
+
+    private void changeWithDistraction() {
+        if (inHand.size() < 2) return;
+
+        // handle saving properly
+        Card randomCardTrue = getRandomCard(user.getDeck());
+
+        Card randomCard1 = getRandomCard(inHand);
+        inHand.remove(randomCard1);
+        discardCards.add(randomCard1);
+        Card randomCard2 = getRandomCard(inHand);
+        inHand.remove(randomCard2);
+        discardCards.add(randomCard2);
+
+
+        // handle saving properly
+        inHand.add(randomCardTrue);
+
+    }
+
+    private void destroyOpponentMostPowerFullRangedIfNeeded() {
+        if (getSumPowerOfARow(opponentRows[0]) > 10) {
+            Card card = getTheMostPowerFullCard(opponentRows[1].getCards());
+            rows[1].getCards().remove(card);
+            updatePointOfRows();
+        }
+    }
+
+    private void recoverARandomCard() {
+        if (!discardCards.isEmpty()) {
+            Card card = getRandomCard(discardCards);
+            discardCards.remove(card);
+            inHand.add(card);
+        }
+
+        updatePointOfRows();
+    }
+
+
+    private void destroyOpponentMostPowerFullRanged() {
+        if (getSumPowerOfARow(opponentRows[1]) > 10) {
+            Card card = getTheMostPowerFullCard(opponentRows[1].getCards());
+            rows[1].getCards().remove(card);
+            updatePointOfRows();
+        }
+    }
+
+    private void putAFrost() {
+        for (Card card : inHand) {
+            if (card.getName().contains("frost")) {
+                putCardForMe(card, CardController.getRowNumber(card.getName()));
+                break;
+            }
+        }
+    }
+
+    private void recoverDiscardPiles() {
+        for (int i = 0; i < discardCards.size(); i++) {
+            Card card = getRandomCard(discardCards);
+            inHand.add(card);
+            discardCards.remove(card);
+        }
+        updatePointOfRows();
+    }
+
+    private void decreaseFreezingAspect() {
+        // TODO: units only loose half of their powers
     }
 
     private void updateRows(String message) {
@@ -626,7 +758,10 @@ public class Player implements Runnable {
 
 
     private void putCardForMe(Card card, int rowNumber) {
-        if (!card.getAbility().equals("Spy")) rows[rowNumber].addCard(card);
+        if (!card.getAbility().equals("Spy")) {
+            rows[rowNumber].addCard(card);
+            inHand.remove(card);
+        }
 
         switch (card.getAbility()) {
             case "Muster":
