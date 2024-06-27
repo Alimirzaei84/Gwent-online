@@ -206,7 +206,7 @@ public class User implements Comparable<User> {
     public int getUnitCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Unit) out++;
+            if (card instanceof Unit) out++;
         }
         return out;
     }
@@ -214,15 +214,15 @@ public class User implements Comparable<User> {
     public int getSpecialCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Special) out++;
+            if (card instanceof Special) out++;
         }
         return out;
     }
 
-    public int getCardCount(String cardName){
+    public int getCardCount(String cardName) {
         int out = 0;
         for (Card card : deck) {
-            if(card.getName().equals(cardName)) out++;
+            if (card.getName().equals(cardName)) out++;
         }
         return out;
     }
@@ -230,7 +230,7 @@ public class User implements Comparable<User> {
     public int getHeroCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Hero) out++;
+            if (card instanceof Hero) out++;
         }
         return out;
     }
@@ -243,8 +243,21 @@ public class User implements Comparable<User> {
         return result;
     }
 
-    public Card getCardFromDeckByName(String cardName){
-        for (Card card : deck){
+    public ArrayList<Card> getRandomDeck() {
+        ArrayList<Card> deck = new ArrayList<>();
+
+        Random random = new Random();
+        for (int i = 0 ; i < 22 ; i ++){
+            String cardName = CardController.units.get(random.nextInt(CardController.units.size()));
+            deck.add(CardController.createUnitCard(cardName));
+        }
+
+        return deck;
+    }
+
+
+    public Card getCardFromDeckByName(String cardName) {
+        for (Card card : deck) {
             if (card.getName().equals(cardName))
                 return card;
         }

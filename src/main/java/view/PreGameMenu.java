@@ -192,7 +192,8 @@ public class PreGameMenu extends AppMenu {
         for (String s : out) {
             Card card = CardController.createCardWithName(s);
             if (card.getType().equals(model.role.Type.WEATHER))
-                System.out.println(STR."\{card.getName()}--->\{card.getAbility()}");
+//                System.out.println(STR."\{card.getName()}--->\{card.getAbility()}");
+                System.out.println(card.getName() + "--->" + card.getAbility());
         }
         showManyCardsInScrollBar(out, false);
     }
