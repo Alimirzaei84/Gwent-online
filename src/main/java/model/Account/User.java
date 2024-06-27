@@ -1,9 +1,11 @@
 package model.Account;
 
+import controller.CardController;
 import model.role.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class User implements Comparable<User> {
 
@@ -41,6 +43,13 @@ public class User implements Comparable<User> {
         answers = new HashMap<>();
         allUsers.add(this);
         deck = new ArrayList<>();
+        leader = getRandomLeader();
+    }
+
+    private Leader getRandomLeader() {
+        Random rand = new Random();
+        String leaderName = CardController.leaders.get(rand.nextInt(CardController.leaders.size()));
+        return (Leader) CardController.createLeaderCard(leaderName);
     }
 
     public Leader getLeader() {

@@ -152,24 +152,37 @@ public class Player implements Runnable {
 //        }
         if (inMessage.equals("pass round")) {
             passRound();
-        } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
+        }
+        else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
             makeHandReady();
-        } else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
+        }
+
+        else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
+            System.out.println(inHand);
+        }
+
+
+        else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
             placeCardRequest(inMessage);
         } else if (inMessage.matches(putCardRegex)) {
             inHandler.sendMessage(inMessage);
-        } else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
+        }
+        else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
             veto(inHand.get(Integer.parseInt(GameRegexes.VETO_A_CARD.getGroup(inMessage, "cardIndex"))));
-        } else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
+        }
+        else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
             round++;
             isServerListening = false;
             System.out.println("[PLAYER] this turn has ended");
             inHandler.sendMessage("end turn");
-        } else if (inMessage.equals("test")) {
+        }
+        else if (inMessage.equals("test")) {
             inHandler.sendMessage(Integer.toString(++X));
-        } else if (inMessage.equals("play leader")) {
+        }
+        else if (inMessage.equals("play leader")) {
             playLeader();
         } else {
+            System.out.println("invalid command");
             //TODO: Handle Alert for invalid action
         }
         // TODO

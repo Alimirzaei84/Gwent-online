@@ -1,9 +1,11 @@
 package model.game;
 
+import controller.CardController;
 import controller.PlayerController;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
+import model.role.Leader;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -441,8 +443,11 @@ public class Game implements Runnable {
     }
 
     public static void main(String[] args) {
-        User u1 = new User("a", "a", "a", "a");
-        User u2 = new User("b", "b", "b", "b");
+        try {
+            CardController.load_data();
+        } catch (Exception e) {}
+        User u1 = new User("ali", "a", "a", "a");
+        User u2 = new User("erfan", "b", "b", "b");
         Game game = new Game(u1, u2);
 
         game.run();

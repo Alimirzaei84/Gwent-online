@@ -17,6 +17,7 @@ public enum GameRegexes {
     JSON_OF_ROWS("(?<username>.+)Row0(?<json0>.+)Row1(?<json1>.+)Row2(?<json2>.+)"),
     PLAY_LEADER("leader(?<username>.+\\|(?<leaderName>.+))"),
     EXIT("^exit$"),
+    SHOW_HAND("^show hand$");
     ;
 
 
