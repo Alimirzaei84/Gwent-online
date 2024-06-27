@@ -56,7 +56,6 @@ public class Game implements Runnable {
         try {
             pool = Executors.newCachedThreadPool();
 
-            // writing trash
             Socket p1 = server.accept();
 
             // player 1
@@ -77,7 +76,7 @@ public class Game implements Runnable {
             isPlayerListening = true;
 
             // choose card
-//            chooseCard();
+            chooseCard();
 
             while (gameStillOn()) {
                 getReadyToCommuincateWithPlayer();
@@ -99,34 +98,6 @@ public class Game implements Runnable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return;
-        // creating controllers
-//        createControllers();
-        // players choose their cards
-//        try {
-//            playersChooseCard();
-
-//            goNextTurn();
-        // while the game is still on
-        // start the turn
-        // ask the first player for action
-        // get response from player
-        // ask the second player for action
-        // get response from sec player
-        // store the data
-
-//            while (gameStillOn()) {
-//
-//                // start the turn from first player
-//                openCommunication(getController1());
-//                startTurn(getController1());
-//                break;
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
     }
 

@@ -8,7 +8,20 @@ import java.util.*;
 // @Info I change the num of card Redeem.
 
 
-public class CardController {
+/*
+ *   TODO missing assets
+ *   monsters_crone_brewess
+ *   monsters_crone_whispess
+ *   nilfgaard_nausicaa_cavalry_rider
+ *   nilfgaard_morvran_voorhis
+ *   nilfgaard_heavy_zerrikanian_fire_scorpion
+ *   nilfgaard_morvran_voorhis
+ *   scoiatael_seasenthessis
+ *   skellige_vidkaarl
+ *   skellige_young_vidkaarl
+ * */
+
+public abstract class CardController {
 
     public static HashMap<String, Type> type = new HashMap<>();
     public static HashMap<String, Faction> faction = new HashMap<>();
@@ -32,12 +45,12 @@ public class CardController {
         return -1;
     }
 
-
     public static ArrayList<String> units = new ArrayList<>();
     public static ArrayList<String> specials = new ArrayList<>();
     public static ArrayList<String> leaders = new ArrayList<>();
     public static ArrayList<String> heroes = new ArrayList<>();
 
+    static int numNotPassed = 0;
 
     public static ArrayList<String> removeDuplicates(List<String> list) {
         Set<String> set = new HashSet<>(list);
@@ -113,6 +126,21 @@ public class CardController {
 
         // default
         power.put(name, 0);
+
+        String middle = "special_" + name.toLowerCase().replace(" ", "_");
+        middle = middle.replace("’", "");
+        String img_path = "./src/main/resources/assets/sm/" + middle + ".jpg";
+        imagePath.put(name, img_path);
+
+
+        File file = new File(img_path);
+        if (!file.exists()) {
+            numNotPassed++;
+            imagePath.put(name, null);
+            System.out.println(img_path);
+            System.out.println(middle);
+        }
+
     }
 
     private static void addUnitToRecord(String[] line) {
@@ -139,17 +167,7 @@ public class CardController {
         ability.put(cardName, abilityStr);
         description.put(cardName, descriptionStr);
 
-        // creating a path to imag
-        String tmp = cardName.toLowerCase().split(" ")[0];
         String tmp1 = factionName.toLowerCase();
-        if (tmp.equals("clan") || tmp.equals("young") || tmp.equals("war")) {
-            tmp = cardName.toLowerCase().split(" ")[1];
-        }
-
-        else if (tmp.equals("vrihedd") || tmp.equals("dol")) {
-            tmp = cardName.toLowerCase().split(" ")[2];
-        }
-
         if (tmp1.equals("all")) {
             tmp1 = "neutral";
         }
@@ -166,14 +184,19 @@ public class CardController {
             tmp1 = "nilfgaard";
         }
 
-        String img_path = "./src/main/resources/assets/lg/" + tmp1 + "_" + tmp + ".jpg";
+        String middle = tmp1 + "_" + cardName.toLowerCase().replaceAll("[\\s+]", "_");
+        middle = middle.replace("’", "");
+        middle = middle.replace(":", "");
+        String img_path = "./src/main/resources/assets/sm/" + middle + ".jpg";
         imagePath.put(cardName, img_path);
 
 
         File file = new File(img_path);
         if (!file.exists()) {
-            System.out.println(img_path);
-            System.out.println(cardName);
+            numNotPassed++;
+            imagePath.put(cardName, null);
+//            System.out.println(img_path);
+//            System.out.println(middle);
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);
