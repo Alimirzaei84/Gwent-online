@@ -34,4 +34,8 @@ public class ApplicationController {
     public static void setStage(Stage stage) {
         ApplicationController.stage = stage;
     }
+
+    public static void closeStage(){
+        if (stage.isShowing()) stage.close();
+    }
 }

@@ -22,12 +22,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Account.Player;
 import model.Account.User;
 import model.game.Game;
-import model.role.Card;
-import model.role.Faction;
-import model.role.Leader;
-import model.role.Unit;
+import model.role.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -61,7 +59,7 @@ public class PreGameMenu extends AppMenu {
     public PreGameMenu() {
         controller = new PreGameMenuController();
         currentImageView = null;
-        currentUser = Game.getCurrentGame().getPlayer1().getUser();
+        currentUser = User.getLoggedInUser();
     }
 
     @Override
@@ -191,7 +189,12 @@ public class PreGameMenu extends AppMenu {
             }
 
         }
-
+        for (String s : out) {
+            Card card = CardController.createCardWithName(s);
+            if (card.getType().equals(model.role.Type.WEATHER))
+//                System.out.println(STR."\{card.getName()}--->\{card.getAbility()}");
+                System.out.println(card.getName() + "--->" + card.getAbility());
+        }
         showManyCardsInScrollBar(out, false);
     }
 
@@ -212,6 +215,7 @@ public class PreGameMenu extends AppMenu {
             for (String string : restoredList) {
                 currentUser.getDeck().add(CardController.createCardWithName(string));
             }
+
 
             if (currentUser.getSpecialCount() > 10) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -275,8 +279,14 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void startGame() {
-        //TODO: start the game and initialize the game object
+        Game game = Game.getCurrentGame();
+        User user1 = game.getPlayer1().getUser();
+        User user2 = game.getPlayer2().getUser();
+        ApplicationController.closeStage();
+        Thread thread = new Thread(game);
+        thread.start();
     }
+
 
     public void showCurrentUserInfo() {
         usernameLabel.setText(currentUser.getName());
