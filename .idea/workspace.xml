@@ -7,10 +7,14 @@
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ApplicationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +138,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />

@@ -24,11 +24,18 @@ public class Game {
 
     private int numTurn = 0;
 
+    private int indexCurPlayer; //TODO : CHANGE AFTER EACH TURN
     private static Game currentGame = null;
 
-    public Game(User user1, User user2){
+    public Game(User user1, User user2) {
         players = new Player[2];
-        createPlayers(user1,user2);
+        createPlayers(user1, user2);
+        indexCurPlayer = 0;
+    }
+
+    public void changeTurn() {
+        if (indexCurPlayer == 0) indexCurPlayer = 1;
+        else indexCurPlayer = 0;
     }
 
     class CommunicationHandler {
@@ -39,7 +46,9 @@ public class Game {
         }
     }
 
-
+    public Player getCurrentPlayer() {
+        return players[indexCurPlayer];
+    }
 
     public void createPlayers(User user1, User user2) {
         players[0] = new Player(user1);

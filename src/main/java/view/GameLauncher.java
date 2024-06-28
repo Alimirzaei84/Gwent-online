@@ -1,10 +1,14 @@
 package view;
 
+import controller.menuConrollers.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Account.Player;
+import model.game.Game;
 import view.AppMenu;
 import view.MainMenu;
 
@@ -12,12 +16,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
+    private GameController gameController;
+    private AnchorPane pane;
+    private HBox inHandPlayer1 = new HBox();
+    private HBox inHandPlayer2 = new HBox();
+    private VBox body = new VBox();
 
-    private Player player;
-    private Stage stage;
-
-    public GameLauncher(Player player) {
-        this.player = player;
+    public GameLauncher() {
+        gameController = new GameController(Game.getCurrentGame());
     }
 
     @Override
@@ -36,6 +42,10 @@ public class GameLauncher extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gameController.initializeGame();
 
+        pane.getChildren().add(body);
+        body.getChildren().add(inHandPlayer1);
+//        inHandPlayer1.setLayoutY();
     }
 }

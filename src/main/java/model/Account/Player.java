@@ -46,7 +46,7 @@ public class Player {
     private ArrayList<Card> discardCards;
     private final Leader leader;
     private final PlayerController controller;
-
+    private Stage stage;
 
     private final ArrayList<Card> weathers;
 
@@ -137,7 +137,7 @@ public class Player {
         inHand.add(getRandomCard(user.getDeck()));
     }
 
-    private void makeHandReady() {
+    public void makeHandReady() {
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int i = 0; i < counter; i++) {
             inHand.add(getRandomCard(user.getDeck()));
@@ -847,7 +847,6 @@ public class Player {
         // TODO: effects and others
     }
 
-
     private Card getTheMostPowerFullCard(Row[] array) {
         ArrayList<Card> result = new ArrayList<>();
         result.add(getTheMostPowerFullCard(array[0].getCards()));
@@ -958,4 +957,6 @@ public class Player {
         if (arrayList.isEmpty()) return null;
         return arrayList.get(ApplicationController.getRandom().nextInt(0, arrayList.size()));
     }
+
+
 }

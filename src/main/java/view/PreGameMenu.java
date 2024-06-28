@@ -36,7 +36,7 @@ import java.util.*;
 public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
     private ImageView currentImageView;
-    private User currentUser;
+    private static User currentUser = User.getLoggedInUser();
     private final int MAX_CARD_IN_LINE = 4;
     private final int BACK_BUTTON_SPACING = 80;
     private final int LAYOUT_BUTTON = 40;
@@ -59,7 +59,6 @@ public class PreGameMenu extends AppMenu {
     public PreGameMenu() {
         controller = new PreGameMenuController();
         currentImageView = null;
-        currentUser = User.getLoggedInUser();
     }
 
     @Override
@@ -277,13 +276,32 @@ public class PreGameMenu extends AppMenu {
         return out;
     }
 
+
     public void startGame() {
         Game game = Game.getCurrentGame();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Err");
+        alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        if (game.getPlayer1().getUser().getDeck().size() < 22 || game.getPlayer1().getUser().getSpecialCount() >= 10) {
+            String errMssg = "[ERR]: " + game.getPlayer1().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
+            alert.setContentText(errMssg);
+            alert.show();
+            return;
+        } else if (game.getPlayer2().getUser().getDeck().size() < 22 || game.getPlayer2().getUser().getSpecialCount() >= 10) {
+            String errMssg = "[ERR]: " + game.getPlayer2().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
+            alert.setContentText(errMssg);
+            alert.show();
+            return;
+        }
+
         User user1 = game.getPlayer1().getUser();
         User user2 = game.getPlayer2().getUser();
-        ApplicationController.closeStage();
-
-
+        try {
+            GameLauncher gameLauncher = new GameLauncher();
+            gameLauncher.start(ApplicationController.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
