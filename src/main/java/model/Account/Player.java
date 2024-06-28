@@ -31,7 +31,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Player extends AppMenu implements Runnable {
+public class Player {
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
@@ -39,55 +39,25 @@ public class Player extends AppMenu implements Runnable {
     private User user;
     private short vetoCounter;
     private int opponentTotalPoints;
-    private int X;
     private final Row[] rows;
     private final Row[] opponentRows;
     private ArrayList<Card> inHand;
     private ArrayList<Card> discardCards;
     private final Leader leader;
     private final PlayerController controller;
-    private Socket socket;
-    private DataOutputStream out;
-    private DataInputStream in;
-    private boolean running;
 
-    private InputHandler inHandler;
+
     private final ArrayList<Card> weathers;
-    private Stage stage;
 
-    private boolean isServerListening;
-
-    @Override
-    public synchronized void start(Stage stage) throws Exception {
-        URL url = MainMenu.class.getResource("/FXML/GameLauncher.fxml");
-        assert url != null;
-        AnchorPane root = FXMLLoader.load(url);
-
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/CSS/GameLauncher.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.show();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-    public Player(User user, Stage stage) {
-        this.stage = stage;
+    public Player(User user) {
         actionLeaderDone = false;
         totalPoint = 0;
         opponentTotalPoints = 0;
         diamond = 0;
         vetoCounter = 0;
         round = 0;
-        X = 0;
         this.user = user;
         this.leader = user.getLeader();
-        running = true;
         rows = new Row[3];
         opponentRows = new Row[3];
         weathers = new ArrayList<>();
@@ -95,189 +65,75 @@ public class Player extends AppMenu implements Runnable {
         discardCards = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
-        isServerListening = false;
-
-        // Handle network
-        try {
-            socket = new Socket("127.0.0.1", 8080);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // TODO Erfan handle
-        }
 
     }
 
-    @Override
-    public void run() {
-        try {
-            out = new DataOutputStream(socket.getOutputStream());
-            in = new DataInputStream(socket.getInputStream());
-
-            inHandler = new InputHandler();
-            Thread thread = new Thread(inHandler);
-            thread.start();
-
-            startView();
-            String inMessage;
-            while ((inMessage = in.readUTF()) != null) {
-                System.out.println("[PLAYER " + getUser().getName() + "] server saying: " + inMessage);
-                serverCommandHandler(inMessage);
-            }
-
-        } catch (UnknownHostException e) {
-            // TODO handle
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO handle
-            e.printStackTrace();
-        }
-
-
-    }
-
-    /*
-     * @Info get input from terminal or view
-     * */
-    class InputHandler implements Runnable {
-
-        @Override
-        public void run() {
-            try {
-                while (running) {
-                    Scanner scanner = new Scanner(System.in);
-
-                    if (isServerListening) {
-                        String message = scanner.nextLine();
-                        System.out.println("[PLAYER " + getUser().getName() + "] recieve form user: " + message);
-                        userCommandHandler(message);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void sendMessage(String message) {
-            try {
-                out.writeUTF(message);
-            } catch (IOException e) {
-                // TODO handle
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /*
-     * @Info this function process the message from user
-     * */
-
-    public void putACard(String cardName) {
-        inHandler.sendMessage(user.getName() + " put card " + cardName);
-        endTurn();
-    }
-
-    public synchronized void startView() {
-        makeHandReady();
-
-        Platform.runLater(() -> {
-            try {
-                start(stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-
-    private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
 
     private void userCommandHandler(String inMessage) {
-//        else if (GameRegexes.PUT_CARD.matches(inMessage)) {
-////            putCard(inMessage);
+//        if (inMessage.equals("pass round")) {
+//            passRound();
+//        } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
+//            makeHandReady();
+//        } else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
+//            System.out.println(inHand);
+//        } else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
+//            placeCardRequest(inMessage);
+//        } else if (inMessage.matches(putCardRegex)) {
+//            inHandler.sendMessage(inMessage);
+//        } else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
+//            veto(inHand.get(Integer.parseInt(GameRegexes.VETO_A_CARD.getGroup(inMessage, "cardIndex"))));
+//        } else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
+//            round++;
+//            System.out.println("[PLAYER] this turn has ended");
+//            inHandler.sendMessage("end turn");
+//        } else if (inMessage.equals("test")) {
+//            inHandler.sendMessage(Integer.toString(++X));
+//        } else if (inMessage.equals("play leader")) {
+//            playLeader();
+//        } else {
+//            System.out.println("invalid command");
+//            //TODO: Handle Alert for invalid action
 //        }
-
-        if (inMessage.equals("pass round")) {
-            passRound();
-        } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
-            makeHandReady();
-        } else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
-            System.out.println(inHand);
-        }
-
-        else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
-            placeCardRequest(inMessage);
-        } else if (inMessage.matches(putCardRegex)) {
-            inHandler.sendMessage(inMessage);
-        } else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
-            veto(inHand.get(Integer.parseInt(GameRegexes.VETO_A_CARD.getGroup(inMessage, "cardIndex"))));
-        } else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
-            round++;
-            isServerListening = false;
-            System.out.println("[PLAYER] this turn has ended");
-            inHandler.sendMessage("end turn");
-        } else if (inMessage.equals("test")) {
-            inHandler.sendMessage(Integer.toString(++X));
-        } else if (inMessage.equals("play leader")) {
-            playLeader();
-        } else {
-            System.out.println("invalid command");
-            //TODO: Handle Alert for invalid action
-        }
-        // TODO
+//        // TODO
     }
 
-    /*
-     * @Info this function process the message from server
-     * */
     private void serverCommandHandler(String message) throws IOException {
-        if (message.equals("start communication")) {
-            inHandler.sendMessage("communication accepted");
-        }
-
-        else if (GameRegexes.CHOOSE_CARD.matches(message)) {
-            makeHandReady();
-        }
-
-        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
-            String username = GameRegexes.A_USER_PUT_CARD.getGroup(message, "username");
-            String cardName = GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName");
-            String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
-            putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
-            sendMyRowsToOpp();
-        } else if (GameRegexes.PLAY_LEADER.matches(message)) {
-            String username = GameRegexes.PLAY_LEADER.getGroup(message, "username");
-            String leaderName = GameRegexes.PLAY_LEADER.getGroup(message, "leaderName");
-            actionLeader(username, leaderName);
-
-        } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
-            updateRows(message);
-        }
-//        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
-//            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
+//        if (message.equals("start communication")) {
+//            inHandler.sendMessage("communication accepted");
+//        } else if (GameRegexes.CHOOSE_CARD.matches(message)) {
+//            makeHandReady();
+//        } else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+//            String username = GameRegexes.A_USER_PUT_CARD.getGroup(message, "username");
+//            String cardName = GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName");
+//            String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
+//            putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
+//            sendMyRowsToOpp();
+//        } else if (GameRegexes.PLAY_LEADER.matches(message)) {
+//            String username = GameRegexes.PLAY_LEADER.getGroup(message, "username");
+//            String leaderName = GameRegexes.PLAY_LEADER.getGroup(message, "leaderName");
+//            actionLeader(username, leaderName);
+//
+//        } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
+//            updateRows(message);
 //        }
-        else if (message.equals(GameRegexes.START_TURN.toString())) {
-            startTurn();
-            handleTransformers();
-            removeDeadCards();
-
-        } else if (message.equals("ok")) {
-        }
+//        else if (message.equals(GameRegexes.START_TURN.toString())) {
+//            startTurn();
+//            handleTransformers();
+//            removeDeadCards();
+//
+//        } else if (message.equals("ok")) {
+//        }
     }
 
 
     private void playLeader() {
-        if (!actionLeaderDone) inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
-        actionLeaderDone = true;
-    }
-
-    private void placeCardRequest(String message) {
-        inHandler.sendMessage(user.getName() + " " + message);
+//        if (!actionLeaderDone) inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
+//        actionLeaderDone = true;
     }
 
     private void veto(Card card) {
         inHand.remove(card);
         inHand.add(getRandomCard(user.getDeck()));
-        inHandler.sendMessage(user.getName() + "'s has been completed");
     }
 
     private void makeHandReady() {
@@ -285,14 +141,11 @@ public class Player extends AppMenu implements Runnable {
         for (int i = 0; i < counter; i++) {
             inHand.add(getRandomCard(user.getDeck()));
         }
-        inHandler.sendMessage(user.getName() + " has ready hand");
     }
 
     private void passRound() {
         round++;
-        isServerListening = false;
         System.out.println("[PLAYER] this turn has ended");
-        inHandler.sendMessage(user.getName() + " passed");
     }
 
     private void removeDeadCards() {
@@ -681,46 +534,12 @@ public class Player extends AppMenu implements Runnable {
         // TODO: units only loose half of their powers
     }
 
-    private void updateRows(String message) {
-        if (user.getName().equals(GameRegexes.JSON_OF_ROWS.getGroup(message, "username"))) return;
-        Gson gson = new Gson();
-        ArrayList<String> row0 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json0"), new TypeToken<ArrayList<String>>() {
-        }.getType());
-        ArrayList<String> row1 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json1"), new TypeToken<ArrayList<String>>() {
-        }.getType());
-        ArrayList<String> row2 = gson.fromJson(GameRegexes.JSON_OF_ROWS.getGroup(message, "json2"), new TypeToken<ArrayList<String>>() {
-        }.getType());
-
-        opponentRows[0].setCards(generateCardsOfTheirNames(row0));
-        opponentRows[1].setCards(generateCardsOfTheirNames(row1));
-        opponentRows[2].setCards(generateCardsOfTheirNames(row2));
-
-        updatePointOfRows();
-    }
-
     private ArrayList<Card> generateCardsOfTheirNames(ArrayList<String> arrayList) {
         ArrayList<Card> out = new ArrayList<>();
         for (String string : arrayList) {
             out.add(CardController.createCardWithName(string));
         }
         return out;
-    }
-
-    private void sendMyRowsToOpp() {
-        Gson gson = new Gson();
-        String json0 = gson.toJson(converCardsToTheirNames(rows[0].getCards()));
-        String json1 = gson.toJson(converCardsToTheirNames(rows[1].getCards()));
-        String json2 = gson.toJson(converCardsToTheirNames(rows[2].getCards()));
-        inHandler.sendMessage(user.getName() + "Row0" + json0 + "Row1" + json1 + "Row2" + json2);
-    }
-
-
-    private ArrayList<String> converCardsToTheirNames(ArrayList<Card> cards) {
-        ArrayList<String> result = new ArrayList<>();
-        for (Card card : cards) {
-            result.add(card.getName());
-        }
-        return result;
     }
 
 
@@ -1080,30 +899,13 @@ public class Player extends AppMenu implements Runnable {
     }
 
     private void startTurn() {
-        isServerListening = true;
         // TODO
     }
 
     private void endTurn() {
-        isServerListening = false;
         // TODO
     }
 
-    public void shutdown() {
-        running = false;
-        try {
-            in.close();
-            out.close();
-
-            if (!socket.isClosed()) {
-                socket.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            // TODO handle
-        }
-    }
 
     private void createRows() {
         rows[0] = new Row(Row.RowName.FIRST);

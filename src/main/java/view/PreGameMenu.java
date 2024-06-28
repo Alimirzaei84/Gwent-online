@@ -283,8 +283,8 @@ public class PreGameMenu extends AppMenu {
         User user1 = game.getPlayer1().getUser();
         User user2 = game.getPlayer2().getUser();
         ApplicationController.closeStage();
-        Thread thread = new Thread(game);
-        thread.start();
+
+
     }
 
 
@@ -324,6 +324,7 @@ public class PreGameMenu extends AppMenu {
             cardCo++;
 
             String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
+            if (imagePath == null) continue;
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> addToDeck(cardName, (VBox) imageView.getParent()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));

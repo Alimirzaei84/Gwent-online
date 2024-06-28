@@ -22,7 +22,16 @@ public class GameLauncher extends AppMenu {
 
     @Override
     public void start(Stage stage) throws Exception {
+        URL url = MainMenu.class.getResource("/FXML/GameLauncher.fxml");
+        assert url != null;
+        AnchorPane root = FXMLLoader.load(url);
 
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/CSS/GameLauncher.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @Override
