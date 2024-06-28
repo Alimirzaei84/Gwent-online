@@ -455,9 +455,10 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void showLeaders() throws MalformedURLException {
-        // TODO: until I find leaders assets
 
         HBox body = new HBox();
+        body.setMinWidth(1260);
+        body.setMinHeight(715);
         VBox content = new VBox();
         content.setSpacing(10);
         HBox hBox = new HBox();
