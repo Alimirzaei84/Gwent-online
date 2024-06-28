@@ -57,7 +57,6 @@ public class Game implements Runnable {
         try {
             pool = Executors.newCachedThreadPool();
 
-            // writing trash
             Socket p1 = server.accept();
 
             // player 1
@@ -80,6 +79,8 @@ public class Game implements Runnable {
             // choose card
 //            chooseCard();
             
+            chooseCard();
+
             while (gameStillOn()) {
                 getReadyToCommuincateWithPlayer();
                 tunnel1.startCommunication();

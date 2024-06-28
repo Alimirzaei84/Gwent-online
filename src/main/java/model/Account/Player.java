@@ -195,13 +195,16 @@ public class Player extends AppMenu implements Runnable {
 //        else if (GameRegexes.PUT_CARD.matches(inMessage)) {
 ////            putCard(inMessage);
 //        }
+
         if (inMessage.equals("pass round")) {
             passRound();
         } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
             makeHandReady();
         } else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
             System.out.println(inHand);
-        } else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
+        }
+
+        else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
             placeCardRequest(inMessage);
         } else if (inMessage.matches(putCardRegex)) {
             inHandler.sendMessage(inMessage);
@@ -222,6 +225,45 @@ public class Player extends AppMenu implements Runnable {
         }
         // TODO
     }
+
+    /*
+     * @Info this function process the message from server
+     * */
+    private void serverCommandHandler(String message) throws IOException {
+        if (message.equals("start communication")) {
+            inHandler.sendMessage("communication accepted");
+        }
+
+        else if (GameRegexes.CHOOSE_CARD.matches(message)) {
+            makeHandReady();
+        }
+
+        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+            String username = GameRegexes.A_USER_PUT_CARD.getGroup(message, "username");
+            String cardName = GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName");
+            String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
+            putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
+            sendMyRowsToOpp();
+        } else if (GameRegexes.PLAY_LEADER.matches(message)) {
+            String username = GameRegexes.PLAY_LEADER.getGroup(message, "username");
+            String leaderName = GameRegexes.PLAY_LEADER.getGroup(message, "leaderName");
+            actionLeader(username, leaderName);
+
+        } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
+            updateRows(message);
+        }
+//        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
+//            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
+//        }
+        else if (message.equals(GameRegexes.START_TURN.toString())) {
+            startTurn();
+            handleTransformers();
+            removeDeadCards();
+
+        } else if (message.equals("ok")) {
+        }
+    }
+
 
     private void playLeader() {
         if (!actionLeaderDone) inHandler.sendMessage("leader" + user.getName() + "|" + leader.getName());
@@ -251,38 +293,6 @@ public class Player extends AppMenu implements Runnable {
         isServerListening = false;
         System.out.println("[PLAYER] this turn has ended");
         inHandler.sendMessage(user.getName() + " passed");
-    }
-
-    /*
-     * @Info this function process the message from server
-     * */
-    private void serverCommandHandler(String message) throws IOException {
-        if (message.equals("start communication")) {
-            inHandler.sendMessage("communication accepted");
-        } else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
-            String username = GameRegexes.A_USER_PUT_CARD.getGroup(message, "username");
-            String cardName = GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName");
-            String rowNumber = GameRegexes.A_USER_PUT_CARD.getGroup(message, "rowNumber");
-            putCard(cardName, Integer.parseInt(rowNumber), username.equals(user.getName()));
-            sendMyRowsToOpp();
-        } else if (GameRegexes.PLAY_LEADER.matches(message)) {
-            String username = GameRegexes.PLAY_LEADER.getGroup(message, "username");
-            String leaderName = GameRegexes.PLAY_LEADER.getGroup(message, "leaderName");
-            actionLeader(username, leaderName);
-
-        } else if (GameRegexes.JSON_OF_ROWS.matches(message)) {
-            updateRows(message);
-        }
-//        else if (GameRegexes.A_USER_PUT_CARD.matches(message)) {
-//            handlePuttingACard(GameRegexes.A_USER_PUT_CARD.getGroup(message, "username"), GameRegexes.A_USER_PUT_CARD.getGroup(message, "cardName"));
-//        }
-        else if (message.equals(GameRegexes.START_TURN.toString())) {
-            startTurn();
-            handleTransformers();
-            removeDeadCards();
-
-        } else if (message.equals("ok")) {
-        }
     }
 
     private void removeDeadCards() {
