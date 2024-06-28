@@ -39,6 +39,7 @@ public class RegisterMenu extends AppMenu {
         CardController.heroes = CardController.removeDuplicates(CardController.heroes);
         CardController.units = CardController.removeDuplicates(CardController.units);
         CardController.specials = CardController.removeDuplicates(CardController.specials);
+        CardController.leaders = CardController.removeDuplicates(CardController.leaders);
     }
 
     public static void main(String[] args) {

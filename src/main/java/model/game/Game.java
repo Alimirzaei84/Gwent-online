@@ -1,19 +1,9 @@
 package model.game;
 
 import controller.CardController;
-import controller.PlayerController;
-import javafx.stage.Stage;
 import model.Account.Player;
 import model.Account.User;
-import model.Enum.GameRegexes;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
