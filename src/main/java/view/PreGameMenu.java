@@ -322,6 +322,7 @@ public class PreGameMenu extends AppMenu {
             }
 
             cardCo++;
+
             String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> addToDeck(cardName, (VBox) imageView.getParent()));

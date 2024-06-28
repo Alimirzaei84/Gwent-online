@@ -108,6 +108,38 @@ public abstract class CardController {
         leaders.add(leaderName);
         faction.put(leaderName, toFaction(factionName));
         description.put(leaderName, descriptionStr);
+
+
+        String tmp1 = factionName.toLowerCase();
+        if (tmp1.equals("all")) {
+            tmp1 = "neutral";
+        }
+
+        else if (tmp1.equals("scoia'tael")) {
+            tmp1 = "scoiatael";
+        }
+
+        else if (tmp1.startsWith("northern")) {
+            tmp1 = tmp1.split(" ")[1];
+        }
+
+        else if (tmp1.startsWith("nilfgaardian")) {
+            tmp1 = "nilfgaard";
+        }
+
+        String middle = tmp1 + "_" + leaderName.toLowerCase().replaceAll("[\\s+]", "_");
+        middle = middle.replace("’", "");
+        middle = middle.replace(":", "");
+        String img_path = "./src/main/resources/assets/sm/" + middle + ".jpg";
+        imagePath.put(leaderName, img_path);
+
+        File file = new File(img_path);
+        if (!file.exists()) {
+            numNotPassed++;
+            imagePath.put(leaderName, null);
+            System.out.println(img_path);
+            System.out.println(middle);
+        }
     }
 
     private static void addSpecialToRecord(String[] data) {
@@ -137,8 +169,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(name, null);
-            System.out.println(img_path);
-            System.out.println(middle);
         }
 
     }
@@ -195,8 +225,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(cardName, null);
-//            System.out.println(img_path);
-//            System.out.println(middle);
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);
