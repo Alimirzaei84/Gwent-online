@@ -18,6 +18,7 @@ import model.role.Type;
 import view.AppMenu;
 import view.GameLauncher;
 import view.MainMenu;
+import view.RegisterMenu;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -31,7 +32,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Player extends AppMenu implements Runnable {
+public class Player  implements Runnable {
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
@@ -57,27 +58,17 @@ public class Player extends AppMenu implements Runnable {
 
     private boolean isServerListening;
 
-    @Override
-    public synchronized void start(Stage stage) throws Exception {
-        URL url = MainMenu.class.getResource("/FXML/GameLauncher.fxml");
-        assert url != null;
-        AnchorPane root = FXMLLoader.load(url);
+//    @Override
+//    public synchronized void start(Stage stage) throws Exception {
+//    }
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/CSS/GameLauncher.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.show();
-    }
+//    @Override
+//    public void initialize(URL url, ResourceBundle resourceBundle) {
+//
+//    }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-    public Player(User user, Stage stage) {
-        this.stage = stage;
+    public Player(User user) {
+//        this.stage = stage;
         actionLeaderDone = false;
         totalPoint = 0;
         opponentTotalPoints = 0;
@@ -110,6 +101,8 @@ public class Player extends AppMenu implements Runnable {
     @Override
     public void run() {
         try {
+            RegisterMenu registerMenu = new RegisterMenu();
+            registerMenu.start(ApplicationController.getStage1());
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
 
@@ -117,7 +110,6 @@ public class Player extends AppMenu implements Runnable {
             Thread thread = new Thread(inHandler);
             thread.start();
 
-            startView();
             String inMessage;
             while ((inMessage = in.readUTF()) != null) {
                 System.out.println("[PLAYER " + getUser().getName() + "] server saying: " + inMessage);
@@ -130,6 +122,8 @@ public class Player extends AppMenu implements Runnable {
         } catch (IOException e) {
             // TODO handle
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -176,17 +170,17 @@ public class Player extends AppMenu implements Runnable {
         endTurn();
     }
 
-    public synchronized void startView() {
-        makeHandReady();
-
-        Platform.runLater(() -> {
-            try {
-                start(stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    public synchronized void startView() {
+//        makeHandReady();
+//
+//        Platform.runLater(() -> {
+//            try {
+//                start(stage);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
 
     private static final String putCardRegex = "^put card (\\S+) (\\S+)$";

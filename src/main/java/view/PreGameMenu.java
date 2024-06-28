@@ -192,7 +192,6 @@ public class PreGameMenu extends AppMenu {
         for (String s : out) {
             Card card = CardController.createCardWithName(s);
             if (card.getType().equals(model.role.Type.WEATHER))
-//                System.out.println(STR."\{card.getName()}--->\{card.getAbility()}");
                 System.out.println(card.getName() + "--->" + card.getAbility());
         }
         showManyCardsInScrollBar(out, false);
@@ -323,7 +322,10 @@ public class PreGameMenu extends AppMenu {
 
             cardCo++;
 
-            String imagePath = CardController.imagePath.getOrDefault(cardName, "src/main/resources/assets/lg/skellige_king_bran.jpg");
+            String imagePath = CardController.imagePath.get(cardName);
+
+            System.out.println(cardName + "++++++" + imagePath);
+            if(imagePath == null) continue;
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> addToDeck(cardName, (VBox) imageView.getParent()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
@@ -460,7 +462,7 @@ public class PreGameMenu extends AppMenu {
 
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
-
+            System.out.println(leaderName);
             Card card = CardController.createLeaderCard(leaderName);
             ImageView imageView = new ImageView(new Image(new File(CardController.imagePath.getOrDefault(card.getName(), "src/main/resources/assets/lg/skellige_king_bran.jpg")).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> {

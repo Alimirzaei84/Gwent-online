@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
-import model.role.Leader;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -78,7 +77,7 @@ public class Game implements Runnable {
 
             // choose card
 //            chooseCard();
-            
+
             chooseCard();
 
             while (gameStillOn()) {
@@ -115,7 +114,7 @@ public class Game implements Runnable {
 
 
     class CommunicationHandler implements Runnable {
-        private Socket socket;
+        private final Socket socket;
         private DataInputStream in;
         private DataOutputStream out;
         private Player player;
@@ -213,8 +212,7 @@ public class Game implements Runnable {
 //        chooseCardCommand = "choose card";
 
     // regex
-    private final static String playerCommunicationAcceptedRegex = "^communication accepted$",
-            endTurnRegex = "^end turn$";
+    private final static String playerCommunicationAcceptedRegex = "^communication accepted$", endTurnRegex = "^end turn$";
 
 
     private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
@@ -229,7 +227,7 @@ public class Game implements Runnable {
 
 //        else
         if (command.matches(putCardRegex)) {
-            Matcher matcher = getMatcher(putCardRegex, command);
+            Matcher matcher = getMatcher(command);
             matcher.find();
             putCard(matcher, caller, opp);
         } else if (command.matches(playerCommunicationAcceptedRegex)) {
@@ -321,8 +319,7 @@ public class Game implements Runnable {
     }
 
     private void broadcastLog() {
-        CommunicationHandler t1 = getTunel1(),
-                t2 = getTunel2();
+        CommunicationHandler t1 = getTunel1(), t2 = getTunel2();
 
         String[] arr = log.toString().split("\n");
 
@@ -337,8 +334,7 @@ public class Game implements Runnable {
     }
 
     private void chooseCard() {
-        CommunicationHandler t1 = getTunel1(),
-                t2 = getTunel2();
+        CommunicationHandler t1 = getTunel1(), t2 = getTunel2();
 
         try {
             getReadyToCommuincateWithPlayer();
@@ -374,8 +370,8 @@ public class Game implements Runnable {
     }
 
     public void createPlayers(User user1, User user2) {
-        players[0] = new Player(user1, new Stage());
-        players[1] = new Player(user2, new Stage());
+        players[0] = new Player(user1);
+        players[1] = new Player(user2);
     }
 
     public Player getPlayer1() {
@@ -411,14 +407,14 @@ public class Game implements Runnable {
         return communicationHandlers[1];
     }
 
-    private static Matcher getMatcher(String regex, String command) {
-        return Pattern.compile(regex).matcher(command);
+    private static Matcher getMatcher(String command) {
+        return Pattern.compile(Game.putCardRegex).matcher(command);
     }
 
     public static void main(String[] args) {
         try {
             CardController.load_data();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         User u1 = new User("ali", "a", "a", "a");
         User u2 = new User("erfan", "b", "b", "b");
