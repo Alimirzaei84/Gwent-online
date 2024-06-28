@@ -5,23 +5,33 @@ import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.PlayerController;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.Enum.GameRegexes;
 import model.game.Row;
 import model.role.Card;
 import model.role.Leader;
 import model.role.Type;
+import view.AppMenu;
+import view.GameLauncher;
+import view.MainMenu;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Player implements Runnable {
+public class Player extends AppMenu implements Runnable {
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
@@ -43,10 +53,31 @@ public class Player implements Runnable {
 
     private InputHandler inHandler;
     private final ArrayList<Card> weathers;
+    private Stage stage;
 
     private boolean isServerListening;
 
-    public Player(User user) {
+    @Override
+    public synchronized void start(Stage stage) throws Exception {
+        URL url = MainMenu.class.getResource("/FXML/GameLauncher.fxml");
+        assert url != null;
+        AnchorPane root = FXMLLoader.load(url);
+
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/CSS/GameLauncher.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public Player(User user, Stage stage) {
+        this.stage = stage;
         actionLeaderDone = false;
         totalPoint = 0;
         opponentTotalPoints = 0;
@@ -65,7 +96,6 @@ public class Player implements Runnable {
         createRows();
         controller = new PlayerController(this);
         isServerListening = false;
-
 
         // Handle network
         try {
@@ -87,6 +117,7 @@ public class Player implements Runnable {
             Thread thread = new Thread(inHandler);
             thread.start();
 
+            startView();
             String inMessage;
             while ((inMessage = in.readUTF()) != null) {
                 System.out.println("[PLAYER " + getUser().getName() + "] server saying: " + inMessage);
@@ -100,6 +131,7 @@ public class Player implements Runnable {
             // TODO handle
             e.printStackTrace();
         }
+
 
     }
 
@@ -144,6 +176,19 @@ public class Player implements Runnable {
         endTurn();
     }
 
+    public synchronized void startView() {
+        makeHandReady();
+
+        Platform.runLater(() -> {
+            try {
+                start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
     private static final String putCardRegex = "^put card (\\S+) (\\S+)$";
 
     private void userCommandHandler(String inMessage) {
@@ -152,34 +197,24 @@ public class Player implements Runnable {
 //        }
         if (inMessage.equals("pass round")) {
             passRound();
-        }
-        else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
+        } else if (inMessage.equals("choose 10 random cards") && round == 0 && inHand.isEmpty()) {
             makeHandReady();
-        }
-
-        else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
+        } else if (GameRegexes.SHOW_HAND.matches(inMessage)) {
             System.out.println(inHand);
-        }
-
-
-        else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
+        } else if (GameRegexes.PLACE_CARD.matches(inMessage)) {
             placeCardRequest(inMessage);
         } else if (inMessage.matches(putCardRegex)) {
             inHandler.sendMessage(inMessage);
-        }
-        else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
+        } else if (GameRegexes.VETO_A_CARD.matches(inMessage) && vetoCounter < 2 && round == 0) {
             veto(inHand.get(Integer.parseInt(GameRegexes.VETO_A_CARD.getGroup(inMessage, "cardIndex"))));
-        }
-        else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
+        } else if (inMessage.equals("end turn") && !(round == 0 && inHand.isEmpty())) {
             round++;
             isServerListening = false;
             System.out.println("[PLAYER] this turn has ended");
             inHandler.sendMessage("end turn");
-        }
-        else if (inMessage.equals("test")) {
+        } else if (inMessage.equals("test")) {
             inHandler.sendMessage(Integer.toString(++X));
-        }
-        else if (inMessage.equals("play leader")) {
+        } else if (inMessage.equals("play leader")) {
             playLeader();
         } else {
             System.out.println("invalid command");

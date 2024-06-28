@@ -59,7 +59,7 @@ public class PreGameMenu extends AppMenu {
     public PreGameMenu() {
         controller = new PreGameMenuController();
         currentImageView = null;
-        currentUser = Game.getCurrentGame().getPlayer1().getUser();
+        currentUser = User.getLoggedInUser();
     }
 
     @Override
@@ -279,11 +279,14 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void startGame() {
-        User user1 = Game.getCurrentGame().getPlayer1().getUser();
-        User user2 = Game.getCurrentGame().getPlayer2().getUser();
-        Game game = new Game(user1, user2);
-        game.run();
+        Game game = Game.getCurrentGame();
+        User user1 = game.getPlayer1().getUser();
+        User user2 = game.getPlayer2().getUser();
+        ApplicationController.closeStage();
+        Thread thread = new Thread(game);
+        thread.start();
     }
+
 
     public void showCurrentUserInfo() {
         usernameLabel.setText(currentUser.getName());

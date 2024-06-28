@@ -2,6 +2,7 @@ package model.game;
 
 import controller.CardController;
 import controller.PlayerController;
+import javafx.stage.Stage;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
@@ -78,7 +79,7 @@ public class Game implements Runnable {
 
             // choose card
 //            chooseCard();
-
+            
             while (gameStillOn()) {
                 getReadyToCommuincateWithPlayer();
                 tunnel1.startCommunication();
@@ -99,35 +100,6 @@ public class Game implements Runnable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return;
-        // creating controllers
-//        createControllers();
-        // players choose their cards
-//        try {
-//            playersChooseCard();
-
-//            goNextTurn();
-        // while the game is still on
-        // start the turn
-        // ask the first player for action
-        // get response from player
-        // ask the second player for action
-        // get response from sec player
-        // store the data
-
-//            while (gameStillOn()) {
-//
-//                // start the turn from first player
-//                openCommunication(getController1());
-//                startTurn(getController1());
-//                break;
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     private void waitUntilPlayerIsAvailable() {
@@ -401,8 +373,8 @@ public class Game implements Runnable {
     }
 
     public void createPlayers(User user1, User user2) {
-        players[0] = new Player(user1);
-        players[1] = new Player(user2);
+        players[0] = new Player(user1, new Stage());
+        players[1] = new Player(user2, new Stage());
     }
 
     public Player getPlayer1() {
