@@ -55,13 +55,9 @@ public class RegisterMenu extends AppMenu {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
 
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
-
-        for (String leader : CardController.leaders) {
-            System.out.println(leader);
-        }
     }
 
     @Override
