@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import model.Account.Player;
 import model.Account.User;
 import model.Enum.GameRegexes;
-import model.role.Leader;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -71,7 +70,7 @@ public class Game {
     public static void main(String[] args) {
         try {
             CardController.load_data();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         User u1 = new User("ali", "a", "a", "a");
         User u2 = new User("erfan", "b", "b", "b");

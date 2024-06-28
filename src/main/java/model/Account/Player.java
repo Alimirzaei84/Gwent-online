@@ -18,6 +18,7 @@ import model.role.Type;
 import view.AppMenu;
 import view.GameLauncher;
 import view.MainMenu;
+import view.RegisterMenu;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
