@@ -35,8 +35,14 @@ public class Game {
         }
         indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
         if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
+        handleExtraTasks();
+    }
+
+    private void handleExtraTasks() {
         getPlayer1().removeDeadCards();
         getPlayer2().removeDeadCards();
+        getPlayer1().handleTransformers();
+        getPlayer2().handleTransformers();
         getPlayer1().updatePointOfRows();
         getPlayer2().updatePointOfRows();
     }
@@ -49,10 +55,7 @@ public class Game {
         indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
         passedTurnCounter = 0;
         if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
-        getPlayer1().removeDeadCards();
-        getPlayer2().removeDeadCards();
-        getPlayer1().updatePointOfRows();
-        getPlayer2().updatePointOfRows();
+        handleExtraTasks();
     }
 
         public void startTurn() throws IOException {
