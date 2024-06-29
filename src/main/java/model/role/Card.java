@@ -117,6 +117,7 @@ public class Card extends TypeAdapter<Card> {
 
 
     public String getAbility() {
+
         return ability;
     }
 

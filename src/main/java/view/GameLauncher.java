@@ -30,6 +30,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
@@ -63,8 +64,8 @@ public class GameLauncher extends AppMenu {
     public Text otherScore;
 
 
-    private HBox inHandPlayer1 = new HBox();
-    private HBox inHandPlayer2 = new HBox();
+    private final HBox inHandPlayer1 = new HBox();
+    private final HBox inHandPlayer2 = new HBox();
 
     public GameLauncher() {
         gameController = new GameController(Game.getCurrentGame());
@@ -78,7 +79,7 @@ public class GameLauncher extends AppMenu {
         pane = root;
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/CSS/GameLauncher.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/GameLauncher.css")).toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();

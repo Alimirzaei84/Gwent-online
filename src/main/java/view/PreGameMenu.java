@@ -99,6 +99,7 @@ public class PreGameMenu extends AppMenu {
                 imageView.setOnMouseClicked(event -> {
                     handleDifferentColor(imageView, factionName);
                     currentUser.setFaction(Faction.valueOf(factionName.toUpperCase()));
+                    System.out.println(currentUser + "--------"+factionName);
                     currentUser.getDeck().clear();
                 });
 
@@ -255,7 +256,7 @@ public class PreGameMenu extends AppMenu {
     public void changeTurn() {
         if (currentUser.getUnitCount() >= 22) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            currentUser = Game.getCurrentGame().getPlayer2().getUser();
+            currentUser = currentUser.equals(Game.getCurrentGame().getPlayer1().getUser()) ? Game.getCurrentGame().getPlayer2().getUser() : Game.getCurrentGame().getPlayer1().getUser();
             alert.setContentText("now player2: " + currentUser.getName() + " should pick cards");
             alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.show();
@@ -321,7 +322,6 @@ public class PreGameMenu extends AppMenu {
 
         AnchorPane pane = new AnchorPane();
         HBox body = new HBox();
-
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         HBox hBox = new HBox();
@@ -391,7 +391,7 @@ public class PreGameMenu extends AppMenu {
         button.setLayoutY(LAYOUT_BUTTON);
         body.getChildren().add(button);
 
-        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResource("/Images/pregamebackground.jpg")).toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
 
         body.getChildren().add(vBox);
@@ -404,7 +404,7 @@ public class PreGameMenu extends AppMenu {
         scrollPane.setFitToWidth(true);
         scrollPane.setVvalue(0.0);
         Scene scene = new Scene(scrollPane, 1280, 720);
-        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
 
 
         ApplicationController.getStage().setScene(scene);
@@ -434,9 +434,8 @@ public class PreGameMenu extends AppMenu {
     private void addToDeck(String cardName, VBox cardBox) {
         try {
             for (Node node : cardBox.getChildren()) {
-                if (node instanceof Label) {
-                    Label label = (Label) node;
-                    label.setText("count in deck :" + String.valueOf(currentUser.getCardCount(cardName) + 1));
+                if (node instanceof Label label) {
+                    label.setText("count in deck :" + (currentUser.getCardCount(cardName) + 1));
                     break;
                 }
             }
@@ -447,7 +446,6 @@ public class PreGameMenu extends AppMenu {
             alert.setContentText(result);
             alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             System.out.println(result);
-//            alert.show();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
@@ -532,8 +530,6 @@ public class PreGameMenu extends AppMenu {
         ApplicationController.getStage().setTitle("show Leaders");
         ApplicationController.getStage().centerOnScreen();
         ApplicationController.getStage().show();
-
-
     }
 
     public void backToMainMenu() throws Exception {

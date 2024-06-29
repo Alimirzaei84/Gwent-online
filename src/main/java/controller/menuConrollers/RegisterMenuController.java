@@ -1,7 +1,5 @@
 package controller.menuConrollers;
 
-import model.Account.User;
-import model.Enum.Regexes;
 
 public class RegisterMenuController {
     public String register(String username, String password, String passwordAgain, String nickname, String email) throws Exception {

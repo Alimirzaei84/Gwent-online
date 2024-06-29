@@ -1,5 +1,6 @@
 package model.Account;
 
+import controller.ApplicationController;
 import controller.CardController;
 import model.role.*;
 
@@ -35,7 +36,7 @@ public class User implements Comparable<User> {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        faction = Faction.MONSTERS;
+        faction = generateRandomFaction();
         highestScore = 0;
         ties = 0;
         wins = 0;
@@ -46,6 +47,28 @@ public class User implements Comparable<User> {
         deck = new ArrayList<>();
         leader = getRandomLeader();
     }
+
+    private Faction generateRandomFaction() {
+        int x = ApplicationController.getRandom().nextInt(0, 4);
+        switch (x) {
+            case 0 -> {
+                return Faction.NORTHERN_REALMS;
+            }
+            case 1 -> {
+                return Faction.NILFGAARDIAN_EMPIRE;
+            }
+            case 2 -> {
+                return Faction.MONSTERS;
+            }
+            case 3 -> {
+                return Faction.SCOIA_TAEL;
+            }
+            default -> {
+                return Faction.SKELLIGE;
+            }
+        }
+    }
+
 
     private Leader getRandomLeader() {
         Random rand = new Random();
@@ -260,7 +283,7 @@ public class User implements Comparable<User> {
         ArrayList<Card> deck = new ArrayList<>();
 
         Random random = new Random();
-        for (int i = 0 ; i < 22 ; i ++){
+        for (int i = 0; i < 22; i++) {
             String cardName = CardController.units.get(random.nextInt(CardController.units.size()));
             deck.add(CardController.createUnitCard(cardName));
         }

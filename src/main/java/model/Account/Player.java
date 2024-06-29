@@ -6,10 +6,7 @@ import controller.PlayerController;
 import javafx.stage.Stage;
 import model.game.Game;
 import model.game.Row;
-import model.role.Card;
-import model.role.Hero;
-import model.role.Leader;
-import model.role.Type;
+import model.role.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -118,6 +115,10 @@ public class Player {
             changeTurn();
             return;
         }
+        else if(card.getName().equals("")){
+
+        }
+        else
         putCardForMe(card, rowNumber);
     }
 
@@ -392,11 +393,20 @@ public class Player {
         updatePointOfRows();
     }
     private void putCardForMe(Card card, int rowNumber) {
-        if (!card.getAbility().equals("Spy")) {
+
+        if (card.getAbility().equals("Spy")) {
+            getOpponent().rows[rowNumber].addCard(card);
+        }
+        else if(card.getName().equals("Commander’s horn") || card.getName().equals("mardoeme")){
+            for (Row row : rows) {
+                if(row.getSpecial() != null) continue;
+                row.setSpecial((Special) card);
+                break;
+            }
+        }
+        else {
             rows[rowNumber].addCard(card);
             inHand.remove(card);
-        } else {
-            getOpponent().rows[rowNumber].addCard(card);
         }
 
 
@@ -604,14 +614,17 @@ public class Player {
         return totalPoint;
     }
 
-    public void setTotalPoint(int totalPoint) {
-        this.totalPoint = totalPoint;
-    }
 
     public void updateTotalPoint() {
         totalPoint = 0;
         for (Row row : rows) {
             totalPoint += row.getPoint();
+        }
+    }
+
+    public void addADiamond() {
+        if(++diamond >= 2){
+            Game.getCurrentGame().endOfTheGame(this);
         }
     }
 }

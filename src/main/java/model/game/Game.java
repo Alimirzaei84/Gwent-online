@@ -45,8 +45,17 @@ public class Game {
     }
 
     private void giveADiamondToWinner() {
-        // TODO
+        if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
+            getPlayer1().addADiamond();
+            // TODO: show winner in graphic
+        } else if (getPlayer1().getTotalPoint() < getPlayer2().getTotalPoint()) {
+            getPlayer2().addADiamond();
+            // TODO: show winner in graphic
+        } else {
+            //TODO: just show equivalent of points and no diamond
+        }
     }
+
 
     public void changeTurn() {
         indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
@@ -55,10 +64,10 @@ public class Game {
         handleExtraTasks();
     }
 
-        public void startTurn() throws IOException {
-            //TODO : CHOOSE CARD
-            //TODO : CHOOSE CARD
-        }
+    public void startTurn() throws IOException {
+        //TODO : CHOOSE CARD
+        //TODO : CHOOSE CARD
+    }
 
     public Player getCurrentPlayer() {
         return players[indexCurPlayer];
@@ -101,5 +110,11 @@ public class Game {
         u1.setDeck(u1.getRandomDeck());
         u2.setDeck(u1.getRandomDeck());
         Game game = new Game(u1, u2);
+    }
+
+    public void endOfTheGame(Player winner) {
+        // TODO: winner won the game
+        // TODO: The game should be closed
+        // TODO: update game history
     }
 }

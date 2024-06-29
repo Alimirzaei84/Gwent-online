@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Account.User;
+import model.role.Special;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -53,11 +54,21 @@ public class RegisterMenu extends AppMenu {
         stage.setTitle("AntEater");
         ApplicationController.setStage(stage);
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
-
         Scene scene = new Scene(pane);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
+
+        for (String special : CardController.specials) {
+            System.out.println(special);
+            try {
+                Special special1 = (Special) CardController.createSpecialCard(special);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+
+        }
     }
 
     @Override

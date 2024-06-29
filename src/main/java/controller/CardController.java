@@ -41,8 +41,12 @@ public abstract class CardController {
             case RANGED -> {
                 return  1;
             }
+            default -> {
+                // Handle `Agile` type...
+                return ApplicationController.getRandom().nextInt(0, 1);
+            }
         }
-        return -1;
+
     }
 
     public static ArrayList<String> units = new ArrayList<>();
