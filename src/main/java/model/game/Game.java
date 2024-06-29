@@ -40,6 +40,11 @@ public class Game {
         return players[indexCurPlayer];
     }
 
+    public Player getOtherPlayer(){
+        if (indexCurPlayer == 0) return players[1];
+        return players[0];
+    }
+
     public void createPlayers(User user1, User user2) {
         players[0] = new Player(user1);
         players[1] = new Player(user2);

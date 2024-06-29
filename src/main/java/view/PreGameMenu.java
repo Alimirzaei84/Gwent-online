@@ -284,12 +284,14 @@ public class PreGameMenu extends AppMenu {
         alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
         if (game.getPlayer1().getUser().getDeck().size() < 22 || game.getPlayer1().getUser().getSpecialCount() >= 10) {
             String errMssg = "[ERR]: " + game.getPlayer1().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
+            System.out.println(errMssg);
             alert.setContentText(errMssg);
             alert.show();
             return;
         } else if (game.getPlayer2().getUser().getDeck().size() < 22 || game.getPlayer2().getUser().getSpecialCount() >= 10) {
             String errMssg = "[ERR]: " + game.getPlayer2().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
             alert.setContentText(errMssg);
+            System.out.println(errMssg);
             alert.show();
             return;
         }
@@ -341,7 +343,6 @@ public class PreGameMenu extends AppMenu {
             cardCo++;
 
             String imagePath = CardController.imagePath.get(cardName);
-
             System.out.println(cardName + "++++++" + imagePath);
             if(imagePath == null) continue;
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -440,12 +441,13 @@ public class PreGameMenu extends AppMenu {
                 }
             }
 
+
             String result = controller.addToDeck(cardName, currentUser);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
             alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             System.out.println(result);
-            alert.show();
+//            alert.show();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
