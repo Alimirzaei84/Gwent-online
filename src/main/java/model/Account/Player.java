@@ -596,4 +596,23 @@ public class Player {
     public int hashCode() {
         return Objects.hash(getUser());
     }
+
+    public Row[] getRows() {
+        return rows;
+    }
+
+    public int getTotalPoint() {
+        return totalPoint;
+    }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
+    public void updateTotalPoint() {
+        totalPoint = 0;
+        for (Row row : rows) {
+            totalPoint += row.getPoint();
+        }
+    }
 }

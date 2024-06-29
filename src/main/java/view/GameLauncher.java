@@ -5,6 +5,7 @@ import controller.menuConrollers.GameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -15,9 +16,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Account.Player;
 import model.game.Game;
+import model.game.Row;
 import model.role.Card;
 import view.AppMenu;
 import view.MainMenu;
@@ -25,23 +29,40 @@ import view.MainMenu;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
     private GameController gameController;
+
+
+
     private AnchorPane pane = new AnchorPane();
-    @FXML
-    private HBox inHandCurHbox;
-    @FXML
-    private VBox curLeaderVbox;
-    @FXML
-    private Label otherUsernameLabel;
+    public HBox inHandCurHbox;
+    public VBox curLeaderVbox;
+    public Label otherUsernameLabel;
     public Label curUsernameLabel;
     public Label curFactionLabel;
     public Label otherFactionLabel;
+    public Label curInHandCoLabel;
+    public Label otherInHandCoLabel;
     public HBox otherDiamondHBox;
     public HBox curDiamondHBox;
-    private VBox otherLeaderVbox;
+    public VBox otherLeaderVbox;
+    public Label curDeckCountLabel;
+    public Label otherDeckCountLabel;
+    public VBox otherDeckVBox;
+    public VBox curDeckVBox;
+    public Text curRow0ScoreText;
+    public Text curRow1ScoreText;
+    public Text curRow2ScoreText;
+    public Text otherRow0ScoreText;
+    public Text otherRow1ScoreText;
+    public Text otherRow2ScoreText;
+    public Text curScore;
+    public Text otherScore;
+
+
     private HBox inHandPlayer1 = new HBox();
     private HBox inHandPlayer2 = new HBox();
 
@@ -73,21 +94,11 @@ public class GameLauncher extends AppMenu {
             for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {
                 try {
                     String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
-//                    URL imageUrl = getClass().getResource(imagePath);
-//                    if (imageUrl == null) {
-//                        System.err.println("Image not found: " + imagePath);
-//                        continue;
-//                    }
-
-                    Image image = new Image(new File(imagePath).toURI().toURL().toString());
-                    if (image == null) {
-                        System.out.println("HELLO");
-                    }
                     ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
-                    imageView.setOnMouseClicked(event -> selectCard(card));
+                    imageView.setOnMouseClicked(event -> selectCard(card , imageView));
                     imageView.setOnDragExited(event -> System.out.println("swipe down"));
                     imageView.preserveRatioProperty();
-                    imageView.setFitWidth(62.5);
+                    imageView.setFitWidth(52.5);
                     imageView.setFitHeight(90);
                     inHandPlayer1.getChildren().add(imageView);
                 } catch (Exception e) {
@@ -109,21 +120,90 @@ public class GameLauncher extends AppMenu {
         }
 
         curUsernameLabel.setText(curPlayer.getUser().getUsername());
+        curUsernameLabel.setAlignment(Pos.CENTER);
         otherUsernameLabel.setText(otherPlayer.getUser().getUsername());
-        curFactionLabel.setText(curPlayer.getUser().getUsername());
-        otherFactionLabel.setText(otherPlayer.getUser().getUsername());
+        otherUsernameLabel.setAlignment(Pos.CENTER);
+        curFactionLabel.setText(curPlayer.getUser().getFaction().name());
+        curFactionLabel.setAlignment(Pos.CENTER);
+        otherFactionLabel.setText(otherPlayer.getUser().getFaction().name());
+        otherFactionLabel.setAlignment(Pos.CENTER);
+        curInHandCoLabel.setText("In Hand : " + curPlayer.getInHand().size());
+        curInHandCoLabel.setAlignment(Pos.CENTER);
+        otherInHandCoLabel.setText("In Hand : " + otherPlayer.getInHand().size());
+        otherInHandCoLabel.setAlignment(Pos.CENTER);
+
         for (Node node : curDiamondHBox.getChildren()) {
             if (node instanceof Polygon) {
                 Polygon polygon = (Polygon) node;
-                polygon.setFill(Color.rgb(89,114,115));
+                polygon.setFill(Color.rgb(89, 114, 115));
             }
         }
 
-        for (Node node : otherDiamondHBox.getChildren()){
+        for (Node node : otherDiamondHBox.getChildren()) {
             Polygon polygon = (Polygon) node;
-            polygon.setFill(Color.rgb(89,114,115));
+            polygon.setFill(Color.rgb(89, 114, 115));
         }
 
+        curDeckCountLabel.setText(String.valueOf(curPlayer.getUser().getDeck().size()));
+        otherDeckCountLabel.setText(String.valueOf(otherPlayer.getUser().getDeck().size()));
+        try {
+            setFactionOnDeckView(curPlayer.getUser().getFaction().name(), curDeckVBox);
+            setFactionOnDeckView(otherPlayer.getUser().getFaction().name(), otherDeckVBox);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        refreshScores(curPlayer, otherPlayer);
+
+    }
+
+    private void refreshScores(Player curPlayer, Player otherPlayer) {
+        Row[] curRows = curPlayer.getRows();
+        Row[] otherRows = otherPlayer.getRows();
+        curRow0ScoreText.setText(String.valueOf(curRows[0].getPoint()));
+        curRow1ScoreText.setText(String.valueOf(curRows[1].getPoint()));
+        curRow2ScoreText.setText(String.valueOf(curRows[2].getPoint()));
+        otherRow0ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
+        otherRow1ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
+        otherRow2ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
+
+        curPlayer.updateTotalPoint();
+        otherPlayer.updateTotalPoint();
+        curScore.setText(String.valueOf(curPlayer.getTotalPoint()));
+        otherScore.setText(String.valueOf(otherPlayer.getTotalPoint()));
+
+        curRow0ScoreText.setTextAlignment(TextAlignment.CENTER);
+        curRow2ScoreText.setTextAlignment(TextAlignment.CENTER);
+        curRow1ScoreText.setTextAlignment(TextAlignment.CENTER);
+
+        otherRow0ScoreText.setTextAlignment(TextAlignment.CENTER);
+        otherRow1ScoreText.setTextAlignment(TextAlignment.CENTER);
+        otherRow2ScoreText.setTextAlignment(TextAlignment.CENTER);
+
+        curScore.setTextAlignment(TextAlignment.CENTER);
+        otherScore.setTextAlignment(TextAlignment.CENTER);
+    }
+
+    private void setFactionOnDeckView(String factionName, VBox vBox) throws MalformedURLException {
+        String imagePath = switch (factionName.toUpperCase()) {
+            case "NORTHERN_REALMS" -> "src/main/resources/assets/lg/faction_realms.jpg";
+            case "NILFGAARDIAN_EMPIRE" -> "src/main/resources/assets/lg/faction_nilfgaard.jpg";
+            case "MONSTERS" -> "src/main/resources/assets/lg/faction_monsters.jpg";
+            case "SCOIA_TAEL" -> "src/main/resources/assets/lg/faction_scoiatael.jpg";
+            default -> "src/main/resources/assets/lg/faction_skellige.jpg";
+        };
+
+        ImageView imageView = setImageView(imagePath);
+        vBox.getChildren().add(imageView);
+    }
+
+    private ImageView setImageView(String imagePath) throws MalformedURLException {
+        ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+        imageView.setOnDragExited(event -> System.out.println("swipe down"));
+        imageView.preserveRatioProperty();
+        imageView.setFitWidth(77);
+        imageView.setFitHeight(99);
+        return imageView;
     }
 
     private void setLeadersOnScreen(String leaderPath, VBox leaderVbox) throws MalformedURLException {
@@ -135,7 +215,27 @@ public class GameLauncher extends AppMenu {
         leaderVbox.getChildren().add(leaderImageView);
     }
 
-    public void selectCard(Card card) {
-        // Implement card selection logic
+    public void selectCard(Card card , ImageView imageView) {
+        if (gameController.getSelectedCard() != null){
+            ImageView oldImageView = gameController.getSelectedImageView();
+            oldImageView.setLayoutY(oldImageView.getLayoutY() - 20);
+            gameController.setSelectedImageView(null);
+        }
+
+        gameController.setSelectedCard(card);
+        imageView.setLayoutY(imageView.getLayoutY() + 20);
+        gameController.setSelectedImageView(imageView);
+    }
+
+    public void pass() {
+        //TODO
+    }
+
+    public void showDescription() {
+        //TODO
+    }
+
+    public void executeAction(){
+        //TODO
     }
 }
