@@ -5,7 +5,6 @@ import model.Account.Player;
 import model.Account.User;
 import model.role.Card;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
@@ -52,7 +51,7 @@ public class Game {
             getPlayer2().addADiamond();
             // TODO: show winner in graphic
         } else {
-            //TODO: just show equivalent of points and no diamond
+            //TODO: just show equivalent of points and give no diamond to anyone !
         }
     }
 
@@ -64,7 +63,7 @@ public class Game {
         handleExtraTasks();
     }
 
-    public void startTurn() throws IOException {
+    public void startTurn() {
         //TODO : CHOOSE CARD
         //TODO : CHOOSE CARD
     }
