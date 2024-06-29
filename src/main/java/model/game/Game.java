@@ -3,7 +3,10 @@ package model.game;
 import controller.CardController;
 import model.Account.Player;
 import model.Account.User;
+import model.role.Card;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +14,8 @@ public class Game {
 
     private final Player[] players;
     private short passedTurnCounter;
-
-    private int numTurn = 0;
+    private ArrayList<Card> weathers;
+    private int numTurn;
 
     private int indexCurPlayer; //TODO : CHANGE AFTER EACH TURN
     private static Game currentGame = null;
@@ -21,26 +24,47 @@ public class Game {
         players = new Player[2];
         createPlayers(user1, user2);
         indexCurPlayer = 0;
+        weathers = new ArrayList<>();
+        numTurn = 0;
+        passedTurnCounter = 0;
+    }
+
+    public void passRound() {
+        if (++passedTurnCounter >= 2) {
+            giveADiamondToWinner();
+        }
+        indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
+        if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
+        getPlayer1().removeDeadCards();
+        getPlayer2().removeDeadCards();
+        getPlayer1().updatePointOfRows();
+        getPlayer2().updatePointOfRows();
+    }
+
+    private void giveADiamondToWinner() {
+        // TODO
     }
 
     public void changeTurn() {
-        if (indexCurPlayer == 0) indexCurPlayer = 1;
-        else indexCurPlayer = 0;
+        indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
+        passedTurnCounter = 0;
+        if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
+        getPlayer1().removeDeadCards();
+        getPlayer2().removeDeadCards();
+        getPlayer1().updatePointOfRows();
+        getPlayer2().updatePointOfRows();
     }
-
-    class CommunicationHandler {
 
         public void startTurn() throws IOException {
             //TODO : CHOOSE CARD
             //TODO : CHOOSE CARD
         }
-    }
 
     public Player getCurrentPlayer() {
         return players[indexCurPlayer];
     }
 
-    public Player getOtherPlayer(){
+    public Player getOtherPlayer() {
         if (indexCurPlayer == 0) return players[1];
         return players[0];
     }
@@ -65,10 +89,6 @@ public class Game {
 
     public static void setCurrentGame(Game game) {
         currentGame = game;
-    }
-
-    private static Matcher getMatcher(String regex, String command) {
-        return Pattern.compile(regex).matcher(command);
     }
 
     public static void main(String[] args) {

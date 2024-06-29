@@ -11,8 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Enum.GameRegexes;
+import model.game.Game;
 import model.game.Row;
 import model.role.Card;
+import model.role.Hero;
 import model.role.Leader;
 import model.role.Type;
 import view.AppMenu;
@@ -26,9 +28,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,12 +36,12 @@ public class Player {
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
-    private int round;
+    //    private int round;
     private User user;
     private short vetoCounter;
-    private int opponentTotalPoints;
+    //    private int opponentTotalPoints;
     private final Row[] rows;
-    private final Row[] opponentRows;
+    //    private final Row[] opponentRows;
     private ArrayList<Card> inHand;
     private ArrayList<Card> discardCards;
     private final Leader leader;
@@ -53,20 +53,28 @@ public class Player {
     public Player(User user) {
         actionLeaderDone = false;
         totalPoint = 0;
-        opponentTotalPoints = 0;
+//        opponentTotalPoints = 0;
         diamond = 0;
         vetoCounter = 0;
-        round = 0;
+//        round = 0;
         this.user = user;
         this.leader = user.getLeader();
         rows = new Row[3];
-        opponentRows = new Row[3];
+//        opponentRows = new Row[3];
         weathers = new ArrayList<>();
         inHand = new ArrayList<>();
         discardCards = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
 
+    }
+
+
+    private Player getOpponent() {
+        Player player1 = Game.getCurrentGame().getPlayer1();
+        Player player2 = Game.getCurrentGame().getPlayer2();
+        if (player1.equals(this)) return player2;
+        else return player1;
     }
 
 
@@ -144,12 +152,16 @@ public class Player {
         }
     }
 
-    private void passRound() {
-        round++;
-        System.out.println("[PLAYER] this turn has ended");
+    private void changeTurn() {
+        Game.getCurrentGame().changeTurn();
+
     }
 
-    private void removeDeadCards() {
+    private void passRound(){
+        Game.getCurrentGame().passRound();
+    }
+
+    public void removeDeadCards() {
         ArrayList<Card> toRemove = new ArrayList<>();
 
         for (Row row : rows) {
@@ -162,147 +174,84 @@ public class Player {
             row.getCards().removeAll(toRemove);
             discardCards.addAll(toRemove);
         }
-
-        for (Row row : opponentRows) {
-            toRemove.clear();
-            for (Card card : row.getCards()) {
-                if (card.getPower() <= 0) {
-                    toRemove.add(card);
-                }
-            }
-            row.getCards().removeAll(toRemove);
-            discardCards.addAll(toRemove);
-        }
-    }
-
-    private void actionLeader(String username, String leaderName) {
-        if (username.equals(user.getName())) actionLeaderForMe(leaderName);
-        else actionLeaderForOpp(leaderName);
-    }
-
-    private void actionLeaderForOpp(String leaderName) {
-        switch (leaderName) {
-            case "madman lugos" -> {
-                //TODO: we don't have this leader
-            }
-            case "The Siegemaster" -> {
-                // It's Okay
-            }
-            case "The Steel-Forged" -> {
-                avoidFreezingAspect();
-            }
-            case "King of Temeria" -> {
-                increaseThePowerOfSiegeForOpp();
-            }
-            case "Lord Commander of the North" -> {
-                killMostPowerfullSiegIfNeeded();
-            }
-            case "Son of Medell" -> {
-                destroyMyMostPowerFullRanged();
-            }
-            case "The White Flame" -> {
-                // update later by json
-            }
-            case "His Imperial Majesty" -> {
-                show3CardsOfMeToOpponents();
-            }
-            case "Emperor of Nilfgaard" -> {
-                actionLeaderDone = true;
-            }
-            case "The Relentless" -> {
-
-            }
-            case "Invader of the North" -> {
-                recoverARandomCard();
-            }
-            case "Bringer of Death" -> {
-                increaseThePowerOfARowForOpp(0);
-            }
-            case "King of the wild Hunt" -> {
-                // Never used...
-            }
-            case "Destroyer of Worlds" -> {
-                // Extra information
-            }
-            case "Commander of the Red Riders" -> {
-                // Later it will update by json
-            }
-            case "The Treacherous" -> {
-                increasePowerOfSpies();
-            }
-            case "Queen of Dol Blathanna" -> {
-                destroyMyMostPowerFullRangedIfNeeded();
-            }
-            case "The Beautiful" -> {
-                increaseThePowerOfRangedForOpp();
-            }
-            case "Daisy of the Valley" -> {
-                // We handled it in choosing random cards
-            }
-            case "Pureblood Elf" -> {
-                // Just update by json
-            }
-            case "Hope of the Aen Seidhe" -> {
-                //TODO: I don't understand this
-            }
-            case "Crach an Craite" -> {
-                recoverDiscardPiles();
-            }
-            case "King Bran" -> {
-                // just update by json
-            }
-        }
-    }
-
-    private void show3CardsOfMeToOpponents() {
-
-        // TODO:
-    }
-
-    private void killMostPowerfullSiegIfNeeded() {
-        if (getSumPowerOfARow(rows[2]) > 10) {
-            Card card = getTheMostPowerFullCard(rows[2].getCards());
-            rows[2].getCards().remove(card);
-            discardCards.add(card);
-            updatePointOfRows();
-        }
-    }
-
-    private void increaseThePowerOfSiegeForOpp() {
-        increaseThePowerOfARowForOpp(2);
-    }
-
-    private void destroyMyMostPowerFullRangedIfNeeded() {
-        if (getSumPowerOfARow(rows[0]) > 10) {
-            Card card = getTheMostPowerFullCard(rows[1].getCards());
-            rows[1].getCards().remove(card);
-            discardCards.add(card);
-            updatePointOfRows();
-        }
     }
 
 
-    // This method prevents duplicate in code
-    private void increaseThePowerOfARowForOpp(int rowNum) {
-        if (opponentRows[rowNum].getSpecial().getName().equals("Commander’s horn")) return;
-        for (Card card : opponentRows[rowNum].getCards()) {
-            card.setPower(card.getPower() * 2);
-        }
-        updatePointOfRows();
-    }
+//    private void actionLeaderForOpp(String leaderName) {
+//        switch (leaderName) {
+//            case "madman lugos" -> {
+//                //TODO: we don't have this leader
+//            }
+//            case "The Siegemaster" -> {
+//                // It's Okay
+//            }
+//            case "The Steel-Forged" -> {
+//                avoidFreezingAspect();
+//            }
+//            case "King of Temeria" -> {
+//                increaseThePowerOfSiegeForOpp();
+//            }
+//            case "Lord Commander of the North" -> {
+//                killMostPowerfullSiegIfNeeded();
+//            }
+//            case "Son of Medell" -> {
+//                destroyMyMostPowerFullRanged();
+//            }
+//            case "The White Flame" -> {
+//                // update later by json
+//            }
+//            case "His Imperial Majesty" -> {
+//                show3CardsOfMeToOpponents();
+//            }
+//            case "Emperor of Nilfgaard" -> {
+//                actionLeaderDone = true;
+//            }
+//            case "The Relentless" -> {
+//
+//            }
+//            case "Invader of the North" -> {
+//                recoverARandomCard();
+//            }
+//            case "Bringer of Death" -> {
+//                increaseThePowerOfARowForOpp(0);
+//            }
+//            case "King of the wild Hunt" -> {
+//                // Never used...
+//            }
+//            case "Destroyer of Worlds" -> {
+//                // Extra information
+//            }
+//            case "Commander of the Red Riders" -> {
+//                // Later it will update by json
+//            }
+//            case "The Treacherous" -> {
+//                increasePowerOfSpies();
+//            }
+//            case "Queen of Dol Blathanna" -> {
+//                destroyMyMostPowerFullRangedIfNeeded();
+//            }
+//            case "The Beautiful" -> {
+//                increaseThePowerOfRangedForOpp();
+//            }
+//            case "Daisy of the Valley" -> {
+//                // We handled it in choosing random cards
+//            }
+//            case "Pureblood Elf" -> {
+//                // Just update by json
+//            }
+//            case "Hope of the Aen Seidhe" -> {
+//             I don't understand this
+//            }
+//            case "Crach an Craite" -> {
+//                recoverDiscardPiles();
+//            }
+//            case "King Bran" -> {
+//                // just update by json
+//            }
+//        }
+//    }
 
-    private void increaseThePowerOfRangedForOpp() {
-        increaseThePowerOfARowForOpp(1);
-    }
 
-    private void destroyMyMostPowerFullRanged() {
-        if (getSumPowerOfARow(rows[1]) > 10) {
-            Card card = getTheMostPowerFullCard(rows[1].getCards());
-            rows[1].getCards().remove(card);
-            discardCards.add(card);
-            updatePointOfRows();
-        }
-    }
 
     private void increasePowerOfSpies() {
         for (Row row : rows) {
@@ -327,31 +276,35 @@ public class Player {
                 increaseThePowerOfSiegeForMe();
             }
             case "Lord Commander of the North" -> {
-                // update by json
+                if (getOpponent().rows[2].getPoint() > 10) {
+                    killTheMostPowerFul(getOpponent(), 2);
+                }
             }
             case "Son of Medell" -> {
-                destroyOpponentMostPowerFullRanged();
+                if (getOpponent().rows[1].getPoint() > 10) killTheMostPowerFul(getOpponent(), 1);
+//                    destroyOpponentMostPowerFullRanged();
             }
             case "The White Flame" -> {
                 doRandomWeatherCard("torrential rain");
             }
             case "His Imperial Majesty" -> {
-
+                show(getRandomCard(getOpponent().inHand), getRandomCard(getOpponent().inHand), getRandomCard(getOpponent().inHand));
             }
             case "Emperor of Nilfgaard" -> {
-                // We do not need this information
+                getOpponent().actionLeaderDone = true;
             }
             case "The Relentless" -> {
                 recoverFromOppDiscardPile();
             }
             case "Invader of the North" -> {
                 recoverARandomCard();
+                getOpponent().recoverARandomCard();
             }
             case "Bringer of Death" -> {
                 increaseThePowerOfARowForMe(0);
             }
             case "King of the wild Hunt" -> {
-                recoverFromDiscardPile();
+                recoverARandomCard();
             }
             case "Destroyer of Worlds" -> {
                 changeWithDistraction();
@@ -363,10 +316,11 @@ public class Player {
                 increasePowerOfSpies();
             }
             case "Queen of Dol Blathanna" -> {
-                destroyOpponentMostPowerFullRangedIfNeeded();
+                if (getOpponent().rows[0].getPoint() > 10) killTheMostPowerFul(getOpponent(), 1);
+//                destroyOpponentMostPowerFullRangedIfNeeded();
             }
             case "The Beautiful" -> {
-                increaseThePowerOfRangedForMe();
+                increaseThePowerOfARowForMe(1);
             }
             case "Daisy of the Valley" -> {
                 // We handled it in choosing random cards
@@ -379,6 +333,7 @@ public class Player {
             }
             case "Crach an Craite" -> {
                 recoverDiscardPiles();
+                getOpponent().recoverDiscardPiles();
             }
             case "King Bran" -> {
                 decreaseFreezingAspect();
@@ -386,14 +341,26 @@ public class Player {
         }
     }
 
-    private void recoverFromOppDiscardPile() {
-        // TODO:
+    private void show(Card... cards) {
+        // TODO:  Show these cards to me
     }
 
-    private void recoverFromDiscardPile() {
-        recoverARandomCard();
-        updatePointOfRows();
+    public void killTheMostPowerFul(Player player, int index) {
+        Card card = getTheMostPowerFullCard(player.rows[index].getCards());
+        player.rows[index].getCards().remove(card);
+        player.discardCards.add(card);
     }
+
+    private void recoverFromOppDiscardPile() {
+        Card card = getRandomCard(getOpponent().discardCards);
+        if (card instanceof Hero) {
+            recoverFromOppDiscardPile();
+            return;
+        }
+        getOpponent().inHand.remove(card);
+        inHand.add(card);
+    }
+
 
     // method Over Loading...
     private void doRandomWeatherCard() {
@@ -411,7 +378,7 @@ public class Player {
             case "rain" -> whichRow = 2;
             case "fog" -> whichRow = 1;
         }
-        freeze(rows[whichRow], opponentRows[whichRow]);
+        freeze(rows[whichRow]);
     }
 
 
@@ -430,7 +397,7 @@ public class Player {
             case "rain" -> whichRow = 2;
             case "fog" -> whichRow = 1;
         }
-        freeze(rows[whichRow], opponentRows[whichRow]);
+        freeze(rows[whichRow]);
     }
 
     private void avoidFreezingAspect() {
@@ -456,7 +423,6 @@ public class Player {
         for (Card card : rows[rowNum].getCards()) {
             card.setPower(card.getPower() * 2);
         }
-        updatePointOfRows();
     }
 
     private void increaseThePowerOfSiegeForMe() {
@@ -486,32 +452,16 @@ public class Player {
 
     }
 
-    private void destroyOpponentMostPowerFullRangedIfNeeded() {
-        if (getSumPowerOfARow(opponentRows[0]) > 10) {
-            Card card = getTheMostPowerFullCard(opponentRows[1].getCards());
-            rows[1].getCards().remove(card);
-            updatePointOfRows();
-        }
-    }
 
     private void recoverARandomCard() {
+
         if (!discardCards.isEmpty()) {
             Card card = getRandomCard(discardCards);
             discardCards.remove(card);
             inHand.add(card);
         }
-
-        updatePointOfRows();
     }
 
-
-    private void destroyOpponentMostPowerFullRanged() {
-        if (getSumPowerOfARow(opponentRows[1]) > 10) {
-            Card card = getTheMostPowerFullCard(opponentRows[1].getCards());
-            rows[1].getCards().remove(card);
-            updatePointOfRows();
-        }
-    }
 
     private void putAFrost() {
         for (Card card : inHand) {
@@ -523,24 +473,15 @@ public class Player {
     }
 
     private void recoverDiscardPiles() {
-        for (int i = 0; i < discardCards.size(); i++) {
-            Card card = getRandomCard(discardCards);
-            inHand.add(card);
-            discardCards.remove(card);
-        }
-        updatePointOfRows();
+        if (discardCards.isEmpty()) return;
+        Card card = getRandomCard(discardCards);
+        discardCards.remove(card);
+        inHand.add(card);
+        recoverDiscardPiles();
     }
 
     private void decreaseFreezingAspect() {
         // TODO: units only loose half of their powers
-    }
-
-    private ArrayList<Card> generateCardsOfTheirNames(ArrayList<String> arrayList) {
-        ArrayList<Card> out = new ArrayList<>();
-        for (String string : arrayList) {
-            out.add(CardController.createCardWithName(string));
-        }
-        return out;
     }
 
 
@@ -563,22 +504,6 @@ public class Player {
             }
         }
 
-
-        for (Row row : opponentRows) {
-            for (Card rowCard : row.getCards()) {
-                if (rowCard.getAbility().equals("Transformer") || rowCard.getAbility().equals("Berserker")) {
-                    cardName = switch (rowCard.getName()) {
-                        case "young berserker" -> "young vidkaarl";
-                        case "berserker" -> "vidkaarl";
-                        case "cow" -> "triss";
-                        case "kambi" -> "ermion";
-                        default -> "vesemir";
-                    };
-                    Card card = CardController.createCardWithName(cardName);
-                    row.getCards().set(row.getCards().indexOf(rowCard), card);
-                }
-            }
-        }
         updatePointOfRows();
     }
 
@@ -593,117 +518,117 @@ public class Player {
                 case "rain" -> whichRow = 2;
                 case "fog" -> whichRow = 1;
             }
-            freeze(rows[whichRow], opponentRows[whichRow]);
+            freeze(rows[whichRow]);
             return;
         }
         if (isMe) putCardForMe(card, rowNumber);
-        else putCardForOpponent(card, rowNumber);
+//        else putCardForOpponent(card, rowNumber);
     }
 
-    private void putCardForOpponent(Card card, int rowNumber) {
-        opponentRows[rowNumber].addCard(card);
-
-
-        switch (card.getAbility()) {
-            case "Muster":
-
-                break;
-            case "Transformer", "Berserker":
-                //It is ok...
-                break;
-
-            case "Scorch":
-                switch (card.getName()) {
-                    case "clan dimun pirate" -> {
-                        Card maxMe = getTheMostPowerFullCard(rows);
-                        Card maxOpp = getTheMostPowerFullCard(opponentRows);
-                        if (maxMe.getPower() > maxOpp.getPower()) {
-                            removeMyCard(maxMe);
-                        } else if (maxOpp.getPower() > maxMe.getPower()) {
-                            removeOppCard(maxOpp);
-                        }
-                    }
-                    case "villentretenmerth" -> {
-                        Card removableCard = getTheMostPowerFullCard(rows[0].getCards());
-                        rows[0].getCards().remove(removableCard);
-                        discardCards.add(removableCard);
-                        updatePointOfRows();
-                    }
-                    case "schirru" -> {
-                        if (getSumPowerOfARow(rows[2]) >= 10) {
-                            Card removableCard = getTheMostPowerFullCard(rows[2].getCards());
-                            rows[2].getCards().remove(removableCard);
-                            discardCards.add(removableCard);
-                            updatePointOfRows();
-                        }
-                    }
-                    case "toad" -> {
-                        if (getSumPowerOfARow(rows[1]) >= 10) {
-                            Card removableCard = getTheMostPowerFullCard(rows[1].getCards());
-                            rows[1].getCards().remove(removableCard);
-                            discardCards.add(removableCard);
-                            updatePointOfRows();
-                        }
-                    }
-                }
-
-                break;
-
-            case "Moral Boost":
-                for (Card card1 : opponentRows[rowNumber].getCards()) {
-                    card1.setPower(card1.getPower() - 1);
-                }
-                updatePointOfRows();
-                // TODO: update the score icons on cards...
-
-
-                break;
-            case "Commander’s horn":
-
-                for (Card card1 : opponentRows[rowNumber].getCards()) {
-                    card1.setPower(card1.getPower() * 2);
-                }
-                updatePointOfRows();
-                // TODO: update the score icon on each card...
-                break;
-
-
-            case "Medic":
-//                if (isMe && discardCards.size() > 1) {
-//                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
-//                    discardCards.remove(card);
-//                    rows[CardController.getRowNumber(card.getName())].addCard(card);
+//    private void putCardForOpponent(Card card, int rowNumber) {
+//        opponentRows[rowNumber].addCard(card);
+//
+//
+//        switch (card.getAbility()) {
+//            case "Muster":
+//
+//                break;
+//            case "Transformer", "Berserker":
+//                //It is ok...
+//                break;
+//
+//            case "Scorch":
+//                switch (card.getName()) {
+//                    case "clan dimun pirate" -> {
+//                        Card maxMe = getTheMostPowerFullCard(rows);
+//                        Card maxOpp = getTheMostPowerFullCard(opponentRows);
+//                        if (maxMe.getPower() > maxOpp.getPower()) {
+//                            removeMyCard(maxMe);
+//                        } else if (maxOpp.getPower() > maxMe.getPower()) {
+//                            removeOppCard(maxOpp);
+//                        }
+//                    }
+//                    case "villentretenmerth" -> {
+//                        Card removableCard = getTheMostPowerFullCard(rows[0].getCards());
+//                        rows[0].getCards().remove(removableCard);
+//                        discardCards.add(removableCard);
+//                        updatePointOfRows();
+//                    }
+//                    case "schirru" -> {
+//                        if (getSumPowerOfARow(rows[2]) >= 10) {
+//                            Card removableCard = getTheMostPowerFullCard(rows[2].getCards());
+//                            rows[2].getCards().remove(removableCard);
+//                            discardCards.add(removableCard);
+//                            updatePointOfRows();
+//                        }
+//                    }
+//                    case "toad" -> {
+//                        if (getSumPowerOfARow(rows[1]) >= 10) {
+//                            Card removableCard = getTheMostPowerFullCard(rows[1].getCards());
+//                            rows[1].getCards().remove(removableCard);
+//                            discardCards.add(removableCard);
+//                            updatePointOfRows();
+//                        }
+//                    }
 //                }
-                break;
-            case "Spy":
-                rows[rowNumber].addCard(card);
-                break;
-
-            case "Tight Bond":
-                int count = 0;
-                for (Card card1 : opponentRows[rowNumber].getCards()) {
-                    if (card1.getAbility().equals("Tight Bond")) count++;
-                }
-                for (Card card1 : opponentRows[rowNumber].getCards()) {
-                    card1.setPower(card.getPower() * count);
-                }
-                updatePointOfRows();
-                // TODO: update the score icon on each card...
-                break;
-
-
-            // TODO: Why we have this ???
-            case "NORTHERN_REALMS":
-                break;
-
-            // TODO: And this ???
-            case "NILFGAARDIAN_EMPIRE":
-                break;
-
-        }
-        updatePointOfRows();
-
-    }
+//
+//                break;
+//
+//            case "Moral Boost":
+//                for (Card card1 : opponentRows[rowNumber].getCards()) {
+//                    card1.setPower(card1.getPower() - 1);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icons on cards...
+//
+//
+//                break;
+//            case "Commander’s horn":
+//
+//                for (Card card1 : opponentRows[rowNumber].getCards()) {
+//                    card1.setPower(card1.getPower() * 2);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icon on each card...
+//                break;
+//
+//
+//            case "Medic":
+////                if (isMe && discardCards.size() > 1) {
+////                    Card card = discardCards.get(ApplicationController.getRandom().nextInt(0, discardCards.size() - 1));
+////                    discardCards.remove(card);
+////                    rows[CardController.getRowNumber(card.getName())].addCard(card);
+////                }
+//                break;
+//            case "Spy":
+//                rows[rowNumber].addCard(card);
+//                break;
+//
+//            case "Tight Bond":
+//                int count = 0;
+//                for (Card card1 : opponentRows[rowNumber].getCards()) {
+//                    if (card1.getAbility().equals("Tight Bond")) count++;
+//                }
+//                for (Card card1 : opponentRows[rowNumber].getCards()) {
+//                    card1.setPower(card.getPower() * count);
+//                }
+//                updatePointOfRows();
+//                // TODO: update the score icon on each card...
+//                break;
+//
+//
+//            // TODO: Why we have this ???
+//            case "NORTHERN_REALMS":
+//                break;
+//
+//            // TODO: And this ???
+//            case "NILFGAARDIAN_EMPIRE":
+//                break;
+//
+//        }
+//        updatePointOfRows();
+//
+//    }
 
     private int getSumPowerOfARow(Row row) {
         int out = 0;
@@ -866,18 +791,8 @@ public class Player {
         return out;
     }
 
-    private Card getTheMostPowerFullCard(Card[] arrayList) {
-        Card out = null;
-        int count = 0;
-        for (Card card : arrayList) {
-            if (card.getPower() >= count) {
-                out = card;
-            }
-        }
-        return out;
-    }
 
-    void updatePointOfRows() {
+    public void updatePointOfRows() {
         for (Row row : rows) {
             int point = 0;
             for (Card card : row.getCards()) {
@@ -887,15 +802,6 @@ public class Player {
             totalPoint += point;
         }
 
-
-        for (Row row : opponentRows) {
-            int point = 0;
-            for (Card card : row.getCards()) {
-                point += card.getPower();
-            }
-            row.setPoint(point);
-            opponentTotalPoints += point;
-        }
     }
 
     private void startTurn() {
@@ -911,9 +817,6 @@ public class Player {
         rows[0] = new Row(Row.RowName.FIRST);
         rows[1] = new Row(Row.RowName.SEC);
         rows[2] = new Row(Row.RowName.THIRD);
-        opponentRows[0] = new Row(Row.RowName.FIRST);
-        opponentRows[1] = new Row(Row.RowName.SEC);
-        opponentRows[2] = new Row(Row.RowName.THIRD);
     }
 
     public User getUser() {
@@ -922,18 +825,6 @@ public class Player {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof Player)) {
-            return false;
-        }
-
-        return this.user.equals(((Player) obj).user);
     }
 
     public ArrayList<Card> getInHand() {
@@ -958,5 +849,16 @@ public class Player {
         return arrayList.get(ApplicationController.getRandom().nextInt(0, arrayList.size()));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player player)) return false;
+        return Objects.equals(getUser(), player.getUser());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUser());
+    }
 }
+
