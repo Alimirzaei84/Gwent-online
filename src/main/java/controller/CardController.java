@@ -92,23 +92,20 @@ public abstract class CardController {
             addLeaderToRecord(data);
         }
         leaderReader.close();
-//        System.out.println(Arrays.toString(leaders.toArray()));
-//        for (String leader : leaders) {
-//            imagePath.put(leader,"src/main/resources/assets/lg/skellige_king_bran.jpg");
-//        }
     }
 
     private static void addLeaderToRecord(String[] data) {
         String index = data[0];
         String factionName = data[1];
         String attribute = data[2];
-        String leaderName = data[3];
+        String leaderName = data[3].toLowerCase();
         String descriptionStr = data[4];
 
         leaders.add(leaderName);
         faction.put(leaderName, toFaction(factionName));
         description.put(leaderName, descriptionStr);
 
+        type.put(leaderName, Type.LEADER);
 
         String tmp1 = factionName.toLowerCase();
         if (tmp1.equals("all")) {
@@ -132,6 +129,7 @@ public abstract class CardController {
         middle = middle.replace(":", "");
         String img_path = "./src/main/resources/assets/sm/" + middle + ".jpg";
         imagePath.put(leaderName, img_path);
+
 
         File file = new File(img_path);
         if (!file.exists()) {
@@ -169,6 +167,8 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(name, null);
+            System.out.println(img_path);
+            System.out.println(middle);
         }
 
     }
@@ -225,6 +225,8 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(cardName, null);
+//            System.out.println(img_path);
+//            System.out.println(middle);
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);

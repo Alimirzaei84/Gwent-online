@@ -413,17 +413,5 @@ public class Game implements Runnable {
     private static Matcher getMatcher(String regex, String command) {
         return Pattern.compile(regex).matcher(command);
     }
-
-    public static void main(String[] args) {
-        try {
-            CardController.load_data();
-        } catch (Exception e) {
-        }
-        User u1 = new User("ali", "a", "a", "a");
-        User u2 = new User("erfan", "b", "b", "b");
-        u1.setDeck(u1.getRandomDeck());
-        u2.setDeck(u1.getRandomDeck());
-        Game game = new Game(u1, u2);
-        game.run();
-    }
 }
+
