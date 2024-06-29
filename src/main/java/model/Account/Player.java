@@ -579,7 +579,6 @@ public class Player {
         return controller;
     }
 
-
     private Card getRandomCard(ArrayList<Card> arrayList) {
         if (arrayList.isEmpty()) return null;
         return arrayList.get(ApplicationController.getRandom().nextInt(0, arrayList.size()));

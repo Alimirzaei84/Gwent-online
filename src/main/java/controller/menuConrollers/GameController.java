@@ -1,13 +1,12 @@
 package controller.menuConrollers;
 
 import javafx.scene.image.ImageView;
-import model.Account.Player;
 import model.game.Game;
-import model.role.Card;
+import model.role.*;
 
 public class GameController {
 
-    private Game game;
+    private final Game game;
     private Card selectedCard;
     private ImageView selectedImageView;
 

@@ -7,8 +7,6 @@ import model.role.Card;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Game {
 
@@ -16,7 +14,6 @@ public class Game {
     private short passedTurnCounter;
     private ArrayList<Card> weathers;
     private int numTurn;
-
     private int indexCurPlayer; //TODO : CHANGE AFTER EACH TURN
     private static Game currentGame = null;
 

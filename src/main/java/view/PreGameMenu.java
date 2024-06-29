@@ -68,7 +68,7 @@ public class PreGameMenu extends AppMenu {
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("/CSS/PreGameMenu.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGameMenu.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -80,7 +80,7 @@ public class PreGameMenu extends AppMenu {
 
     public void showAndChangeFaction() throws IOException {
         HBox content = new HBox(20); // Add spacing between each VBox
-        content.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+        content.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
         File directory = new File("src/main/resources/assets/lg");
 
         for (File file : Objects.requireNonNull(directory.listFiles())) {
@@ -129,12 +129,12 @@ public class PreGameMenu extends AppMenu {
         rootVbox.setAlignment(Pos.CENTER);
 
         StackPane root = new StackPane(rootVbox);
-        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResource("/Images/pregamebackground.jpg")).toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         root.setBackground(new Background(background));
 
         Scene scene = new Scene(root, 1280, 720);
-        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
 
         content.setAlignment(Pos.CENTER);
 
@@ -219,13 +219,13 @@ public class PreGameMenu extends AppMenu {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("you have more than 10 special cards please change your deck first\n    " +
                         "we clear your deck");
-                alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+                alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
                 alert.show();
                 currentUser.getDeck().clear();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("your deck is now ready");
-                alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+                alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
                 alert.show();
             }
 
@@ -257,13 +257,13 @@ public class PreGameMenu extends AppMenu {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             currentUser = Game.getCurrentGame().getPlayer2().getUser();
             alert.setContentText("now player2: " + currentUser.getName() + " should pick cards");
-            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.show();
             showCurrentUserInfo();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should pick at least 22 unit cards");
-            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.show();
         }
     }
@@ -281,7 +281,7 @@ public class PreGameMenu extends AppMenu {
         Game game = Game.getCurrentGame();
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Err");
-        alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
         if (game.getPlayer1().getUser().getDeck().size() < 22 || game.getPlayer1().getUser().getSpecialCount() >= 10) {
             String errMssg = "[ERR]: " + game.getPlayer1().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
             System.out.println(errMssg);
@@ -511,7 +511,7 @@ public class PreGameMenu extends AppMenu {
 
         }
 
-        Image backgroundImage = new Image(getClass().getResource("/Images/pregamebackground.jpg").toExternalForm());
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResource("/Images/pregamebackground.jpg")).toExternalForm());
         BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
 
@@ -526,7 +526,7 @@ public class PreGameMenu extends AppMenu {
         ScrollPane scrollPane = new ScrollPane(stackPane);
         scrollPane.setFitToWidth(true);
         Scene scene = new Scene(scrollPane, 1280, 700);
-        scene.getStylesheets().add(getClass().getResource("/CSS/PreGamePages.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
 
         ApplicationController.getStage().setScene(scene);
         ApplicationController.getStage().setTitle("show Leaders");

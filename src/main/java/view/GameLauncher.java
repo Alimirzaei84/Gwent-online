@@ -33,7 +33,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
-    private GameController gameController;
+    private final GameController gameController;
 
 
 
