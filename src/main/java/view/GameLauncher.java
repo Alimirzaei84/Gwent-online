@@ -2,6 +2,8 @@ package view;
 
 import controller.CardController;
 import controller.menuConrollers.GameController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,10 +25,13 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Account.Player;
 import model.game.Game;
 import model.game.Row;
 import model.role.Card;
+import model.role.Special;
+import model.role.Weather;
 import view.AppMenu;
 import view.MainMenu;
 
@@ -34,8 +43,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
-    private final GameController gameController;
-
+    private GameController gameController;
+    private Timeline sideSwapTimeLine;
 
 
     private AnchorPane pane = new AnchorPane();
@@ -62,13 +71,26 @@ public class GameLauncher extends AppMenu {
     public Text otherRow2ScoreText;
     public Text curScore;
     public Text otherScore;
+    public HBox curRow2HBox;
+    public HBox curRow1HBox;
+    public HBox curRow0HBox;
+    public HBox otherRow0HBox;
+    public HBox otherRow1HBox;
+    public HBox otherRow2HBox;
+    public HBox otherSpecialRow2HBox;
+    public HBox otherSpecialRow1HBox;
+    public HBox otherSpecialRow0HBox;
+    public HBox curSpecialRow2HBox;
+    public HBox curSpecialRow1HBox;
+    public HBox curSpecialRow0HBox;
+    public HBox weatherHBox;
 
-
-    private final HBox inHandPlayer1 = new HBox();
-    private final HBox inHandPlayer2 = new HBox();
+    private boolean isScreenLocked;
+    private HBox inHandPlayer1 = new HBox();
 
     public GameLauncher() {
         gameController = new GameController(Game.getCurrentGame());
+        isScreenLocked = false;
     }
 
     @Override
@@ -90,13 +112,14 @@ public class GameLauncher extends AppMenu {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gameController.initializeGame();
         inHandCurHbox.getChildren().add(inHandPlayer1);
+        setUpTimeLine();
 
         Platform.runLater(() -> {
             for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {
                 try {
                     String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
                     ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
-                    imageView.setOnMouseClicked(event -> selectCard(card , imageView));
+                    imageView.setOnMouseClicked(event -> selectCard(card, imageView));
                     imageView.setOnDragExited(event -> System.out.println("swipe down"));
                     imageView.preserveRatioProperty();
                     imageView.setFitWidth(52.5);
@@ -110,15 +133,7 @@ public class GameLauncher extends AppMenu {
 
         Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
         Player otherPlayer = Game.getCurrentGame().getOtherPlayer();
-        String curLeaderPath = CardController.imagePath.get(curPlayer.getLeader().getName());
-        String otherLeaderPath = CardController.imagePath.get(otherPlayer.getLeader().getName());
-        try {
-            setLeadersOnScreen(curLeaderPath, curLeaderVbox);
-            setLeadersOnScreen(otherLeaderPath, otherLeaderVbox);
-            //TODO : SET MOUSE CLICKED IF NEEDED!
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        refreshLeaderOnScreen(curPlayer, otherPlayer);
 
         curUsernameLabel.setText(curPlayer.getUser().getUsername());
         curUsernameLabel.setAlignment(Pos.CENTER);
@@ -158,6 +173,138 @@ public class GameLauncher extends AppMenu {
 
     }
 
+    //TODO : EMPTY SELECTED CARD FOR THE CHANGE TURN
+    private void swapSides(Player curPlayer, Player otherPlayer) throws MalformedURLException {
+        isScreenLocked = false;
+        if (gameController.getSelectedCard() !=  null){
+            deSelectCard();
+        }
+
+        refreshScreen(curPlayer, otherPlayer);
+    }
+
+    private void setUpTimeLine() {
+        sideSwapTimeLine = new Timeline(new KeyFrame(
+                Duration.seconds(5), event -> {
+            try {
+                swapSides(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        ));
+        sideSwapTimeLine.setCycleCount(1);
+    }
+
+    private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
+        //Deck
+        setUpHand(curPlayer);
+
+        //Left side of the screen
+        curUsernameLabel.setText(curPlayer.getUser().getUsername());
+        curFactionLabel.setText(curPlayer.getLeader().getFaction().name());
+        curInHandCoLabel.setText("In Hand : " + curPlayer.getInHand().size());
+        otherUsernameLabel.setText(otherPlayer.getUser().getUsername());
+        otherFactionLabel.setText(otherPlayer.getLeader().getFaction().name());
+        otherInHandCoLabel.setText("In Hand : " + otherPlayer.getInHand().size());
+
+        updateDiamondsForPlayer(curPlayer, curDiamondHBox);
+        updateDiamondsForPlayer(otherPlayer, otherDiamondHBox);
+        refreshLeaderOnScreen(curPlayer, otherPlayer);
+
+        //Right side of the screen
+        curDeckCountLabel.setText(String.valueOf(curPlayer.getUser().getDeck().size()));
+        otherDeckCountLabel.setText(String.valueOf(otherPlayer.getUser().getDeck().size()));
+        setFactionOnDeckView(curPlayer.getLeader().getFaction().name(), curDeckVBox);
+        setFactionOnDeckView(otherPlayer.getLeader().getFaction().name(), otherDeckVBox);
+
+        //TODO : REFRESH DISCARD PILE
+
+        //curRows
+        Row[] curRows = curPlayer.getRows();
+        setRowOnScreen(curPlayer, curRows[0], curRow0HBox, curSpecialRow0HBox);
+        setRowOnScreen(curPlayer, curRows[1], curRow1HBox, curSpecialRow1HBox);
+        setRowOnScreen(curPlayer, curRows[2], curRow2HBox, curSpecialRow2HBox);
+
+        //otherRows
+        Row[] otherRows = otherPlayer.getRows();
+        setRowOnScreen(otherPlayer, otherRows[0], otherRow0HBox, otherSpecialRow0HBox);
+        setRowOnScreen(otherPlayer, otherRows[1], otherRow1HBox, otherSpecialRow1HBox);
+        setRowOnScreen(otherPlayer, otherRows[2], otherRow2HBox, otherSpecialRow2HBox);
+
+        //scores
+        refreshScores(curPlayer, otherPlayer);
+    }
+
+    private void setRowOnScreen(Player player, Row row, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
+
+        rowHBox.getChildren().clear();
+        specialRowBox.getChildren().clear();
+        for (Card card : row.getCards()) {
+            System.out.println("Row " + row.getName() + " card : " + card.getName());
+            String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+            ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+            imageView.setOnDragExited(event -> System.out.println("swipe down"));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(52.5);
+            imageView.setFitHeight(90);
+            rowHBox.getChildren().add(imageView);
+        }
+
+        if (row.getSpecial() != null && specialRowBox != null) {
+            String imagePath = CardController.imagePath.getOrDefault(row.getSpecial().getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+            ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+            imageView.setOnDragExited(event -> System.out.println("swipe down"));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(77);
+            imageView.setFitHeight(72);
+            specialRowBox.getChildren().add(imageView);
+        }
+    }
+
+    private void refreshLeaderOnScreen(Player curPlayer, Player otherPlayer) {
+        String curLeaderPath = CardController.imagePath.get(curPlayer.getLeader().getName());
+        String otherLeaderPath = CardController.imagePath.get(otherPlayer.getLeader().getName());
+        try {
+            setLeadersOnScreen(curLeaderPath, curLeaderVbox);
+            setLeadersOnScreen(otherLeaderPath, otherLeaderVbox);
+            //TODO : SET MOUSE CLICKED IF NEEDED!
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDiamondsForPlayer(Player player, HBox diamondHBox) {
+        int max = player.getDiamond();
+        int num = 0;
+        for (Node node : diamondHBox.getChildren()) {
+            if (node instanceof Polygon polygon) {
+                num++;
+                if (num > max)
+                    polygon.setFill(Color.rgb(89, 114, 115));
+                else polygon.setFill(Color.rgb(112, 36, 40));
+            }
+        }
+    }
+
+    private void setUpHand(Player curPlayer) {
+        inHandCurHbox.getChildren().clear();
+        for (Card card : curPlayer.getInHand()) {
+            try {
+                String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+                ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+                imageView.setOnMouseClicked(event -> selectCard(card, imageView));
+                imageView.setOnDragExited(event -> System.out.println("swipe down"));
+                imageView.preserveRatioProperty();
+                imageView.setFitWidth(52.5);
+                imageView.setFitHeight(90);
+                inHandCurHbox.getChildren().add(imageView);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void refreshScores(Player curPlayer, Player otherPlayer) {
         Row[] curRows = curPlayer.getRows();
         Row[] otherRows = otherPlayer.getRows();
@@ -165,8 +312,8 @@ public class GameLauncher extends AppMenu {
         curRow1ScoreText.setText(String.valueOf(curRows[1].getPoint()));
         curRow2ScoreText.setText(String.valueOf(curRows[2].getPoint()));
         otherRow0ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
-        otherRow1ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
-        otherRow2ScoreText.setText(String.valueOf(otherRows[0].getPoint()));
+        otherRow1ScoreText.setText(String.valueOf(otherRows[1].getPoint()));
+        otherRow2ScoreText.setText(String.valueOf(otherRows[2].getPoint()));
 
         curPlayer.updateTotalPoint();
         otherPlayer.updateTotalPoint();
@@ -186,6 +333,7 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setFactionOnDeckView(String factionName, VBox vBox) throws MalformedURLException {
+        vBox.getChildren().clear();
         String imagePath = switch (factionName.toUpperCase()) {
             case "NORTHERN_REALMS" -> "src/main/resources/assets/lg/faction_realms.jpg";
             case "NILFGAARDIAN_EMPIRE" -> "src/main/resources/assets/lg/faction_nilfgaard.jpg";
@@ -208,6 +356,7 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setLeadersOnScreen(String leaderPath, VBox leaderVbox) throws MalformedURLException {
+        leaderVbox.getChildren().clear();
         ImageView leaderImageView = new ImageView(new Image(new File(leaderPath).toURI().toURL().toString()));
         leaderImageView.setOnDragExited(event -> System.out.println("swipe down"));
         leaderImageView.preserveRatioProperty();
@@ -216,16 +365,99 @@ public class GameLauncher extends AppMenu {
         leaderVbox.getChildren().add(leaderImageView);
     }
 
-    public void selectCard(Card card , ImageView imageView) {
-        if (gameController.getSelectedCard() != null){
-            ImageView oldImageView = gameController.getSelectedImageView();
-            oldImageView.setLayoutY(oldImageView.getLayoutY() - 20);
-            gameController.setSelectedImageView(null);
+    public void selectCard(Card card, ImageView imageView) {
+        if (gameController.getSelectedCard() != null) {
+            deSelectCard();
         }
 
+        applyBlue(imageView);
         gameController.setSelectedCard(card);
-        imageView.setLayoutY(imageView.getLayoutY() + 20);
         gameController.setSelectedImageView(imageView);
+    }
+
+    public void applyBlue(ImageView imageView) {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(0.5);
+        colorAdjust.setSaturation(0.5);
+        Blend blend = new Blend();
+
+        blend.setMode(BlendMode.MULTIPLY);
+        blend.setTopInput(new ColorInput(0, 0, 52.5, 90, Color.color(0, 0, 1, 0.5)));
+        blend.setBottomInput(colorAdjust);
+        imageView.setEffect(blend);
+    }
+
+    public void resetTint(ImageView imageView) {
+        imageView.setEffect(null);
+    }
+
+    public void deSelectCard() {
+        resetTint(gameController.getSelectedImageView());
+        gameController.setSelectedCard(null);
+        gameController.setSelectedImageView(null);
+    }
+
+    public void putCardWeather(Player curPlayer) throws MalformedURLException {
+        
+        endOfTurn(curPlayer);
+    }
+
+    public void putCardSpecial(Player curPlayer) throws MalformedURLException {
+
+        endOfTurn(curPlayer);
+    }
+
+    public void putCard() throws MalformedURLException {
+        if (isScreenLocked)
+            return;
+        Card selectedCard = gameController.getSelectedCard();
+        Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
+
+        if (selectedCard == null)
+            return;
+
+        if (selectedCard instanceof Weather){
+            putCardWeather(curPlayer);
+            return;
+        }
+
+        if (selectedCard instanceof Special) {
+            putCardSpecial(curPlayer);
+            return;
+        }
+
+        gameController.getSelectedImageView().setOnMouseClicked(event -> {
+        });
+
+
+        int rowNum = CardController.getRowNumber(gameController.getSelectedCard().getName());
+        switch (rowNum) {
+            case 1 -> curRow1HBox.getChildren().add(gameController.getSelectedImageView());
+            case 2 -> curRow2HBox.getChildren().add(gameController.getSelectedImageView());
+            default -> curRow0HBox.getChildren().add(gameController.getSelectedImageView());
+        }
+
+        deSelectCard();
+        try {
+            Game.getCurrentGame().getCurrentPlayer().putCard(selectedCard);
+        } catch (Exception e) {
+            System.out.println("[ERR] : " + e.getMessage());
+//            e.printStackTrace();
+        }
+
+        endOfTurn(curPlayer);
+        //TODO : put a timeline for the next player's turn
+    }
+
+    private void endOfTurn(Player curPlayer) throws MalformedURLException {
+        if (!curPlayer.equals(Game.getCurrentGame().getCurrentPlayer())) //The usual method
+            refreshScreen(Game.getCurrentGame().getOtherPlayer(), Game.getCurrentGame().getCurrentPlayer());
+        else //in case an error occurred
+            refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
+
+
+        isScreenLocked = true;
+        sideSwapTimeLine.play();
     }
 
     public void pass() {
@@ -236,7 +468,7 @@ public class GameLauncher extends AppMenu {
         //TODO
     }
 
-    public void executeAction(){
+    public void executeAction() {
         //TODO
     }
 }

@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Player {
+    //TODO : updateDiamond
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
@@ -43,6 +44,14 @@ public class Player {
 
     }
 
+
+    public short getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(short diamond) {
+        this.diamond = diamond;
+    }
 
     // TODO: 1
     private Player getOpponent() {
@@ -100,7 +109,7 @@ public class Player {
 
 
     // TODO: 7
-    private void putCard(Card card) {
+    public void putCard(Card card) {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             inHand.remove(card);

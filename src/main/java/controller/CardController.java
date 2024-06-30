@@ -46,7 +46,7 @@ public abstract class CardController {
                 return ApplicationController.getRandom().nextInt(0, 1);
             }
         }
-
+        return 0; //TODO : FIX THIS SHIT
     }
 
     public static ArrayList<String> units = new ArrayList<>();

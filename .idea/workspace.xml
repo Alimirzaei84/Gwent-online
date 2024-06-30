@@ -8,10 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
@@ -245,7 +242,8 @@
       <workItem from="1719477341232" duration="1000000" />
       <workItem from="1719480412349" duration="267000" />
       <workItem from="1719497895993" duration="8351000" />
-      <workItem from="1719641559998" duration="17683000" />
+      <workItem from="1719641559998" duration="33604000" />
+      <workItem from="1719730049880" duration="5016000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
