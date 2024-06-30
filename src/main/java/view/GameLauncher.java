@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
@@ -203,7 +204,8 @@ public class GameLauncher extends AppMenu {
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
         //Deck
         setUpHand(curPlayer);
-
+        System.out.println(Game.getCurrentGame().getCurrentPlayer().getDiamond());
+        System.out.println(Game.getCurrentGame().getOtherPlayer().getDiamond());
         //Left side of the screen
         curUsernameLabel.setText(curPlayer.getUser().getUsername());
         curFactionLabel.setText(curPlayer.getLeader().getFaction().name());
@@ -305,10 +307,10 @@ public class GameLauncher extends AppMenu {
             index++;
         }
 
-        if (row.getSpecial() == null){
+        if (row.getSpecial() == null) {
             System.err.println("NULLAM KHAR KOSE");
         }
-        
+
         if (row.getSpecial() != null && specialRowBox != null) {
             String imagePath = CardController.imagePath.getOrDefault(row.getSpecial().getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -555,6 +557,15 @@ public class GameLauncher extends AppMenu {
 
     public void executeAction() throws MalformedURLException {
         if (isScreenLocked) return;
+        if (Game.getCurrentGame().getCurrentPlayer().isActionLeaderDone()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You have already used your leader's ability!");
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.show();
+            return;
+        }
+
+
         Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
         Game.getCurrentGame().getCurrentPlayer().playLeader();
         endOfTurn(curPlayer);

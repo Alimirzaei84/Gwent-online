@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +21,8 @@
       <list>
         <option value="module-info" />
         <option value="JUnit4 Test Class" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -54,9 +53,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />

@@ -38,6 +38,10 @@ public class Player {
     }
 
 
+    public boolean isActionLeaderDone() {
+        return actionLeaderDone;
+    }
+
     public short getDiamond() {
         return diamond;
     }
