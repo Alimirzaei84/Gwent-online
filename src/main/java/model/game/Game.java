@@ -116,4 +116,8 @@ public class Game {
         // TODO: The game should be closed
         // TODO: update game history
     }
+
+    public ArrayList<Card> getWeathers() {
+        return weathers;
+    }
 }
