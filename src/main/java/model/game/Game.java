@@ -12,14 +12,16 @@ public class Game {
 
     private final Player[] players;
     private short passedTurnCounter;
-    private ArrayList<Card> weathers;
+    private final ArrayList<Card> weathers;
     private int numTurn;
     private int indexCurPlayer; //TODO : CHANGE AFTER EACH TURN
     private static Game currentGame = null;
 
     public Game(User user1, User user2) {
         players = new Player[2];
-        createPlayers(user1, user2);
+        if (!user1.getFaction().equals(Faction.SCOIA_TAEL) && user2.getFaction().equals(Faction.SCOIA_TAEL))
+            createPlayers(user2, user1);
+        else createPlayers(user1, user2);
         indexCurPlayer = 0;
         weathers = new ArrayList<>();
         numTurn = 0;
@@ -58,7 +60,7 @@ public class Game {
                 getPlayer1().addADiamond();
             else if (!getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE))
                 getPlayer2().addADiamond();
-            else{
+            else {
                 //TODO: just show equivalent of points and give no diamond to anyone !
             }
         }
@@ -121,7 +123,7 @@ public class Game {
     }
 
     public void endOfTheGame(Player winner) {
-        if(winner.getUser().getFaction().equals(Faction.MONSTERS))
+        if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         // TODO: winner won the game
         // TODO: The game should be closed
