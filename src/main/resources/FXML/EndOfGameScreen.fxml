@@ -9,7 +9,7 @@
         <URL value="@../CSS/EndOfGame.css" />
     </stylesheets>
    <children>
-      <Label fx:id="winnerLabel" layoutX="502.0" layoutY="147.0" prefHeight="99.0" prefWidth="276.0" />
+      <Label fx:id="winnerLabel" layoutX="500.0" layoutY="194.0" prefHeight="46.0" prefWidth="280.0" />
       <HBox fx:id="dataHBox" layoutX="366.0" layoutY="259.0" prefHeight="287.0" prefWidth="548.0" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" text="Main menu" />
    </children>

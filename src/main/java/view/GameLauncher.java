@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
@@ -88,7 +89,7 @@ public class GameLauncher extends AppMenu {
     public HBox weatherHBox;
     public VBox otherDiscardPileVBox;
     public VBox curDiscardPileVBox;
-
+    public Button vetoButton;
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
@@ -218,6 +219,13 @@ public class GameLauncher extends AppMenu {
     }
 
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
+        //remove veto button
+        System.out.println("NuM  TURN : " + Game.getCurrentGame().getNumTurn());
+        if (Game.getCurrentGame().getNumTurn() == 1){
+            vetoButton.setVisible(false);
+        }
+
+
         //Deck
         setUpHand(curPlayer);
         System.out.println(Game.getCurrentGame().getCurrentPlayer().getDiamond());
@@ -309,7 +317,7 @@ public class GameLauncher extends AppMenu {
         int index = 0;
         for (Card card : row.getCards()) {
 
-            if (index >= MAX_CARD_SHOW)
+            if (index >= 10)
                 continue;
 
             System.out.println("Row " + row.getName() + " card : " + card.getName());
@@ -569,6 +577,21 @@ public class GameLauncher extends AppMenu {
 
     public void showDescription() {
         //TODO
+    }
+
+    public void veto() throws Exception {
+        if (isScreenLocked) return;
+        if (gameController.getSelectedCard() == null) return;
+        try {
+            Game.getCurrentGame().getCurrentPlayer().veto(gameController.getSelectedCard());
+            refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
+        } catch (Exception e){
+            System.out.println("[ERR] : " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You can only veto twice in the firstRound");
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.show();
+        }
     }
 
     public void executeAction() throws MalformedURLException {

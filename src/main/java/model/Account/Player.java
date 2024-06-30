@@ -71,8 +71,9 @@ public class Player {
 
 
     // TODO: 3
-    private void veto(Card card) throws Exception {
-        if(++vetoCounter >= 2) {
+    public void veto(Card card) throws Exception {
+
+        if(++vetoCounter > 2) {
             throw new Exception("is already done");
         }
         inHand.remove(card);

@@ -36,6 +36,10 @@ public class Game {
         return winner;
     }
 
+    public int getNumTurn() {
+        return numTurn;
+    }
+
     public ArrayList<stateAfterADiamond> getStates() {
         return states;
     }
