@@ -5,6 +5,7 @@ import controller.CardController;
 import controller.menuConrollers.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -20,10 +21,9 @@ import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -72,12 +72,12 @@ public class GameLauncher extends AppMenu {
     public Text otherRow2ScoreText;
     public Text curScore;
     public Text otherScore;
-    public HBox curRow2HBox;
-    public HBox curRow1HBox;
-    public HBox curRow0HBox;
-    public HBox otherRow0HBox;
-    public HBox otherRow1HBox;
-    public HBox otherRow2HBox;
+    public StackPane curRow0StackPane;
+    public StackPane curRow2StackPane;
+    public StackPane curRow1StackPane;
+    public StackPane otherRow0StackPane;
+    public StackPane otherRow1StackPane;
+    public StackPane otherRow2StackPane;
     public HBox otherSpecialRow2HBox;
     public HBox otherSpecialRow1HBox;
     public HBox otherSpecialRow0HBox;
@@ -88,6 +88,13 @@ public class GameLauncher extends AppMenu {
     public VBox otherDiscardPileVBox;
     public VBox curDiscardPileVBox;
     public Button vetoButton;
+    public HBox curRow2HBox = new HBox();
+    public HBox curRow1HBox = new HBox();
+    public HBox curRow0HBox = new HBox();
+    public HBox otherRow0HBox = new HBox();
+    public HBox otherRow1HBox = new HBox();
+    public HBox otherRow2HBox = new HBox();
+
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
@@ -154,14 +161,12 @@ public class GameLauncher extends AppMenu {
         player.setDiamond((short) Math.max(0, player.getDiamond() - 1));
     }
 
-
     private void getFromDeck(Player currentPlayer) {
         if (currentPlayer.getUser().getDeck().isEmpty()) return;
         Card card = currentPlayer.getRandomCard(currentPlayer.getUser().getDeck());
         currentPlayer.getInHand().add(card);
         currentPlayer.getUser().getDeck().remove(card);
     }
-
 
     private void recoverCard(int i, Player currentPlayer) {
         for (int j = 0; j < i; j++) {
@@ -171,7 +176,6 @@ public class GameLauncher extends AppMenu {
             currentPlayer.getDiscardCards().remove(card);
         }
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -238,7 +242,6 @@ public class GameLauncher extends AppMenu {
 
     }
 
-    //TODO : EMPTY SELECTED CARD FOR THE CHANGE TURN
     private void swapSides(Player curPlayer, Player otherPlayer) throws MalformedURLException {
         isScreenLocked = false;
         if (gameController.getSelectedCard() != null) {
@@ -247,6 +250,27 @@ public class GameLauncher extends AppMenu {
 
         refreshScreen(curPlayer, otherPlayer);
     }
+
+    private void addRainEffect(Pane rainPane) {
+        // Create raindrops
+        for (int i = 0; i < 100; i++) {
+            Line rainDrop = new Line(0, 0, 0, 10);
+            rainDrop.setStroke(Color.LIGHTBLUE);
+            rainDrop.setStrokeWidth(2);
+
+            rainDrop.setTranslateX(Math.random() * rainPane.getWidth());
+            rainDrop.setTranslateY(Math.random() * rainPane.getHeight());
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(1), rainDrop);
+            tt.setByY(rainPane.getHeight() / 2);  // Halve the Y distance
+            tt.setCycleCount(Timeline.INDEFINITE);
+            tt.setDelay(Duration.seconds(Math.random()));
+            tt.play();
+
+            rainPane.getChildren().add(rainDrop);
+        }
+    }
+
 
     private void setUpTimeLine() {
         sideSwapTimeLine = new Timeline(new KeyFrame(
@@ -278,7 +302,7 @@ public class GameLauncher extends AppMenu {
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
         //remove veto button
         System.out.println("NuM  TURN : " + Game.getCurrentGame().getNumTurn());
-        if (Game.getCurrentGame().getNumTurn() == 1){
+        if (Game.getCurrentGame().getNumTurn() == 1) {
             vetoButton.setVisible(false);
         }
 
@@ -311,15 +335,15 @@ public class GameLauncher extends AppMenu {
 
         //curRows
         Row[] curRows = curPlayer.getRows();
-        setRowOnScreen(curPlayer, curRows[0], curRow0HBox, curSpecialRow0HBox);
-        setRowOnScreen(curPlayer, curRows[1], curRow1HBox, curSpecialRow1HBox);
-        setRowOnScreen(curPlayer, curRows[2], curRow2HBox, curSpecialRow2HBox);
+        setRowOnScreen(curPlayer, curRows[0],curRow0StackPane ,curRow0HBox, curSpecialRow0HBox);
+        setRowOnScreen(curPlayer, curRows[1],curRow1StackPane ,curRow1HBox, curSpecialRow1HBox);
+        setRowOnScreen(curPlayer, curRows[2], curRow2StackPane,curRow2HBox, curSpecialRow2HBox);
 
         //otherRows
         Row[] otherRows = otherPlayer.getRows();
-        setRowOnScreen(otherPlayer, otherRows[0], otherRow0HBox, otherSpecialRow0HBox);
-        setRowOnScreen(otherPlayer, otherRows[1], otherRow1HBox, otherSpecialRow1HBox);
-        setRowOnScreen(otherPlayer, otherRows[2], otherRow2HBox, otherSpecialRow2HBox);
+        setRowOnScreen(otherPlayer, otherRows[0],otherRow0StackPane, otherRow0HBox, otherSpecialRow0HBox);
+        setRowOnScreen(otherPlayer, otherRows[1],otherRow1StackPane, otherRow1HBox, otherSpecialRow1HBox);
+        setRowOnScreen(otherPlayer, otherRows[2], otherRow2StackPane,otherRow2HBox, otherSpecialRow2HBox);
 
         //scores
         refreshScores(curPlayer, otherPlayer);
@@ -348,10 +372,6 @@ public class GameLauncher extends AppMenu {
 
     }
 
-    private void showNextPlayersTurn() {
-
-    }
-
     private void setWeatherOnScreen() throws MalformedURLException {
         weatherHBox.getChildren().clear();
         for (Card weather : Game.getCurrentGame().getWeathers()) {
@@ -365,16 +385,22 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void setRowOnScreen(Player player, Row row, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
-
+    private void setRowOnScreen(Player player, Row row, StackPane rowStackPane, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
         rowHBox.getChildren().clear();
         specialRowBox.getChildren().clear();
+        rowStackPane.getChildren().clear();
+
+        Pane rainPane = new Pane();
+        rainPane.prefWidthProperty().bind(rowStackPane.widthProperty());
+        rainPane.prefHeightProperty().bind(rowStackPane.heightProperty());
+
+        rowStackPane.getChildren().addAll(rowHBox, rainPane); // Add the HBox and rainPane to the StackPane
+
         int index = 0;
         for (Card card : row.getCards()) {
             if (index >= 10)
                 continue;
 
-            System.out.println("Row " + row.getName() + " card : " + card.getName());
             String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
@@ -382,19 +408,27 @@ public class GameLauncher extends AppMenu {
             imageView.setFitWidth(52.5);
             imageView.setFitHeight(90);
             rowHBox.getChildren().add(imageView);
+
             index++;
         }
 
-        if (row.getSpecial() != null && specialRowBox != null) {
+        if (row.isOnFrost()) {
+            addRainEffect(rainPane); // Add the rain effect to the rainPane
+        }
+
+        if (row.getSpecial() != null) {
             String imagePath = CardController.imagePath.getOrDefault(row.getSpecial().getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
             imageView.preserveRatioProperty();
-            imageView.setFitWidth(77);
+            imageView.setFitWidth(52.5);
             imageView.setFitHeight(72);
             specialRowBox.getChildren().add(imageView);
         }
+
+        rowStackPane.getChildren().add(specialRowBox); // Ensure specialRowBox is added last to appear on top
     }
+
 
     private void refreshLeaderOnScreen(Player curPlayer, Player otherPlayer) {
         String curLeaderPath = CardController.imagePath.get(curPlayer.getLeader().getName());
@@ -624,7 +658,6 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-
     public void showDescription() {
         //TODO
     }
@@ -635,7 +668,7 @@ public class GameLauncher extends AppMenu {
         try {
             Game.getCurrentGame().getCurrentPlayer().veto(gameController.getSelectedCard());
             refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("[ERR] : " + e.getMessage());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("You can only veto twice in the firstRound");
