@@ -12,14 +12,14 @@
     </stylesheets>
     <children>
         <HBox fx:id="inHandCurHbox" layoutX="386.0" layoutY="558.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" layoutY="459.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" layoutY="369.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" layoutY="279.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" layoutY="189.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" layoutY="93.0" prefHeight="90.0" prefWidth="624.0" />
-        <HBox layoutX="386.0" prefHeight="90.0" prefWidth="624.0" />
+        <HBox fx:id="curRow0HBox" layoutX="469.0" layoutY="459.0" onMouseClicked="#putCard" prefHeight="90.0" prefWidth="541.0" />
+        <HBox fx:id="curRow1HBox" layoutX="469.0" layoutY="369.0" onMouseClicked="#putCard" prefHeight="90.0" prefWidth="541.0" />
+        <HBox fx:id="curRow2HBox" layoutX="469.0" layoutY="279.0" onMouseClicked="#putCard" prefHeight="90.0" prefWidth="541.0" />
+        <HBox fx:id="otherRow2HBox" layoutX="469.0" layoutY="189.0" prefHeight="90.0" prefWidth="541.0" />
+        <HBox fx:id="otherRow1HBox" layoutX="469.0" layoutY="93.0" prefHeight="90.0" prefWidth="541.0" />
+        <HBox fx:id="otherRow0HBox" layoutX="469.0" prefHeight="90.0" prefWidth="541.0" />
         <VBox fx:id="otherLeaderVbox" layoutX="88.0" layoutY="51.0" prefHeight="99.0" prefWidth="77.0" />
-        <HBox layoutX="88.0" layoutY="302.0" prefHeight="90.0" prefWidth="194.0" />
+        <HBox fx:id="weatherHBox" layoutX="88.0" layoutY="302.0" onMouseClicked="#putCard" prefHeight="90.0" prefWidth="194.0" />
         <VBox fx:id="curLeaderVbox" layoutX="88.0" layoutY="553.0" prefHeight="99.0" prefWidth="77.0" />
         <HBox layoutX="222.0" layoutY="83.0" prefHeight="35.0" prefWidth="60.0" />
         <VBox fx:id="otherDeckVBox" layoutX="1148.0" layoutY="43.0" prefHeight="99.0" prefWidth="77.0" />
@@ -56,7 +56,7 @@
                 </HBox>
             </children>
         </VBox>
-        <Button layoutX="208.0" layoutY="568.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="88.0" text="Pass" />
+        <Button layoutX="208.0" layoutY="568.0" mnemonicParsing="false" onMouseClicked="#pass" prefHeight="0.0" prefWidth="88.0" text="Pass" />
         <Label fx:id="otherDeckCountLabel" layoutX="1153.0" layoutY="152.0" text="Label" />
         <Label fx:id="curDeckCountLabel" layoutX="1153.0" layoutY="512.0" text="Label" />
       <Text fx:id="otherRow0ScoreText" layoutX="357.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
@@ -67,6 +67,12 @@
       <Text fx:id="curRow0ScoreText" layoutX="357.0" layoutY="509.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text fx:id="curScore" layoutX="297.0" layoutY="491.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text fx:id="otherScore" layoutX="297.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Button layoutX="178.0" layoutY="625.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="118.0" text="Action" />
+      <Button layoutX="178.0" layoutY="625.0" mnemonicParsing="false" onMouseClicked="#executeAction" prefHeight="46.0" prefWidth="118.0" text="Action" />
+      <HBox fx:id="curSpecialRow2HBox" layoutX="383.0" layoutY="291.0" onMouseClicked="#putCard" prefHeight="72.0" prefWidth="77.0" />
+      <HBox fx:id="curSpecialRow1HBox" layoutX="386.0" layoutY="378.0" onMouseClicked="#putCard" prefHeight="72.0" prefWidth="77.0" />
+      <HBox fx:id="curSpecialRow0HBox" layoutX="386.0" layoutY="476.0" onMouseClicked="#putCard" prefHeight="72.0" prefWidth="77.0" />
+      <HBox fx:id="otherSpecialRow2HBox" layoutX="386.0" layoutY="191.0" prefHeight="72.0" prefWidth="77.0" />
+      <HBox fx:id="otherSpecialRow1HBox" layoutX="386.0" layoutY="102.0" prefHeight="72.0" prefWidth="77.0" />
+      <HBox fx:id="otherSpecialRow0HBox" layoutX="383.0" layoutY="15.0" prefHeight="72.0" prefWidth="77.0" />
     </children>
 </AnchorPane>

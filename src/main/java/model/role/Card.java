@@ -25,7 +25,7 @@ public class Card extends TypeAdapter<Card> {
         out.endObject();
     }
 
-    public void setPower(int power){
+    public void setPower(int power) {
         this.power = power;
     }
 
@@ -117,7 +117,8 @@ public class Card extends TypeAdapter<Card> {
 
 
     public String getAbility() {
-
+        if (ability == null)
+            return "";
         return ability;
     }
 

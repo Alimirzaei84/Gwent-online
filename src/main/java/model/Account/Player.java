@@ -10,6 +10,7 @@ import model.role.*;
 import java.util.*;
 
 public class Player {
+    //TODO : updateDiamond
     private short diamond;
     private int totalPoint;
     private boolean actionLeaderDone;
@@ -37,6 +38,14 @@ public class Player {
     }
 
 
+    public short getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(short diamond) {
+        this.diamond = diamond;
+    }
+
     // TODO: 1
     private Player getOpponent() {
         Player player1 = Game.getCurrentGame().getPlayer1();
@@ -47,7 +56,7 @@ public class Player {
 
 
     // TODO: 2
-    private void playLeader() {
+    public void playLeader() {
         if (!actionLeaderDone) {
             actionLeaderForMe(leader.getName());
             actionLeaderDone = true;
@@ -84,7 +93,7 @@ public class Player {
 
 
     // TODO: 6
-    private void passRound() {
+    public void passRound() {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();
@@ -93,7 +102,7 @@ public class Player {
 
 
     // TODO: 7
-    private void putCard(Card card) {
+    public void putCard(Card card) {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             inHand.remove(card);
@@ -623,6 +632,10 @@ public class Player {
         }
     }
 
+    public ArrayList<Card> getDiscardCards() {
+        return discardCards;
+    }
+    
     public void handleSkellige() {
         if (user.getFaction().equals(Faction.SKELLIGE)) {
             for (int i = 0; i < 2; i++) {
