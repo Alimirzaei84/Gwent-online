@@ -14,7 +14,7 @@ public class Game {
     private short passedTurnCounter;
     private final ArrayList<Card> weathers;
     private int numTurn;
-    private int indexCurPlayer; //TODO : CHANGE AFTER EACH TURN
+    private int indexCurPlayer;
     private static Game currentGame = null;
 
     public Game(User user1, User user2) {
