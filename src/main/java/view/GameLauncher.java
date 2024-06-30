@@ -320,23 +320,22 @@ public class GameLauncher extends AppMenu {
     }
 
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
+        displayCard();
         //remove veto button
-        System.out.println("NuM  TURN : " + Game.getCurrentGame().getNumTurn());
         if (Game.getCurrentGame().getNumTurn() == 1) {
-            vetoButton.setVisible(false);
+            if (vetoButton != null)
+                vetoButton.setVisible(false);
         }
-
-
         //Deck
         setUpHand(curPlayer);
         System.out.println(Game.getCurrentGame().getCurrentPlayer().getDiamond());
         System.out.println(Game.getCurrentGame().getOtherPlayer().getDiamond());
         //Left side of the screen
         curUsernameLabel.setText(curPlayer.getUser().getUsername());
-        curFactionLabel.setText(curPlayer.getLeader().getFaction().name());
+        curFactionLabel.setText(curPlayer.getUser().getLeader().getFaction().name());
         curInHandCoLabel.setText("In Hand : " + curPlayer.getInHand().size());
         otherUsernameLabel.setText(otherPlayer.getUser().getUsername());
-        otherFactionLabel.setText(otherPlayer.getLeader().getFaction().name());
+        otherFactionLabel.setText(otherPlayer.getUser().getLeader().getFaction().name());
         otherInHandCoLabel.setText("In Hand : " + otherPlayer.getInHand().size());
 
         updateDiamondsForPlayer(curPlayer, curDiamondHBox);
@@ -346,8 +345,8 @@ public class GameLauncher extends AppMenu {
         //Right side of the screen
         curDeckCountLabel.setText(String.valueOf(curPlayer.getUser().getDeck().size()));
         otherDeckCountLabel.setText(String.valueOf(otherPlayer.getUser().getDeck().size()));
-        setFactionOnDeckView(curPlayer.getLeader().getFaction().name(), curDeckVBox);
-        setFactionOnDeckView(otherPlayer.getLeader().getFaction().name(), otherDeckVBox);
+        setFactionOnDeckView(curPlayer.getUser().getLeader().getFaction().name(), curDeckVBox);
+        setFactionOnDeckView(otherPlayer.getUser().getLeader().getFaction().name(), otherDeckVBox);
 
         //TODO : test discard pile
         setUpDiscardPile(curPlayer, curDiscardPileVBox);
@@ -451,8 +450,8 @@ public class GameLauncher extends AppMenu {
 
 
     private void refreshLeaderOnScreen(Player curPlayer, Player otherPlayer) {
-        String curLeaderPath = CardController.imagePath.get(curPlayer.getLeader().getName());
-        String otherLeaderPath = CardController.imagePath.get(otherPlayer.getLeader().getName());
+        String curLeaderPath = CardController.imagePath.get(curPlayer.getUser().getLeader().getName());
+        String otherLeaderPath = CardController.imagePath.get(otherPlayer.getUser().getLeader().getName());
         try {
             setLeadersOnScreen(curLeaderPath, curLeaderVbox);
             setLeadersOnScreen(otherLeaderPath, otherLeaderVbox);

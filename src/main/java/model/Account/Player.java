@@ -20,7 +20,6 @@ public class Player {
     private final Row[] rows;
     private final ArrayList<Card> inHand;
     private final ArrayList<Card> discardCards;
-    private final Leader leader;
     private final PlayerController controller;
 
     public Player(User user) {
@@ -30,7 +29,6 @@ public class Player {
         diamond = 0;
         vetoCounter = 0;
         this.user = user;
-        this.leader = user.getLeader();
         rows = new Row[3];
         inHand = new ArrayList<>();
         discardCards = new ArrayList<>();
@@ -64,7 +62,7 @@ public class Player {
     // TODO: 2
     public void playLeader() {
         if (!actionLeaderDone) {
-            actionLeaderForMe(leader.getName());
+            actionLeaderForMe(user.getLeader().getName());
             actionLeaderDone = true;
         }
     }
@@ -593,9 +591,6 @@ public class Player {
         return inHand;
     }
 
-    public Leader getLeader() {
-        return leader;
-    }
 
     public PlayerController getController() {
         return controller;
