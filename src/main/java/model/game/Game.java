@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Game {
-
     private final ArrayList<StateAfterADiamond> states;
     private final Player[] players;
     private short passedTurnCounter;
@@ -67,6 +66,7 @@ public class Game {
         getPlayer2().handleTransformers();
         getPlayer1().updatePointOfRows();
         getPlayer2().updatePointOfRows();
+        getOtherPlayer().getCardInfo().clear();
     }
 
     private void giveADiamondToWinner() {

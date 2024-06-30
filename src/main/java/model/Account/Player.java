@@ -12,6 +12,7 @@ import java.util.*;
 public class Player {
     //TODO : updateDiamond
     private short diamond;
+    private ArrayList<Card> cardInfo;
     private int totalPoint;
     private boolean actionLeaderDone;
     private User user;
@@ -24,6 +25,7 @@ public class Player {
 
     public Player(User user) {
         actionLeaderDone = false;
+        cardInfo = new ArrayList<>();
         totalPoint = 0;
         diamond = 0;
         vetoCounter = 0;
@@ -239,7 +241,7 @@ public class Player {
     }
 
     private void show(Card... cards) {
-        // TODO:  Show these cards to me
+        cardInfo.addAll(List.of(cards));
     }
 
     public void killTheMostPowerFul(Player player, int index) {
@@ -659,4 +661,27 @@ public class Player {
         updatePointOfRows();
     }
 
+    public ArrayList<Card> getCardInfo() {
+        return cardInfo;
+    }
+
+    public void setCardInfo(ArrayList<Card> cardInfo) {
+        this.cardInfo = cardInfo;
+    }
+
+    public void setTotalPoint(int totalPoint) {
+        this.totalPoint = totalPoint;
+    }
+
+    public void setActionLeaderDone(boolean actionLeaderDone) {
+        this.actionLeaderDone = actionLeaderDone;
+    }
+
+    public short getVetoCounter() {
+        return vetoCounter;
+    }
+
+    public void setVetoCounter(short vetoCounter) {
+        this.vetoCounter = vetoCounter;
+    }
 }
