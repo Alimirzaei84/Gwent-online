@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.GameController;
 import javafx.animation.KeyFrame;
@@ -10,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
@@ -44,7 +46,7 @@ import java.util.ResourceBundle;
 public class GameLauncher extends AppMenu {
     private final GameController gameController;
     private Timeline sideSwapTimeLine;
-
+    private Timeline endGameTimeLine;
 
     private AnchorPane pane = new AnchorPane();
     public HBox inHandCurHbox;
@@ -85,7 +87,7 @@ public class GameLauncher extends AppMenu {
     public HBox weatherHBox;
     public VBox otherDiscardPileVBox;
     public VBox curDiscardPileVBox;
-
+    public Button vetoButton;
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
@@ -243,7 +245,8 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setUpTimeLine() {
-        sideSwapTimeLine = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+        sideSwapTimeLine = new Timeline(new KeyFrame(
+                Duration.seconds(3), event -> {
             try {
                 swapSides(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
             } catch (MalformedURLException e) {
@@ -251,9 +254,31 @@ public class GameLauncher extends AppMenu {
             }
         }));
         sideSwapTimeLine.setCycleCount(1);
+
+        endGameTimeLine = new Timeline(new KeyFrame(
+                Duration.seconds(3), event -> {
+            goToStatsMenu();
+        }
+        ));
+    }
+
+    private void goToStatsMenu() {
+        try {
+            EndOfGameScreen endOfGameScreen = new EndOfGameScreen();
+            endOfGameScreen.start(ApplicationController.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
+        //remove veto button
+        System.out.println("NuM  TURN : " + Game.getCurrentGame().getNumTurn());
+        if (Game.getCurrentGame().getNumTurn() == 1){
+            vetoButton.setVisible(false);
+        }
+
+
         //Deck
         setUpHand(curPlayer);
         System.out.println(Game.getCurrentGame().getCurrentPlayer().getDiamond());
@@ -342,8 +367,8 @@ public class GameLauncher extends AppMenu {
         specialRowBox.getChildren().clear();
         int index = 0;
         for (Card card : row.getCards()) {
-
-            if (index >= MAX_CARD_SHOW) continue;
+            if (index >= 10)
+                continue;
 
             System.out.println("Row " + row.getName() + " card : " + card.getName());
             String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
@@ -354,10 +379,6 @@ public class GameLauncher extends AppMenu {
             imageView.setFitHeight(90);
             rowHBox.getChildren().add(imageView);
             index++;
-        }
-
-        if (row.getSpecial() == null) {
-            System.err.println("NULLAM KHAR KOSE");
         }
 
         if (row.getSpecial() != null && specialRowBox != null) {
@@ -593,11 +614,30 @@ public class GameLauncher extends AppMenu {
         Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
         Game.getCurrentGame().getCurrentPlayer().passRound();
         endOfTurn(curPlayer);
+
+        if (Game.getCurrentGame().getWinner() != null) {
+            endGameTimeLine.play();
+        }
     }
 
 
     public void showDescription() {
         //TODO
+    }
+
+    public void veto() throws Exception {
+        if (isScreenLocked) return;
+        if (gameController.getSelectedCard() == null) return;
+        try {
+            Game.getCurrentGame().getCurrentPlayer().veto(gameController.getSelectedCard());
+            refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
+        } catch (Exception e){
+            System.out.println("[ERR] : " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You can only veto twice in the firstRound");
+            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.show();
+        }
     }
 
     public void executeAction() throws MalformedURLException {

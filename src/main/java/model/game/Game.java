@@ -29,6 +29,19 @@ public class Game {
         weathers = new ArrayList<>();
         numTurn = 0;
         passedTurnCounter = 0;
+        states = new ArrayList<>();
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public int getNumTurn() {
+        return numTurn;
+    }
+
+    public ArrayList<stateAfterADiamond> getStates() {
+        return states;
     }
 
     public void passRound() {
