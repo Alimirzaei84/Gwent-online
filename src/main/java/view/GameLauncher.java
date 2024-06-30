@@ -522,9 +522,9 @@ public class GameLauncher extends AppMenu {
         try {
             Game.getCurrentGame().getCurrentPlayer().putCard(selectedCard);
         } catch (Exception e) {
-            System.out.println("[ERR] : " + e.getMessage());
+//            System.out.println("[ERR] : " + e.getMessage());
             Game.getCurrentGame().changeTurn();
-//            e.printStackTrace();
+            e.printStackTrace();
         } finally {
             System.out.println("HERE");
             deSelectCard();
