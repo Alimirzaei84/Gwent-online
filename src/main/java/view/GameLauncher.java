@@ -84,8 +84,12 @@ public class GameLauncher extends AppMenu {
     public HBox curSpecialRow1HBox;
     public HBox curSpecialRow0HBox;
     public HBox weatherHBox;
+    public VBox otherDiscardPileVBox;
+    public VBox curDiscardPileVBox;
+
 
     private boolean isScreenLocked;
+    private final int MAX_CARD_SHOW = 12;
     private HBox inHandPlayer1 = new HBox();
 
     public GameLauncher() {
@@ -176,7 +180,7 @@ public class GameLauncher extends AppMenu {
     //TODO : EMPTY SELECTED CARD FOR THE CHANGE TURN
     private void swapSides(Player curPlayer, Player otherPlayer) throws MalformedURLException {
         isScreenLocked = false;
-        if (gameController.getSelectedCard() !=  null){
+        if (gameController.getSelectedCard() != null) {
             deSelectCard();
         }
 
@@ -218,7 +222,9 @@ public class GameLauncher extends AppMenu {
         setFactionOnDeckView(curPlayer.getLeader().getFaction().name(), curDeckVBox);
         setFactionOnDeckView(otherPlayer.getLeader().getFaction().name(), otherDeckVBox);
 
-        //TODO : REFRESH DISCARD PILE
+        //TODO : test discard pile
+        setUpDiscardPile(curPlayer, curDiscardPileVBox);
+        setUpDiscardPile(otherPlayer, otherDiscardPileVBox);
 
         //curRows
         Row[] curRows = curPlayer.getRows();
@@ -234,13 +240,54 @@ public class GameLauncher extends AppMenu {
 
         //scores
         refreshScores(curPlayer, otherPlayer);
+
+        //Weather pile
+        setWeatherOnScreen(); //TODO : TEST
+
+
+    }
+
+    private void setUpDiscardPile(Player player, VBox discardPile) throws MalformedURLException {
+        discardPile.getChildren().clear();
+        discardPile.setAlignment(Pos.CENTER);
+        discardPile.setSpacing(10);
+        if (player.getDiscardCards().size() == 0)
+            return;
+
+        Card card = player.getDiscardCards().getLast();
+        String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+        ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+        imageView.setOnDragExited(event -> System.out.println("swipe down"));
+        imageView.preserveRatioProperty();
+        imageView.setFitWidth(52.5);
+        imageView.setFitHeight(90);
+        discardPile.getChildren().add(imageView);
+
+    }
+
+    private void setWeatherOnScreen() throws MalformedURLException {
+        weatherHBox.getChildren().clear();
+        for (Card weather : Game.getCurrentGame().getWeathers()) {
+            String imagePath = CardController.imagePath.getOrDefault(weather.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+            ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+            imageView.setOnDragExited(event -> System.out.println("swipe down"));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(52.5);
+            imageView.setFitHeight(90);
+            weatherHBox.getChildren().add(imageView);
+        }
     }
 
     private void setRowOnScreen(Player player, Row row, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
 
         rowHBox.getChildren().clear();
         specialRowBox.getChildren().clear();
+        int index = 0;
         for (Card card : row.getCards()) {
+
+            if (index >= MAX_CARD_SHOW)
+                continue;
+
             System.out.println("Row " + row.getName() + " card : " + card.getName());
             String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -249,6 +296,7 @@ public class GameLauncher extends AppMenu {
             imageView.setFitWidth(52.5);
             imageView.setFitHeight(90);
             rowHBox.getChildren().add(imageView);
+            index ++;
         }
 
         if (row.getSpecial() != null && specialRowBox != null) {
@@ -289,8 +337,11 @@ public class GameLauncher extends AppMenu {
 
     private void setUpHand(Player curPlayer) {
         inHandCurHbox.getChildren().clear();
+        int index = 0;
         for (Card card : curPlayer.getInHand()) {
             try {
+                if (index >= MAX_CARD_SHOW)
+                    continue;
                 String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
                 ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
                 imageView.setOnMouseClicked(event -> selectCard(card, imageView));
@@ -299,6 +350,7 @@ public class GameLauncher extends AppMenu {
                 imageView.setFitWidth(52.5);
                 imageView.setFitHeight(90);
                 inHandCurHbox.getChildren().add(imageView);
+                index++;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -398,13 +450,19 @@ public class GameLauncher extends AppMenu {
     }
 
     public void putCardWeather(Player curPlayer) throws MalformedURLException {
-        
-        endOfTurn(curPlayer);
+        try {
+            Game.getCurrentGame().getCurrentPlayer().putCard(gameController.getSelectedCard());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Game.getCurrentGame().changeTurn();
+        } finally {
+            deSelectCard();
+            endOfTurn(curPlayer);
+        }
     }
 
     public void putCardSpecial(Player curPlayer) throws MalformedURLException {
-
-        endOfTurn(curPlayer);
+        //TODO :
     }
 
     public void putCard() throws MalformedURLException {
@@ -416,7 +474,7 @@ public class GameLauncher extends AppMenu {
         if (selectedCard == null)
             return;
 
-        if (selectedCard instanceof Weather){
+        if (selectedCard instanceof Weather) {
             putCardWeather(curPlayer);
             return;
         }
@@ -437,16 +495,19 @@ public class GameLauncher extends AppMenu {
             default -> curRow0HBox.getChildren().add(gameController.getSelectedImageView());
         }
 
-        deSelectCard();
+
         try {
             Game.getCurrentGame().getCurrentPlayer().putCard(selectedCard);
         } catch (Exception e) {
             System.out.println("[ERR] : " + e.getMessage());
+            Game.getCurrentGame().changeTurn();
 //            e.printStackTrace();
+        } finally {
+            System.out.println("HERE");
+            deSelectCard();
+            endOfTurn(curPlayer);
         }
 
-        endOfTurn(curPlayer);
-        //TODO : put a timeline for the next player's turn
     }
 
     private void endOfTurn(Player curPlayer) throws MalformedURLException {

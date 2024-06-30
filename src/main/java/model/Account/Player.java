@@ -631,4 +631,8 @@ public class Player {
             Game.getCurrentGame().endOfTheGame(this);
         }
     }
+
+    public ArrayList<Card> getDiscardCards() {
+        return discardCards;
+    }
 }
