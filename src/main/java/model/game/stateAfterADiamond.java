@@ -2,7 +2,7 @@ package model.game;
 
 import model.Account.Player;
 
-class stateAfterADiamond {
+public class stateAfterADiamond {
    private final Player winner;
    private final Player looser;
    private final int winnerScore;

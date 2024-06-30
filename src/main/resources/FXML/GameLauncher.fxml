@@ -23,9 +23,9 @@
         <VBox fx:id="curLeaderVbox" layoutX="88.0" layoutY="553.0" prefHeight="99.0" prefWidth="77.0" />
         <HBox layoutX="222.0" layoutY="83.0" prefHeight="35.0" prefWidth="60.0" />
         <VBox fx:id="otherDeckVBox" layoutX="1148.0" layoutY="43.0" prefHeight="99.0" prefWidth="77.0" />
-        <VBox layoutX="1028.0" layoutY="43.0" prefHeight="99.0" prefWidth="77.0" />
+        <VBox fx:id="otherDiscardPileVBox" layoutX="1028.0" layoutY="43.0" prefHeight="99.0" prefWidth="77.0" />
         <VBox fx:id="curDeckVBox" layoutX="1148.0" layoutY="553.0" prefHeight="99.0" prefWidth="77.0" />
-        <VBox layoutX="1028.0" layoutY="553.0" prefHeight="99.0" prefWidth="77.0" />
+        <VBox fx:id="curDiscardPileVBox" layoutX="1028.0" layoutY="553.0" prefHeight="99.0" prefWidth="77.0" />
         <HBox layoutX="85.0" layoutY="168.0" prefHeight="100.0" prefWidth="200.0">
             <children>
                 <VBox prefHeight="100.0" prefWidth="203.0">

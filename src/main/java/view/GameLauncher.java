@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.GameController;
 import javafx.animation.KeyFrame;
@@ -46,7 +47,7 @@ import java.util.ResourceBundle;
 public class GameLauncher extends AppMenu {
     private GameController gameController;
     private Timeline sideSwapTimeLine;
-
+    private Timeline endGameTimeLine;
 
     private AnchorPane pane = new AnchorPane();
     public HBox inHandCurHbox;
@@ -190,7 +191,7 @@ public class GameLauncher extends AppMenu {
 
     private void setUpTimeLine() {
         sideSwapTimeLine = new Timeline(new KeyFrame(
-                Duration.seconds(5), event -> {
+                Duration.seconds(3), event -> {
             try {
                 swapSides(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
             } catch (MalformedURLException e) {
@@ -199,6 +200,21 @@ public class GameLauncher extends AppMenu {
         }
         ));
         sideSwapTimeLine.setCycleCount(1);
+
+        endGameTimeLine = new Timeline(new KeyFrame(
+                Duration.seconds(3), event -> {
+            goToStatsMenu();
+        }
+        ));
+    }
+
+    private void goToStatsMenu() {
+        try {
+            EndOfGameScreen endOfGameScreen = new EndOfGameScreen();
+            endOfGameScreen.start(ApplicationController.getStage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
@@ -305,10 +321,6 @@ public class GameLauncher extends AppMenu {
             imageView.setFitHeight(90);
             rowHBox.getChildren().add(imageView);
             index++;
-        }
-
-        if (row.getSpecial() == null) {
-            System.err.println("NULLAM KHAR KOSE");
         }
 
         if (row.getSpecial() != null && specialRowBox != null) {
@@ -549,6 +561,10 @@ public class GameLauncher extends AppMenu {
         Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
         Game.getCurrentGame().getCurrentPlayer().passRound();
         endOfTurn(curPlayer);
+
+        if (Game.getCurrentGame().getWinner() != null) {
+            endGameTimeLine.play();
+        }
     }
 
     public void showDescription() {
