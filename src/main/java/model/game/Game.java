@@ -40,7 +40,7 @@ public class Game {
         return numTurn;
     }
 
-    public ArrayList<stateAfterADiamond> getStates() {
+    public ArrayList<StateAfterADiamond> getStates() {
         return states;
     }
 

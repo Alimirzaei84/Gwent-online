@@ -2,11 +2,7 @@ package model.game;
 
 import model.Account.Player;
 
-<<<<<<< HEAD:src/main/java/model/game/StateAfterADiamond.java
-class StateAfterADiamond {
-=======
-public class stateAfterADiamond {
->>>>>>> 0bfe1a7666ea14b035b64e7f7e1b9e36eea70fc2:src/main/java/model/game/stateAfterADiamond.java
+public class StateAfterADiamond {
    private final Player winner;
    private final Player looser;
    private final int winnerScore;

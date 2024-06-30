@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.game.Game;
-import model.game.stateAfterADiamond;
+import model.game.StateAfterADiamond;
 import org.w3c.dom.Text;
 
 import java.net.URL;
@@ -58,14 +58,14 @@ public class EndOfGameScreen extends AppMenu {
         dataHBox.setAlignment(Pos.CENTER);
 
         int roundNum = 1;
-        for (stateAfterADiamond state : Game.getCurrentGame().getStates()) {
+        for (StateAfterADiamond state : Game.getCurrentGame().getStates()) {
             Label roundLabel = new Label();
             Label winnerLabel = new Label();
             Label loserLabel = new Label();
             roundLabel.setText("Round " + roundNum);
             winnerLabel.setText(state.getWinner().getUser().getUsername() + " : " + state.getWinnerScore());
             winnerLabel.setTextFill(Color.RED);
-            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScoer());
+            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
             vBox1.getChildren().add(roundLabel);
             vBox2.getChildren().add(winnerLabel);
             vBox3.getChildren().add(loserLabel);
