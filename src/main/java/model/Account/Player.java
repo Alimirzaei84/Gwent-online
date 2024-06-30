@@ -3,15 +3,11 @@ package model.Account;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.PlayerController;
-import javafx.stage.Stage;
 import model.game.Game;
 import model.game.Row;
 import model.role.*;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Player {
     private short diamond;
@@ -71,7 +67,7 @@ public class Player {
     public void makeHandReady() {
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int c = 0; c < counter; c++) {
-            Card card = getRandomCard(user.getDeck());
+            Card card = getRandomCard(getUser().getDeck());
             user.getDeck().remove(card);
             inHand.add(card);
         }
@@ -113,8 +109,7 @@ public class Player {
             return;
         } else if (card.getName().equals("")) {
 
-        } else
-            putCardForMe(card, rowNumber);
+        } else putCardForMe(card, rowNumber);
     }
 
 
@@ -169,7 +164,7 @@ public class Player {
                 doRandomWeatherCard("torrential rain");
             }
             case "His Imperial Majesty" -> {
-                show(getRandomCard(getOpponent().inHand), getRandomCard(getOpponent().inHand), getRandomCard(getOpponent().inHand));
+                show(getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()));
             }
             case "Emperor of Nilfgaard" -> {
                 getOpponent().actionLeaderDone = true;
@@ -318,7 +313,7 @@ public class Player {
         if (inHand.size() < 2) return;
 
         // handle saving properly
-        Card randomCardTrue = getRandomCard(user.getDeck());
+        Card randomCardTrue = getRandomCard(discardCards);
 
         Card randomCard1 = getRandomCard(inHand);
         inHand.remove(randomCard1);
@@ -520,8 +515,9 @@ public class Player {
         updatePointOfRows();
     }
 
-    //
-    private void freeze(Row... rows) {
+
+    private void freeze(Row row) {
+        row.setOnFrost(true);
         // TODO: effects and others
     }
 
@@ -548,13 +544,17 @@ public class Player {
     public void updatePointOfRows() {
         for (Row row : rows) {
             int point = 0;
+            if (row.isOnFrost()) {
+                for (Card card : row.getCards()) {
+                    card.setPower(Math.max(card.getPower() / 2, card.getPower() - 4));
+                }
+            }
             for (Card card : row.getCards()) {
                 point += card.getPower();
             }
             row.setPoint(point);
             totalPoint += point;
         }
-
     }
 
 
@@ -584,7 +584,7 @@ public class Player {
         return controller;
     }
 
-    private Card getRandomCard(ArrayList<Card> arrayList) {
+    public Card getRandomCard(ArrayList<Card> arrayList) {
         if (arrayList.isEmpty()) return null;
         return arrayList.get(ApplicationController.getRandom().nextInt(0, arrayList.size()));
     }
@@ -621,5 +621,17 @@ public class Player {
         if (++diamond >= 2) {
             Game.getCurrentGame().endOfTheGame(this);
         }
+    }
+
+    public void handleSkellige() {
+        if (user.getFaction().equals(Faction.SKELLIGE)) {
+            for (int i = 0; i < 2; i++) {
+                if (discardCards.isEmpty()) continue;
+                Card card = getRandomCard(discardCards);
+                discardCards.remove(card);
+                inHand.add(card);
+            }
+        }
+        updatePointOfRows();
     }
 }

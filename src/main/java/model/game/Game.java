@@ -4,6 +4,7 @@ import controller.CardController;
 import model.Account.Player;
 import model.Account.User;
 import model.role.Card;
+import model.role.Faction;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,9 @@ public class Game {
         handleExtraTasks();
     }
 
+
     private void handleExtraTasks() {
+        if (numTurn == 3) getCurrentPlayer().handleSkellige();
         getPlayer1().removeDeadCards();
         getPlayer2().removeDeadCards();
         getPlayer1().handleTransformers();
@@ -51,7 +54,13 @@ public class Game {
             getPlayer2().addADiamond();
             // TODO: show winner in graphic
         } else {
-            //TODO: just show equivalent of points and give no diamond to anyone !
+            if (getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && !getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE))
+                getPlayer1().addADiamond();
+            else if (!getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE))
+                getPlayer2().addADiamond();
+            else{
+                //TODO: just show equivalent of points and give no diamond to anyone !
+            }
         }
     }
 
@@ -112,6 +121,8 @@ public class Game {
     }
 
     public void endOfTheGame(Player winner) {
+        if(winner.getUser().getFaction().equals(Faction.MONSTERS))
+            winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         // TODO: winner won the game
         // TODO: The game should be closed
         // TODO: update game history
