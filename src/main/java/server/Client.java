@@ -89,7 +89,6 @@ public class Client {
         }
 
         private void userCommandHandler(String message) {
-
             sendMessage(message);
         }
 

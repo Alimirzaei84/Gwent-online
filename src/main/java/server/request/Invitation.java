@@ -1,11 +1,13 @@
-package server;
+package server.request;
+
+import server.User;
 
 public class Invitation {
 
     private final User inviter;
     private final User recipient;
 
-    Invitation(User inviter, User recipient) {
+    public Invitation(User inviter, User recipient) {
         this.inviter = inviter;
         this.recipient = recipient;
     }

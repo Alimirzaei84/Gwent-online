@@ -5,21 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Invitation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/ServerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/error/SimilarInvitation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/error/SimilarRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/request/FriendRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Row.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Row.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Invitation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/request/Invitation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/error/SimilarInvitation.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +107,9 @@
       <recent name="controller" />
       <recent name="model.game" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="server.Enum" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
@@ -118,7 +117,7 @@
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="server.request.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -131,7 +130,7 @@
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="server.request.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -268,7 +267,10 @@
       <workItem from="1719497895993" duration="8351000" />
       <workItem from="1719652503825" duration="6479000" />
       <workItem from="1719663254956" duration="6254000" />
-      <workItem from="1719689204769" duration="1294000" />
+      <workItem from="1719689204769" duration="4471000" />
+      <workItem from="1719737213630" duration="854000" />
+      <workItem from="1719741988396" duration="5419000" />
+      <workItem from="1719747692975" duration="3557000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

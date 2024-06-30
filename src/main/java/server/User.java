@@ -1,19 +1,24 @@
 package server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class User {
 
 
     private CommunicationHandler handler;
-    private final String name;
+    private final String username;
     private final String password;
+    private ArrayList<User> friends;
 
+    private boolean isPlaying;
 
     public User(String name, String password) throws IOException {
-        this.name = name;
+        this.username = name;
         this.password = password;
+        isPlaying = false;
+        friends = new ArrayList<>();
     }
 
     public CommunicationHandler getHandler() {
@@ -21,11 +26,19 @@ public class User {
     }
 
     public String getUsername() {
-        return name;
+        return username;
     }
 
     public boolean authenticate(String username, String password) {
-        return this.name.equals(username) && this.password.equals(password);
+        return this.getUsername().equals(username) && this.password.equals(password);
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 
     public void getOnline(CommunicationHandler handler) {
@@ -48,12 +61,32 @@ public class User {
         handler.sendMessage("you have been invited to a match by " + inviter.getUsername());
     }
 
+    public void announceFriendRequest(User requester) throws IOException {
+        handler.sendMessage("you have been given friend request by " + requester.getUsername());
+    }
+
     public void setHandler(CommunicationHandler handler) {
         this.handler = handler;
     }
 
     public void sendMessage(String message) throws IOException {
         getHandler().sendMessage(message);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    public boolean friendsWith(User user) {
+        return friends.contains(user);
+    }
+
+    public ArrayList<User> getFriends() {
+        return friends;
     }
 
     @Override

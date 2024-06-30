@@ -3,15 +3,19 @@ package server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserController {
 
     public static ArrayList<User> users = new ArrayList<>();
 
+    // TODO throw exception instead of null
     public static User login(String username, String password) {
         User user = getUserByName(username);
         if (user == null || user.isOnline()) {
+            return null;
+        }
+
+        if (user.getPassword().equals(password)) {
             return null;
         }
 
@@ -50,5 +54,17 @@ public class UserController {
         }
 
         return null;
+    }
+
+    public static void showFriends(User user) throws IOException {
+        ArrayList<User> friends = user.getFriends();
+
+        if (friends.isEmpty()) {
+            user.sendMessage("you are lonely for now.");
+        }
+
+        for (int i = 0; i < friends.size(); i++) {
+            user.sendMessage(i + ", " + friends.get(i).getUsername());
+        }
     }
 }

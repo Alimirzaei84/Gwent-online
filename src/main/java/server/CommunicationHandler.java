@@ -1,6 +1,6 @@
 package server;
 
-import server.error.SimilarInvitation;
+import server.error.SimilarRequest;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -44,12 +44,17 @@ public class CommunicationHandler implements Runnable {
     private static final String invitationRequestRegex = "let's play ([\\S]+)",
             registerRegex = "^register ([\\S]+) ([\\S]+)$",
             loginRegex = "^login ([\\S]+) ([\\S]+)$",
-            acceptGameRegex = "^accept game with ([\\S]+)$";
+            acceptGameRegex = "^accept game with ([\\S]+)$",
+            cancelInvitationRegex = "^cancel invitation$",
+            friendRequestRegex = "^let's be friend ([\\S]+)$",
+            acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$",
+            showFriendsRegex = "^show friends$",
+            cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$";
 
 
     private void handleCommand(String inMessage) throws IOException {
 
-        if (user == null){
+        if (user == null) {
             if (inMessage.matches(registerRegex)) {
                 Matcher matcher = Pattern.compile(registerRegex).matcher(inMessage);
                 matcher.find();
@@ -81,6 +86,7 @@ public class CommunicationHandler implements Runnable {
             }
 
         }
+
         else if (inMessage.matches(invitationRequestRegex)) {
             Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
             matcher.find();
@@ -94,9 +100,103 @@ public class CommunicationHandler implements Runnable {
 
             acceptGame(matcher);
         }
+
+        else if (inMessage.matches(cancelInvitationRegex)) {
+            cancelInvitation();
+        }
+
+        else if (inMessage.matches(showFriendsRegex)) {
+            showFriends();
+        }
+
+        else if (inMessage.matches(cancelFriendRequestRegex)) {
+            Matcher matcher = getMatcher(cancelFriendRequestRegex, inMessage);
+            matcher.find();
+
+            cancelFriendRequest(matcher);
+        }
+
+        else if (inMessage.matches(friendRequestRegex)) {
+            Matcher matcher = getMatcher(friendRequestRegex, inMessage);
+            matcher.find();
+
+            friendRequest(matcher);
+        }
+
+        else if (inMessage.matches(acceptFriendRequestRegex)) {
+            Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
+            matcher.find();
+
+            acceptFriendRequest(matcher);
+        }
+
+        // TODO cancel a friend request
+
         else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void cancelFriendRequest(Matcher matcher) throws IOException {
+        String recipientName = matcher.group(1);
+
+        User recipient = UserController.getUserByName(recipientName);
+        if (recipient == null) {
+            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            return;
+        }
+
+        ServerController.cancelFriendRequest(this.getUser(), recipient);
+    }
+
+    private void showFriends() throws IOException {
+        UserController.showFriends(this.getUser());
+    }
+
+    private void acceptFriendRequest(Matcher matcher) throws IOException {
+        String requesterName = matcher.group(1);
+
+        User requester = UserController.getUserByName(requesterName);
+        if (requester == null) {
+            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            return;
+        }
+
+        ServerController.acceptFriendRequest(this.getUser(), requester);
+    }
+
+    private void friendRequest(Matcher matcher) throws IOException {
+        String recipientName = matcher.group(1);
+
+        User recipient = UserController.getUserByName(recipientName);
+        if (recipient == null) {
+            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            return;
+        }
+
+        if (this.getUser().equals(recipient)) {
+            sendMessage("[ERROR] you can not send friend request to yourself.");
+            return;
+        }
+
+        if (this.getUser().friendsWith(recipient)) {
+            sendMessage("[ERROR] you are already " + recipientName + "'s friend");
+            return;
+        }
+
+        try {
+            ServerController.createNewFriendRequest(this.getUser(), recipient);
+        } catch (SimilarRequest e) {
+            System.out.println("[ERROR] similar friend request");
+            sendMessage("[ERROR] similar friend request");
+        }
+    }
+
+    private void cancelInvitation() throws IOException {
+        ServerController.cancelInvitation(this.getUser());
     }
 
     private void acceptGame(Matcher matcher) throws IOException {
@@ -134,9 +234,14 @@ public class CommunicationHandler implements Runnable {
             return;
         }
 
+        if (user.equals(this.getUser())) {
+            sendMessage("[ERROR] you can not invite yourself.");
+            return;
+        }
+
         try {
             ServerController.createNewInvitation(this.getUser(), user);
-        } catch (SimilarInvitation e) {
+        } catch (SimilarRequest e) {
             System.out.println("[ERROR] similar invitation");
             sendMessage("[ERROR] similar invitation");
         }
