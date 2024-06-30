@@ -25,8 +25,6 @@ public class Player {
     private final Leader leader;
     private final PlayerController controller;
 
-    private final ArrayList<Card> weathers;
-
     public Player(User user) {
         actionLeaderDone = false;
         totalPoint = 0;
@@ -35,7 +33,6 @@ public class Player {
         this.user = user;
         this.leader = user.getLeader();
         rows = new Row[3];
-        weathers = new ArrayList<>();
         inHand = new ArrayList<>();
         discardCards = new ArrayList<>();
         createRows();
@@ -104,7 +101,7 @@ public class Player {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             inHand.remove(card);
-            weathers.add(card);
+            Game.getCurrentGame().getWeathers().add(card);
             String weatherType = card.getName().split(" ")[1];
             int whichRow = 0;
             switch (weatherType) {
@@ -114,12 +111,10 @@ public class Player {
             freeze(rows[whichRow]);
             changeTurn();
             return;
-        }
-        else if(card.getName().equals("")){
+        } else if (card.getName().equals("")) {
 
-        }
-        else
-        putCardForMe(card, rowNumber);
+        } else
+            putCardForMe(card, rowNumber);
     }
 
 
@@ -261,7 +256,7 @@ public class Player {
         Card card = getRandomCard(weathersOfMyhand);
         if (card == null) return;
         inHand.remove(card);
-        weathers.add(card);
+        Game.getCurrentGame().getWeathers().add(card);
         String weatherType = card.getName().split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
@@ -280,7 +275,7 @@ public class Player {
         }
         Card card = getRandomCard(weathersOfMyhand);
         inHand.remove(card);
-        weathers.add(card);
+        Game.getCurrentGame().getWeathers().add(card);
         String weatherType = cardName.split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
@@ -392,19 +387,19 @@ public class Player {
 
         updatePointOfRows();
     }
+
     private void putCardForMe(Card card, int rowNumber) {
 
         if (card.getAbility().equals("Spy")) {
             getOpponent().rows[rowNumber].addCard(card);
-        }
-        else if(card.getName().equals("Commander’s horn") || card.getName().equals("mardoeme")){
+            inHand.remove(card);
+        } else if (card.getName().equals("Commander’s horn") || card.getName().equals("mardoeme")) {
             for (Row row : rows) {
-                if(row.getSpecial() != null) continue;
+                if (row.getSpecial() != null) continue;
                 row.setSpecial((Special) card);
                 break;
             }
-        }
-        else {
+        } else {
             rows[rowNumber].addCard(card);
             inHand.remove(card);
         }
@@ -457,7 +452,7 @@ public class Player {
                 break;
 
             case "Tight Bond":
-             tightBoundAbility(card,rowNumber);
+                tightBoundAbility(card, rowNumber);
                 break;
             // TODO: Why we have this ???
             case "NORTHERN_REALMS":
@@ -473,7 +468,7 @@ public class Player {
         changeTurn();
     }
 
-    private void tightBoundAbility(Card card,int rowNumber) {
+    private void tightBoundAbility(Card card, int rowNumber) {
         int count = 0;
         for (Card card10 : rows[rowNumber].getCards()) {
             if (card10.getAbility().equals("Tight Bond")) count++;
@@ -623,7 +618,7 @@ public class Player {
     }
 
     public void addADiamond() {
-        if(++diamond >= 2){
+        if (++diamond >= 2) {
             Game.getCurrentGame().endOfTheGame(this);
         }
     }
