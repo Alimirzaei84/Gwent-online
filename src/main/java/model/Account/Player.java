@@ -182,12 +182,8 @@ public class Player {
             case "The White Flame" -> {
                 doRandomWeatherCard("torrential rain");
             }
-            case "His Imperial Majesty" -> {
-                show(getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()));
-            }
-            case "Emperor of Nilfgaard" -> {
-                getOpponent().actionLeaderDone = true;
-            }
+            case "His Imperial Majesty" -> show(getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()));
+            case "Emperor of Nilfgaard" -> getOpponent().actionLeaderDone = true;
             case "The Relentless" -> {
                 recoverFromOppDiscardPile();
             }
