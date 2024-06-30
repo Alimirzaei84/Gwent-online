@@ -137,7 +137,7 @@ public class GameLauncher extends AppMenu {
     }
 
     private void destroyOpponentClose(Player otherPlayer) {
-        otherPlayer.getRows()[0].getCards().clear();
+        otherPlayer.getRows()[1].getCards().clear();
     }
 
     private void increaseDiamond(Player currentPlayer) {
