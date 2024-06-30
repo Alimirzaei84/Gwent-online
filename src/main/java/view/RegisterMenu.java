@@ -84,7 +84,7 @@ public class RegisterMenu extends AppMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
         Scene scene = alert.getDialogPane().getScene();
-        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
         alert.showAndWait();
     }
 

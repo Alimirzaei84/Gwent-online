@@ -95,10 +95,6 @@ public abstract class CardController {
             addLeaderToRecord(data);
         }
         leaderReader.close();
-//        System.out.println(Arrays.toString(leaders.toArray()));
-//        for (String leader : leaders) {
-//            imagePath.put(leader,"src/main/resources/assets/lg/skellige_king_bran.jpg");
-//        }
     }
 
     private static void addLeaderToRecord(String[] data) {
@@ -232,8 +228,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(cardName, null);
-//            System.out.println(img_path);
-//            System.out.println(middle);
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);

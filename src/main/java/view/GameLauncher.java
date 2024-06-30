@@ -5,7 +5,6 @@ import controller.menuConrollers.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -18,6 +17,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,18 +33,16 @@ import model.game.Row;
 import model.role.Card;
 import model.role.Special;
 import model.role.Weather;
-import view.AppMenu;
-import view.MainMenu;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameLauncher extends AppMenu {
-    private GameController gameController;
+    private final GameController gameController;
     private Timeline sideSwapTimeLine;
 
 
@@ -111,7 +109,63 @@ public class GameLauncher extends AppMenu {
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
+
+        pane.requestFocus();
+
+        handleKeyEvents();
+
+
     }
+
+    private void handleKeyEvents() {
+        pane.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case DIGIT0 -> recoverCard(1, Game.getCurrentGame().getCurrentPlayer());
+                case INSERT -> recoverCard(2, Game.getCurrentGame().getCurrentPlayer());
+                case D -> getFromDeck(Game.getCurrentGame().getCurrentPlayer());
+                case PLUS -> makeWeathersEmpty(Game.getCurrentGame().getWeathers());
+                case E -> decreaseOpponentDiamonds(Game.getCurrentGame().getOtherPlayer());
+                case F -> increaseDiamond(Game.getCurrentGame().getCurrentPlayer());
+                case G -> destroyOpponentClose(Game.getCurrentGame().getOtherPlayer());
+            }
+
+        });
+    }
+
+    private void makeWeathersEmpty(ArrayList<Card> weathers) {
+        weathers.clear();
+    }
+
+    private void destroyOpponentClose(Player otherPlayer) {
+        otherPlayer.getRows()[0].getCards().clear();
+    }
+
+    private void increaseDiamond(Player currentPlayer) {
+        currentPlayer.setDiamond((short) Math.max(currentPlayer.getDiamond() + 1, 1));
+    }
+
+    private void decreaseOpponentDiamonds(Player player) {
+        player.setDiamond((short) Math.max(0, player.getDiamond() - 1));
+    }
+
+
+    private void getFromDeck(Player currentPlayer) {
+        if (currentPlayer.getUser().getDeck().isEmpty()) return;
+        Card card = currentPlayer.getRandomCard(currentPlayer.getUser().getDeck());
+        currentPlayer.getInHand().add(card);
+        currentPlayer.getUser().getDeck().remove(card);
+    }
+
+
+    private void recoverCard(int i, Player currentPlayer) {
+        for (int j = 0; j < i; j++) {
+            if (currentPlayer.getDiscardCards().isEmpty()) return;
+            Card card = currentPlayer.getRandomCard(currentPlayer.getDiscardCards());
+            currentPlayer.getInHand().add(card);
+            currentPlayer.getDiscardCards().remove(card);
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -189,15 +243,13 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setUpTimeLine() {
-        sideSwapTimeLine = new Timeline(new KeyFrame(
-                Duration.seconds(5), event -> {
+        sideSwapTimeLine = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             try {
                 swapSides(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        }
-        ));
+        }));
         sideSwapTimeLine.setCycleCount(1);
     }
 
@@ -250,13 +302,11 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setUpDiscardPile(Player player, VBox discardPile) throws MalformedURLException {
-        if (discardPile == null)
-            return;
+        if (discardPile == null) return;
         discardPile.getChildren().clear();
         discardPile.setAlignment(Pos.CENTER);
         discardPile.setSpacing(10);
-        if (player.getDiscardCards().size() == 0)
-            return;
+        if (player.getDiscardCards().size() == 0) return;
 
         Card card = player.getDiscardCards().getLast();
         String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
@@ -293,8 +343,7 @@ public class GameLauncher extends AppMenu {
         int index = 0;
         for (Card card : row.getCards()) {
 
-            if (index >= MAX_CARD_SHOW)
-                continue;
+            if (index >= MAX_CARD_SHOW) continue;
 
             System.out.println("Row " + row.getName() + " card : " + card.getName());
             String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
@@ -340,8 +389,7 @@ public class GameLauncher extends AppMenu {
         for (Node node : diamondHBox.getChildren()) {
             if (node instanceof Polygon polygon) {
                 num++;
-                if (num > max)
-                    polygon.setFill(Color.rgb(89, 114, 115));
+                if (num > max) polygon.setFill(Color.rgb(89, 114, 115));
                 else polygon.setFill(Color.rgb(112, 36, 40));
             }
         }
@@ -352,8 +400,7 @@ public class GameLauncher extends AppMenu {
         int index = 0;
         for (Card card : curPlayer.getInHand()) {
             try {
-                if (index >= MAX_CARD_SHOW)
-                    continue;
+                if (index >= MAX_CARD_SHOW) continue;
                 String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
                 ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
                 imageView.setOnMouseClicked(event -> selectCard(card, imageView));
@@ -462,8 +509,7 @@ public class GameLauncher extends AppMenu {
     }
 
     public void putCardWeather(Player curPlayer) throws MalformedURLException {
-        if (Game.getCurrentGame().getWeathers().size() == 3)
-            return;
+        if (Game.getCurrentGame().getWeathers().size() == 3) return;
 
         try {
             Game.getCurrentGame().getCurrentPlayer().putCard(gameController.getSelectedCard());
@@ -489,13 +535,11 @@ public class GameLauncher extends AppMenu {
     }
 
     public void putCard() throws MalformedURLException {
-        if (isScreenLocked)
-            return;
+        if (isScreenLocked) return;
         Card selectedCard = gameController.getSelectedCard();
         Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
 
-        if (selectedCard == null)
-            return;
+        if (selectedCard == null) return;
 
         if (selectedCard instanceof Weather) {
             putCardWeather(curPlayer);

@@ -1,6 +1,5 @@
 package model.role;
 
-import java.util.ArrayList;
 
 public class Unit extends Card {
 

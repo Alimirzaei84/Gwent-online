@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<stateAfterADiamond> states;
+    private ArrayList<StateAfterADiamond> states;
     private final Player[] players;
     private short passedTurnCounter;
     private final ArrayList<Card> weathers;
@@ -34,6 +34,9 @@ public class Game {
     public void passRound() {
         if (++passedTurnCounter >= 2) {
             giveADiamondToWinner();
+        }
+        for (Card card : getCurrentPlayer().getInHand()) {
+            card.setShouldBeChange();
         }
         indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
         if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
@@ -75,11 +78,14 @@ public class Game {
     }
 
     private void addToStates(Player winner, Player looser) {
-        states.add(new stateAfterADiamond(winner, looser, winner.getTotalPoint(), looser.getTotalPoint(), numTurn, winner.getDiamond() + looser.getDiamond()));
+        states.add(new StateAfterADiamond(winner, looser, winner.getTotalPoint(), looser.getTotalPoint(), numTurn, winner.getDiamond() + looser.getDiamond()));
     }
 
 
     public void changeTurn() {
+        for (Card card : getCurrentPlayer().getInHand()) {
+            card.setShouldBeChange();
+        }
         indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
         passedTurnCounter = 0;
         if (getCurrentPlayer().equals(getPlayer1())) numTurn++;

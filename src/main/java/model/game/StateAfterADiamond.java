@@ -2,19 +2,19 @@ package model.game;
 
 import model.Account.Player;
 
-class stateAfterADiamond {
+class StateAfterADiamond {
    private final Player winner;
    private final Player looser;
    private final int winnerScore;
-   private final int looserScoer;
+   private final int looserScore;
    private final int round;
    private final int  diamondCount;
 
-    public stateAfterADiamond(Player winner, Player looser, int winnerScore, int looserScoer, int round, int diamondCount) {
+    public StateAfterADiamond(Player winner, Player looser, int winnerScore, int looserScore, int round, int diamondCount) {
         this.winner = winner;
         this.looser = looser;
         this.winnerScore = winnerScore;
-        this.looserScoer = looserScoer;
+        this.looserScore = looserScore;
         this.round = round;
         this.diamondCount = diamondCount;
     }
@@ -31,8 +31,8 @@ class stateAfterADiamond {
         return winnerScore;
     }
 
-    public int getLooserScoer() {
-        return looserScoer;
+    public int getLooserScore() {
+        return looserScore;
     }
 
     public int getRound() {

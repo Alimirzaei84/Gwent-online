@@ -70,7 +70,7 @@ public class Player {
 
     // TODO: 3
     private void veto(Card card) throws Exception {
-        if(++vetoCounter >= 2) {
+        if (++vetoCounter >= 2) {
             throw new Exception("is already done");
         }
         inHand.remove(card);
@@ -381,11 +381,12 @@ public class Player {
 
         for (Row row : rows) {
             for (Card rowCard : row.getCards()) {
+                if(!rowCard.shouldBeChange()) continue;
                 if (rowCard.getAbility().equals("Transformer") || rowCard.getAbility().equals("Berserker")) {
                     cardName = switch (rowCard.getName()) {
                         case "young berserker" -> "young vidkaarl";
                         case "berserker" -> "vidkaarl";
-                        case "cow" -> "triss";
+                        case "cow" -> "triss merigold";
                         case "kambi" -> "ermion";
                         default -> "vesemir";
                     };
@@ -640,7 +641,7 @@ public class Player {
     public ArrayList<Card> getDiscardCards() {
         return discardCards;
     }
-    
+
     public void handleSkellige() {
         if (user.getFaction().equals(Faction.SKELLIGE)) {
             for (int i = 0; i < 2; i++) {
@@ -650,6 +651,8 @@ public class Player {
                 inHand.add(card);
             }
         }
+
         updatePointOfRows();
     }
+
 }
