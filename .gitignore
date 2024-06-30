@@ -7,10 +7,6 @@ target/
 .idea/workspace.xml
 .idea/encodings.xml
 .idea/modules.xml
-<<<<<<< HEAD
-=======
-.idea/workspace.xml
->>>>>>> a4efe760926871123b5be10392c6f1ea3680e14e
 .idea/misc.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml

@@ -49,6 +49,7 @@ public class Game {
     }
 
     private void giveADiamondToWinner() {
+        passedTurnCounter = 0;
         if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
             getPlayer1().addADiamond();
             // TODO: show winner in graphic

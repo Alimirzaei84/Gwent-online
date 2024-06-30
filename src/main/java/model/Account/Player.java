@@ -65,10 +65,12 @@ public class Player {
 
 
     // TODO: 3
-    private void veto(Card card) {
+    private void veto(Card card) throws Exception {
+        if(++vetoCounter >= 2) {
+            throw new Exception("is already done");
+        }
         inHand.remove(card);
         inHand.add(getRandomCard(user.getDeck()));
-        vetoCounter++;
     }
 
 
@@ -393,11 +395,10 @@ public class Player {
     }
 
     private void putCardForMe(Card card, int rowNumber) {
-
         if (card.getAbility().equals("Spy")) {
             getOpponent().rows[rowNumber].addCard(card);
             inHand.remove(card);
-        } else if (card.getName().equals("Commander’s horn") || card.getName().equals("mardoeme")) {
+        } else if (card.getName().equals("commander’s horn") || card.getName().equals("mardoeme")) {
             for (Row row : rows) {
                 if (row.getSpecial() != null) continue;
                 row.setSpecial((Special) card);

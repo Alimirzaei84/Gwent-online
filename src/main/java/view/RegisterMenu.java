@@ -59,16 +59,6 @@ public class RegisterMenu extends AppMenu {
         stage.setScene(scene);
         stage.show();
 
-        for (String special : CardController.specials) {
-            System.out.println(special);
-            try {
-                Special special1 = (Special) CardController.createSpecialCard(special);
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-
-        }
     }
 
     @Override
