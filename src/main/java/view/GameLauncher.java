@@ -595,6 +595,7 @@ public class GameLauncher extends AppMenu {
         endOfTurn(curPlayer);
     }
 
+
     public void showDescription() {
         //TODO
     }
