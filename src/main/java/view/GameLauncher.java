@@ -94,7 +94,7 @@ public class GameLauncher extends AppMenu {
     public HBox otherRow0HBox = new HBox();
     public HBox otherRow1HBox = new HBox();
     public HBox otherRow2HBox = new HBox();
-
+    public HBox displayCardHBox;
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
@@ -299,6 +299,26 @@ public class GameLauncher extends AppMenu {
         }
     }
 
+    private void displayCard() {
+        if (Game.getCurrentGame().getOtherPlayer().getCardInfo().isEmpty())
+            return;
+
+        for (Card card : Game.getCurrentGame().getOtherPlayer().getCardInfo()) {
+            try {
+                String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
+                ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
+                imageView.setOnMouseClicked(event -> selectCard(card, imageView));
+                imageView.setOnDragExited(event -> System.out.println("swipe down"));
+                imageView.preserveRatioProperty();
+                imageView.setFitWidth(52.5);
+                imageView.setFitHeight(90);
+                inHandCurHbox.getChildren().add(imageView);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
         //remove veto button
         System.out.println("NuM  TURN : " + Game.getCurrentGame().getNumTurn());
@@ -335,15 +355,15 @@ public class GameLauncher extends AppMenu {
 
         //curRows
         Row[] curRows = curPlayer.getRows();
-        setRowOnScreen(curPlayer, curRows[0],curRow0StackPane ,curRow0HBox, curSpecialRow0HBox);
-        setRowOnScreen(curPlayer, curRows[1],curRow1StackPane ,curRow1HBox, curSpecialRow1HBox);
-        setRowOnScreen(curPlayer, curRows[2], curRow2StackPane,curRow2HBox, curSpecialRow2HBox);
+        setRowOnScreen(curPlayer, curRows[0], curRow0StackPane, curRow0HBox, curSpecialRow0HBox);
+        setRowOnScreen(curPlayer, curRows[1], curRow1StackPane, curRow1HBox, curSpecialRow1HBox);
+        setRowOnScreen(curPlayer, curRows[2], curRow2StackPane, curRow2HBox, curSpecialRow2HBox);
 
         //otherRows
         Row[] otherRows = otherPlayer.getRows();
-        setRowOnScreen(otherPlayer, otherRows[0],otherRow0StackPane, otherRow0HBox, otherSpecialRow0HBox);
-        setRowOnScreen(otherPlayer, otherRows[1],otherRow1StackPane, otherRow1HBox, otherSpecialRow1HBox);
-        setRowOnScreen(otherPlayer, otherRows[2], otherRow2StackPane,otherRow2HBox, otherSpecialRow2HBox);
+        setRowOnScreen(otherPlayer, otherRows[0], otherRow0StackPane, otherRow0HBox, otherSpecialRow0HBox);
+        setRowOnScreen(otherPlayer, otherRows[1], otherRow1StackPane, otherRow1HBox, otherSpecialRow1HBox);
+        setRowOnScreen(otherPlayer, otherRows[2], otherRow2StackPane, otherRow2HBox, otherSpecialRow2HBox);
 
         //scores
         refreshScores(curPlayer, otherPlayer);

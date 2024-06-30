@@ -92,6 +92,8 @@ public class Game {
         }
     }
 
+
+
     private void addToStates(Player winner, Player looser) {
         states.add(new StateAfterADiamond(winner, looser, winner.getTotalPoint(), looser.getTotalPoint(), numTurn, winner.getDiamond() + looser.getDiamond()));
     }

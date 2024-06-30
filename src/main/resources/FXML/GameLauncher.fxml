@@ -68,12 +68,13 @@
         <HBox fx:id="otherSpecialRow2HBox" layoutX="386.0" layoutY="191.0" prefHeight="72.0" prefWidth="77.0" />
         <HBox fx:id="otherSpecialRow1HBox" layoutX="386.0" layoutY="102.0" prefHeight="72.0" prefWidth="77.0" />
         <HBox fx:id="otherSpecialRow0HBox" layoutX="383.0" layoutY="15.0" prefHeight="72.0" prefWidth="77.0" />
-        <Button fx:id="vetoButton" layoutX="1072.0" layoutY="337.0" mnemonicParsing="false" onMouseClicked="#veto" prefHeight="46.0" prefWidth="136.0" text="Veto" />
+        <Button fx:id="vetoButton" layoutX="1089.0" layoutY="453.0" mnemonicParsing="false" onMouseClicked="#veto" prefHeight="46.0" prefWidth="136.0" text="Veto" />
       <StackPane fx:id="otherRow0StackPane" layoutX="460.0" layoutY="9.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="otherRow1StackPane" layoutX="471.0" layoutY="96.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="otherRow2StackPane" layoutX="471.0" layoutY="186.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="curRow2StackPane" layoutX="471.0" layoutY="282.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="curRow1StackPane" layoutX="471.0" layoutY="372.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="curRow0StackPane" layoutX="471.0" layoutY="463.0" prefHeight="83.0" prefWidth="548.0" />
+      <HBox fx:id="displayCardHBox" layoutX="1028.0" layoutY="282.0" prefHeight="100.0" prefWidth="200.0" />
     </children>
 </AnchorPane>
