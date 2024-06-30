@@ -56,7 +56,7 @@ public class Player {
 
 
     // TODO: 2
-    private void playLeader() {
+    public void playLeader() {
         if (!actionLeaderDone) {
             actionLeaderForMe(leader.getName());
             actionLeaderDone = true;
@@ -93,7 +93,7 @@ public class Player {
 
 
     // TODO: 6
-    private void passRound() {
+    public void passRound() {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();

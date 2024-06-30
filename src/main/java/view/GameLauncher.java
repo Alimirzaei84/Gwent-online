@@ -248,6 +248,8 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setUpDiscardPile(Player player, VBox discardPile) throws MalformedURLException {
+        if (discardPile == null)
+            return;
         discardPile.getChildren().clear();
         discardPile.setAlignment(Pos.CENTER);
         discardPile.setSpacing(10);
@@ -262,6 +264,10 @@ public class GameLauncher extends AppMenu {
         imageView.setFitWidth(52.5);
         imageView.setFitHeight(90);
         discardPile.getChildren().add(imageView);
+
+    }
+
+    private void showNextPlayersTurn() {
 
     }
 
@@ -296,9 +302,13 @@ public class GameLauncher extends AppMenu {
             imageView.setFitWidth(52.5);
             imageView.setFitHeight(90);
             rowHBox.getChildren().add(imageView);
-            index ++;
+            index++;
         }
 
+        if (row.getSpecial() == null){
+            System.err.println("NULLAM KHAR KOSE");
+        }
+        
         if (row.getSpecial() != null && specialRowBox != null) {
             String imagePath = CardController.imagePath.getOrDefault(row.getSpecial().getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -450,6 +460,9 @@ public class GameLauncher extends AppMenu {
     }
 
     public void putCardWeather(Player curPlayer) throws MalformedURLException {
+        if (Game.getCurrentGame().getWeathers().size() == 3)
+            return;
+
         try {
             Game.getCurrentGame().getCurrentPlayer().putCard(gameController.getSelectedCard());
         } catch (Exception e) {
@@ -462,7 +475,15 @@ public class GameLauncher extends AppMenu {
     }
 
     public void putCardSpecial(Player curPlayer) throws MalformedURLException {
-        //TODO :
+        try {
+            Game.getCurrentGame().getCurrentPlayer().putCard(gameController.getSelectedCard());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Game.getCurrentGame().changeTurn();
+        } finally {
+            deSelectCard();
+            endOfTurn(curPlayer);
+        }
     }
 
     public void putCard() throws MalformedURLException {
@@ -521,15 +542,21 @@ public class GameLauncher extends AppMenu {
         sideSwapTimeLine.play();
     }
 
-    public void pass() {
-        //TODO
+    public void pass() throws MalformedURLException {
+        if (isScreenLocked) return;
+        Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
+        Game.getCurrentGame().getCurrentPlayer().passRound();
+        endOfTurn(curPlayer);
     }
 
     public void showDescription() {
         //TODO
     }
 
-    public void executeAction() {
-        //TODO
+    public void executeAction() throws MalformedURLException {
+        if (isScreenLocked) return;
+        Player curPlayer = Game.getCurrentGame().getCurrentPlayer();
+        Game.getCurrentGame().getCurrentPlayer().playLeader();
+        endOfTurn(curPlayer);
     }
 }
