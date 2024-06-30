@@ -2,6 +2,8 @@ package model.Account;
 
 import controller.ApplicationController;
 import controller.CardController;
+import model.game.Game;
+import model.game.GameHistory;
 import model.role.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Random;
 
 public class User implements Comparable<User> {
 
+    private ArrayList<GameHistory> gameHistories;
     private String username;
     private String password;
     private String email;
@@ -38,6 +41,7 @@ public class User implements Comparable<User> {
         this.nickname = nickname;
         faction = generateRandomFaction();
         highestScore = 0;
+        gameHistories = new ArrayList<>();
         ties = 0;
         wins = 0;
         losses = 0;
@@ -46,6 +50,10 @@ public class User implements Comparable<User> {
         allUsers.add(this);
         deck = new ArrayList<>();
         leader = getRandomLeader();
+    }
+
+    public void addToHistory(GameHistory gameHistory){
+        gameHistories.add(gameHistory);
     }
 
     private Faction generateRandomFaction() {
