@@ -10,15 +10,18 @@ import java.util.ArrayList;
 
 public class Game {
 
+    private ArrayList<stateAfterADiamond> states;
     private final Player[] players;
     private short passedTurnCounter;
     private final ArrayList<Card> weathers;
     private int numTurn;
     private int indexCurPlayer;
+    private Player winner;
     private static Game currentGame = null;
 
     public Game(User user1, User user2) {
         players = new Player[2];
+        winner = null;
         if (!user1.getFaction().equals(Faction.SCOIA_TAEL) && user2.getFaction().equals(Faction.SCOIA_TAEL))
             createPlayers(user2, user1);
         else createPlayers(user1, user2);
@@ -52,19 +55,27 @@ public class Game {
         passedTurnCounter = 0;
         if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
             getPlayer1().addADiamond();
+            addToStates(getPlayer1(), getPlayer2());
             // TODO: show winner in graphic
         } else if (getPlayer1().getTotalPoint() < getPlayer2().getTotalPoint()) {
             getPlayer2().addADiamond();
+            addToStates(getPlayer2(), getPlayer1());
             // TODO: show winner in graphic
         } else {
-            if (getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && !getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE))
+            if (getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && !getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE)) {
                 getPlayer1().addADiamond();
-            else if (!getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE))
+                addToStates(getPlayer1(), getPlayer2());
+            } else if (!getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE)) {
                 getPlayer2().addADiamond();
-            else {
+                addToStates(getPlayer2(), getPlayer1());
+            } else {
                 //TODO: just show equivalent of points and give no diamond to anyone !
             }
         }
+    }
+
+    private void addToStates(Player winner, Player looser) {
+        states.add(new stateAfterADiamond(winner, looser, winner.getTotalPoint(), looser.getTotalPoint(), numTurn, winner.getDiamond() + looser.getDiamond()));
     }
 
 
@@ -126,6 +137,7 @@ public class Game {
     public void endOfTheGame(Player winner) {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
+        this.winner = winner;
         // TODO: winner won the game
         // TODO: The game should be closed
         // TODO: update game history
