@@ -64,12 +64,12 @@ public class EndOfGameScreen extends AppMenu {
             roundLabel.setText("Round " + roundNum);
             winnerLabel.setText(state.winner().getUser().getUsername() + " : " + state.winnerScore());
             winnerLabel.setTextFill(Color.RED);
-<<<<<<< HEAD
-            loserLabel.setText(state.looser().getUser().getUsername() + " : " + state.looserScore());
-=======
+//<<<<<<< HEAD
+//            loserLabel.setText(state.looser().getUser().getUsername() + " : " + state.looserScore());
+//=======
             winnerLabel.getStylesheets().add(getClass().getResource("/CSS/WinnerStyle.css").toExternalForm());
             loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
->>>>>>> d75412c405a0b2278270a027f95eebe76339133d
+//>>>>>>> d75412c405a0b2278270a027f95eebe76339133d
             vBox1.getChildren().add(roundLabel);
             vBox2.getChildren().add(winnerLabel);
             vBox3.getChildren().add(loserLabel);
