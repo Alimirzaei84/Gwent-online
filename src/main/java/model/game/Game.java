@@ -6,11 +6,13 @@ import model.Account.User;
 import model.role.Card;
 import model.role.Faction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Game {
 
-    private ArrayList<StateAfterADiamond> states;
+    private final ArrayList<StateAfterADiamond> states;
     private final Player[] players;
     private short passedTurnCounter;
     private final ArrayList<Card> weathers;
@@ -132,7 +134,6 @@ public class Game {
         return players[1];
     }
 
-
     public static Game getCurrentGame() {
         return currentGame;
     }
@@ -150,19 +151,40 @@ public class Game {
         User u2 = new User("erfan", "b", "b", "b");
         u1.setDeck(u1.getRandomDeck());
         u2.setDeck(u1.getRandomDeck());
-        Game game = new Game(u1, u2);
+        new Game(u1, u2);
     }
 
     public void endOfTheGame(Player winner) {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         this.winner = winner;
-        getPlayer1().getInHand().clear();
-        getPlayer2().getInHand().clear();
+        updateUserHistory(getPlayer1());
+        updateUserHistory(getPlayer2());
         // TODO: winner won the game
         // TODO: The game should be closed
         // TODO: update game history
     }
+
+    private void updateUserHistory(Player player) {
+        User user = player.getUser();
+        Player opponent = getPlayer1().equals(player) ? getPlayer2() : getPlayer1();
+
+        if (user.equals(winner.getUser())) user.setWins(player.getUser().getWins() + 1);
+        else user.setLosses((user.getLosses() + 1));
+
+        user.setHighestScore(Math.max(user.getHighestScore(), player.getTotalPoint()));
+        user.setGamesPlayed(user.getGamesPlayed() + 1);
+        user.addToHistory(new GameHistory(opponent.getUser(), winner.getUser(), createFormattedDate(), states));
+        player.getInHand().clear();
+    }
+
+    private String createFormattedDate() {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        System.out.println("Date of the game before formatting: " + myDateObj);
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return myDateObj.format(myFormatObj);
+    }
+
 
     public ArrayList<Card> getWeathers() {
         return weathers;
