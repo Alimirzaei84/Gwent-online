@@ -157,6 +157,8 @@ public class Game {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         this.winner = winner;
+        getPlayer1().getInHand().clear();
+        getPlayer2().getInHand().clear();
         // TODO: winner won the game
         // TODO: The game should be closed
         // TODO: update game history

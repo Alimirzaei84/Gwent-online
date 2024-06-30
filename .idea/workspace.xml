@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/StateAfterADiamond.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/StateAfterADiamond.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

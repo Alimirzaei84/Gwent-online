@@ -130,7 +130,11 @@ public class GameLauncher extends AppMenu {
                 case F -> increaseDiamond(Game.getCurrentGame().getCurrentPlayer());
                 case G -> destroyOpponentClose(Game.getCurrentGame().getOtherPlayer());
             }
-
+            try {
+                refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

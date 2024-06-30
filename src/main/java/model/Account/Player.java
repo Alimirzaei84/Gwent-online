@@ -38,8 +38,6 @@ public class Player {
     }
 
 
-
-
     public boolean isActionLeaderDone() {
         return actionLeaderDone;
     }
@@ -73,7 +71,7 @@ public class Player {
     // TODO: 3
     public void veto(Card card) throws Exception {
 
-        if(++vetoCounter > 2) {
+        if (++vetoCounter > 2) {
             throw new Exception("is already done");
         }
         inHand.remove(card);
@@ -123,6 +121,7 @@ public class Player {
                 case "fog" -> whichRow = 1;
             }
             freeze(rows[whichRow]);
+            freeze(getOpponent().rows[whichRow]);
             changeTurn();
             return;
         } else if (card.getName().equals("")) {
@@ -277,6 +276,7 @@ public class Player {
             case "fog" -> whichRow = 1;
         }
         freeze(rows[whichRow]);
+        freeze(getOpponent().rows[whichRow]);
     }
 
 
@@ -296,6 +296,7 @@ public class Player {
             case "fog" -> whichRow = 1;
         }
         freeze(rows[whichRow]);
+        freeze(getOpponent().rows[whichRow]);
     }
 
     private void avoidFreezingAspect() {
@@ -384,7 +385,7 @@ public class Player {
 
         for (Row row : rows) {
             for (Card rowCard : row.getCards()) {
-                if(!rowCard.shouldBeChange()) continue;
+                if (!rowCard.shouldBeChange()) continue;
                 if (rowCard.getAbility().equals("Transformer") || rowCard.getAbility().equals("Berserker")) {
                     cardName = switch (rowCard.getName()) {
                         case "young berserker" -> "young vidkaarl";
