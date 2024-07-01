@@ -317,9 +317,9 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void displayCard() { // TODO :
-        System.out.println("ArrList size : " + Game.getCurrentGame().getOtherPlayer().getCardInfo().size());
-        for (Card card : Game.getCurrentGame().getOtherPlayer().getCardInfo()) {
+    private void displayCard(Player curPlayer , Player otherPlayer) { // TODO :
+        System.out.println("ArrList size : " + otherPlayer.getCardInfo().size());
+        for (Card card : otherPlayer.getCardInfo()) {
             try {
                 String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
                 ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -336,7 +336,7 @@ public class GameLauncher extends AppMenu {
     }
 
     private void refreshScreen(Player curPlayer, Player otherPlayer) throws MalformedURLException {
-        displayCard();
+        displayCard(curPlayer , otherPlayer);
         //remove veto button
         if (Game.getCurrentGame().getNumTurn() == 1) {
             if (vetoButton != null)
