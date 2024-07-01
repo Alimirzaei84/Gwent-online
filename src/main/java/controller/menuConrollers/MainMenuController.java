@@ -26,7 +26,7 @@ public class MainMenuController {
             throw new Exception("Such user doesn't exist!");
         }
 
-        Game game = new Game(User.getLoggedInUser(), opponent);
+        Game game = new Game(User.getLoggedInUser(),opponent);
         Game.setCurrentGame(game);
         return "Entered Username is valid!";
     }

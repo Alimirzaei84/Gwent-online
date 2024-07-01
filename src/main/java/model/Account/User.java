@@ -1,12 +1,19 @@
 package model.Account;
 
+import controller.ApplicationController;
+import controller.CardController;
+import model.game.Game;
+import model.game.GameHistory;
 import model.role.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.Random;
 
 public class User implements Comparable<User> {
 
+    private final ArrayList<GameHistory> gameHistories;
     private String username;
     private String password;
     private String email;
@@ -32,8 +39,9 @@ public class User implements Comparable<User> {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        faction = Faction.MONSTERS;
+        faction = generateRandomFaction();
         highestScore = 0;
+        gameHistories = new ArrayList<>();
         ties = 0;
         wins = 0;
         losses = 0;
@@ -41,6 +49,39 @@ public class User implements Comparable<User> {
         answers = new HashMap<>();
         allUsers.add(this);
         deck = new ArrayList<>();
+        leader = getRandomLeader();
+    }
+
+    public void addToHistory(GameHistory gameHistory){
+        gameHistories.add(gameHistory);
+    }
+
+    private Faction generateRandomFaction() {
+        int x = ApplicationController.getRandom().nextInt(0, 4);
+        switch (x) {
+            case 0 -> {
+                return Faction.NORTHERN_REALMS;
+            }
+            case 1 -> {
+                return Faction.NILFGAARDIAN_EMPIRE;
+            }
+            case 2 -> {
+                return Faction.MONSTERS;
+            }
+            case 3 -> {
+                return Faction.SCOIA_TAEL;
+            }
+            default -> {
+                return Faction.SKELLIGE;
+            }
+        }
+    }
+
+
+    private Leader getRandomLeader() {
+        Random rand = new Random();
+        String leaderName = CardController.leaders.get(rand.nextInt(CardController.leaders.size()));
+        return (Leader) CardController.createLeaderCard(leaderName);
     }
 
     public Leader getLeader() {
@@ -49,6 +90,7 @@ public class User implements Comparable<User> {
 
     public void setLeader(Leader leader) {
         this.leader = leader;
+        System.out.println(leader.getName());
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {
@@ -189,6 +231,22 @@ public class User implements Comparable<User> {
         return null;
     }
 
+    public ArrayList<GameHistory> getGameHistories() {
+        return gameHistories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword());
+    }
+
     @Override
     public int compareTo(User o) {
         return 0;
@@ -197,7 +255,7 @@ public class User implements Comparable<User> {
     public int getUnitCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Unit) out++;
+            if (card instanceof Unit) out++;
         }
         return out;
     }
@@ -205,15 +263,15 @@ public class User implements Comparable<User> {
     public int getSpecialCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Special) out++;
+            if (card instanceof Special) out++;
         }
         return out;
     }
 
-    public int getCardCount(String cardName){
+    public int getCardCount(String cardName) {
         int out = 0;
         for (Card card : deck) {
-            if(card.getName().equals(cardName)) out++;
+            if (card.getName().equals(cardName)) out++;
         }
         return out;
     }
@@ -221,7 +279,7 @@ public class User implements Comparable<User> {
     public int getHeroCount() {
         int out = 0;
         for (Card card : deck) {
-            if(card instanceof Hero) out++;
+            if (card instanceof Hero) out++;
         }
         return out;
     }
@@ -234,8 +292,21 @@ public class User implements Comparable<User> {
         return result;
     }
 
-    public Card getCardFromDeckByName(String cardName){
-        for (Card card : deck){
+    public ArrayList<Card> getRandomDeck() {
+        ArrayList<Card> deck = new ArrayList<>();
+
+        Random random = new Random();
+        for (int i = 0; i < 22; i++) {
+            String cardName = CardController.units.get(random.nextInt(CardController.units.size()));
+            deck.add(CardController.createUnitCard(cardName));
+        }
+
+        return deck;
+    }
+
+
+    public Card getCardFromDeckByName(String cardName) {
+        for (Card card : deck) {
             if (card.getName().equals(cardName))
                 return card;
         }

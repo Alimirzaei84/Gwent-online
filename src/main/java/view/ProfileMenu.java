@@ -214,7 +214,12 @@ public class ProfileMenu extends AppMenu {
     }
 
     public void showGameHistories(MouseEvent mouseEvent) {
-        //TODO : add after the Game Object is made.
+        try{
+            GameHistoryScreen gameHistory = new GameHistoryScreen();
+            gameHistory.start(ApplicationController.getStage());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void back(MouseEvent mouseEvent) {
@@ -237,5 +242,10 @@ public class ProfileMenu extends AppMenu {
         setTieLabel(String.valueOf(User.getLoggedInUser().getTies()));
         setRankLabel(String.valueOf(User.getLoggedInUser().getRank()));
         setHighestScoreLabel(String.valueOf(User.getLoggedInUser().getHighestScore()));
+    }
+
+    @Override
+    public void initialize() {
+
     }
 }

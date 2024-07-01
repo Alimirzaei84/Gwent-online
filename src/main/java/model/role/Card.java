@@ -5,16 +5,16 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Card extends TypeAdapter<Card> {
     private String name;
     private String description;
     private final Type type;
-    private final int power;
+    private int power;
     private final int maxNum;
     private final Faction faction;
     private final String ability;
+    private boolean shouldBeChange = true;
 
 
     @Override
@@ -23,6 +23,10 @@ public class Card extends TypeAdapter<Card> {
         out.name("name").value(card.getName());
         // Other fields (excluding 'name')...
         out.endObject();
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 
 
@@ -107,9 +111,27 @@ public class Card extends TypeAdapter<Card> {
         this.name = name;
     }
 
+    public int getMaxNum() {
+        return maxNum;
+    }
+
+
+    public String getAbility() {
+        if (ability == null)
+            return "";
+        return ability;
+    }
 
     @Override
     public String toString() {
         return "Card [name=" + name + ", type=" + type + ", power=" + power + ", maxNum=" + maxNum + ", faction=" + faction + ", ability=" + ability + "]";
+    }
+
+    public boolean shouldBeChange() {
+        return shouldBeChange;
+    }
+
+    public void setShouldBeChange(){
+        shouldBeChange = true;
     }
 }

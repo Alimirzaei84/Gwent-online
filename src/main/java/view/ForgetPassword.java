@@ -116,4 +116,9 @@ public class ForgetPassword extends AppMenu {
         scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
         alert.showAndWait();
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }

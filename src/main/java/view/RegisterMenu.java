@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Account.User;
+import model.role.Special;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
@@ -39,6 +40,7 @@ public class RegisterMenu extends AppMenu {
         CardController.heroes = CardController.removeDuplicates(CardController.heroes);
         CardController.units = CardController.removeDuplicates(CardController.units);
         CardController.specials = CardController.removeDuplicates(CardController.specials);
+        CardController.leaders = CardController.removeDuplicates(CardController.leaders);
     }
 
     public static void main(String[] args) {
@@ -52,11 +54,11 @@ public class RegisterMenu extends AppMenu {
         stage.setTitle("AntEater");
         ApplicationController.setStage(stage);
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
-
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
+
     }
 
     @Override
@@ -82,7 +84,7 @@ public class RegisterMenu extends AppMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
         Scene scene = alert.getDialogPane().getScene();
-        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
         alert.showAndWait();
     }
 
@@ -114,5 +116,10 @@ public class RegisterMenu extends AppMenu {
             alert.setContentText(result);
             alert.showAndWait();
         }
+    }
+
+    @Override
+    public void initialize() {
+
     }
 }

@@ -81,6 +81,18 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -99,15 +111,6 @@
                 <configuration>
                     <mainClass>org.example.MainMenu</mainClass>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <source>21</source>-->
-<!--                    <target>21</target>-->
-<!--                    <compilerArgs>&#45;&#45;enable-preview</compilerArgs>-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

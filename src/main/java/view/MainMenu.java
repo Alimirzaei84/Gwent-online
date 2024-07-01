@@ -104,7 +104,6 @@ public class MainMenu extends AppMenu {
 
                     scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
                     alert.setContentText(message);
-                    alert.showAndWait();
                     alert.showAndWait(); // Show the alert and wait for user acknowledgment
                     alertShown = true; // Set the flag indicating that the alert has been shown
                 }
@@ -138,5 +137,10 @@ public class MainMenu extends AppMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize() {
+
     }
 }
