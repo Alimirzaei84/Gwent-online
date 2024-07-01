@@ -13,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Account.User;
 import model.role.Special;
+import server.Main;
+import server.Server;
 
 import java.io.IOException;
 import java.io.StreamCorruptedException;
