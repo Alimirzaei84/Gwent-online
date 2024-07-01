@@ -227,7 +227,6 @@ public class Player {
 
     private void show(Card... cards) {
         getOpponent().cardInfo.addAll(List.of(cards));
-        cardInfo.addAll(List.of(cards));
         System.out.println("size of this is :" + cardInfo.size());
     }
 

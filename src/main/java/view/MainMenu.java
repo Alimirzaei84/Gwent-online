@@ -138,4 +138,9 @@ public class MainMenu extends AppMenu {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }

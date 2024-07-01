@@ -117,4 +117,9 @@ public class RegisterMenu extends AppMenu {
             alert.showAndWait();
         }
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }

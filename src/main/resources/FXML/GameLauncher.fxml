@@ -75,6 +75,6 @@
       <StackPane fx:id="curRow2StackPane" layoutX="471.0" layoutY="282.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="curRow1StackPane" layoutX="471.0" layoutY="372.0" prefHeight="83.0" prefWidth="548.0" />
       <StackPane fx:id="curRow0StackPane" layoutX="471.0" layoutY="463.0" prefHeight="83.0" prefWidth="548.0" />
-      <HBox fx:id="displayCardHBox" layoutX="1028.0" layoutY="282.0" prefHeight="100.0" prefWidth="200.0" />
+      <HBox fx:id="displayCardHBox" layoutX="1067.0" layoutY="282.0" prefHeight="100.0" prefWidth="163.0" />
     </children>
 </AnchorPane>

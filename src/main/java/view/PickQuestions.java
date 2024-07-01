@@ -60,4 +60,9 @@ public class PickQuestions extends AppMenu {
         LoginMenu loginMenu = new LoginMenu();
         loginMenu.start(ApplicationController.getStage());
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }

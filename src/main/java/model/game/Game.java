@@ -66,7 +66,7 @@ public class Game {
         getPlayer2().handleTransformers();
         getPlayer1().updatePointOfRows();
         getPlayer2().updatePointOfRows();
-//        getOtherPlayer().getCardInfo().clear();
+        getOtherPlayer().getCardInfo().clear();
     }
 
     private void giveADiamondToWinner() {

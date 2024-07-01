@@ -11,4 +11,19 @@ public record StateAfterADiamond(Player winner, Player looser, int winnerScore, 
     public int getLooserScore() {
         return looserScore;
     }
+
+    @Override
+    public Player winner() {
+        return winner;
+    }
+
+    @Override
+    public int winnerScore() {
+        return winnerScore;
+    }
+
+    @Override
+    public int looserScore() {
+        return looserScore;
+    }
 }
