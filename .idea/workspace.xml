@@ -17,15 +17,6 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameHistory.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PickQuestions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameHistory.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameHistory.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +264,7 @@
       <workItem from="1719641559998" duration="33604000" />
       <workItem from="1719730049880" duration="5016000" />
       <workItem from="1719751308479" duration="543000" />
-      <workItem from="1719826893427" duration="3349000" />
+      <workItem from="1719826893427" duration="4421000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
