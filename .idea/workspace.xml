@@ -82,13 +82,26 @@
       <recent name="model.game" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RegisterMenu">
-    <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="model.game.Game" />
+  <component name="RunManager" selected="Application.Client">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.Client" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.game.*" />
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.Main" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -135,19 +148,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.Test" />
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="CardControllerTest.specialTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
@@ -182,19 +182,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="Application.Test" />
-      <item itemvalue="Application.Game" />
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Player" />
       <item itemvalue="JUnit.CardControllerTest.specialTest" />
       <item itemvalue="JUnit.CardControllerTest.test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.Game" />
-        <item itemvalue="Application.Player" />
-        <item itemvalue="JUnit.CardControllerTest.specialTest" />
+        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CardControllerTest.test" />
+        <item itemvalue="JUnit.CardControllerTest.specialTest" />
+        <item itemvalue="Application.Player" />
       </list>
     </recent_temporary>
   </component>
