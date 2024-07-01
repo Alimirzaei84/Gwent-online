@@ -276,6 +276,8 @@ public class PreGameMenu extends AppMenu {
 
     public void startGame() {
         Game game = Game.getCurrentGame();
+        System.out.println(game.getPlayer1().getUser().getLeader().getName());
+        System.out.println(game.getPlayer2().getUser().getLeader().getName());
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Err");
         alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
@@ -477,7 +479,6 @@ public class PreGameMenu extends AppMenu {
 
         for (String leaderName : CardController.leaders) {
             if (!CardController.faction.get(leaderName).equals(User.getLoggedInUser().getFaction())) continue;
-            System.out.println(leaderName);
             Card card = CardController.createLeaderCard(leaderName);
             ImageView imageView = new ImageView(new Image(new File(CardController.imagePath.getOrDefault(card.getName(), "src/main/resources/assets/lg/skellige_king_bran.jpg")).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> {

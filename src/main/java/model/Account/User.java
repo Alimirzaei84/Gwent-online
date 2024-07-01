@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class User implements Comparable<User> {
 
-    private ArrayList<GameHistory> gameHistories;
+    private final ArrayList<GameHistory> gameHistories;
     private String username;
     private String password;
     private String email;
@@ -90,6 +90,7 @@ public class User implements Comparable<User> {
 
     public void setLeader(Leader leader) {
         this.leader = leader;
+        System.out.println(leader.getName());
     }
 
     public void addQuestionAnswer(String question, String answer) throws Exception {

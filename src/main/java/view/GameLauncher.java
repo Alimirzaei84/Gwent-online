@@ -98,7 +98,7 @@ public class GameLauncher extends AppMenu {
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
-    private HBox inHandPlayer1 = new HBox();
+    private final HBox inHandPlayer1 = new HBox();
 
     public GameLauncher() {
         gameController = new GameController(Game.getCurrentGame());
@@ -681,7 +681,7 @@ public class GameLauncher extends AppMenu {
         //TODO
     }
 
-    public void veto() throws Exception {
+    public void veto() {
         if (isScreenLocked) return;
         if (gameController.getSelectedCard() == null) return;
         try {
@@ -695,6 +695,7 @@ public class GameLauncher extends AppMenu {
             alert.show();
         }
     }
+
 
     public void executeAction() throws MalformedURLException {
         if (isScreenLocked) return;
@@ -711,4 +712,5 @@ public class GameLauncher extends AppMenu {
         Game.getCurrentGame().getCurrentPlayer().playLeader();
         endOfTurn(curPlayer);
     }
+
 }

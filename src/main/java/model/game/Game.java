@@ -66,7 +66,7 @@ public class Game {
         getPlayer2().handleTransformers();
         getPlayer1().updatePointOfRows();
         getPlayer2().updatePointOfRows();
-        getOtherPlayer().getCardInfo().clear();
+//        getOtherPlayer().getCardInfo().clear();
     }
 
     private void giveADiamondToWinner() {
@@ -74,12 +74,10 @@ public class Game {
         if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
             getPlayer1().addADiamond();
             addToStates(getPlayer1(), getPlayer2());
-            // TODO: show winner in graphic
         } else if (getPlayer1().getTotalPoint() < getPlayer2().getTotalPoint()) {
             getPlayer2().addADiamond();
             addToStates(getPlayer2(), getPlayer1());
-            // TODO: show winner in graphic
-        } else {
+       } else {
             if (getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && !getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE)) {
                 getPlayer1().addADiamond();
                 addToStates(getPlayer1(), getPlayer2());
@@ -87,7 +85,6 @@ public class Game {
                 getPlayer2().addADiamond();
                 addToStates(getPlayer2(), getPlayer1());
             } else {
-                //TODO: just show equivalent of points and give no diamond to anyone !
             }
         }
     }
@@ -109,10 +106,6 @@ public class Game {
         handleExtraTasks();
     }
 
-    public void startTurn() {
-        //TODO : CHOOSE CARD
-        //TODO : CHOOSE CARD
-    }
 
     public Player getCurrentPlayer() {
         return players[indexCurPlayer];
@@ -162,9 +155,6 @@ public class Game {
         this.winner = winner;
         updateUserHistory(getPlayer1());
         updateUserHistory(getPlayer2());
-        // TODO: winner won the game
-        // TODO: The game should be closed
-        // TODO: update game history
     }
 
     private void updateUserHistory(Player player) {

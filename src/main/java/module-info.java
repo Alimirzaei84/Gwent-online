@@ -13,5 +13,6 @@ module testAnt {
     exports view;
     exports model.game;
     exports model.Account;
+    exports model.role;
     opens view to javafx.fxml;
 }

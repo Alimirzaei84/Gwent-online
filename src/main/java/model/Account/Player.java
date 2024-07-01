@@ -10,7 +10,6 @@ import model.role.*;
 import java.util.*;
 
 public class Player {
-    //TODO : updateDiamond
     private short diamond;
     private ArrayList<Card> cardInfo;
     private int totalPoint;
@@ -34,7 +33,6 @@ public class Player {
         discardCards = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
-
     }
 
 
@@ -50,7 +48,6 @@ public class Player {
         this.diamond = diamond;
     }
 
-    // TODO: 1
     private Player getOpponent() {
         Player player1 = Game.getCurrentGame().getPlayer1();
         Player player2 = Game.getCurrentGame().getPlayer2();
@@ -59,7 +56,6 @@ public class Player {
     }
 
 
-    // TODO: 2
     public void playLeader() {
         if (!actionLeaderDone) {
             actionLeaderForMe(user.getLeader().getName());
@@ -68,7 +64,6 @@ public class Player {
     }
 
 
-    // TODO: 3
     public void veto(Card card) throws Exception {
 
         if (++vetoCounter > 2) {
@@ -79,7 +74,6 @@ public class Player {
     }
 
 
-    // TODO: 4
     public void makeHandReady() {
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int c = 0; c < counter; c++) {
@@ -90,7 +84,6 @@ public class Player {
     }
 
 
-    // TODO: 5
     private void changeTurn() {
         handleTransformers();
         updatePointOfRows();
@@ -99,7 +92,6 @@ public class Player {
     }
 
 
-    // TODO: 6
     public void passRound() {
         handleTransformers();
         updatePointOfRows();
@@ -108,7 +100,6 @@ public class Player {
     }
 
 
-    // TODO: 7
     public void putCard(Card card) {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
@@ -123,7 +114,6 @@ public class Player {
             freeze(rows[whichRow]);
             freeze(getOpponent().rows[whichRow]);
             changeTurn();
-            return;
         } else if (card.getName().equals("")) {
 
         } else putCardForMe(card, rowNumber);
@@ -159,71 +149,72 @@ public class Player {
             case "madman lugos" -> {
                 //TODO: we don't have this leader
             }
-            case "The Siegemaster" -> {
+            case "the siegemaster" -> {
                 actionAImpenetrableFog();
             }
-            case "The Steel-Forged" -> {
+            case "the steel-forged" -> {
                 avoidFreezingAspect();
             }
-            case "King of Temeria" -> {
+            case "king of temeria" -> {
                 increaseThePowerOfSiegeForMe();
             }
-            case "Lord Commander of the North" -> {
+            case "lord commander of the north" -> {
                 if (getOpponent().rows[2].getPoint() > 10) {
                     killTheMostPowerFul(getOpponent(), 2);
                 }
             }
             case "Son of Medell" -> {
                 if (getOpponent().rows[1].getPoint() > 10) killTheMostPowerFul(getOpponent(), 1);
-//                    destroyOpponentMostPowerFullRanged();
             }
-            case "The White Flame" -> {
+            case "the white flame" -> {
                 doRandomWeatherCard("torrential rain");
             }
-            case "His Imperial Majesty" -> show(getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()));
-            case "Emperor of Nilfgaard" -> getOpponent().actionLeaderDone = true;
+            case "his imperial majesty" -> {
+                show(getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()), getRandomCard(getOpponent().getInHand()));
+            }
+            case "emperor of nilfgaard" -> getOpponent().actionLeaderDone = true;
             case "The Relentless" -> {
                 recoverFromOppDiscardPile();
             }
-            case "Invader of the North" -> {
+            case "invader of the north" -> {
                 recoverARandomCard();
                 getOpponent().recoverARandomCard();
             }
-            case "Bringer of Death" -> {
+            case "bringer of death" -> {
                 increaseThePowerOfARowForMe(0);
             }
-            case "King of the wild Hunt" -> {
+            case "king of the wild hunt" -> {
                 recoverARandomCard();
             }
-            case "Destroyer of Worlds" -> {
+            case "destroyer of worlds" -> {
                 changeWithDistraction();
             }
-            case "Commander of the Red Riders" -> {
+            case "commander of the red riders" -> {
                 doRandomWeatherCard();
             }
-            case "The Treacherous" -> {
+            case "the treacherous" -> {
                 increasePowerOfSpies();
             }
-            case "Queen of Dol Blathanna" -> {
+            case "queen of Dol blathanna" -> {
                 if (getOpponent().rows[0].getPoint() > 10) killTheMostPowerFul(getOpponent(), 1);
             }
-            case "The Beautiful" -> {
+            case "the beautiful" -> {
                 increaseThePowerOfARowForMe(1);
             }
-            case "Daisy of the Valley" -> {
+            case "daisy of the valley" -> {
                 // We handled it in choosing random cards
             }
-            case "Pureblood Elf" -> {
+            case "pureblood elf" -> {
                 putAFrost();
             }
-            case "Hope of the Aen Seidhe" -> {
+            case "hope of the aen seidhe" -> {
                 //TODO: I don't understand this
             }
-            case "Crach an Craite" -> {
+            case "crach an craite" -> {
                 recoverDiscardPiles();
                 getOpponent().recoverDiscardPiles();
             }
-            case "King Bran" -> {
+            case "kling bran" -> {
                 decreaseFreezingAspect();
             }
         }
@@ -235,7 +226,9 @@ public class Player {
     }
 
     private void show(Card... cards) {
+        getOpponent().cardInfo.addAll(List.of(cards));
         cardInfo.addAll(List.of(cards));
+        System.out.println("size of this is :" + cardInfo.size());
     }
 
     public void killTheMostPowerFul(Player player, int index) {
@@ -296,7 +289,22 @@ public class Player {
     }
 
     private void avoidFreezingAspect() {
-        // TODO: Ignore Weather cards and remove graphical effects
+        Game.getCurrentGame().getWeathers().clear();
+
+        for (Row row : rows) {
+            row.setOnFrost(false);
+            for (Card card : row.getCards()) {
+                card.setPower(card.getPower() + 3);
+            }
+        }
+
+        for (Row row : getOpponent().rows) {
+            row.setOnFrost(false);
+            for (Card card : row.getCards()) {
+                card.setPower(card.getPower() + 3);
+            }
+        }
+
     }
 
     private void actionAImpenetrableFog() {
@@ -372,7 +380,19 @@ public class Player {
     }
 
     private void decreaseFreezingAspect() {
-        // TODO: units only loose half of their powers
+
+        for (Row row : rows) {
+            for (Card card : row.getCards()) {
+                card.setPower(card.getPower() + 1);
+            }
+        }
+
+        for (Row row : getOpponent().rows) {
+            for (Card card : row.getCards()) {
+                card.setPower(card.getPower() + 1);
+            }
+        }
+
     }
 
 
@@ -533,7 +553,6 @@ public class Player {
 
     private void freeze(Row row) {
         row.setOnFrost(true);
-        // TODO: effects and others
     }
 
     private Card getTheMostPowerFullCard(Row[] array) {
@@ -675,4 +694,5 @@ public class Player {
     public void setVetoCounter(short vetoCounter) {
         this.vetoCounter = vetoCounter;
     }
+
 }
