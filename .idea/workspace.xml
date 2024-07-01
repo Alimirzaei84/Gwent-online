@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/error/SimilarRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/request/FriendRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/controller/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Invitation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/request/Invitation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/GameRegexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/GameRegexes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Game.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/error/SimilarInvitation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/controller/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/controller/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/controller/CardControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/controller/CardControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +74,7 @@
     &quot;Application.Client.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CardControllerTest.UnknownCards.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CardControllerTest.specialTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CardControllerTest.test.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CardControllerTest.test2.executor&quot;: &quot;Run&quot;,
@@ -84,6 +87,9 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -164,6 +170,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CardControllerTest.UnknownCards" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.CardControllerTest" />
+      <option name="METHOD_NAME" value="UnknownCards" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CardControllerTest.specialTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
@@ -196,29 +218,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardControllerTest.test2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.CardControllerTest" />
-      <option name="METHOD_NAME" value="test2" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Client" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CardControllerTest.UnknownCards" />
         <item itemvalue="JUnit.CardControllerTest.specialTest" />
         <item itemvalue="JUnit.CardControllerTest.test" />
-        <item itemvalue="JUnit.CardControllerTest.test2" />
       </list>
     </recent_temporary>
   </component>
@@ -270,7 +276,11 @@
       <workItem from="1719689204769" duration="4471000" />
       <workItem from="1719737213630" duration="854000" />
       <workItem from="1719741988396" duration="5419000" />
-      <workItem from="1719747692975" duration="3557000" />
+      <workItem from="1719747692975" duration="6205000" />
+      <workItem from="1719754177451" duration="3140000" />
+      <workItem from="1719769794932" duration="2196000" />
+      <workItem from="1719772297441" duration="6651000" />
+      <workItem from="1719818670012" duration="2829000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

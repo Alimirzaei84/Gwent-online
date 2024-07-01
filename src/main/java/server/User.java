@@ -2,22 +2,32 @@ package server;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class User {
+
+    public enum Status {
+        PLAYING,
+        OFFLINE,
+        INVITING,
+        VIEWING,
+        ONLINE
+    }
 
 
     private CommunicationHandler handler;
     private final String username;
     private final String password;
-    private ArrayList<User> friends;
+    private final ArrayList<User> friends;
 
-    private boolean isPlaying;
+    private Status status;
+
+    private int gameId = -1; // -1 means home
+//    private int roomId = -1; // -1 means home
 
     public User(String name, String password) throws IOException {
         this.username = name;
         this.password = password;
-        isPlaying = false;
+        status = Status.OFFLINE;
         friends = new ArrayList<>();
     }
 
@@ -34,27 +44,41 @@ public class User {
     }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return status.equals(Status.PLAYING);
     }
 
-    public void setPlaying(boolean playing) {
-        isPlaying = playing;
+    public boolean isViewing() {
+        return status.equals(Status.VIEWING);
+    }
+
+    public boolean isInviting() {
+        return status.equals(Status.INVITING);
+    }
+
+    public boolean isJustOnline() {
+        return status.equals(Status.ONLINE);
+    }
+
+    public void setPlaying() {
+        status = Status.PLAYING;
     }
 
     public void getOnline(CommunicationHandler handler) {
+        status = Status.ONLINE;
         setHandler(handler);
     }
 
     public void getOffline() {
+        status = Status.OFFLINE;
         this.handler = null;
     }
 
     public boolean isOffline() {
-        return !this.isOnline();
+        return status.equals(Status.OFFLINE);
     }
 
     public boolean isOnline() {
-        return handler != null;
+        return !isOffline();
     }
 
     public void announceInvitation(User inviter) throws IOException {
@@ -87,6 +111,38 @@ public class User {
 
     public ArrayList<User> getFriends() {
         return friends;
+    }
+
+    public void setInviting() {
+        status = Status.INVITING;
+    }
+
+    public void setViewing() {
+        status = Status.VIEWING;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+//    public int getRoomId() {
+//        return roomId;
+//    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+//    public void setRoomId(int roomId) {
+//        this.roomId = roomId;
+//    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

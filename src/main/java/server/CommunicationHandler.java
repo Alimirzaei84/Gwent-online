@@ -1,5 +1,7 @@
 package server;
 
+import server.controller.ServerController;
+import server.controller.UserController;
 import server.error.SimilarRequest;
 
 import java.io.DataInputStream;
@@ -46,10 +48,13 @@ public class CommunicationHandler implements Runnable {
             loginRegex = "^login ([\\S]+) ([\\S]+)$",
             acceptGameRegex = "^accept game with ([\\S]+)$",
             cancelInvitationRegex = "^cancel invitation$",
+            denyInvitationRegex = "^deny invitation from ([\\S]+)$",
             friendRequestRegex = "^let's be friend ([\\S]+)$",
             acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$",
             showFriendsRegex = "^show friends$",
-            cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$";
+            cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$",
+            denyFriendRequestRegex = "^deny friend request from ([\\S]+)$",
+            watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
     private void handleCommand(String inMessage) throws IOException {
@@ -67,8 +72,7 @@ public class CommunicationHandler implements Runnable {
                     user.getOnline(this);
                     setUser(user);
                 }
-            }
-            else if (inMessage.matches(loginRegex)) {
+            } else if (inMessage.matches(loginRegex)) {
                 Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
                 matcher.find();
 
@@ -80,61 +84,130 @@ public class CommunicationHandler implements Runnable {
                     user.getOnline(this);
                     setUser(user);
                 }
-            }
-            else {
+            } else {
                 sendMessage("[ERROR] unknown command");
             }
 
         }
 
-        else if (inMessage.matches(invitationRequestRegex)) {
-            Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
-            matcher.find();
-
-            invitation(matcher);
+        else if (user.isOffline()) {
+            sendMessage("[ERROR] offline");
         }
 
-        else if (inMessage.matches(acceptGameRegex)) {
-            Matcher matcher = getMatcher(acceptGameRegex, inMessage);
-            matcher.find();
+        else if (user.isJustOnline()) {
 
-            acceptGame(matcher);
+            if (inMessage.matches(invitationRequestRegex)) {
+                Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
+                matcher.find();
+
+                invitation(matcher);
+            } else if (inMessage.matches(acceptGameRegex)) {
+                Matcher matcher = getMatcher(acceptGameRegex, inMessage);
+                matcher.find();
+
+                acceptGame(matcher);
+            } else if (inMessage.matches(showFriendsRegex)) {
+                showFriends();
+            } else if (inMessage.matches(cancelFriendRequestRegex)) {
+                Matcher matcher = getMatcher(cancelFriendRequestRegex, inMessage);
+                matcher.find();
+
+                cancelFriendRequest(matcher);
+            } else if (inMessage.matches(friendRequestRegex)) {
+                Matcher matcher = getMatcher(friendRequestRegex, inMessage);
+                matcher.find();
+
+                friendRequest(matcher);
+            } else if (inMessage.matches(acceptFriendRequestRegex)) {
+                Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
+                matcher.find();
+
+                acceptFriendRequest(matcher);
+            } else if (inMessage.matches(denyInvitationRegex)) {
+                Matcher matcher = getMatcher(denyInvitationRegex, inMessage);
+                matcher.find();
+
+                denyInvitation(matcher);
+            } else if (inMessage.matches(denyFriendRequestRegex)) {
+                Matcher matcher = getMatcher(denyFriendRequestRegex, inMessage);
+                matcher.find();
+
+                denyFriendRequest(matcher);
+            } else if (inMessage.matches(watchOnlineGameRegex)) {
+                Matcher matcher = getMatcher(watchOnlineGameRegex, inMessage);
+                matcher.find();
+
+                watchOnlineGame(matcher);
+            }
+
+            else {
+                sendMessage("[ERROR] unknown command");
+            }
         }
 
-        else if (inMessage.matches(cancelInvitationRegex)) {
-            cancelInvitation();
+        else if (user.isInviting()) {
+            if (inMessage.matches(cancelInvitationRegex)) {
+                cancelInvitation();
+            }
+
+            else {
+                sendMessage("[ERROR] unknown command");
+            }
         }
 
-        else if (inMessage.matches(showFriendsRegex)) {
-            showFriends();
+        else if (user.isPlaying()) {
+            ServerController.passMessageToGameOfUser(this.getUser(), inMessage);
         }
 
-        else if (inMessage.matches(cancelFriendRequestRegex)) {
-            Matcher matcher = getMatcher(cancelFriendRequestRegex, inMessage);
-            matcher.find();
-
-            cancelFriendRequest(matcher);
+        else if (user.isViewing()) {
+            System.out.println("im still viewing you bitch.");
+            ServerController.passMessageToChatRoom(this.getUser(), inMessage);
         }
-
-        else if (inMessage.matches(friendRequestRegex)) {
-            Matcher matcher = getMatcher(friendRequestRegex, inMessage);
-            matcher.find();
-
-            friendRequest(matcher);
-        }
-
-        else if (inMessage.matches(acceptFriendRequestRegex)) {
-            Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
-            matcher.find();
-
-            acceptFriendRequest(matcher);
-        }
-
-        // TODO cancel a friend request
 
         else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void watchOnlineGame(Matcher matcher) throws IOException {
+        String idStr = matcher.group(1);
+
+        int id;
+        try {
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            sendMessage("[ERROR] id format must be integer.");
+            return;
+        }
+
+        ServerController.attendNewViewerToRunningGame(this.getUser(), id);
+    }
+
+    private void denyInvitation(Matcher matcher) throws IOException {
+        String inviterName = matcher.group(1);
+
+        User inviter = UserController.getUserByName(inviterName);
+
+        if (inviter == null) {
+            System.out.println("[ERROR] user \"" + inviterName + "\" not found");
+            sendMessage("[ERROR] there is no user \"" + inviterName + "\"");
+            return;
+        }
+
+        ServerController.denyInvitation(this.getUser(), inviter);
+    }
+
+    private void denyFriendRequest(Matcher matcher) throws IOException {
+        String requesterName = matcher.group(1);
+
+        User requester = UserController.getUserByName(requesterName);
+        if (requester == null) {
+            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            return;
+        }
+
+        ServerController.denyFriendRequest(this.getUser(), requester);
     }
 
     private void cancelFriendRequest(Matcher matcher) throws IOException {

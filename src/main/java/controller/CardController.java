@@ -135,8 +135,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(leaderName, null);
-            System.out.println(img_path);
-            System.out.println(middle);
         }
     }
 
@@ -167,8 +165,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(name, null);
-            System.out.println(img_path);
-            System.out.println(middle);
         }
 
     }
@@ -182,6 +178,11 @@ public abstract class CardController {
         String typeStr = line[5].toUpperCase();
         String abilityStr = line[6];
         String isHeroStr = line[7];
+
+
+        if (cardName.equals("triss")) {
+            System.out.println("i found it");
+        }
 
 
         String descriptionStr = null;
@@ -225,8 +226,6 @@ public abstract class CardController {
         if (!file.exists()) {
             numNotPassed++;
             imagePath.put(cardName, null);
-//            System.out.println(img_path);
-//            System.out.println(middle);
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);

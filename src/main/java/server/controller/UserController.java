@@ -1,10 +1,12 @@
-package server;
+package server.controller;
+
+import server.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-public class UserController {
+public abstract class UserController {
 
     public static ArrayList<User> users = new ArrayList<>();
 

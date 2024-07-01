@@ -17,8 +17,8 @@ public enum GameRegexes {
     JSON_OF_ROWS("(?<username>.+)Row0(?<json0>.+)Row1(?<json1>.+)Row2(?<json2>.+)"),
     PLAY_LEADER("leader(?<username>.+\\|(?<leaderName>.+))"),
     EXIT("^exit$"),
-    SHOW_HAND("^show hand$");
-    ;
+    SHOW_HAND("^show hand$"),
+    ECHO("^echo (.+)$");
 
 
     final String regex;
@@ -36,6 +36,10 @@ public enum GameRegexes {
 
     public boolean matches(String input) {
         return input.matches(regex);
+    }
+
+    public String getGroup(String input, int group) {
+        return getMatcher(input).group(group);
     }
 
     public String getGroup(String input, String group) {

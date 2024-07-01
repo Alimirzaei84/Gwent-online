@@ -1,5 +1,6 @@
 package controller;
 
+import model.role.Card;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,4 +30,21 @@ public class CardControllerTest {
     }
 
 
+    @Test
+    public void UnknownCards() {
+        /*
+        * triss
+        * vildkaarl
+        * young vildkaarl
+        * vesemir
+        * */
+
+        Card trisCard = CardController.createCardWithName("triss merigold");
+        if (CardController.imagePath.containsKey(trisCard.getName())) {
+            System.out.println("true");
+        }
+        String s = CardController.imagePath.get(trisCard.getName());
+        System.out.println(s);
+        System.out.println(trisCard);
+    }
 }
