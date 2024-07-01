@@ -230,6 +230,10 @@ public class User implements Comparable<User> {
         return null;
     }
 
+    public ArrayList<GameHistory> getGameHistories() {
+        return gameHistories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

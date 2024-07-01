@@ -711,4 +711,9 @@ public class GameLauncher extends AppMenu {
         Game.getCurrentGame().getCurrentPlayer().playLeader();
         endOfTurn(curPlayer);
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }

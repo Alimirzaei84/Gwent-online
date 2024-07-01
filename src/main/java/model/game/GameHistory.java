@@ -33,4 +33,21 @@ public class GameHistory {
     public ArrayList<StateAfterADiamond> getRoundsInformations() {
         return roundsInformations;
     }
+
+    public int getWinnerTotalScore(){
+        int point = 0;
+        for (StateAfterADiamond stateAfterADiamond : roundsInformations){
+            point += stateAfterADiamond.winnerScore();
+        }
+
+        return point;
+    }
+
+    public int getLoserTotalScore(){
+        int point = 0;
+        for (StateAfterADiamond stateAfterADiamond : roundsInformations){
+            point += stateAfterADiamond.looserScore();
+        }
+        return point;
+    }
 }

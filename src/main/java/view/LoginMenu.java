@@ -87,4 +87,9 @@ public class LoginMenu extends AppMenu {
         ForgetPassword forgetPassword = new ForgetPassword();
         forgetPassword.start(ApplicationController.getStage());
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }
