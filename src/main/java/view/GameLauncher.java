@@ -88,13 +88,14 @@ public class GameLauncher extends AppMenu {
     public VBox otherDiscardPileVBox;
     public VBox curDiscardPileVBox;
     public Button vetoButton;
+    public HBox displayCardHBox;
     public HBox curRow2HBox = new HBox();
     public HBox curRow1HBox = new HBox();
     public HBox curRow0HBox = new HBox();
     public HBox otherRow0HBox = new HBox();
     public HBox otherRow1HBox = new HBox();
     public HBox otherRow2HBox = new HBox();
-    public HBox displayCardHBox;
+
 
     private boolean isScreenLocked;
     private final int MAX_CARD_SHOW = 12;
@@ -120,29 +121,46 @@ public class GameLauncher extends AppMenu {
         stage.show();
 
         pane.requestFocus();
-
         handleKeyEvents();
-
-
     }
 
     private void handleKeyEvents() {
-        pane.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case DIGIT0 -> recoverCard(1, Game.getCurrentGame().getCurrentPlayer());
-                case INSERT -> recoverCard(2, Game.getCurrentGame().getCurrentPlayer());
-                case D -> getFromDeck(Game.getCurrentGame().getCurrentPlayer());
-                case PLUS -> makeWeathersEmpty(Game.getCurrentGame().getWeathers());
-                case E -> decreaseOpponentDiamonds(Game.getCurrentGame().getOtherPlayer());
-                case F -> increaseDiamond(Game.getCurrentGame().getCurrentPlayer());
-                case G -> destroyOpponentClose(Game.getCurrentGame().getOtherPlayer());
-            }
-            try {
-                refreshScreen(Game.getCurrentGame().getCurrentPlayer(), Game.getCurrentGame().getOtherPlayer());
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        try {
+            pane.setOnKeyPressed(event -> {
+                switch (event.getCode()) {
+                    case DIGIT0 -> {
+                        recoverCard(1, Game.getCurrentGame().getCurrentPlayer());
+                    }
+                    case INSERT -> {
+                        recoverCard(2, Game.getCurrentGame().getCurrentPlayer());
+                    }
+
+                    case D -> {
+                        getFromDeck(Game.getCurrentGame().getCurrentPlayer());
+                    }
+
+                    case PLUS -> {
+                        makeWeathersEmpty(Game.getCurrentGame().getWeathers());
+                    }
+
+                    case E -> {
+                        decreaseOpponentDiamonds(Game.getCurrentGame().getOtherPlayer());
+                    }
+
+                    case F -> {
+                        increaseDiamond(Game.getCurrentGame().getCurrentPlayer());
+                    }
+
+                    case G -> {
+                        destroyOpponentClose(Game.getCurrentGame().getOtherPlayer());
+                    }
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void makeWeathersEmpty(ArrayList<Card> weathers) {
@@ -299,10 +317,8 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void displayCard() {
-        if (Game.getCurrentGame().getOtherPlayer().getCardInfo().isEmpty())
-            return;
-
+    private void displayCard() { // TODO :
+        System.out.println("ArrList size : " + Game.getCurrentGame().getOtherPlayer().getCardInfo().size());
         for (Card card : Game.getCurrentGame().getOtherPlayer().getCardInfo()) {
             try {
                 String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
@@ -312,7 +328,7 @@ public class GameLauncher extends AppMenu {
                 imageView.preserveRatioProperty();
                 imageView.setFitWidth(52.5);
                 imageView.setFitHeight(90);
-                inHandCurHbox.getChildren().add(imageView);
+                displayCardHBox.getChildren().add(imageView);
             } catch (Exception e) {
                 e.printStackTrace();
             }
