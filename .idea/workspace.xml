@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/GameHistoryScreen.java" afterDir="false" />
+    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Account/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/GameHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/GameHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/game/StateAfterADiamond.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/game/StateAfterADiamond.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/AppMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/AppMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameHistory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,10 +53,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 0
-}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -74,14 +61,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
-  }
-}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -132,7 +111,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.*" />
@@ -264,7 +243,7 @@
       <workItem from="1719641559998" duration="33604000" />
       <workItem from="1719730049880" duration="5016000" />
       <workItem from="1719751308479" duration="543000" />
-      <workItem from="1719826893427" duration="4421000" />
+      <workItem from="1719826893427" duration="6178000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

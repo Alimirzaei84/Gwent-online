@@ -422,16 +422,26 @@ public class GameLauncher extends AppMenu {
     }
 
     private void setRowOnScreen(Player player, Row row, StackPane rowStackPane, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
+        // Clear existing children from rowHBox and specialRowBox
         rowHBox.getChildren().clear();
         specialRowBox.getChildren().clear();
         rowStackPane.getChildren().clear();
 
+        // Create the rainPane and bind its size to rowStackPane's size
         Pane rainPane = new Pane();
         rainPane.prefWidthProperty().bind(rowStackPane.widthProperty());
         rainPane.prefHeightProperty().bind(rowStackPane.heightProperty());
 
-        rowStackPane.getChildren().addAll(rowHBox, rainPane); // Add the HBox and rainPane to the StackPane
+        // Add rowHBox and specialRowBox to rowStackPane
+        rowStackPane.getChildren().addAll(rowHBox, specialRowBox);
 
+        // Add rainPane to rowStackPane if it's raining
+        if (row.isOnFrost()) {
+            addRainEffect(rainPane);
+            rowStackPane.getChildren().add(rainPane);
+        }
+
+        // Populate the row with cards
         int index = 0;
         for (Card card : row.getCards()) {
             if (index >= 10)
@@ -448,10 +458,7 @@ public class GameLauncher extends AppMenu {
             index++;
         }
 
-        if (row.isOnFrost()) {
-            addRainEffect(rainPane); // Add the rain effect to the rainPane
-        }
-
+        // Add the special card if present
         if (row.getSpecial() != null) {
             String imagePath = CardController.imagePath.getOrDefault(row.getSpecial().getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
@@ -461,8 +468,6 @@ public class GameLauncher extends AppMenu {
             imageView.setFitHeight(72);
             specialRowBox.getChildren().add(imageView);
         }
-
-        rowStackPane.getChildren().add(specialRowBox); // Ensure specialRowBox is added last to appear on top
     }
 
 
