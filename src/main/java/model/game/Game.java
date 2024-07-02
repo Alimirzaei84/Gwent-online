@@ -2,9 +2,9 @@ package model.game;
 
 import controller.CardController;
 import model.Account.Player;
-import model.Account.User;
 import model.role.Card;
 import model.role.Faction;
+import server.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

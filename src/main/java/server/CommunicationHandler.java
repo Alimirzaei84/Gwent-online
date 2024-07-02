@@ -1,5 +1,6 @@
 package server;
 
+import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
@@ -34,7 +35,7 @@ public class CommunicationHandler implements Runnable {
             String inMessage;
             while ((inMessage = in.readUTF()) != null) {
                 // for debug purpose
-                System.out.println("[" +getUsername()+ "] \"" + inMessage + "\"");
+                System.out.println("[" + getUsername() + "] \"" + inMessage + "\"");
                 handleCommand(inMessage);
             }
         } catch (IOException e) {
@@ -60,41 +61,39 @@ public class CommunicationHandler implements Runnable {
     private void handleCommand(String inMessage) throws IOException {
 
         if (user == null) {
-            if (inMessage.matches(registerRegex)) {
-                Matcher matcher = Pattern.compile(registerRegex).matcher(inMessage);
-                matcher.find();
+//            if (inMessage.matches(registerRegex)) {
+//                Matcher matcher = Pattern.compile(registerRegex).matcher(inMessage);
+//                matcher.find();
+//
+//                User user = UserController.register(matcher);
+//                if (user == null) {
+//                    sendMessage("[ERROR] register failed");
+//                } else {
+//                    sendMessage("[SUCC] register successful");
+//                    user.getOnline(this);
+//                    setUser(user);
+//                }
+//            }
+            if (Regexes.REGISTER.matches(inMessage)) register(inMessage);
+//            else if (inMessage.matches(loginRegex)) {
+//                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
+//                matcher.find();
+//
+//                User user = UserController.login(matcher);
+//                if (user == null) {
+//                    sendMessage("[ERROR] login failed");
+//                } else {
+//                    sendMessage("[SUCC] login successful");
+//                    user.getOnline(this);
+//                    setUser(user);
+//                }
+//            } else {
+//                sendMessage("[ERROR] unknown command");
+//            }
 
-                User user = UserController.register(matcher);
-                if (user == null) {
-                    sendMessage("[ERROR] register failed");
-                } else {
-                    sendMessage("[SUCC] register successful");
-                    user.getOnline(this);
-                    setUser(user);
-                }
-            } else if (inMessage.matches(loginRegex)) {
-                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
-                matcher.find();
-
-                User user = UserController.login(matcher);
-                if (user == null) {
-                    sendMessage("[ERROR] login failed");
-                } else {
-                    sendMessage("[SUCC] login successful");
-                    user.getOnline(this);
-                    setUser(user);
-                }
-            } else {
-                sendMessage("[ERROR] unknown command");
-            }
-
-        }
-
-        else if (user.isOffline()) {
+        } else if (user.isOffline()) {
             sendMessage("[ERROR] offline");
-        }
-
-        else if (user.isJustOnline()) {
+        } else if (user.isJustOnline()) {
 
             if (inMessage.matches(invitationRequestRegex)) {
                 Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
@@ -138,36 +137,35 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 watchOnlineGame(matcher);
-            }
-
-            else {
+            } else {
                 sendMessage("[ERROR] unknown command");
             }
-        }
-
-        else if (user.isInviting()) {
+        } else if (user.isInviting()) {
             if (inMessage.matches(cancelInvitationRegex)) {
                 cancelInvitation();
-            }
-
-            else {
+            } else {
                 sendMessage("[ERROR] unknown command");
             }
-        }
-
-        else if (user.isPlaying()) {
+        } else if (user.isPlaying()) {
             ServerController.passMessageToGameOfUser(this.getUser(), inMessage);
-        }
-
-        else if (user.isViewing()) {
+        } else if (user.isViewing()) {
             System.out.println("im still viewing you bitch.");
             ServerController.passMessageToChatRoom(this.getUser(), inMessage);
-        }
-
-        else {
+        } else {
             sendMessage("[ERROR] unknown command");
         }
     }
+
+    private void register(String inMessage) {
+        user = new User(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"),
+                Regexes.REGISTER.getGroup(inMessage, "email"), Regexes.REGISTER.getGroup(inMessage, "nickname"));
+
+        System.out.println("HERE-->>");
+        for (User allUser : User.getAllUsers()) {
+            System.out.println(allUser.getUsername());
+        }
+    }
+
 
     private void watchOnlineGame(Matcher matcher) throws IOException {
         String idStr = matcher.group(1);
@@ -294,7 +292,7 @@ public class CommunicationHandler implements Runnable {
     private void invitation(Matcher matcher) throws IOException {
         String receiverName = matcher.group(1);
 
-        User user = UserController.getUserByName(receiverName);
+//        User user = UserController.getUserByName(receiverName);
         if (user == null) {
             System.out.println("[ERROR] user \"" + receiverName + "\" not found");
             sendMessage("[ERROR] there is no user \"" + receiverName + "\"");

@@ -1,8 +1,8 @@
 package controller.menuConrollers;
 
-import model.Account.User;
 import model.Enum.Regexes;
 import model.game.Game;
+import server.User;
 
 public class MainMenuController {
 
@@ -20,7 +20,8 @@ public class MainMenuController {
             throw new Exception("You can't play with yourself!");
         }
 
-        User opponent = User.getUserByUsername(opponentUsername);
+//        server.User opponent = server.User.getUserByUsername(opponentUsername);
+        server.User opponent = server.User.getUserByUsername(opponentUsername);
 
         if (opponent == null) {
             throw new Exception("Such user doesn't exist!");

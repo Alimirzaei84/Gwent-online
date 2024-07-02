@@ -30,7 +30,7 @@ public abstract class UserController {
             return null;
         }
 
-        user = new User(username, password);
+        user = new User(username, password, "", "");
         users.add(user);
         return user;
     }

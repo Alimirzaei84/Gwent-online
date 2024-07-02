@@ -1,7 +1,7 @@
 package controller;
 
 import javafx.stage.Stage;
-import model.Account.User;
+import server.User;
 
 import java.util.Random;
 

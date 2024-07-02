@@ -12,7 +12,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Account.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +19,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RegisterMenu extends AppMenu {
+    private Stage currentStage;
     public TextField username;
     public TextField nickname;
     public PasswordField password;
@@ -33,7 +33,7 @@ public class RegisterMenu extends AppMenu {
         removeDuplicate();
     }
 
-    public void removeDuplicate(){
+    public void removeDuplicate() {
         CardController.heroes = CardController.removeDuplicates(CardController.heroes);
         CardController.units = CardController.removeDuplicates(CardController.units);
         CardController.specials = CardController.removeDuplicates(CardController.specials);
@@ -46,16 +46,16 @@ public class RegisterMenu extends AppMenu {
 
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setResizable(false);
-        stage.centerOnScreen();
-        stage.setTitle("AntEater");
+        currentStage = new Stage();
+        currentStage.setResizable(false);
+        currentStage.centerOnScreen();
+        currentStage.setTitle("AntEater");
         ApplicationController.setStage(stage);
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
         Scene scene = new Scene(pane);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-
+        currentStage.setScene(scene);
+        currentStage.show();
     }
 
     @Override
@@ -71,11 +71,7 @@ public class RegisterMenu extends AppMenu {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 9; // desired length
-        String generatedString = ApplicationController.getRandom().ints(leftLimit, rightLimit + 1)
-                .filter(Character::isLetterOrDigit)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        String generatedString = ApplicationController.getRandom().ints(leftLimit, rightLimit + 1).filter(Character::isLetterOrDigit).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         password.setText(generatedString);
         passwordAgain.setText(generatedString);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -98,23 +94,28 @@ public class RegisterMenu extends AppMenu {
             /*
              *  @param attention to this code
              */
-            Out.sendMessage(result);
+
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
 
             Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            User newUser = new User(username.getText(), password.getText(), email.getText(), nickname.getText());
-            User.setLoggedInUser(newUser);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+//            User newUser = new User(username.getText(), password.getText(), email.getText(), nickname.getText());
+
+
+            Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + nickname.getText() + " " + email.getText());
+//            User.setLoggedInUser(newUser);
+
+            System.out.println(currentStage);
             PickQuestions pickQuestions = new PickQuestions();
-            pickQuestions.start(ApplicationController.getStage());
+            pickQuestions.start(currentStage);
         } catch (Exception e) {
             result = e.getMessage();
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.setContentText(result);
             alert.showAndWait();
         }

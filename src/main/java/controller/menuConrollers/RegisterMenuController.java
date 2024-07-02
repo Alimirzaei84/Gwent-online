@@ -1,14 +1,16 @@
 package controller.menuConrollers;
 
 
+import server.User;
+
 public class RegisterMenuController {
     public String register(String username, String password, String passwordAgain, String nickname, String email) throws Exception {
-//        if (username == null || password == null || passwordAgain == null || nickname == null || email == null) {
-//            throw new Exception("[ERR]: please fill the fields");
-//        }
-//        if (User.getUserByUsername(username) != null) {
-//            throw new Exception("[ERR]: already exists");
-//        }
+        if (username == null || password == null || passwordAgain == null || nickname == null || email == null) {
+            throw new Exception("[ERR]: please fill the fields");
+        }
+        if (User.getUserByUsername(username) != null) {
+            throw new Exception("[ERR]: already exists");
+        }
 //        if (!Regexes.VALID_USERNAME.matches(username)) {
 //            throw new Exception("[ERR]: Invalid username");
 //        }

@@ -23,9 +23,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Account.Player;
-import model.Account.User;
 import model.game.Game;
 import model.role.*;
+import server.User;
 
 import java.io.*;
 import java.lang.reflect.Type;
