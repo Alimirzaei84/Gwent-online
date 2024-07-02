@@ -1,9 +1,20 @@
 package controller.menuConrollers;
 
 
+import javafx.stage.Stage;
 import server.User;
 
 public class RegisterMenuController {
+    private Stage stage;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public String register(String username, String password, String passwordAgain, String nickname, String email) throws Exception {
         if (username == null || password == null || passwordAgain == null || nickname == null || email == null) {
             throw new Exception("[ERR]: please fill the fields");

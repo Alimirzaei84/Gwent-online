@@ -4,7 +4,6 @@ import client.Main;
 import client.Out;
 import controller.*;
 import controller.menuConrollers.RegisterMenuController;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,8 +18,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RegisterMenu extends AppMenu {
-    private Stage currentStage;
     public TextField username;
+    private Wrapper wrapper;
+    private int id;
     public TextField nickname;
     public PasswordField password;
     public PasswordField passwordAgain;
@@ -45,17 +45,21 @@ public class RegisterMenu extends AppMenu {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        currentStage = new Stage();
-        currentStage.setResizable(false);
-        currentStage.centerOnScreen();
-        currentStage.setTitle("AntEater");
-        ApplicationController.setStage(stage);
+    public void start(Stage stage) throws IOException, InterruptedException {
+//        int random = ApplicationController.getRandom().nextInt(0, 1000);
+//        ApplicationController.addStage(random, stage);
+//        for (int i = 0; i < 5; i++) {
+//            ApplicationController.addStage(10, new Stage());
+//        }
+        stage.setResizable(false);
+        stage.centerOnScreen();
+        stage.setTitle("AntEater");
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/RegisterMenu.fxml")));
         Scene scene = new Scene(pane);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
-        currentStage.setScene(scene);
-        currentStage.show();
+        stage.setScene(scene);
+        stage.show();
+//        System.out.println(stage);
     }
 
     @Override
@@ -106,10 +110,10 @@ public class RegisterMenu extends AppMenu {
 
             Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + nickname.getText() + " " + email.getText());
 //            User.setLoggedInUser(newUser);
-
-            System.out.println(currentStage);
+           email.getScene().getWindow().hide();
+//            ApplicationController.closeStage(id).close();
             PickQuestions pickQuestions = new PickQuestions();
-            pickQuestions.start(currentStage);
+            pickQuestions.start((Stage) email.getScene().getWindow());
         } catch (Exception e) {
             result = e.getMessage();
             System.out.println(result);

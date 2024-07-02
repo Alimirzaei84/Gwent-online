@@ -40,7 +40,7 @@ public class LoginMenu extends AppMenu {
 
     }
 
-    public void goToRegisterMenu(MouseEvent mouseEvent) throws IOException {
+    public void goToRegisterMenu(MouseEvent mouseEvent) throws IOException, InterruptedException {
         RegisterMenu registerMenu = new RegisterMenu();
         registerMenu.start(ApplicationController.getStage());
     }
