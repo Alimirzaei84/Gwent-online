@@ -44,18 +44,7 @@ public class CommunicationHandler implements Runnable {
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)",
-            registerRegex = "^register ([\\S]+) ([\\S]+)$",
-            loginRegex = "^login ([\\S]+) ([\\S]+)$",
-            acceptGameRegex = "^accept game with ([\\S]+)$",
-            cancelInvitationRegex = "^cancel invitation$",
-            denyInvitationRegex = "^deny invitation from ([\\S]+)$",
-            friendRequestRegex = "^let's be friend ([\\S]+)$",
-            acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$",
-            showFriendsRegex = "^show friends$",
-            cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$",
-            denyFriendRequestRegex = "^deny friend request from ([\\S]+)$",
-            watchOnlineGameRegex = "^watch online game:([\\d]+)";
+    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from ([\\S]+)$", friendRequestRegex = "^let's be friend ([\\S]+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
     private void handleCommand(String inMessage) throws IOException {
@@ -157,8 +146,7 @@ public class CommunicationHandler implements Runnable {
     }
 
     private void register(String inMessage) {
-        user = new User(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"),
-                Regexes.REGISTER.getGroup(inMessage, "email"), Regexes.REGISTER.getGroup(inMessage, "nickname"));
+        user = new User(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"), Regexes.REGISTER.getGroup(inMessage, "email"), Regexes.REGISTER.getGroup(inMessage, "nickname"));
 
         System.out.println("HERE-->>");
         for (User allUser : User.getAllUsers()) {

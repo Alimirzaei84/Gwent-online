@@ -29,7 +29,6 @@ public class RegisterMenu extends AppMenu {
 
     public RegisterMenu() throws IOException {
         controller = new RegisterMenuController();
-        CardController.load_data();
         removeDuplicate();
     }
 
@@ -90,16 +89,12 @@ public class RegisterMenu extends AppMenu {
         loginMenu.start(ApplicationController.getStage());
     }
 
-    public void register() {
+    public void register() throws Exception {
         String result;
-        try {
-            result = controller.register(username.getText(), password.getText(), passwordAgain.getText(), nickname.getText(), email.getText());
+        result = controller.register(username.getText(), password.getText(), passwordAgain.getText(), nickname.getText(), email.getText());
+        System.out.println(result);
 
-            /*
-             *  @param attention to this code
-             */
-
-            System.out.println(result);
+        if (result.startsWith("[SUCC]")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
 
@@ -110,19 +105,22 @@ public class RegisterMenu extends AppMenu {
 
             Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + nickname.getText() + " " + email.getText());
 //            User.setLoggedInUser(newUser);
-           email.getScene().getWindow().hide();
+            email.getScene().getWindow().hide();
 //            ApplicationController.closeStage(id).close();
             PickQuestions pickQuestions = new PickQuestions();
             pickQuestions.start((Stage) email.getScene().getWindow());
-        } catch (Exception e) {
-            result = e.getMessage();
+
+        } else if (result.startsWith("[ERR]")) {
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.setContentText(result);
             alert.showAndWait();
+        } else {
+            throw new RuntimeException("Invalid result");
         }
+
     }
 
     @Override

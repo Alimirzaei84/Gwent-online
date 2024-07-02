@@ -69,7 +69,7 @@ public class ApplicationController {
         ApplicationController.forgetPasswordUser = forgetPasswordUser;
     }
 
-    public static Random getRandom() {
+    public synchronized static Random getRandom() {
         return random;
     }
 

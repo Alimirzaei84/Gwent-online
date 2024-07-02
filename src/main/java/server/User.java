@@ -98,8 +98,8 @@ public class User {
 
 
     private Leader getRandomLeader() {
-        Random rand = new Random();
-        String leaderName = CardController.leaders.get(rand.nextInt(CardController.leaders.size()));
+        System.out.println("++++" +   CardController.leaders.size());
+        String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));
         return (Leader) CardController.createLeaderCard(leaderName);
     }
 
