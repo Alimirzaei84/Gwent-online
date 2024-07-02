@@ -5,13 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change afterPath="$PROJECT_DIR$/src/main/java/client/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Untitled Diagram.drawio.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Untitled Diagram.drawio.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/In.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/In.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/AppMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameHistoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/NioClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/NioClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/NioServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/NioServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/Wrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/Wrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/EndOfGameScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/EndOfGameScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ForgotPassword.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameHistory.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameHistory.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/LoginMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/LoginMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PickQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PickQuestion.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/ProfileMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +77,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -58,9 +87,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
-}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -69,24 +95,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GameLauncher.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.RegisterMenu.executor": "Run",
-    "Application.client.Client.executor": "Run",
-    "Application.client.Main.executor": "Run",
-    "Application.view.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "git-widget-placeholder": "phase3",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -111,13 +119,13 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RegisterMenu">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.GameLauncher" />
+      <option name="MAIN_CLASS_NAME" value="client.view.GameLauncher" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="view.*" />
+          <option name="PATTERN" value="client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -127,7 +135,7 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -138,12 +146,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.view.Main" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="view.*" />
+          <option name="PATTERN" value="client.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -183,19 +204,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="view.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="view.Main" />
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>

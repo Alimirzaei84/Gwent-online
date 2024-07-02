@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Regexes {
-    REGISTER("register (?<username>.+) (?<password>.+) (?<nickname>.+) (?<email>.+)"),
+    REGISTER("register (?<username>.+) (?<password>.+) (?<passwordAgain>.+) (?<nickname>.+) (?<email>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
     CHOOSE_CARD("choose card"),
     START_TURN("start turn"),

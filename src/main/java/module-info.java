@@ -10,9 +10,9 @@ module testAnt {
     requires java.compiler;
     requires org.testng;
     opens model.role to com.google.gson;
-    exports view;
+    exports client.view;
     exports model.game;
     exports model.Account;
     exports model.role;
-    opens view to javafx.fxml;
+    opens client.view to javafx.fxml;
 }

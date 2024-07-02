@@ -1,7 +1,7 @@
 
 //Client code
 
-package view;
+package client.view;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -1,7 +1,6 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 

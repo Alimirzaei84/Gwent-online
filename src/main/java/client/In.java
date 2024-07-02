@@ -1,11 +1,12 @@
 package client;
 
 import javafx.application.Platform;
+import client.view.AppMenu;
+import client.view.LoginMenu;
+import client.view.RegisterMenu;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.Socket;
 
 public class In implements Runnable {
 
@@ -38,9 +39,15 @@ public class In implements Runnable {
         }
     }
 
-    private void serverMessageHandler(String message) {
-
+    public void serverMessageHandler(String message) {
         // TODO
+        User user = User.getInsetance();
+        AppMenu appMenu = user.getAppMenu();
+        if (appMenu instanceof RegisterMenu){
+            ((RegisterMenu) appMenu).handleCommand(message);
+        } else if (appMenu instanceof LoginMenu){
+
+        }
     }
 
     public DataInputStream getIn() {

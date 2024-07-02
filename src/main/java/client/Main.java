@@ -1,7 +1,7 @@
 package client;
 
 import javafx.application.Platform;
-import view.RegisterMenu;
+import client.view.RegisterMenu;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,14 +17,7 @@ public class Main {
     private static boolean running;
 
 
-    public synchronized static void main(String[] args) {
-//        boolean flag = connectSocket();
-        Platform.runLater(new Runnable() {
-            public void run() {
-                RegisterMenu.launch(args);
-            }
-        });
-    }
+
 
     public static boolean connectSocket() {
         System.out.println("connecting...");

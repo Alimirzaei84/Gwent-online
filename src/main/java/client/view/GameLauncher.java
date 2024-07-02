@@ -1,6 +1,5 @@
-package view;
+package client.view;
 
-import client.Main;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.GameController;
@@ -21,7 +20,6 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;

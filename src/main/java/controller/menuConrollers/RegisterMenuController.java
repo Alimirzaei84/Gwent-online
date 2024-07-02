@@ -16,7 +16,7 @@ public class RegisterMenuController {
         this.stage = stage;
     }
 
-    public String register(String username, String password, String passwordAgain, String nickname, String email) throws Exception {
+    public static String register(String username, String password, String passwordAgain, String nickname, String email)  {
         if (username == null || password == null || passwordAgain == null || nickname == null || email == null) {
             return ("[ERR]: please fill the fields");
         }

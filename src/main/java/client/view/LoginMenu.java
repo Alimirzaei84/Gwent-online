@@ -1,4 +1,4 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
 import controller.menuConrollers.LoginMenuController;

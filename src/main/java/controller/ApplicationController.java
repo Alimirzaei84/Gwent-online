@@ -2,7 +2,6 @@ package controller;
 
 import javafx.stage.Stage;
 import server.User;
-import view.RegisterMenu;
 
 import java.util.*;
 

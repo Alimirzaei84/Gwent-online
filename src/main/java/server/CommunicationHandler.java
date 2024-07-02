@@ -1,5 +1,7 @@
 package server;
 
+import controller.menuConrollers.RegisterMenuController;
+
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
@@ -63,7 +65,15 @@ public class CommunicationHandler implements Runnable {
 //                    setUser(user);
 //                }
 //            }
-            if (Regexes.REGISTER.matches(inMessage)) register(inMessage);
+            if (Regexes.REGISTER.matches(inMessage)) {
+//                register(inMessage);
+                String message = RegisterMenuController.register(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"),
+                        Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), Regexes.REGISTER.getGroup(inMessage, "nickname"), Regexes.REGISTER.getGroup(inMessage, "email"));
+
+                sendMessage(message);
+
+
+            }
 //            else if (inMessage.matches(loginRegex)) {
 //                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
 //                matcher.find();

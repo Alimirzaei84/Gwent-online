@@ -52,7 +52,7 @@
         <mxCell id="9DOKpiM4p9HTTlQjgvQK-23" value="controller" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="400" y="40" width="70" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="9DOKpiM4p9HTTlQjgvQK-24" value="view" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="9DOKpiM4p9HTTlQjgvQK-24" value="client.view" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="530" y="40" width="70" height="50" as="geometry" />
         </mxCell>
         <mxCell id="y7fOcHaTcOHTqNgl37zx-3" value="account" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" parent="1" vertex="1">
@@ -691,7 +691,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="YjJA3Y71HELFms6Vt2P0-1" value="view" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="YjJA3Y71HELFms6Vt2P0-1" value="client.view" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="510" y="130" width="70" height="50" as="geometry" />
         </mxCell>
         <mxCell id="YjJA3Y71HELFms6Vt2P0-2" value="&amp;lt;&amp;lt;Abstract&amp;gt;&amp;gt;&lt;div&gt;AppMenu&lt;/div&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
