@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Regexes {
+    FAVORITE_COLOR("favorite color (?<color>.+)"),
     REGISTER("register (?<username>.+) (?<password>.+) (?<passwordAgain>.+) (?<nickname>.+) (?<email>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
     CHOOSE_CARD("choose card"),

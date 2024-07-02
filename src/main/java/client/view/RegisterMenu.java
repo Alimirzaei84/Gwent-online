@@ -53,13 +53,12 @@ public class RegisterMenu extends AppMenu {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
-//        System.out.println(stage);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Main.connectSocket();
-        client.User.getInsetance().setAppMenu(this);
+        client.User.getInstance().setAppMenu(this);
     }
 
     public void exitFromGame() {
@@ -86,7 +85,7 @@ public class RegisterMenu extends AppMenu {
     }
 
     public void register() throws Exception {
-        Out.sendMessage("register " +  username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + email.getText());
+        Out.sendMessage("register " +  username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + " " + email.getText());
 
         //        System.out.println(result);
 
@@ -119,9 +118,31 @@ public class RegisterMenu extends AppMenu {
 
     }
 
-    public void handleCommand(String command){
-        //TODO
-        System.out.println(command);
+    public void handleCommand(String result) throws Exception {
+
+        if (result.startsWith("[SUCC]")) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(result);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+
+            System.out.println("1" + client.User.getInstance().getUsername());
+            client.User.getInstance().setUsername(username.getText());
+            System.out.println("2" + client.User.getInstance().getUsername());
+            email.getScene().getWindow().hide();
+            PickQuestions pickQuestions = new PickQuestions();
+            pickQuestions.start((Stage) email.getScene().getWindow());
+
+        } else if (result.startsWith("[ERR]")) {
+            System.out.println(result);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+            alert.setContentText(result);
+            alert.showAndWait();
+        } else {
+            throw new RuntimeException("Invalid result");
+        }
     }
 
     @Override

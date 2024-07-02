@@ -16,7 +16,7 @@ public class RegisterMenuController {
         this.stage = stage;
     }
 
-    public static String register(String username, String password, String passwordAgain, String nickname, String email)  {
+    public static String register(String username, String password, String passwordAgain, String nickname, String email) {
         if (username == null || password == null || passwordAgain == null || nickname == null || email == null) {
             return ("[ERR]: please fill the fields");
         }
@@ -47,6 +47,7 @@ public class RegisterMenuController {
         if (!password.equals(passwordAgain)) {
             return ("[ERR]: the passwords are not the same");
         }
+//        new User(username, password, email, nickname);
         return "[SUCC]: User registered successfully";
     }
 }

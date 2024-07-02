@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,8 @@ public class CommunicationHandler implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -49,7 +52,12 @@ public class CommunicationHandler implements Runnable {
     private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from ([\\S]+)$", friendRequestRegex = "^let's be friend ([\\S]+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
-    private void handleCommand(String inMessage) throws IOException {
+    private void handleCommand(String inMessage) throws Exception {
+
+        if(Regexes.FAVORITE_COLOR.matches(inMessage)) {
+            System.out.println("I am here");
+            user.addQuestionAnswer("your favorite color?",Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+        }
 
         if (user == null) {
 //            if (inMessage.matches(registerRegex)) {
@@ -66,13 +74,14 @@ public class CommunicationHandler implements Runnable {
 //                }
 //            }
             if (Regexes.REGISTER.matches(inMessage)) {
-//                register(inMessage);
-                String message = RegisterMenuController.register(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"),
-                        Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), Regexes.REGISTER.getGroup(inMessage, "nickname"), Regexes.REGISTER.getGroup(inMessage, "email"));
+                String username = Regexes.REGISTER.getGroup(inMessage, "username"), password = Regexes.REGISTER.getGroup(inMessage, "password"), passwordAgain = Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), nickname = Regexes.REGISTER.getGroup(inMessage, "nickname"), email = Regexes.REGISTER.getGroup(inMessage, "email");
 
+                String message = RegisterMenuController.register(username, password, passwordAgain, nickname, email);
+                if (message.startsWith("[SUCC]")) {
+                    user = new User(username, password, nickname, email);
+                    System.out.println("user with username: " + username + " created");
+                }
                 sendMessage(message);
-
-
             }
 //            else if (inMessage.matches(loginRegex)) {
 //                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);

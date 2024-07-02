@@ -28,7 +28,11 @@ public class In implements Runnable {
                     String finalServerMessage = serverMessage;
                     Platform.runLater(() -> {
                         System.out.println(finalServerMessage);
-                        serverMessageHandler(finalServerMessage);
+                        try {
+                            serverMessageHandler(finalServerMessage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                 }
 
@@ -39,9 +43,10 @@ public class In implements Runnable {
         }
     }
 
-    public void serverMessageHandler(String message) {
+    public void serverMessageHandler(String message) throws Exception {
+        System.out.println("43");
         // TODO
-        User user = User.getInsetance();
+        User user = User.getInstance();
         AppMenu appMenu = user.getAppMenu();
         if (appMenu instanceof RegisterMenu){
             ((RegisterMenu) appMenu).handleCommand(message);

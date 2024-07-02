@@ -1,5 +1,6 @@
 package client.view;
 
+import client.Out;
 import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,25 +29,28 @@ public class PickQuestions extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client.User.getInstance().setAppMenu(this);
     }
 
     public void setFavoriteColor() throws Exception {
         if (color.getText() != null && color.getText().length() > 2) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite color?", color.getText());
+            Out.sendMessage("favorite color " + color.getText());
+//            System.out.println(client.User.getInstance().getUsername());
+//           Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite color?", color.getText());
             System.out.println("[INFO]: user favorite color is -->>  " + color.getText());
         }
     }
 
     public void setFavoriteMonth() throws Exception {
         if (month.getText() != null && month.getText().length() > 2) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite month?", month.getText());
+            Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite month?", month.getText());
             System.out.println("[INFO]: user favorite month is -->>  " + month.getText());
         }
     }
 
     public void setFavoriteFood() throws Exception {
         if (food.getText() != null && food.getText().length() > 1) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite food?", food.getText());
+            Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite food?", food.getText());
             System.out.println("[INFO]: user favorite food is -->>  " + food.getText());
         }
     }
@@ -56,7 +60,8 @@ public class PickQuestions extends AppMenu {
         setFavoriteFood();
         setFavoriteMonth();
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(ApplicationController.getStage());
+        food.getScene().getWindow().hide();
+        loginMenu.start((Stage) food.getScene().getWindow());
     }
 
     @Override

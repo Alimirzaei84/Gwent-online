@@ -16,6 +16,7 @@ public class User {
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
     }
+
     private final ArrayList<GameHistory> gameHistories;
     private final ArrayList<User> friends;
 
@@ -98,7 +99,7 @@ public class User {
 
 
     private Leader getRandomLeader() {
-        System.out.println("++++" +   CardController.leaders.size());
+        System.out.println("++++" + CardController.leaders.size());
         String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));
         return (Leader) CardController.createLeaderCard(leaderName);
     }
@@ -203,7 +204,8 @@ public class User {
     public String getEmail() {
         return email;
     }
-    public static ArrayList<User> getAllUsers(){
+
+    public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
 
@@ -237,11 +239,9 @@ public class User {
 
 
     public static User getUserByUsername(String username) {
-        for (User user : allUsers) {
-            if (user.getName().equals(username)) {
-                return user;
-            }
-        }
+
+        for (User user : allUsers)
+            if (user.getName().equals(username)) return user;
 
         return null;
     }
@@ -423,7 +423,8 @@ public class User {
     public void setStatus(Status status) {
         this.status = status;
     }
-        @Override
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
