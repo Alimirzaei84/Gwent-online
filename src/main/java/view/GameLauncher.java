@@ -1,5 +1,6 @@
 package view;
 
+import client.Main;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.GameController;

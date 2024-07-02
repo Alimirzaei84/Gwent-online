@@ -1,27 +1,22 @@
 package view;
 
+import client.Main;
+import client.Out;
 import controller.*;
 import controller.menuConrollers.RegisterMenuController;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Account.User;
-import model.role.Special;
-import server.Main;
-import server.Server;
 
 import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class RegisterMenu extends AppMenu {
@@ -65,7 +60,7 @@ public class RegisterMenu extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        Main.connectSocket();
     }
 
     public void exitFromGame() {
@@ -99,6 +94,11 @@ public class RegisterMenu extends AppMenu {
         String result;
         try {
             result = controller.register(username.getText(), password.getText(), passwordAgain.getText(), nickname.getText(), email.getText());
+
+            /*
+             *  @param attention to this code
+             */
+            Out.sendMessage(result);
             System.out.println(result);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
