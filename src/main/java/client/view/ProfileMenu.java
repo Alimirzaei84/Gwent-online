@@ -149,6 +149,7 @@ public class ProfileMenu extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client.User.getInstance().setAppMenu(this);
         try {
             Out.sendMessage("give username");
             Out.sendMessage("give email");

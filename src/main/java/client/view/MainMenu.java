@@ -140,7 +140,6 @@ public class MainMenu extends AppMenu {
     public void profileMenu(MouseEvent mouseEvent) {
         ProfileMenu profileMenu = new ProfileMenu();
         try {
-            client.User.getInstance().setAppMenu(profileMenu);
             profileMenu.start((Stage) profileMenuButton.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
