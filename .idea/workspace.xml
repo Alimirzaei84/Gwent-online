@@ -8,10 +8,18 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/In.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/In.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
@@ -61,6 +69,10 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -69,12 +81,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.RegisterMenu.executor": "Run"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hadij/IdeaProjects/test36/src/model/User.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -194,9 +209,9 @@
     <list>
       <item itemvalue="Application.RegisterMenu" />
       <item itemvalue="Application.GameLauncher" />
-      <item itemvalue="Application.client.Main" />
-      <item itemvalue="Application.client.Client" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.client.Client" />
+      <item itemvalue="Application.client.Main" />
     </list>
     <recent_temporary>
       <list>

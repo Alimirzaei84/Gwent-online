@@ -53,6 +53,11 @@ public class GameHistoryScreen extends AppMenu {
 
     }
 
+    @Override
+    public void handleCommand(String command) throws Exception {
+
+    }
+
     public void showAGameHistory(int index) {
         System.out.println(index);
         if (User.getLoggedInUser().getGameHistories().size() <= index || index < 0  )

@@ -44,15 +44,9 @@ public class In implements Runnable {
     }
 
     public void serverMessageHandler(String message) throws Exception {
-        System.out.println("43");
-        // TODO
         User user = User.getInstance();
         AppMenu appMenu = user.getAppMenu();
-        if (appMenu instanceof RegisterMenu){
-            ((RegisterMenu) appMenu).handleCommand(message);
-        } else if (appMenu instanceof LoginMenu){
-
-        }
+        appMenu.handleCommand(message);
     }
 
     public DataInputStream getIn() {

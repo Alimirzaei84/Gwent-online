@@ -6,10 +6,7 @@ import model.game.GameHistory;
 import model.role.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class User {
 
@@ -41,14 +38,6 @@ public class User {
     private Status status;
 
     private int gameId = -1; // -1 means home
-//    private int roomId = -1; // -1 means home
-
-//    public User(String name, String password) throws IOException {
-//        this.username = name;
-//        this.password = password;
-//        status = Status.OFFLINE;
-//        friends = new ArrayList<>();
-//    }
 
     private HashMap<String, String> answers;
 
@@ -153,9 +142,6 @@ public class User {
         this.username = name;
     }
 
-    public int getRank() {
-        return rank;
-    }
 
     public void setRank(int rank) {
         this.rank = rank;
@@ -408,21 +394,15 @@ public class User {
         return gameId;
     }
 
-//    public int getRoomId() {
-//        return roomId;
-//    }
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 
-//    public void setRoomId(int roomId) {
-//        this.roomId = roomId;
-//    }
-
     public void setStatus(Status status) {
         this.status = status;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -430,13 +410,6 @@ public class User {
         if (!(o instanceof User user)) return false;
         return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword());
     }
-//    @Override
-//    public boolean equals(Object object) {
-//        if (this == object) return true;
-//        if (object == null || getClass() != object.getClass()) return false;
-//        User user = (User) object;
-//        return getUsername().equals(user.getUsername());
-//    }
 
     public static User getLoggedInUser() {
         return loggedInUser;
@@ -446,5 +419,9 @@ public class User {
         User.loggedInUser = loggedInUser;
     }
 
+    public int getRank() {
+        allUsers.sort(Comparator.comparingInt(User::getWins).thenComparingInt(User::getHighestScore).thenComparingInt(User::getGamesPlayed).reversed());
+        return allUsers.indexOf(this) + 1;
+    }
 
 }

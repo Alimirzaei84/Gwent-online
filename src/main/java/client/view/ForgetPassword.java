@@ -1,5 +1,6 @@
 package client.view;
 
+import client.Out;
 import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,43 +36,18 @@ public class ForgetPassword extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        client.User.getInstance().setAppMenu(this);
     }
 
     public void confirm() throws Exception {
-        User user = ApplicationController.getForgetPasswordUser();
-        if (user == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("no user found");
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-            alert.showAndWait();
-        }
-        assert user != null;
-        HashMap<String, String> answers = user.getAnswers();
         Alert error = new Alert(Alert.AlertType.ERROR);
-        Alert succ = new Alert(Alert.AlertType.INFORMATION);
-
-        if (!answers.getOrDefault("your favorite color?", "DASH!").equals(color.getText())
-                && !answers.getOrDefault("your favorite food?", "^DASH^").equals(food.getText())
-                && !answers.getOrDefault("your favorite month?", "DASH").equals(month.getText())
-        ) {
-            error.setContentText("your answers does not correct!");
-            System.out.println("[ERR]: your answers does not correct!");
-
-            Scene scene = error.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            error.showAndWait();
-            return;
-        }
 
         if (newPassword.getText().length() < 8) {
             error.setContentText("password must be at least 8 characters");
             System.out.println("[ERR]: password must be at least 8 characters");
 
             Scene scene = error.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             error.showAndWait();
             return;
         }
@@ -81,24 +57,15 @@ public class ForgetPassword extends AppMenu {
             System.out.println("[ERR]: passwords does not mathe");
 
             Scene scene = error.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             error.showAndWait();
             return;
         }
 
-        user.setPassword(newPassword.getText());
-        System.out.println("[SUCC]: password changed successfully");
-        succ.setContentText("password changed successfully");
-
-        Scene scene = succ.getDialogPane().getScene();
-        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-        succ.showAndWait();
-        ApplicationController.setForgetPasswordUser(null);
-        LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(ApplicationController.getStage());
+        Out.sendMessage("changePassword " + food.getText() + " " + color.getText() + " " + month.getText() + " " + newPassword.getText());
     }
 
-    public void generateRandomPassword(MouseEvent mouseEvent) {
+    public void generateRandomPassword() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 9; // desired length
@@ -107,18 +74,47 @@ public class ForgetPassword extends AppMenu {
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
+        generatedString = generatedString + ApplicationController.getRandom().nextInt(0, 10);
         newPassword.setText(generatedString);
         newPasswordAgain.setText(generatedString);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
 
         Scene scene = alert.getDialogPane().getScene();
-        scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
         alert.showAndWait();
     }
 
     @Override
     public void initialize() {
+
+    }
+
+    @Override
+    public void handleCommand(String command) throws Exception {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        Alert succ = new Alert(Alert.AlertType.INFORMATION);
+
+          if(command.startsWith("[ERR]")){
+              error.setContentText("your answers does not correct!");
+              System.out.println(command);
+
+              Scene scene = error.getDialogPane().getScene();
+              scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+              error.showAndWait();
+
+          } else if (command.startsWith("[SUCC]")) {
+              System.out.println(command);
+              succ.setContentText("password changed successfully");
+              Scene scene = succ.getDialogPane().getScene();
+              scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+              succ.showAndWait();
+
+              LoginMenu loginMenu = new LoginMenu();
+              food.getScene().getWindow().hide();
+              loginMenu.start((Stage) food.getScene().getWindow());
+          }
+
 
     }
 }

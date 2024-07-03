@@ -35,22 +35,20 @@ public class PickQuestions extends AppMenu {
     public void setFavoriteColor() throws Exception {
         if (color.getText() != null && color.getText().length() > 2) {
             Out.sendMessage("favorite color " + color.getText());
-//            System.out.println(client.User.getInstance().getUsername());
-//           Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite color?", color.getText());
             System.out.println("[INFO]: user favorite color is -->>  " + color.getText());
         }
     }
 
     public void setFavoriteMonth() throws Exception {
         if (month.getText() != null && month.getText().length() > 2) {
-            Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite month?", month.getText());
+            Out.sendMessage("favorite month " + month.getText());
             System.out.println("[INFO]: user favorite month is -->>  " + month.getText());
         }
     }
 
     public void setFavoriteFood() throws Exception {
         if (food.getText() != null && food.getText().length() > 1) {
-            Objects.requireNonNull(User.getUserByUsername(client.User.getInstance().getUsername())).addQuestionAnswer("your favorite food?", food.getText());
+            Out.sendMessage("favorite food " + food.getText());
             System.out.println("[INFO]: user favorite food is -->>  " + food.getText());
         }
     }
@@ -66,5 +64,10 @@ public class PickQuestions extends AppMenu {
 
     @Override
     public void initialize() {
+    }
+
+    @Override
+    public void handleCommand(String command) throws Exception {
+
     }
 }

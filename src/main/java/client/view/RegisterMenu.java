@@ -85,37 +85,7 @@ public class RegisterMenu extends AppMenu {
     }
 
     public void register() throws Exception {
-        Out.sendMessage("register " +  username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + " " + email.getText());
-
-        //        System.out.println(result);
-
-//        if (result.startsWith("[SUCC]")) {
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setContentText(result);
-//
-//            Scene scene = alert.getDialogPane().getScene();
-//            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-////            User newUser = new User(username.getText(), password.getText(), email.getText(), nickname.getText());
-//
-//
-//            Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + nickname.getText() + " " + email.getText());
-////            User.setLoggedInUser(newUser);
-//            email.getScene().getWindow().hide();
-////            ApplicationController.closeStage(id).close();
-//            PickQuestions pickQuestions = new PickQuestions();
-//            pickQuestions.start((Stage) email.getScene().getWindow());
-//
-//        } else if (result.startsWith("[ERR]")) {
-//            System.out.println(result);
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            Scene scene = alert.getDialogPane().getScene();
-//            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-//            alert.setContentText(result);
-//            alert.showAndWait();
-//        } else {
-//            throw new RuntimeException("Invalid result");
-//        }
-
+        Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + " " + email.getText());
     }
 
     public void handleCommand(String result) throws Exception {
@@ -126,9 +96,7 @@ public class RegisterMenu extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
 
-            System.out.println("1" + client.User.getInstance().getUsername());
             client.User.getInstance().setUsername(username.getText());
-            System.out.println("2" + client.User.getInstance().getUsername());
             email.getScene().getWindow().hide();
             PickQuestions pickQuestions = new PickQuestions();
             pickQuestions.start((Stage) email.getScene().getWindow());

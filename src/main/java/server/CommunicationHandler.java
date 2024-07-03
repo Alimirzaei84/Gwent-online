@@ -1,7 +1,10 @@
 package server;
 
+import client.Out;
+import controller.menuConrollers.LoginMenuController;
 import controller.menuConrollers.RegisterMenuController;
 
+import javafx.scene.Scene;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
@@ -11,6 +14,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +24,7 @@ public class CommunicationHandler implements Runnable {
     private DataInputStream in;
     private DataOutputStream out;
     private User user;
+    private User tempUser;
 
     public CommunicationHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -54,53 +59,75 @@ public class CommunicationHandler implements Runnable {
 
     private void handleCommand(String inMessage) throws Exception {
 
-        if(Regexes.FAVORITE_COLOR.matches(inMessage)) {
+        if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+            tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+            System.out.println("the user favorite color set");
+        } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+            tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+            System.out.println("the user favorite month set");
+        } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+            tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+            System.out.println("the user favorite food set");
+        } else if (inMessage.equals("back")) {
+            user = null;
+            tempUser = null;
+        } else if (Regexes.LOGIN.matches(inMessage)) {
+            String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+            if (result.startsWith("[INFO]")) {
+                user = tempUser;
+                tempUser = null;
+                user.getOnline(this);
+            }
+            Out.sendMessage("login " + result);
+        } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
             System.out.println("I am here");
-            user.addQuestionAnswer("your favorite color?",Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+            handleForgetPasswordRequest(inMessage);
+        }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+            handleChangePasswordRequest(inMessage);
         }
 
+
         if (user == null) {
-//            if (inMessage.matches(registerRegex)) {
-//                Matcher matcher = Pattern.compile(registerRegex).matcher(inMessage);
-//                matcher.find();
-//
-//                User user = UserController.register(matcher);
-//                if (user == null) {
-//                    sendMessage("[ERROR] register failed");
-//                } else {
-//                    sendMessage("[SUCC] register successful");
-//                    user.getOnline(this);
-//                    setUser(user);
-//                }
-//            }
+
             if (Regexes.REGISTER.matches(inMessage)) {
                 String username = Regexes.REGISTER.getGroup(inMessage, "username"), password = Regexes.REGISTER.getGroup(inMessage, "password"), passwordAgain = Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), nickname = Regexes.REGISTER.getGroup(inMessage, "nickname"), email = Regexes.REGISTER.getGroup(inMessage, "email");
-
                 String message = RegisterMenuController.register(username, password, passwordAgain, nickname, email);
                 if (message.startsWith("[SUCC]")) {
-                    user = new User(username, password, nickname, email);
+                    tempUser = new User(username, password, nickname, email);
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
             }
-//            else if (inMessage.matches(loginRegex)) {
-//                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
-//                matcher.find();
-//
-//                User user = UserController.login(matcher);
-//                if (user == null) {
-//                    sendMessage("[ERROR] login failed");
-//                } else {
-//                    sendMessage("[SUCC] login successful");
-//                    user.getOnline(this);
-//                    setUser(user);
-//                }
-//            } else {
-//                sendMessage("[ERROR] unknown command");
-//            }
 
         } else if (user.isOffline()) {
-            sendMessage("[ERROR] offline");
+
+            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+                System.out.println("the user favorite color set");
+            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+                System.out.println("the user favorite month set");
+            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+                System.out.println("the user favorite food set");
+            } else if (inMessage.equals("back")) {
+                user = null;
+                tempUser = null;
+            } else if (Regexes.LOGIN.matches(inMessage)) {
+                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+                if (result.startsWith("[INFO]")) {
+                    user = tempUser;
+                    tempUser = null;
+                    user.getOnline(this);
+                }
+                Out.sendMessage("login " + result);
+            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+                System.out.println("I am here");
+                handleForgetPasswordRequest(inMessage);
+            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+                handleChangePasswordRequest(inMessage);
+            }
+
         } else if (user.isJustOnline()) {
 
             if (inMessage.matches(invitationRequestRegex)) {
@@ -161,6 +188,36 @@ public class CommunicationHandler implements Runnable {
             ServerController.passMessageToChatRoom(this.getUser(), inMessage);
         } else {
             sendMessage("[ERROR] unknown command");
+        }
+    }
+
+    private void handleChangePasswordRequest(String request) throws IOException {
+        String color = Regexes.CHANGE_PASSWORD.getGroup(request, "color");
+        String food = Regexes.CHANGE_PASSWORD.getGroup(request, "food");
+        String month = Regexes.CHANGE_PASSWORD.getGroup(request, "month");
+        String newPassword = Regexes.CHANGE_PASSWORD.getGroup(request, "newPassword");
+        HashMap<String, String> answers = tempUser.getAnswers();
+
+        if (!answers.getOrDefault("your favorite color?", "DASH!").equals(color)
+                && !answers.getOrDefault("your favorite food?", "^DASH^").equals(food)
+                && !answers.getOrDefault("your favorite month?", "DASH").equals(month)
+        ) {
+            sendMessage("[ERR]: your answers does not correct!");
+            return;
+        }
+
+
+        tempUser.setPassword(newPassword);
+        sendMessage("[SUCC]: password changed successfully");
+    }
+
+    private void handleForgetPasswordRequest(String message) throws IOException {
+        User temp = User.getUserByUsername(Regexes.FORGET_PASSWORD.getGroup(message, "username"));
+        if (temp == null) sendMessage("forgetPassword [ERR]");
+        else {
+            tempUser = temp;
+            user = null;
+            sendMessage("forgetPassword [SUCC]");
         }
     }
 

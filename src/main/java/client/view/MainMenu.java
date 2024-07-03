@@ -143,4 +143,9 @@ public class MainMenu extends AppMenu {
     public void initialize() {
 
     }
+
+    @Override
+    public void handleCommand(String command) throws Exception {
+
+    }
 }
