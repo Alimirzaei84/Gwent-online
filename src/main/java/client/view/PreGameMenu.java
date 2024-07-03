@@ -531,6 +531,7 @@ public class PreGameMenu extends AppMenu {
         mainMenu.start(ApplicationController.getStage());
     }
 
+
     @Override
     public void initialize() {
 

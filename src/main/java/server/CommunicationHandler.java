@@ -2,6 +2,9 @@ package server;
 
 import client.Out;
 import controller.menuConrollers.LoginMenuController;
+import client.view.ProfileMenu;
+import controller.menuConrollers.GameHistoryController;
+import controller.menuConrollers.ProfileMenuController;
 import controller.menuConrollers.RegisterMenuController;
 
 import javafx.scene.Scene;
@@ -130,7 +133,66 @@ public class CommunicationHandler implements Runnable {
 
         } else if (user.isJustOnline()) {
 
-            if (inMessage.matches(invitationRequestRegex)) {
+            if (Regexes.GET_USERNAME.matches(inMessage)) {
+                sendMessage("[USERNAME]:" + user.getUsername());
+            } else if (Regexes.GET_EMAIL.matches(inMessage)) {
+                sendMessage("[EMAIL]:" + user.getEmail());
+            } else if (Regexes.GET_NICKNAME.matches(inMessage)) {
+                sendMessage("[NICKNAME]:" + user.getNickname());
+            } else if (Regexes.GET_GAMES_PLAYED.matches(inMessage)) {
+                sendMessage("[GAMESPLAYED]:" + user.getGamesPlayed());
+            } else if (Regexes.GET_LOSSES.matches(inMessage)) {
+                sendMessage("[LOSSES]:" + user.getLosses());
+            } else if (Regexes.GET_WINS.matches(inMessage)) {
+                sendMessage("[WINS]:" + user.getWins());
+            } else if (Regexes.GET_TIE.matches(inMessage)) {
+                sendMessage("[TIE]:" + user.getTies());
+            } else if (Regexes.GET_RANK.matches(inMessage)) {
+                sendMessage("[RANK]:" + user.getRank());
+            } else if (Regexes.GET_MAX_SCORE.matches(inMessage)) {
+                sendMessage("[MAXSCORE]:" + user.getHighestScore());
+            } else if (Regexes.CHANGE_PASSWORD_PROFILEMENU.matches(inMessage)) {
+                String newPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage , "password");
+                String oldPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage , "oldPassword");
+                String res = ProfileMenuController.changePassword(newPassword,oldPassword,user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setPassword(newPassword);
+                }
+
+                sendMessage(res);
+            } else if (Regexes.LOGOUT.matches(inMessage)) {
+                user.getOffline();
+                this.setUser(null);
+            } else if (Regexes.CHANGE_NICKNAME.matches(inMessage)) {
+                String res = ProfileMenuController.changeNickname(Regexes.CHANGE_NICKNAME.getGroup(inMessage, "newNickname"), user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setNickname(Regexes.CHANGE_NICKNAME.getGroup(inMessage, "newNickname"));
+                }
+
+                sendMessage(res);
+            } else if (Regexes.CHANGE_USERNAME.matches(inMessage)) {
+                String res = ProfileMenuController.changeUsername(Regexes.CHANGE_USERNAME.getGroup(inMessage, "newUsername"), user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setUsername(Regexes.CHANGE_USERNAME.getGroup(inMessage, "newUsername"));
+                }
+
+                sendMessage(res);
+            } else if (Regexes.CHANGE_EMAIL.matches(inMessage)) {
+                String newEmail = Regexes.CHANGE_EMAIL.getGroup(inMessage, "newEmail");
+                String res = ProfileMenuController.changeEmail(newEmail, user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setEmail(newEmail);
+                }
+
+                sendMessage(res);
+            } else if (Regexes.GET_GAME_HISTORIES.matches(inMessage)) {
+                String res = GameHistoryController.convertToJson(user.getGameHistories());
+                if (res == null) {
+                    sendMessage("");
+                } else {
+                    sendMessage(res);
+                }
+            } else if (inMessage.matches(invitationRequestRegex)) {
                 Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
                 matcher.find();
 

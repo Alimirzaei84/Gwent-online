@@ -1,5 +1,6 @@
 package client;
 
+import client.view.ProfileMenu;
 import javafx.application.Platform;
 import client.view.AppMenu;
 import client.view.LoginMenu;

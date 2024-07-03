@@ -223,7 +223,6 @@ public class User {
         this.answers = answers;
     }
 
-
     public static User getUserByUsername(String username) {
 
         for (User user : allUsers)

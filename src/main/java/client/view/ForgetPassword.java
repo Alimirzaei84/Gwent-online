@@ -85,6 +85,7 @@ public class ForgetPassword extends AppMenu {
         alert.showAndWait();
     }
 
+
     @Override
     public void initialize() {
 

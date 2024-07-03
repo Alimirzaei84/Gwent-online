@@ -11,6 +11,6 @@
    <children>
       <Button layoutX="529.0" layoutY="474.0" mnemonicParsing="false" onKeyPressed="#logout" onMouseClicked="#logout" prefHeight="128.0" prefWidth="222.0" text="Logout" />
       <Button layoutX="529.0" layoutY="143.0" mnemonicParsing="false" onMouseClicked="#playGame" prefHeight="128.0" prefWidth="222.0" text="Play" />
-      <Button layoutX="529.0" layoutY="306.0" mnemonicParsing="false" onKeyPressed="#profileMenu" onMouseClicked="#profileMenu" prefHeight="128.0" prefWidth="222.0" text="Profile" />
+      <Button fx:id="profileMenuButton" layoutX="529.0" layoutY="306.0" mnemonicParsing="false" onKeyPressed="#profileMenu" onMouseClicked="#profileMenu" prefHeight="128.0" prefWidth="222.0" text="Profile" />
    </children>
 </AnchorPane>

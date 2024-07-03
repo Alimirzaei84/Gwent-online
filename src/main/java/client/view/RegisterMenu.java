@@ -19,8 +19,6 @@ import java.util.ResourceBundle;
 
 public class RegisterMenu extends AppMenu {
     public TextField username;
-    private Wrapper wrapper;
-    private int id;
     public TextField nickname;
     public PasswordField password;
     public PasswordField passwordAgain;

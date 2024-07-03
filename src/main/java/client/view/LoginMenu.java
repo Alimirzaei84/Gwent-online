@@ -56,6 +56,7 @@ public class LoginMenu extends AppMenu {
         Out.sendMessage("forgetPassword " + username.getText());
     }
 
+
     @Override
     public void initialize() {
 

@@ -1,5 +1,6 @@
 package client.view;
 
+import client.Out;
 import controller.ApplicationController;
 import controller.menuConrollers.MainMenuController;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 
 public class MainMenu extends AppMenu {
 
+    public Button profileMenuButton;
     private TextField usernameField;
 
     @Override
@@ -43,6 +45,7 @@ public class MainMenu extends AppMenu {
 
     @FXML
     public void playGame(MouseEvent mouseEvent) {
+        //TODO :
         String username = null;
         boolean validUsername = false;
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -118,12 +121,16 @@ public class MainMenu extends AppMenu {
     }
 
 
+
+
     @FXML
     public void logout(MouseEvent mouseEvent) {
         User.setLoggedInUser(null);
         LoginMenu loginMenu = new LoginMenu();
         try {
-            loginMenu.start(ApplicationController.getStage());
+            Out.sendMessage("logout");
+            client.User.getInstance().setAppMenu(loginMenu);
+            loginMenu.start((Stage) profileMenuButton.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,7 +140,8 @@ public class MainMenu extends AppMenu {
     public void profileMenu(MouseEvent mouseEvent) {
         ProfileMenu profileMenu = new ProfileMenu();
         try {
-            profileMenu.start(ApplicationController.getStage());
+            client.User.getInstance().setAppMenu(profileMenu);
+            profileMenu.start((Stage) profileMenuButton.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }

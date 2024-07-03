@@ -1,5 +1,8 @@
-package client.view;
+package view;
 
+import client.view.AppMenu;
+import client.view.MainMenu;
+import client.view.ProfileMenu;
 import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -64,11 +67,7 @@ public class EndOfGameScreen extends AppMenu {
             roundLabel.setText("Round " + roundNum);
             winnerLabel.setText(state.winner().getUser().getUsername() + " : " + state.winnerScore());
             winnerLabel.setTextFill(Color.RED);
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
-            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
-
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
+            winnerLabel.getStylesheets().add(getClass().getResource("/CSS/WinnerStyle.css").toExternalForm());
             loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
             vBox1.getChildren().add(roundLabel);
             vBox2.getChildren().add(winnerLabel);
@@ -82,6 +81,11 @@ public class EndOfGameScreen extends AppMenu {
 
     }
 
+    @Override
+    public void handleCommand(String command) throws Exception {
+
+    }
+
     public void backToMainMenu() {
         try{
             MainMenu mainMenu = new MainMenu();
@@ -92,14 +96,7 @@ public class EndOfGameScreen extends AppMenu {
     }
 
     @Override
-    public void handleCommand(String command) {
-
-    }
-
-    @Override
     public void initialize() {
 
     }
-
-
 }

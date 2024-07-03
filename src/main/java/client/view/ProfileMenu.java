@@ -1,5 +1,6 @@
 package client.view;
 
+import client.Out;
 import controller.ApplicationController;
 import controller.menuConrollers.ProfileMenuController;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import server.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -99,125 +101,37 @@ public class ProfileMenu extends AppMenu {
     public void changePassword(MouseEvent mouseEvent) {
         String newPassword = newPasswordField.getText();
         String oldPassword = oldPasswordField.getText();
-        String res;
-
         try {
-            res = ProfileMenuController.changePassword(newPassword, oldPassword);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setContentText(res);
-            System.out.println("[SUCC] : " + res);
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.showAndWait();
-        } catch (Exception e) {
-            res = e.getMessage();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error");
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.setContentText(res);
-            alert.showAndWait();
-            System.out.println("[ERR] : " + res);
+            Out.sendMessage("change password " + newPassword + " " + oldPassword);
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
-    public void changeNickName(MouseEvent mouseEvent) {
+    public void changeNickName(MouseEvent mouseEvent) throws IOException {
         String nickname = nicknameField.getText();
-
-        if (nickname.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Nickname Error");
-            alert.setHeaderText("Problem in nickname");
-            alert.setContentText("Nickname field is empty!");
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.showAndWait();
-            System.out.println("[ERR] : Nickname field is empty!");
-        } else if (nickname.equals(User.getLoggedInUser().getNickname())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Nickname Error");
-            alert.setHeaderText("Problem in nickname");
-            alert.setContentText("Enter a new nickname!");
-            System.out.println("[ERR] : Enter a new nickname!");
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.showAndWait();
-        } else {
-            ProfileMenuController.changeNickname(nickname);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setContentText("Nickname changed successfully!");
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.showAndWait();
-            System.out.println("[SUCC] : nickname changed successfully!");
-            setNicknameLabel(User.getLoggedInUser().getNickname());
-        }
+        Out.sendMessage("change nickname " + nickname);
+        Out.sendMessage("give nickname");
     }
 
-    public void changeUsername(MouseEvent mouseEvent) {
+    public void changeUsername(MouseEvent mouseEvent) throws IOException {
         String username = usernameField.getText();
-        String res;
-
-        try {
-            res = ProfileMenuController.changeUsername(username);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setContentText(res);
-            System.out.println("[SUCC] : " + res);
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.showAndWait();
-            setUsernameLabel(User.getLoggedInUser().getName());
-        } catch (Exception e) {
-            res = e.getMessage();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error");
-            System.out.println("[ERR] : " + res);
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.setContentText(res);
-            alert.showAndWait();
-        }
+        Out.sendMessage("change username " + username);
+        Out.sendMessage("give username");
     }
 
-    public void changeEmail(MouseEvent mouseEvent) {
+    public void changeEmail(MouseEvent mouseEvent) throws IOException {
         String email = emailField.getText();
-        String res;
-
-        try {
-            res = ProfileMenuController.changeEmail(email);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.setContentText(res);
-            alert.showAndWait();
-            System.out.println("[SUCC] : " + res);
-            setEmailLabel(User.getLoggedInUser().getEmail());
-        } catch (Exception e) {
-            res = e.getMessage();
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error");
-            System.out.println("[ERR] : " + res);
-            Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
-            alert.setContentText(res);
-            alert.showAndWait();
-        }
+        Out.sendMessage("change email "+email);
+        Out.sendMessage("give email");
     }
 
     public void showGameHistories(MouseEvent mouseEvent) {
-        try{
+        try {
             GameHistoryScreen gameHistory = new GameHistoryScreen();
-            gameHistory.start(ApplicationController.getStage());
-        } catch (Exception e){
+            client.User.getInstance().setAppMenu(gameHistory);
+            gameHistory.start((Stage) usernameLabel.getScene().getWindow());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -225,7 +139,8 @@ public class ProfileMenu extends AppMenu {
     public void back(MouseEvent mouseEvent) {
         MainMenu mainMenu = new MainMenu();
         try {
-            mainMenu.start(ApplicationController.getStage());
+            client.User.getInstance().setAppMenu(mainMenu);
+            mainMenu.start((Stage) usernameLabel.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -233,15 +148,69 @@ public class ProfileMenu extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setUsernameLabel(User.getLoggedInUser().getName());
-        setEmailLabel(User.getLoggedInUser().getEmail());
-        setNicknameLabel(User.getLoggedInUser().getNickname());
-        setGamesPlayedLabel(String.valueOf(User.getLoggedInUser().getGamesPlayed()));
-        setLossesLabel(String.valueOf(User.getLoggedInUser().getLosses()));
-        setWinsLabel(String.valueOf(User.getLoggedInUser().getWins()));
-        setTieLabel(String.valueOf(User.getLoggedInUser().getTies()));
-        setRankLabel(String.valueOf(User.getLoggedInUser().getRank()));
-        setHighestScoreLabel(String.valueOf(User.getLoggedInUser().getHighestScore()));
+        try {
+            Out.sendMessage("give username");
+            Out.sendMessage("give email");
+            Out.sendMessage("give nickname");
+            Out.sendMessage("give gamesplayed");
+            Out.sendMessage("give losses");
+            Out.sendMessage("give wins");
+            Out.sendMessage("give tie");
+            Out.sendMessage("give rank");
+            Out.sendMessage("give maxscore");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void handleCommand(String command) throws Exception{
+        if (command.startsWith("[USERNAME]:")) {
+            String username = command.substring("[USERNAME]:".length());
+            setUsernameLabel(username);
+        } else if (command.startsWith("[EMAIL]:")) {
+            String email = command.substring("[EMAIL]:".length());
+            setEmailLabel(email);
+        } else if (command.startsWith("[NICKNAME]:")) {
+            String nickname = command.substring("[NICKNAME]:".length());
+            setNicknameLabel(nickname);
+        } else if (command.startsWith("[GAMESPLAYED]:")) {
+            String gamesPlayed = command.substring("[GAMESPLAYED]:".length());
+            setGamesPlayedLabel(gamesPlayed);
+        } else if (command.startsWith("[LOSSES]:")) {
+            String losses = command.substring("[LOSSES]:".length());
+            setLossesLabel(losses);
+        } else if (command.startsWith("[WINS]:")) {
+            String wins = command.substring("[WINS]:".length());
+            setWinsLabel(wins);
+        } else if (command.startsWith("[TIE]:")) {
+            String tie = command.substring("[TIE]:".length());
+            setTieLabel(tie);
+        } else if (command.startsWith("[RANK]:")) {
+            String rank = command.substring("[RANK]:".length());
+            setRankLabel(rank);
+        } else if (command.startsWith("[MAXSCORE]:")) {
+            String maxScore = command.substring("[MAXSCORE]:".length());
+            setHighestScoreLabel(maxScore);
+        } else if (command.startsWith("[SUCC]")){
+            System.out.println(command);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successful");
+            alert.setHeaderText("Successful");
+            alert.setContentText(command.substring("[SUCC]:".length()));
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
+        } else if (command.startsWith("[ERR]")){
+            System.out.println(command);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText(command.substring("[ERR]:".length()));
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.showAndWait();
+        }
     }
 
     @Override
@@ -249,8 +218,4 @@ public class ProfileMenu extends AppMenu {
 
     }
 
-    @Override
-    public void handleCommand(String command) throws Exception {
-
-    }
 }

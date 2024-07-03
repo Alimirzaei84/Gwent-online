@@ -9,6 +9,7 @@ module testAnt {
     requires com.google.gson;
     requires java.compiler;
     requires org.testng;
+    requires com.fasterxml.jackson.databind;
     opens model.role to com.google.gson;
     exports client.view;
     exports model.game;

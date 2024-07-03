@@ -41,7 +41,23 @@ public enum Regexes {
 
     SHOW_HAND("^show hand$"),
 
-    ECHO("^echo (.+)$");
+    ECHO("^echo (.+)$"),
+    GET_USERNAME("^give username$"),
+    GET_EMAIL("^give email$"),
+    GET_NICKNAME("^give nickname$"),
+    GET_GAMES_PLAYED("^give gamesplayed$"),
+    GET_LOSSES("^give losses$"),
+    GET_WINS("^give wins$"),
+    GET_TIE("^give tie$"),
+    GET_RANK("^give rank$"),
+    GET_MAX_SCORE("^give maxscore$"),
+    CHANGE_PASSWORD_PROFILEMENU("^change password (?<password>.+) (?<oldPassword>.+)$"),
+    CHANGE_NICKNAME("^change nickname (?<newNickname>.*)$"),
+    CHANGE_USERNAME("^change username (?<newUsername>.*)$"),
+    CHANGE_EMAIL("^change email (?<newEmail>.*)$"),
+    LOGOUT("^logout$"),
+    GET_GAME_HISTORIES("^get game histories$")
+    ;
 
 
     final String regex;

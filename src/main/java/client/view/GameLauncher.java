@@ -734,15 +734,15 @@ public class GameLauncher extends AppMenu {
         endOfTurn(curPlayer);
     }
 
+    @Override
+    public void handleCommand(String command) {
 
+    }
 
     @Override
     public void initialize() {
 
     }
 
-    @Override
-    public void handleCommand(String command) throws Exception {
 
-    }
 }
