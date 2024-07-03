@@ -71,8 +71,6 @@ public class CommunicationHandler implements Runnable {
                         Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), Regexes.REGISTER.getGroup(inMessage, "nickname"), Regexes.REGISTER.getGroup(inMessage, "email"));
 
                 sendMessage(message);
-
-
             }
 //            else if (inMessage.matches(loginRegex)) {
 //                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
@@ -99,6 +97,7 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 invitation(matcher);
+            
             } else if (inMessage.matches(acceptGameRegex)) {
                 Matcher matcher = getMatcher(acceptGameRegex, inMessage);
                 matcher.find();
