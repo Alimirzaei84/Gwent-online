@@ -61,34 +61,7 @@ public class CommunicationHandler implements Runnable {
 
 
     private void handleCommand(String inMessage) throws Exception {
-
-        if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
-            tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
-            System.out.println("the user favorite color set");
-        } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
-            tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
-            System.out.println("the user favorite month set");
-        } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
-            tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
-            System.out.println("the user favorite food set");
-        } else if (inMessage.equals("back")) {
-            user = null;
-            tempUser = null;
-        } else if (Regexes.LOGIN.matches(inMessage)) {
-            String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
-            if (result.startsWith("[INFO]")) {
-                user = tempUser;
-                tempUser = null;
-                user.getOnline(this);
-            }
-            Out.sendMessage("login " + result);
-        } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
-            System.out.println("I am here");
-            handleForgetPasswordRequest(inMessage);
-        }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
-            handleChangePasswordRequest(inMessage);
-        }
-
+        System.out.println(user);
 
         if (user == null) {
 
@@ -102,7 +75,66 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(message);
             }
 
+
+            else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+                System.out.println("the user favorite color set");
+            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+                System.out.println("the user favorite month set");
+            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+                System.out.println("the user favorite food set");
+            } else if (inMessage.equals("back")) {
+                user = null;
+                tempUser = null;
+            } else if (Regexes.LOGIN.matches(inMessage)) {
+                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+                if (result.startsWith("[INFO]")) {
+                    user = tempUser;
+                    tempUser = null;
+                    user.getOnline(this);
+                }
+                sendMessage("login " + result);
+            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+                System.out.println("I am here");
+                handleForgetPasswordRequest(inMessage);
+            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+                handleChangePasswordRequest(inMessage);
+            }
+
         } else if (user.isOffline()) {
+
+//            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+//                System.out.println("the user favorite color set");
+//            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+//                System.out.println("the user favorite month set");
+//            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+//                System.out.println("the user favorite food set");
+//            } else if (inMessage.equals("back")) {
+//                user = null;
+//                tempUser = null;
+//            } else if (Regexes.LOGIN.matches(inMessage)) {
+//                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+//                if (result.startsWith("[INFO]")) {
+//                    user = tempUser;
+//                    tempUser = null;
+//                    user.getOnline(this);
+//                }
+//                sendMessage("login " + result);
+//            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+//                System.out.println("I am here");
+//                handleForgetPasswordRequest(inMessage);
+//            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+//                handleChangePasswordRequest(inMessage);
+//            }
+
+
+
+
 
             if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
@@ -123,7 +155,7 @@ public class CommunicationHandler implements Runnable {
                     tempUser = null;
                     user.getOnline(this);
                 }
-                Out.sendMessage("login " + result);
+                sendMessage("login " + result);
             } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
                 System.out.println("I am here");
                 handleForgetPasswordRequest(inMessage);
@@ -238,11 +270,13 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("[ERROR] unknown command");
             }
         } else if (user.isInviting()) {
+
             if (inMessage.matches(cancelInvitationRegex)) {
                 cancelInvitation();
             } else {
                 sendMessage("[ERROR] unknown command");
             }
+
         } else if (user.isPlaying()) {
             ServerController.passMessageToGameOfUser(this.getUser(), inMessage);
         } else if (user.isViewing()) {

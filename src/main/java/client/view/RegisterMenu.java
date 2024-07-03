@@ -79,7 +79,7 @@ public class RegisterMenu extends AppMenu {
 
     public void goToLoginMenu() throws Exception {
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(ApplicationController.getStage());
+        loginMenu.start((Stage) username.getScene().getWindow());
     }
 
     public void register() throws Exception {

@@ -67,6 +67,7 @@ public class LoginMenu extends AppMenu {
         String[] parts = command.split(" ", 2);
         String commandType = parts[0];
         String result = parts[1];
+        System.out.println(command);
         switch (commandType) {
             case "login" -> {
                 handleLoginResult(result);

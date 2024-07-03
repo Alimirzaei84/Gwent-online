@@ -22,15 +22,15 @@ import java.util.ResourceBundle;
 public class ProfileMenu extends AppMenu {
 
     @FXML
-    private Label usernameLabel;
+    public Label usernameLabel;
     @FXML
-    private Label nicknameLabel;
+    public Label nicknameLabel;
     @FXML
     private Label emailLabel;
     @FXML
     private Label rankLabel;
     @FXML
-    private Label highestScoreLabel;
+    public Label highestScoreLabel;
     @FXML
     private Label gamesPlayedLabel;
     @FXML
@@ -39,7 +39,6 @@ public class ProfileMenu extends AppMenu {
     private Label winsLabel;
     @FXML
     private Label lossesLabel;
-
     @FXML
     private TextField usernameField;
     @FXML
@@ -61,6 +60,7 @@ public class ProfileMenu extends AppMenu {
         stage.setScene(scene);
         stage.show();
     }
+
 
     public void setRankLabel(String rank) {
         rankLabel.setText(rank);
@@ -103,7 +103,7 @@ public class ProfileMenu extends AppMenu {
         String oldPassword = oldPasswordField.getText();
         try {
             Out.sendMessage("change password " + newPassword + " " + oldPassword);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -122,7 +122,7 @@ public class ProfileMenu extends AppMenu {
 
     public void changeEmail(MouseEvent mouseEvent) throws IOException {
         String email = emailField.getText();
-        Out.sendMessage("change email "+email);
+        Out.sendMessage("change email " + email);
         Out.sendMessage("give email");
     }
 
@@ -146,6 +146,7 @@ public class ProfileMenu extends AppMenu {
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -164,7 +165,8 @@ public class ProfileMenu extends AppMenu {
     }
 
     @Override
-    public void handleCommand(String command) throws Exception{
+    public synchronized void handleCommand(String command) throws Exception {
+        System.out.println("command:" + command);
         if (command.startsWith("[USERNAME]:")) {
             String username = command.substring("[USERNAME]:".length());
             setUsernameLabel(username);
@@ -192,7 +194,7 @@ public class ProfileMenu extends AppMenu {
         } else if (command.startsWith("[MAXSCORE]:")) {
             String maxScore = command.substring("[MAXSCORE]:".length());
             setHighestScoreLabel(maxScore);
-        } else if (command.startsWith("[SUCC]")){
+        } else if (command.startsWith("[SUCC]")) {
             System.out.println(command);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Successful");
@@ -201,7 +203,7 @@ public class ProfileMenu extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
-        } else if (command.startsWith("[ERR]")){
+        } else if (command.startsWith("[ERR]")) {
             System.out.println(command);
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
