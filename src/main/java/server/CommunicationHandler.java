@@ -1,13 +1,15 @@
 package server;
 
-import client.Out;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import controller.CardController;
 import controller.menuConrollers.LoginMenuController;
-import client.view.ProfileMenu;
 import controller.menuConrollers.GameHistoryController;
 import controller.menuConrollers.ProfileMenuController;
 import controller.menuConrollers.RegisterMenuController;
 
-import javafx.scene.Scene;
+import model.role.Card;
+import model.role.Faction;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
@@ -17,8 +19,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +63,6 @@ public class CommunicationHandler implements Runnable {
 
 
     private void handleCommand(String inMessage) throws Exception {
-        System.out.println(user);
 
         if (user == null) {
 
@@ -73,10 +74,7 @@ public class CommunicationHandler implements Runnable {
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
-            }
-
-
-            else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+            } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
             } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
@@ -86,20 +84,19 @@ public class CommunicationHandler implements Runnable {
                 tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
                 System.out.println("the user favorite food set");
             } else if (inMessage.equals("back")) {
-                user = null;
                 tempUser = null;
             } else if (Regexes.LOGIN.matches(inMessage)) {
                 String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
                 if (result.startsWith("[INFO]")) {
                     user = tempUser;
-                    tempUser = null;
                     user.getOnline(this);
+                    tempUser = null;
                 }
                 sendMessage("login " + result);
             } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
                 System.out.println("I am here");
                 handleForgetPasswordRequest(inMessage);
-            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+            } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
                 handleChangePasswordRequest(inMessage);
             }
 
@@ -133,9 +130,6 @@ public class CommunicationHandler implements Runnable {
 //            }
 
 
-
-
-
             if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -151,15 +145,14 @@ public class CommunicationHandler implements Runnable {
             } else if (Regexes.LOGIN.matches(inMessage)) {
                 String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
                 if (result.startsWith("[INFO]")) {
-                    user = tempUser;
-                    tempUser = null;
                     user.getOnline(this);
+                    tempUser = null;
                 }
                 sendMessage("login " + result);
             } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
                 System.out.println("I am here");
                 handleForgetPasswordRequest(inMessage);
-            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+            } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
                 handleChangePasswordRequest(inMessage);
             }
 
@@ -184,9 +177,9 @@ public class CommunicationHandler implements Runnable {
             } else if (Regexes.GET_MAX_SCORE.matches(inMessage)) {
                 sendMessage("[MAXSCORE]:" + user.getHighestScore());
             } else if (Regexes.CHANGE_PASSWORD_PROFILEMENU.matches(inMessage)) {
-                String newPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage , "password");
-                String oldPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage , "oldPassword");
-                String res = ProfileMenuController.changePassword(newPassword,oldPassword,user);
+                String newPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage, "password");
+                String oldPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage, "oldPassword");
+                String res = ProfileMenuController.changePassword(newPassword, oldPassword, user);
                 if (res.startsWith("[SUCC]")) {
                     user.setPassword(newPassword);
                 }
@@ -194,7 +187,7 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(res);
             } else if (Regexes.LOGOUT.matches(inMessage)) {
                 user.getOffline();
-                this.setUser(null);
+//                this.setUser(null);
             } else if (Regexes.CHANGE_NICKNAME.matches(inMessage)) {
                 String res = ProfileMenuController.changeNickname(Regexes.CHANGE_NICKNAME.getGroup(inMessage, "newNickname"), user);
                 if (res.startsWith("[SUCC]")) {
@@ -266,9 +259,19 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 watchOnlineGame(matcher);
+            } else if (inMessage.equals("user please")) {
+                sendMessage("user: " + new ObjectMapper().writeValueAsString(user));
+            } else if (inMessage.equals("show cards")) {
+                sendShowCardCommand();
+            } else if (inMessage.equals("show deck")) {
+                sendShowDeckCommand();
+            } else if (inMessage.equals("showCurrentUserInfo")) {
+                sendShowCurrentUserInfo();
             } else {
                 sendMessage("[ERROR] unknown command");
             }
+
+
         } else if (user.isInviting()) {
 
             if (inMessage.matches(cancelInvitationRegex)) {
@@ -285,6 +288,46 @@ public class CommunicationHandler implements Runnable {
         } else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void sendShowCurrentUserInfo() throws IOException {
+        sendMessage("showCurrentUserInfo " + user.getName() + " " + user.getFaction().name() + " " + user.getDeck().size() + " " + user.getUnitCount() + " " + user.getSpecialCount()
+                + " " + user.getHeroCount() + " " + user.getSumOfPower());
+    }
+
+    private void sendShowDeckCommand() throws IOException {
+        ArrayList<String> cardNames = new ArrayList<>();
+        for (Card card : user.getDeck()) {
+            cardNames.add(card.getName());
+        }
+
+        Gson gson = new Gson();
+        String json = gson.toJson(cardNames);
+
+        sendMessage("showManyCardsInScrollBar " + json + " true");
+    }
+
+    private void sendShowCardCommand() throws IOException {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(CardController.units);
+        result.addAll(CardController.specials);
+        result.addAll(CardController.heroes);
+        for (String cardName : result) {
+            Faction faction = CardController.faction.getOrDefault(cardName, Faction.ALL);
+            if (faction.equals(user.getFaction())
+                    || faction.equals(Faction.ALL)) {
+                arrayList.add(cardName);
+            }
+
+
+        }
+
+
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+
+        sendMessage("showManyCardsInScrollBar " + json + " false");
     }
 
     private void handleChangePasswordRequest(String request) throws IOException {

@@ -1,5 +1,8 @@
 package client.view;
 
+import client.Out;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
@@ -22,13 +25,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.game.Game;
 import model.role.*;
+import server.Enum.Regexes;
 import server.User;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+
 
 public class PreGameMenu extends AppMenu {
     private final PreGameMenuController controller;
@@ -72,7 +78,14 @@ public class PreGameMenu extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showCurrentUserInfo();
+        client.User.getInstance().setAppMenu(this);
+
+        try {
+            showCurrentUserInfo();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void showAndChangeFaction() throws IOException {
@@ -96,7 +109,7 @@ public class PreGameMenu extends AppMenu {
                 imageView.setOnMouseClicked(event -> {
                     handleDifferentColor(imageView, factionName);
                     currentUser.setFaction(Faction.valueOf(factionName.toUpperCase()));
-                    System.out.println(currentUser + "--------"+factionName);
+                    System.out.println(currentUser + "--------" + factionName);
                     currentUser.getDeck().clear();
                 });
 
@@ -165,29 +178,11 @@ public class PreGameMenu extends AppMenu {
     }
 
     public void showDeck() throws Exception {
-        ArrayList<String> cardNames = new ArrayList<>();
-        for (Card card : currentUser.getDeck()) {
-            cardNames.add(card.getName());
-        }
-        showManyCardsInScrollBar(cardNames, true);
+        Out.sendMessage("show deck");
     }
 
     public void showCards() throws Exception {
-        ArrayList<String> out = new ArrayList<>();
-        ArrayList<String> result = new ArrayList<>();
-        result.addAll(CardController.units);
-        result.addAll(CardController.specials);
-        result.addAll(CardController.heroes);
-        for (String cardName : result) {
-            Faction faction = CardController.faction.getOrDefault(cardName, Faction.ALL);
-            if (faction.equals(currentUser.getFaction())
-                    || faction.equals(Faction.ALL)) {
-                out.add(cardName);
-            }
-
-
-        }
-        showManyCardsInScrollBar(out, false);
+        Out.sendMessage("show cards");
     }
 
     public void uploadDeck() {
@@ -232,7 +227,7 @@ public class PreGameMenu extends AppMenu {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         fileChooser.setTitle("Select an image");
-        File selectedFile = fileChooser.showOpenDialog(ApplicationController.getStage());
+        File selectedFile = fileChooser.showOpenDialog(usernameLabel.getScene().getWindow());
 
         ArrayList<String> cardNames = new ArrayList<>();
         for (Card card : currentUser.getDeck()) {
@@ -246,7 +241,7 @@ public class PreGameMenu extends AppMenu {
         }
     }
 
-    public void changeTurn() {
+    public void changeTurn() throws IOException {
         if (currentUser.getUnitCount() >= 22) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             currentUser = currentUser.equals(Game.getCurrentGame().getPlayer1().getUser()) ? Game.getCurrentGame().getPlayer2().getUser() : Game.getCurrentGame().getPlayer1().getUser();
@@ -260,14 +255,6 @@ public class PreGameMenu extends AppMenu {
             alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.show();
         }
-    }
-
-    private int unitCount(User user) {
-        int out = 0;
-        for (Card card : user.getDeck()) {
-            if (card instanceof Unit) out++;
-        }
-        return out;
     }
 
 
@@ -303,15 +290,20 @@ public class PreGameMenu extends AppMenu {
     }
 
 
-    public void showCurrentUserInfo() {
-        usernameLabel.setText(currentUser.getName());
-        factionLabel.setText(currentUser.getFaction().name());
-        cardsCount.setText(String.valueOf(currentUser.getDeck().size()));
-        unitCount.setText(String.valueOf(currentUser.getUnitCount()));
-        specialCount.setText(String.valueOf(currentUser.getSpecialCount()));
-        heroCount.setText(String.valueOf(currentUser.getHeroCount()));
-        totalPower.setText(String.valueOf(currentUser.getSumOfPower()));
+    public void showCurrentUserInfo() throws IOException {
+        Out.sendMessage("showCurrentUserInfo");
     }
+
+    public void showCurrentUserInfo(String name1, String faction1, String deckSize1, String unitCount1, String specialCount1, String heroCount1, String sumOfPower1) {
+        usernameLabel.setText(name1);
+        factionLabel.setText(faction1);
+        cardsCount.setText(String.valueOf(deckSize1));
+        unitCount.setText(unitCount1);
+        specialCount.setText(String.valueOf(specialCount1));
+        heroCount.setText(String.valueOf(heroCount1));
+        totalPower.setText(String.valueOf(sumOfPower1));
+    }
+
 
     private void showManyCardsInScrollBar(ArrayList<String> cardsNames, Boolean deckOrAll) throws Exception {
 
@@ -338,8 +330,8 @@ public class PreGameMenu extends AppMenu {
             cardCo++;
 
             String imagePath = CardController.imagePath.get(cardName);
-            System.out.println(cardName + "++++++" + imagePath);
-            if(imagePath == null) continue;
+            System.out.println(cardName + " -> " + imagePath);
+            if (imagePath == null) continue;
             ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
             imageView.setOnMouseClicked(event -> addToDeck(cardName, (VBox) imageView.getParent()));
             imageView.setOnDragExited(event -> System.out.println("swipe down"));
@@ -376,7 +368,7 @@ public class PreGameMenu extends AppMenu {
         button.setMinHeight(60);
         button.setOnMouseClicked(mouseEvent -> {
             try {
-                start(ApplicationController.getStage());
+                start((Stage) usernameLabel.getScene().getWindow());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -401,11 +393,11 @@ public class PreGameMenu extends AppMenu {
         Scene scene = new Scene(scrollPane, 1280, 720);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
 
-
-        ApplicationController.getStage().setScene(scene);
-        ApplicationController.getStage().setTitle("Show Cards");
-        ApplicationController.getStage().centerOnScreen();
-        ApplicationController.getStage().show();
+        Stage stage = (Stage) usernameLabel.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Show Cards");
+        stage.centerOnScreen();
+        stage.show();
     }
 
     private void removeFromDeck(VBox cardBox, String cardName, HBox currentHBox, ImageView imageView, Label label, Button button) {
@@ -449,7 +441,9 @@ public class PreGameMenu extends AppMenu {
         }
     }
 
-    public void showLeaders() throws MalformedURLException {
+    public void showLeaders() throws IOException {
+        Out.sendMessage("show leader");
+
 
         HBox body = new HBox();
         body.setMinWidth(1260);
@@ -481,7 +475,7 @@ public class PreGameMenu extends AppMenu {
             imageView.setOnMouseClicked(event -> {
                 currentUser.setLeader((Leader) card);
                 try {
-                    start(ApplicationController.getStage());
+                    start((Stage) usernameLabel.getScene().getWindow());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -520,15 +514,17 @@ public class PreGameMenu extends AppMenu {
         Scene scene = new Scene(scrollPane, 1280, 700);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());
 
-        ApplicationController.getStage().setScene(scene);
-        ApplicationController.getStage().setTitle("show Leaders");
-        ApplicationController.getStage().centerOnScreen();
-        ApplicationController.getStage().show();
+        Stage stage = (Stage) usernameLabel.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("show Leaders");
+        stage.centerOnScreen();
+        stage.show();
     }
 
     public void backToMainMenu() throws Exception {
         MainMenu mainMenu = new MainMenu();
-        mainMenu.start(ApplicationController.getStage());
+        usernameLabel.getScene().getWindow().hide();
+        mainMenu.start((Stage) usernameLabel.getScene().getWindow());
     }
 
 
@@ -539,6 +535,26 @@ public class PreGameMenu extends AppMenu {
 
     @Override
     public void handleCommand(String command) throws Exception {
+//        if (Regexes.GET_USER.matches(command)) {
+//            String userJson = Regexes.GET_USER.getGroup(command, "user");
+//            User user = new ObjectMapper().readValue(userJson, User.class);
+//            System.out.println("username: " + user.getUsername());
+//            System.out.println(user.getStatus().toString());
+//        }
 
+        if (command.startsWith("showManyCardsInScrollBar")) invokeMethod(command);
+        else if (command.startsWith("showCurrentUserInfo")) {
+            String[] params = command.split(" ");
+            showCurrentUserInfo(params[1], params[2], params[3], params[4], params[5], params[6], params[6]);
+        }
+    }
+
+    private void invokeMethod(String command) throws Exception {
+        String json = Regexes.SHOW_MANY_CARDS.getGroup(command, "list");
+        Gson gson = new Gson();
+
+        ArrayList<String> list = gson.fromJson(json, ArrayList.class);
+        boolean aBoolean = Boolean.parseBoolean(Regexes.SHOW_MANY_CARDS.getGroup(command, "boolean"));
+        showManyCardsInScrollBar(list, aBoolean);
     }
 }

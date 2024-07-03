@@ -12,7 +12,8 @@ public enum Regexes {
     CHANGE_PASSWORD("changePassword (?<food>.+) (?<color>.+) (?<month>.+) (?<newPassword>.+)"),
 
     REGISTER("register (?<username>.+) (?<password>.+) (?<passwordAgain>.+) (?<nickname>.+) (?<email>.+)"),
-
+    GET_USER("user: (?<user>.+)"),
+    SHOW_MANY_CARDS("showManyCardsInScrollBar (?<list>.+) (?<boolean>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
 
     CHOOSE_CARD("choose card"),

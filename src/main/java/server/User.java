@@ -1,5 +1,7 @@
 package server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
 import model.game.GameHistory;
@@ -30,10 +32,10 @@ public class User {
     private Leader leader;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser;
+    @JsonIgnore
     private CommunicationHandler handler;
     private String username;
     private String password;
-//    private final ArrayList<User> friends;
 
     private Status status;
 
@@ -41,7 +43,10 @@ public class User {
 
     private HashMap<String, String> answers;
 
-    public User(String username, String password, String email, String nickname) {
+    public User(@JsonProperty("username") String username,
+                @JsonProperty("password") String password,
+                @JsonProperty("email") String email,
+                @JsonProperty("nickname") String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -422,5 +427,6 @@ public class User {
         allUsers.sort(Comparator.comparingInt(User::getWins).thenComparingInt(User::getHighestScore).thenComparingInt(User::getGamesPlayed).reversed());
         return allUsers.indexOf(this) + 1;
     }
+
 
 }

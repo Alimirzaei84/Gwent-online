@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -51,6 +52,7 @@ public class RegisterMenu extends AppMenu {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
+        CardController.load_data();
     }
 
     @Override
@@ -69,7 +71,7 @@ public class RegisterMenu extends AppMenu {
         int targetStringLength = 9; // desired length
         String generatedString = ApplicationController.getRandom().ints(leftLimit, rightLimit + 1).filter(Character::isLetterOrDigit).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         password.setText(generatedString);
-        passwordAgain.setText(generatedString);
+        passwordAgain.setText(generatedString + ApplicationController.getRandom().nextInt(0, 10));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
         Scene scene = alert.getDialogPane().getScene();
