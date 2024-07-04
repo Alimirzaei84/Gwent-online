@@ -5,20 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/request/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/NioClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/NioServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/request/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/request/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +71,10 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -78,7 +88,9 @@
     "Application.GFG.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.RegisterMenu.executor": "Run",
-    "Application.test.executor": "Run"
+    "Application.test.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "kotlin-language-version-configured": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -105,7 +117,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.test">
+  <component name="RunManager" selected="Application.RegisterMenu">
     <configuration name="GFG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.request.GFG" />
       <module name="testAnt" />
@@ -220,8 +232,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.test" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.test" />
         <item itemvalue="Application.GFG" />
         <item itemvalue="Application.client.Main" />
         <item itemvalue="Application.GameLauncher" />

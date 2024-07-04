@@ -428,5 +428,9 @@ public class User {
         return allUsers.indexOf(this) + 1;
     }
 
+    public void addToDeck(Card card){
+        deck.add(card);
+    }
+
 
 }

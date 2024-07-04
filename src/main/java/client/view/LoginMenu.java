@@ -1,7 +1,6 @@
 package client.view;
 
 import client.Out;
-import controller.ApplicationController;
 import controller.menuConrollers.LoginMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import server.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,11 +54,6 @@ public class LoginMenu extends AppMenu {
         Out.sendMessage("forgetPassword " + username.getText());
     }
 
-
-    @Override
-    public void initialize() {
-
-    }
 
     @Override
     public void handleCommand(String command) throws Exception {

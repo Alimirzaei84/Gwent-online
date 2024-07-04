@@ -739,10 +739,5 @@ public class GameLauncher extends AppMenu {
 
     }
 
-    @Override
-    public void initialize() {
-
-    }
-
 
 }

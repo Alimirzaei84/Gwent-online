@@ -3,6 +3,7 @@ package server.request;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.CardController;
+import model.role.Faction;
 import model.role.Unit;
 import server.User;
 
@@ -16,7 +17,6 @@ public class test {
 
         CardController.load_data();
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = new User("muUsername", "passworddd", "jnjnj", "kjbk");
-        User user1 = objectMapper.readValue(objectMapper.writeValueAsString(user), User.class);
+        System.out.println(objectMapper.readValue(objectMapper.writeValueAsString(Faction.NILFGAARDIAN_EMPIRE), Faction.class).equals(Faction.NILFGAARDIAN_EMPIRE));
     }
 }

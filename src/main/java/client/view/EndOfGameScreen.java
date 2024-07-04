@@ -96,10 +96,5 @@ public class EndOfGameScreen extends AppMenu {
 
     }
 
-    @Override
-    public void initialize() {
-
-    }
-
 
 }

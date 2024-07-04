@@ -1,23 +1,16 @@
 package client.view;
 
 import client.Out;
-import controller.ApplicationController;
-import controller.menuConrollers.MainMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import server.User;
 
 import java.net.URL;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -47,7 +40,7 @@ public class MainMenu extends AppMenu {
 
     @FXML
     public void playGame(MouseEvent mouseEvent) throws Exception {
-        PreGameMenu preGameMenu = new PreGameMenu();
+        PreGameMenu preGameMenu = new PreGameMenu<>();
 //        usernameField.getScene().getWindow().hide();
         preGameMenu.start((Stage) this.profileMenuButton.getScene().getWindow());
 //        //TODO :
@@ -146,11 +139,6 @@ public class MainMenu extends AppMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void initialize() {
-
     }
 
     @Override

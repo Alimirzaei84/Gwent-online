@@ -1,8 +1,6 @@
 package client.view;
 
 import client.Out;
-import controller.ApplicationController;
-import controller.menuConrollers.ProfileMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import server.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -214,11 +211,6 @@ public class ProfileMenu extends AppMenu {
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
         }
-    }
-
-    @Override
-    public void initialize() {
-
     }
 
 }

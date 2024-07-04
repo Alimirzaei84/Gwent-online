@@ -1,13 +1,11 @@
 package client.view;
 
 import client.Out;
-import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import server.User;
 
 import java.net.URL;
 import java.util.Objects;
@@ -62,11 +60,6 @@ public class PickQuestions extends AppMenu {
         loginMenu.start((Stage) food.getScene().getWindow());
     }
 
-
-
-    @Override
-    public void initialize() {
-    }
 
     @Override
     public void handleCommand(String command) throws Exception {

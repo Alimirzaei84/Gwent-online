@@ -1,15 +1,14 @@
 package server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import controller.CardController;
-import controller.menuConrollers.LoginMenuController;
-import controller.menuConrollers.GameHistoryController;
-import controller.menuConrollers.ProfileMenuController;
-import controller.menuConrollers.RegisterMenuController;
+import controller.menuConrollers.*;
 
 import model.role.Card;
 import model.role.Faction;
+import model.role.Leader;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
@@ -267,6 +266,23 @@ public class CommunicationHandler implements Runnable {
                 sendShowDeckCommand();
             } else if (inMessage.equals("showCurrentUserInfo")) {
                 sendShowCurrentUserInfo();
+            } else if (Regexes.ADD_TO_DECK.matches(inMessage)) {
+                handleAddToDeckRequest(Regexes.ADD_TO_DECK.getGroup(inMessage, "cardName"));
+            } else if (Regexes.REMOVE_FROM_DECK_REQUEST.matches(inMessage)) {
+                getUser().getDeck().remove(getUser().getCardFromDeckByName(Regexes.REMOVE_FROM_DECK_REQUEST.getGroup(inMessage, "cardName")));
+            } else if (inMessage.startsWith("show leader")) {
+                sendFactionForShowLeaderRequest();
+            } else if (Regexes.CHANGE_LEADER_REQUEST.matches(inMessage)) {
+                handleChangeLeaderRequest(inMessage);
+            } else if (inMessage.equals("download deck")) {
+                sendMessage("download deck " + new ObjectMapper().writeValueAsString(convertToTheirName(user.getDeck())));
+            } else if (Regexes.SET_DECK.matches(inMessage)) {
+                handleSetDeckRequest(inMessage);
+            } else if (inMessage.equals("show factions")) {
+                sendMessage("show factions " + new ObjectMapper().writeValueAsString(user.getFaction()));
+            } else if (Regexes.SET_FACTION.matches(inMessage)) {
+                setFaction(inMessage);
+
             } else {
                 sendMessage("[ERROR] unknown command");
             }
@@ -290,6 +306,39 @@ public class CommunicationHandler implements Runnable {
         }
     }
 
+    private void setFaction(String message) {
+        String factionName = Regexes.SET_FACTION.getGroup(message, "factionName");
+        this.getUser().setFaction(Faction.valueOf(factionName.toUpperCase()));
+        this.getUser().getDeck().clear();
+    }
+
+    private void handleSetDeckRequest(String message) throws JsonProcessingException {
+        System.out.println("we are trying to update");
+        ArrayList<String> arrayList = new ObjectMapper().readValue(Regexes.SET_DECK.getGroup(message, "deckJson"), ArrayList.class);
+        getUser().getDeck().clear();
+        for (String cardName : arrayList) {
+            getUser().addToDeck(CardController.createCardWithName(cardName));
+        }
+    }
+
+    private void handleChangeLeaderRequest(String message) {
+        String leaderName = Regexes.CHANGE_LEADER_REQUEST.getGroup(message, "leaderName");
+        Card card = CardController.createCardWithName(leaderName);
+        getUser().setLeader((Leader) card);
+        System.out.println("[INFO]: " + user.getName() + " changed its leader to " + user.getLeader().getName());
+    }
+
+    private void sendFactionForShowLeaderRequest() throws IOException {
+        String factionJson = (new ObjectMapper()).writeValueAsString(user.getFaction());
+        sendMessage("showLeader " + factionJson);
+    }
+
+    private void handleAddToDeckRequest(String cardName) throws Exception {
+        String result = PreGameMenuController.addToDeck(cardName, user);
+        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
+        sendMessage("addToDeckResult " + result);
+    }
+
     private void sendShowCurrentUserInfo() throws IOException {
         sendMessage("showCurrentUserInfo " + user.getName() + " " + user.getFaction().name() + " " + user.getDeck().size() + " " + user.getUnitCount() + " " + user.getSpecialCount()
                 + " " + user.getHeroCount() + " " + user.getSumOfPower());
@@ -304,7 +353,15 @@ public class CommunicationHandler implements Runnable {
         Gson gson = new Gson();
         String json = gson.toJson(cardNames);
 
-        sendMessage("showManyCardsInScrollBar " + json + " true");
+        sendMessage("showManyCardsInScrollBar " + json + " true " + gson.toJson(convertToTheirName(user.getDeck())));
+    }
+
+    private ArrayList<String> convertToTheirName(ArrayList<Card> arrayList) {
+        ArrayList<String> result = new ArrayList<>();
+        for (Card card : arrayList) {
+            result.add(card.getName());
+        }
+        return result;
     }
 
     private void sendShowCardCommand() throws IOException {
@@ -327,7 +384,7 @@ public class CommunicationHandler implements Runnable {
         Gson gson = new Gson();
         String json = gson.toJson(arrayList);
 
-        sendMessage("showManyCardsInScrollBar " + json + " false");
+        sendMessage("showManyCardsInScrollBar " + json + " false " + gson.toJson(convertToTheirName(user.getDeck())));
     }
 
     private void handleChangePasswordRequest(String request) throws IOException {

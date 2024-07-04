@@ -13,7 +13,15 @@ public enum Regexes {
 
     REGISTER("register (?<username>.+) (?<password>.+) (?<passwordAgain>.+) (?<nickname>.+) (?<email>.+)"),
     GET_USER("user: (?<user>.+)"),
-    SHOW_MANY_CARDS("showManyCardsInScrollBar (?<list>.+) (?<boolean>.+)"),
+    SHOW_MANY_CARDS("showManyCardsInScrollBar (?<list>.+) (?<boolean>true|false) (?<deck>.+)"),
+    ADD_TO_DECK("addToDeck (?<cardName>.+)"),
+    REMOVE_FROM_DECK_REQUEST("removeFromDeck (?<cardName>.+)"),
+    SHOW_LEADER("showLeader (?<factionJson>.+)"),
+    CHANGE_LEADER_REQUEST("change leader (?<leaderName>.+)"),
+    DOWNLOAD_DECK("download deck (?<deckJson>.+)"),
+    SET_DECK("set deck (?<deckJson>.+)"),
+    SHOW_FACTION_RESULT("show factions (?<factionJson>.+)"),
+    SET_FACTION("set faction (?<factionName>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
 
     CHOOSE_CARD("choose card"),
@@ -57,8 +65,7 @@ public enum Regexes {
     CHANGE_USERNAME("^change username (?<newUsername>.*)$"),
     CHANGE_EMAIL("^change email (?<newEmail>.*)$"),
     LOGOUT("^logout$"),
-    GET_GAME_HISTORIES("^get game histories$")
-    ;
+    GET_GAME_HISTORIES("^get game histories$");
 
 
     final String regex;

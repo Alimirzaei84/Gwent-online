@@ -3,7 +3,6 @@ package client.view;
 import client.Out;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controller.ApplicationController;
 import controller.menuConrollers.GameHistoryController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -18,7 +17,6 @@ import javafx.stage.Stage;
 import model.game.GameHistory;
 import model.game.StateAfterADiamond;
 import server.User;
-import server.game.Game;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,11 +76,6 @@ public class GameHistoryScreen extends AppMenu {
             }
         }
     }
-
-    public void initialize() {
-
-    }
-
 
 
     public void showAGameHistory(int index) {

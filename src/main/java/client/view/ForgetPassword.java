@@ -7,13 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import server.User;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -85,11 +82,6 @@ public class ForgetPassword extends AppMenu {
         alert.showAndWait();
     }
 
-
-    @Override
-    public void initialize() {
-
-    }
 
     @Override
     public void handleCommand(String command) throws Exception {
