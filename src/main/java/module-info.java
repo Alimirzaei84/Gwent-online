@@ -10,7 +10,7 @@ module testAnt {
     requires java.compiler;
     requires org.testng;
     requires java.sql;
-    requires mysql.connector.j;
+    requires java.mail;
     opens model.role to com.google.gson;
     exports client.view;
     exports model.game;

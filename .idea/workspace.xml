@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/controller/EmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/server/controller/EmailControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/server/database/DBControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/server/database/DBControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +80,9 @@
     "JUnit.DBControllerTest.nullDeleteTest.executor": "Run",
     "JUnit.DBControllerTest.registerTest.executor": "Run",
     "JUnit.DBControllerTest.truncateTest.executor": "Run",
+    "JUnit.EmailControllerTest.executor": "Run",
+    "JUnit.EmailControllerTest.testSendEmail.executor": "Run",
+    "JUnit.EmailControllerTest.testVerify.executor": "Run",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
@@ -116,6 +121,7 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="server.controller" />
       <recent name="server.database" />
       <recent name="server" />
       <recent name="controller" />
@@ -125,7 +131,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DBControllerTest.findTest">
+  <component name="RunManager" selected="JUnit.EmailControllerTest.testSendEmail">
     <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
       <module name="testAnt" />
@@ -152,22 +158,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBControllerTest.deleteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="server.database.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="server.database" />
-      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="deleteTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DBControllerTest.findTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
@@ -179,22 +169,6 @@
       <option name="PACKAGE_NAME" value="server.database" />
       <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
       <option name="METHOD_NAME" value="findTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DBControllerTest.loginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="server.database.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="server.database" />
-      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="loginTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -216,17 +190,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBControllerTest.registerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EmailControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.database.*" />
+          <option name="PATTERN" value="server.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="server.database" />
-      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="registerTest" />
+      <option name="PACKAGE_NAME" value="server.controller" />
+      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmailControllerTest.testSendEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="server.controller" />
+      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
+      <option name="METHOD_NAME" value="testSendEmail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmailControllerTest.testVerify" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="server.controller" />
+      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
+      <option name="METHOD_NAME" value="testVerify" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -234,19 +239,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="JUnit.DBControllerTest.deleteTest" />
       <item itemvalue="JUnit.DBControllerTest.findTest" />
       <item itemvalue="JUnit.DBControllerTest.nullDeleteTest" />
-      <item itemvalue="JUnit.DBControllerTest.loginTest" />
-      <item itemvalue="JUnit.DBControllerTest.registerTest" />
+      <item itemvalue="JUnit.EmailControllerTest" />
+      <item itemvalue="JUnit.EmailControllerTest.testSendEmail" />
+      <item itemvalue="JUnit.EmailControllerTest.testVerify" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EmailControllerTest.testSendEmail" />
+        <item itemvalue="JUnit.EmailControllerTest.testVerify" />
+        <item itemvalue="JUnit.EmailControllerTest" />
         <item itemvalue="JUnit.DBControllerTest.findTest" />
         <item itemvalue="JUnit.DBControllerTest.nullDeleteTest" />
-        <item itemvalue="JUnit.DBControllerTest.deleteTest" />
-        <item itemvalue="JUnit.DBControllerTest.loginTest" />
-        <item itemvalue="JUnit.DBControllerTest.registerTest" />
       </list>
     </recent_temporary>
   </component>
