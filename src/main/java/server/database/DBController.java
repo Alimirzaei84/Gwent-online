@@ -8,6 +8,54 @@ public abstract class DBController {
 
     private static Connection connection;
 
+    public static Map<String, String> getUserData(String name) throws SQLException {
+        Map<String, String> userData = new HashMap<>();
+        userData.put("id", "");
+        userData.put("name", name);
+        userData.put("password", "");
+        userData.put("email", "");
+        userData.put("nickname", "");
+
+        String query = "SELECT * FROM users WHERE username = ?";
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
+
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            userData.put("id", resultSet.getString("id"));
+            userData.put("name", resultSet.getString("name"));
+            userData.put("password", resultSet.getString("password"));
+            userData.put("email", resultSet.getString("email"));
+            userData.put("nickname", resultSet.getString("nickname"));
+        }
+
+        return userData;
+    }
+
+    public static int getId(String name) throws SQLException {
+        return Integer.parseInt(getUserData(name).get("id"));
+    }
+
+    public static String getEmail(String name) throws SQLException {
+        return getUserData(name).get("email");
+    }
+
+    public static String getNickname(String name) throws SQLException {
+        return getUserData(name).get("nickname");
+    }
+
+    public static String getPassword(String name) throws SQLException {
+        return getUserData(name).get("password");
+    }
+
+    public static void deleteUser(String name) throws SQLException {
+        String query = "DELETE FROM users WHERE name = ?";
+        PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+
+        preparedStatement.setString(1, name);
+        int rowsAffected = preparedStatement.executeUpdate();
+        System.out.println("[INFO] Deleted " + rowsAffected + " row(s) with name " + name);
+    }
 
     public static boolean loginUser(String username, String password) throws SQLException {
         try (Statement statement = getConnection().createStatement()) {
@@ -39,14 +87,16 @@ public abstract class DBController {
             String query = "INSERT INTO users (name, password, email, nickname) " +
                     "VALUES ('" + name + "', '" + password + "', '" + email + "', '" + nickname + "')";
 
-            statement.executeUpdate(query);
+            int rowsAffected = statement.executeUpdate(query);
+            System.out.println("[INFO] Registered " + rowsAffected + " user to users table.");
         }
     }
 
     public static void truncateTable() throws SQLException {
         try (Statement statement = getConnection().createStatement()) {
             String query = "TRUNCATE TABLE users";
-            statement.executeUpdate(query);
+            int rowsAffected = statement.executeUpdate(query);
+            System.out.println("[INFO] Truncated users table.");
         }
     }
 
