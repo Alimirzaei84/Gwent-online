@@ -428,9 +428,18 @@ public class User {
         return allUsers.indexOf(this) + 1;
     }
 
-    public void addToDeck(Card card){
+    public void addToDeck(Card card) {
         deck.add(card);
     }
 
+    public String getFriendsUsernames() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[FRIENDS]:");
+        for (User user : friends) {
+            builder.append(user.getUsername()).append("|");
+        }
+
+        return builder.toString();
+    }
 
 }

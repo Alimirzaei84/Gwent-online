@@ -1,0 +1,63 @@
+/* styles.css */
+
+/* Style for the background of the scene */
+.root {
+    -fx-background-image: url("../Images/friendsMenuBackgound1.gif");
+    -fx-background-size: cover;
+}
+
+/* Style for buttons */
+/* Style for buttons */
+.button {
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 16px; /* Font size */
+    -fx-font-family: "Castellar";
+    -fx-padding: 10 20 10 20; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+
+.text-field {
+    -fx-background-color: #713840; /* Background color */
+    -fx-border-color: #a15e67; /* Border color */
+    -fx-font-family: "Castellar";
+    -fx-border-width: 1px; /* Border width */
+    -fx-border-radius: 5px; /* Border radius */
+    -fx-padding: 5px; /* Padding inside the text field */
+    -fx-font-size: 14px; /* Font size */
+    -fx-text-fill: white; /* Text color */
+}
+
+.label{
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-family: "Castellar";
+    -fx-font-size: 16px; /* Font size */
+    -fx-padding: 2.5 5 2.5 5; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+
+.alert {
+    -fx-background-color: #2a2a2a; /* Background color */
+    -fx-text-fill: white;          /* Text color */
+}
+
+.dialog-pane {
+    -fx-background-color: #333333; /* Dialog background color */
+}
+
+.dialog-pane .content.label {
+    -fx-font-size: 14px;           /* Font size */
+    -fx-text-fill: white;          /* Text color */
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #444444; /* Button background color */
+    -fx-text-fill: white;          /* Button text color */
+}

@@ -1,25 +1,38 @@
 package server.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import server.User;
-
 import java.util.Objects;
 
 public class FriendRequest {
 
-    private final User requester;
-    private final User recipient;
+    private User requester;
+    private User recipient;
 
-    public FriendRequest(User requester, User recipient) {
+//    public FriendRequest() {
+//        // Default constructor needed by Jackson
+//    }
+
+    public FriendRequest(@JsonProperty User requester,
+                         @JsonProperty User recipient) {
         this.requester = requester;
         this.recipient = recipient;
+    }
+
+    public User getRequester() {
+        return requester;
+    }
+
+    public void setRequester(User requester) {
+        this.requester = requester;
     }
 
     public User getRecipient() {
         return recipient;
     }
 
-    public User getRequester() {
-        return requester;
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
     }
 
     @Override

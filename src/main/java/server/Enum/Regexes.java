@@ -65,7 +65,11 @@ public enum Regexes {
     CHANGE_USERNAME("^change username (?<newUsername>.*)$"),
     CHANGE_EMAIL("^change email (?<newEmail>.*)$"),
     LOGOUT("^logout$"),
-    GET_GAME_HISTORIES("^get game histories$");
+    GET_GAME_HISTORIES("^get game histories$"),
+    GET_FRIENDS("^get friends$"),
+    GET_REQUESTS("^get requests$"),
+    SEND_FRIEND_REQUEST("^send friend request -u (?<username>.*)$")
+    ;
 
 
     final String regex;

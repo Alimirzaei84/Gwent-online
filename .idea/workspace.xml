@@ -5,26 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/FriendsMenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/FriendsMenu.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/ScrollBarCss.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/friendsMenuBackgound1.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/friendsMenuBackground.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/tumblr_om98ib5geO1uko9o5o1_1280.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/AppMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/EndOfGameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ForgetPassword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameHistoryScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PickQuestions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/PreGameMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/Regexes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/request/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/request/test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/EndOfGameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/PreGameMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/controller/ServerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/controller/ServerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/request/FriendRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/request/FriendRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/MainMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +39,10 @@
         <option value="module-info" />
         <option value="JUnit4 Test Class" />
         <option value="JUnit5 Test Class" />
-        <option value="CSS File" />
-        <option value="FxmlFile" />
         <option value="Enum" />
+        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -63,7 +65,11 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/FriendsMenu.css" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -71,10 +77,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -83,16 +85,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GFG.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.RegisterMenu.executor": "Run",
-    "Application.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "kotlin-language-version-configured": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -146,7 +145,7 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -172,7 +171,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.view.*" />
@@ -290,6 +289,8 @@
       <workItem from="1719905249593" duration="1490000" />
       <workItem from="1719908744444" duration="1798000" />
       <workItem from="1719993083895" duration="13928000" />
+      <workItem from="1720102627112" duration="1742000" />
+      <workItem from="1720104402664" duration="10751000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

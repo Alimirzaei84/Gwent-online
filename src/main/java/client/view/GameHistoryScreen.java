@@ -78,9 +78,9 @@ public class GameHistoryScreen extends AppMenu {
     }
 
 
-    public void showAGameHistory(int index) {
+    public boolean showAGameHistory(int index) {
         if (gameHistories.size() <= index || index < 0)
-            return;
+            return false;
 
         vBox1.getChildren().clear();
         vBox2.getChildren().clear();
@@ -146,12 +146,12 @@ public class GameHistoryScreen extends AppMenu {
         vBox2.getChildren().addAll(winnerTotalScore, loserTotalScore, dateLabelData);
         vBox3.getChildren().addAll(winnerTotalScoreData, loserTotalScoreData);
 
+        return true;
     }
 
     public void next() {
         int num = number + 1;
-        if (User.getLoggedInUser().getGameHistories().size() > num) {
-            showAGameHistory(num);
+        if (showAGameHistory(num)) {
             number++;
         }
     }
@@ -166,6 +166,7 @@ public class GameHistoryScreen extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client.User.getInstance().setAppMenu(this);
         dataHBox.getChildren().addAll(vBox1, vBox2, vBox3);
         vBox1.setAlignment(Pos.CENTER);
         vBox3.setAlignment(Pos.CENTER);

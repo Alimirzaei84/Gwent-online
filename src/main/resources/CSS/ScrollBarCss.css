@@ -1,0 +1,56 @@
+/* FriendsMenu.css */
+
+
+
+.label{
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-family: "Castellar";
+    -fx-font-size: 16px; /* Font size */
+    -fx-padding: 2.5 5 2.5 5; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+.button {
+    -fx-background-color: #2a2a2a; /* Light gray background */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 16px; /* Font size */
+    -fx-font-family: "Castellar";
+    -fx-padding: 10 20 10 20; /* Padding */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-color: #a15e67; /* Light blue border color */
+    -fx-border-radius: 5px; /* Rounded corners for the border */
+}
+.tab {
+    -fx-text-base-color: red; /* For the tab text */
+    -fx-background-color: black;
+}
+
+.tab-pane {
+    -fx-background-color: black;
+}
+
+.scroll-pane {
+    -fx-background-color: black;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: black;
+}
+
+
+
+.tab-header-background {
+    -fx-background-color: black;
+}
+
+.tab-content-area {
+    -fx-background-color: black;
+}
+
+.hbox {
+    -fx-background-color: black;
+}

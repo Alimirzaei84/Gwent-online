@@ -2,6 +2,7 @@ package server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import controller.CardController;
 import controller.menuConrollers.*;
@@ -13,6 +14,7 @@ import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
+import server.request.FriendRequest;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +61,7 @@ public class CommunicationHandler implements Runnable {
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from ([\\S]+)$", friendRequestRegex = "^let's be friend ([\\S]+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
+    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
     private void handleCommand(String inMessage) throws Exception {
@@ -216,6 +219,14 @@ public class CommunicationHandler implements Runnable {
                 } else {
                     sendMessage(res);
                 }
+            } else if (Regexes.GET_FRIENDS.matches(inMessage)) {
+                String res = user.getFriendsUsernames();
+                sendMessage(res);
+            } else if (Regexes.GET_REQUESTS.matches(inMessage)) {
+                ArrayList<FriendRequest> requests = ServerController.getAUsersFriendRequests(user);
+                System.out.println("requestNum ----> " + requests.size());
+                String jsonString = toJsonStringRequestsArrayList(requests);
+                sendMessage(jsonString);
             } else if (inMessage.matches(invitationRequestRegex)) {
                 Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
                 matcher.find();
@@ -236,7 +247,6 @@ public class CommunicationHandler implements Runnable {
             } else if (inMessage.matches(friendRequestRegex)) {
                 Matcher matcher = getMatcher(friendRequestRegex, inMessage);
                 matcher.find();
-
                 friendRequest(matcher);
             } else if (inMessage.matches(acceptFriendRequestRegex)) {
                 Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
@@ -326,6 +336,18 @@ public class CommunicationHandler implements Runnable {
         Card card = CardController.createCardWithName(leaderName);
         getUser().setLeader((Leader) card);
         System.out.println("[INFO]: " + user.getName() + " changed its leader to " + user.getLeader().getName());
+    }
+
+    private String toJsonStringRequestsArrayList(List<FriendRequest> friendRequests) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        try {
+            return mapper.writeValueAsString(friendRequests);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void sendFactionForShowLeaderRequest() throws IOException {
@@ -447,8 +469,8 @@ public class CommunicationHandler implements Runnable {
         User inviter = UserController.getUserByName(inviterName);
 
         if (inviter == null) {
-            System.out.println("[ERROR] user \"" + inviterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + inviterName + "\"");
+            System.out.println("[ERR]: user \"" + inviterName + "\" not found");
+            sendMessage("[ERR]: there is no user \"" + inviterName + "\"");
             return;
         }
 
@@ -473,8 +495,8 @@ public class CommunicationHandler implements Runnable {
 
         User recipient = UserController.getUserByName(recipientName);
         if (recipient == null) {
-            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            System.out.println("[ERR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + recipientName + "\"");
             return;
         }
 
@@ -490,8 +512,8 @@ public class CommunicationHandler implements Runnable {
 
         User requester = UserController.getUserByName(requesterName);
         if (requester == null) {
-            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            System.out.println("[ERR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + requesterName + "\"");
             return;
         }
 
@@ -501,28 +523,28 @@ public class CommunicationHandler implements Runnable {
     private void friendRequest(Matcher matcher) throws IOException {
         String recipientName = matcher.group(1);
 
-        User recipient = UserController.getUserByName(recipientName);
+        User recipient = User.getUserByUsername(recipientName);
         if (recipient == null) {
-            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            System.out.println("[ERR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + recipientName + "\"");
             return;
         }
 
         if (this.getUser().equals(recipient)) {
-            sendMessage("[ERROR] you can not send friend request to yourself.");
+            sendMessage("[ERR] you can not send friend request to yourself.");
             return;
         }
 
         if (this.getUser().friendsWith(recipient)) {
-            sendMessage("[ERROR] you are already " + recipientName + "'s friend");
+            sendMessage("[ERR] you are already " + recipientName + "'s friend");
             return;
         }
 
         try {
             ServerController.createNewFriendRequest(this.getUser(), recipient);
         } catch (SimilarRequest e) {
-            System.out.println("[ERROR] similar friend request");
-            sendMessage("[ERROR] similar friend request");
+            System.out.println("[ERR] similar friend request");
+            sendMessage("[ERR] similar friend request");
         }
     }
 

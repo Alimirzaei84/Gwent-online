@@ -124,7 +124,6 @@ public class MainMenu extends AppMenu {
         LoginMenu loginMenu = new LoginMenu();
         try {
             Out.sendMessage("logout");
-            client.User.getInstance().setAppMenu(loginMenu);
             loginMenu.start((Stage) profileMenuButton.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,8 +140,16 @@ public class MainMenu extends AppMenu {
         }
     }
 
+    public void friendsMenu() {
+        FriendsMenu friendsMenu = new FriendsMenu();
+        try {
+            friendsMenu.start((Stage) profileMenuButton.getScene().getWindow());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void handleCommand(String command) throws Exception {
-
     }
 }

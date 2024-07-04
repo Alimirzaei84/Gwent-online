@@ -9,8 +9,9 @@
       <URL value="@../CSS/MainMenu.css" />
    </stylesheets>
    <children>
-      <Button layoutX="529.0" layoutY="474.0" mnemonicParsing="false" onKeyPressed="#logout" onMouseClicked="#logout" prefHeight="128.0" prefWidth="222.0" text="Logout" />
-      <Button layoutX="529.0" layoutY="143.0" mnemonicParsing="false" onMouseClicked="#playGame" prefHeight="128.0" prefWidth="222.0" text="Play" />
-      <Button fx:id="profileMenuButton" layoutX="529.0" layoutY="306.0" mnemonicParsing="false" onKeyPressed="#profileMenu" onMouseClicked="#profileMenu" prefHeight="128.0" prefWidth="222.0" text="Profile" />
+      <Button layoutX="529.0" layoutY="442.0" mnemonicParsing="false" onKeyPressed="#logout" onMouseClicked="#logout" prefHeight="66.0" prefWidth="222.0" text="Logout" />
+      <Button layoutX="529.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#playGame" prefHeight="66.0" prefWidth="222.0" text="Play" />
+      <Button fx:id="profileMenuButton" layoutX="529.0" layoutY="248.0" mnemonicParsing="false" onKeyPressed="#profileMenu" onMouseClicked="#profileMenu" prefHeight="66.0" prefWidth="222.0" text="Profile" />
+      <Button layoutX="529.0" layoutY="347.0" mnemonicParsing="false" onKeyPressed="#friendsMenu" onMouseClicked="#friendsMenu" prefHeight="66.0" prefWidth="222.0" text="friends" />
    </children>
 </AnchorPane>
