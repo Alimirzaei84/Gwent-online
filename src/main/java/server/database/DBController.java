@@ -16,17 +16,18 @@ public abstract class DBController {
         userData.put("email", "");
         userData.put("nickname", "");
 
-        String query = "SELECT * FROM users WHERE username = ?";
+        String query = "SELECT * FROM users WHERE name = ?";
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
 
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            userData.put("id", resultSet.getString("id"));
-            userData.put("name", resultSet.getString("name"));
-            userData.put("password", resultSet.getString("password"));
-            userData.put("email", resultSet.getString("email"));
-            userData.put("nickname", resultSet.getString("nickname"));
+            if (resultSet.next()) {
+                userData.put("id", resultSet.getString("id"));
+                userData.put("password", resultSet.getString("password"));
+                userData.put("email", resultSet.getString("email"));
+                userData.put("nickname", resultSet.getString("nickname"));
+            }
         }
 
         return userData;
@@ -124,7 +125,7 @@ public abstract class DBController {
 
             connection = DriverManager.getConnection(url, user, password);
 
-            System.out.println("connected");
+            System.out.println("SQL connected");
         } catch (Exception e) {
             e.printStackTrace();
         }
