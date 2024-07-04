@@ -9,10 +9,12 @@ module testAnt {
     requires com.google.gson;
     requires java.compiler;
     requires org.testng;
+    requires java.sql;
+    requires mysql.connector.j;
     opens model.role to com.google.gson;
-    exports view;
+    exports client.view;
     exports model.game;
     exports model.Account;
     exports model.role;
-    opens view to javafx.fxml;
+    opens client.view to javafx.fxml;
 }

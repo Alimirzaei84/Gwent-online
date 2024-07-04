@@ -1,4 +1,4 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
 import controller.menuConrollers.LoginMenuController;
@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Account.User;
+import server.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,7 +40,7 @@ public class LoginMenu extends AppMenu {
 
     }
 
-    public void goToRegisterMenu(MouseEvent mouseEvent) throws IOException {
+    public void goToRegisterMenu(MouseEvent mouseEvent) throws IOException, InterruptedException {
         RegisterMenu registerMenu = new RegisterMenu();
         registerMenu.start(ApplicationController.getStage());
     }

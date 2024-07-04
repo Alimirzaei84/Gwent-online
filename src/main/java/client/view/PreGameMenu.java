@@ -1,11 +1,10 @@
-package view;
+package client.view;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import controller.ApplicationController;
 import controller.CardController;
 import controller.menuConrollers.PreGameMenuController;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -19,13 +18,11 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Account.Player;
-import model.Account.User;
 import model.game.Game;
 import model.role.*;
+import server.User;
 
 import java.io.*;
 import java.lang.reflect.Type;

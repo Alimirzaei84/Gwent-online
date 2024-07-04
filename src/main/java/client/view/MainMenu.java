@@ -1,4 +1,4 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
 import controller.menuConrollers.MainMenuController;
@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.Account.User;
+import server.User;
 
 import java.net.URL;
 import java.util.Optional;

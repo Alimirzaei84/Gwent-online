@@ -1,6 +1,7 @@
 package model.game;
 
-import model.Account.*;
+
+import server.User;
 
 import java.util.ArrayList;
 

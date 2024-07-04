@@ -1,6 +1,7 @@
 package controller.menuConrollers;
 
-import model.Account.User;
+
+import server.User;
 
 public class LoginMenuController {
     public String login(String username, String password) throws Exception {

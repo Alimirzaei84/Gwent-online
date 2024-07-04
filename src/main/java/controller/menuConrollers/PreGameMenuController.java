@@ -7,9 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import model.Account.User;
 import model.role.Card;
 import model.role.Faction;
+import server.User;
 
 public class PreGameMenuController {
     public void setFaction(User loggedInUser, String name) {

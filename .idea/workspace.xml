@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameLauncher.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +20,11 @@
       <list>
         <option value="module-info" />
         <option value="JUnit4 Test Class" />
-        <option value="JUnit5 Test Class" />
         <option value="CSS File" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -43,7 +45,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -53,6 +55,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -61,6 +66,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.DBController.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MySQLConnector.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ChatroomTest.test1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.loginTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.registerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.truncateTest.executor&quot;: &quot;Run&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;database&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -78,17 +114,22 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="server.database" />
+      <recent name="server" />
       <recent name="controller" />
       <recent name="model.game" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="client" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.Client">
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.Client" />
+  <component name="RunManager" selected="JUnit.DBControllerTest.loginTest">
+    <configuration name="DBController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.database.DBController" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -97,11 +138,11 @@
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.Main" />
+      <option name="MAIN_CLASS_NAME" value="client.view.Main" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.*" />
+          <option name="PATTERN" value="client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -109,12 +150,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Player" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="model.Account.Player" />
+    <configuration name="MySQLConnector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.database.MySQLConnector" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.Account.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,12 +163,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterMenu" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="view.RegisterMenu" />
-      <module name="advanced-programming-project-group-17" />
+    <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="view.*" />
+          <option name="PATTERN" value="client.view.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -148,33 +189,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardControllerTest.specialTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DBControllerTest.loginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.CardControllerTest" />
-      <option name="METHOD_NAME" value="specialTest" />
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="loginTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardControllerTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DBControllerTest.registerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.CardControllerTest" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="registerTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DBControllerTest.truncateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.database.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="truncateTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -182,26 +239,28 @@
     </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="Application.Client" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Player" />
-      <item itemvalue="JUnit.CardControllerTest.specialTest" />
-      <item itemvalue="JUnit.CardControllerTest.test" />
+      <item itemvalue="Application.DBController" />
+      <item itemvalue="Application.MySQLConnector" />
+      <item itemvalue="JUnit.DBControllerTest.loginTest" />
+      <item itemvalue="JUnit.DBControllerTest.registerTest" />
+      <item itemvalue="JUnit.DBControllerTest.truncateTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.CardControllerTest.test" />
-        <item itemvalue="JUnit.CardControllerTest.specialTest" />
-        <item itemvalue="Application.Player" />
+        <item itemvalue="JUnit.DBControllerTest.loginTest" />
+        <item itemvalue="JUnit.DBControllerTest.registerTest" />
+        <item itemvalue="JUnit.DBControllerTest.truncateTest" />
+        <item itemvalue="Application.DBController" />
+        <item itemvalue="Application.MySQLConnector" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -244,6 +303,12 @@
       <workItem from="1719730049880" duration="5016000" />
       <workItem from="1719751308479" duration="543000" />
       <workItem from="1719826893427" duration="6178000" />
+      <workItem from="1719870160301" duration="3135000" />
+      <workItem from="1719905249593" duration="1490000" />
+      <workItem from="1719908744444" duration="1798000" />
+      <workItem from="1719991015287" duration="5230000" />
+      <workItem from="1720038694562" duration="2885000" />
+      <workItem from="1720079750677" duration="974000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

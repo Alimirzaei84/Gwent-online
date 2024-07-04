@@ -1,4 +1,4 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Account.User;
+import server.User;
 
 import java.net.URL;
 import java.util.Objects;
@@ -21,15 +21,13 @@ public class PickQuestions extends AppMenu {
     public void start(Stage stage) throws Exception {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/PickQuestion.fxml")));
         Scene scene = new Scene(pane);
-
-        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public void setFavoriteColor() throws Exception {
@@ -63,6 +61,5 @@ public class PickQuestions extends AppMenu {
 
     @Override
     public void initialize() {
-
     }
 }

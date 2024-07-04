@@ -1,4 +1,4 @@
-package view;
+package client.view;
 
 import controller.ApplicationController;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Account.User;
+import server.User;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class ForgetPassword extends AppMenu {
     public void start(Stage stage) throws Exception {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/FXML/ForgotPassword.fxml")));
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add(getClass().getResource("/CSS/RegisterMenu.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -45,7 +45,7 @@ public class ForgetPassword extends AppMenu {
             alert.setContentText("no user found");
 
             Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.showAndWait();
         }
         assert user != null;
