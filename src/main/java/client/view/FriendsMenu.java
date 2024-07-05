@@ -117,8 +117,9 @@ public class FriendsMenu extends AppMenu {
             String input = command.substring("[FRIENDS]:".length());
             String[] usernames = input.split("\\|");
             VBox vBox1 = new VBox();
+            VBox vBox2 = new VBox();
             friendsContainer.getChildren().clear();
-            friendsContainer.getChildren().addAll(vBox1);
+            friendsContainer.getChildren().addAll(vBox1 , vBox2);
 
             for (String username : usernames) {
                 if (username.equals(""))
@@ -127,7 +128,10 @@ public class FriendsMenu extends AppMenu {
                 usernameLabel.setText(username);
                 usernameLabel.setPrefHeight(46);
                 vBox1.getChildren().add(usernameLabel);
-                usernameLabel.setPrefWidth(330);
+                Button playButton = new Button();
+                playButton.setText("play");
+                usernameLabel.setPrefWidth(250);
+                playButton.setPrefHeight(46);
             }
 
         } else if (command.startsWith("[REQUESTS]:")) {
