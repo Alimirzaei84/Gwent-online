@@ -63,7 +63,6 @@ public class PreGameMenu<T> extends AppMenu {
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL url = ProfileMenu.class.getResource("/FXML/PreGameMenu.fxml");
-        assert url != null;
         AnchorPane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
 
@@ -82,7 +81,7 @@ public class PreGameMenu<T> extends AppMenu {
             throw new RuntimeException(e);
         }
 
-        readyButton.setVisible(false);
+//        readyButton.setVisible(false);
     }
 
     public void showAndChangeFaction() throws IOException {
@@ -185,35 +184,39 @@ public class PreGameMenu<T> extends AppMenu {
     }
 
 
-    public void startGame() {
-        Game game = Game.getCurrentGame();
-        System.out.println(game.getPlayer1().getUser().getLeader().getName());
-        System.out.println(game.getPlayer2().getUser().getLeader().getName());
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Err");
-        alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-        if (game.getPlayer1().getUser().getDeck().size() < 22 || game.getPlayer1().getUser().getSpecialCount() >= 10) {
-            String errMssg = "[ERR]: " + game.getPlayer1().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
-            System.out.println(errMssg);
-            alert.setContentText(errMssg);
-            alert.show();
-            return;
-        } else if (game.getPlayer2().getUser().getDeck().size() < 22 || game.getPlayer2().getUser().getSpecialCount() >= 10) {
-            String errMssg = "[ERR]: " + game.getPlayer2().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
-            alert.setContentText(errMssg);
-            System.out.println(errMssg);
-            alert.show();
-            return;
-        }
+    public void startGame() throws IOException {
+//        Out.sendMessage("I am ready");
+////        Game game = Game.getCurrentGame();
+////        System.out.println(game.getPlayer1().getUser().getLeader().getName());
+////        System.out.println(game.getPlayer2().getUser().getLeader().getName());
+//        Alert alert = new Alert(Alert.AlertType.WARNING);
+//        alert.setTitle("Err");
+//        alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+//        if (game.getPlayer1().getUser().getDeck().size() < 22 || game.getPlayer1().getUser().getSpecialCount() >= 10) {
+//            String errMssg = "[ERR]: " + game.getPlayer1().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
+//            System.out.println(errMssg);
+//            alert.setContentText(errMssg);
+//            alert.show();
+//            return;
+//        } else if (game.getPlayer2().getUser().getDeck().size() < 22 || game.getPlayer2().getUser().getSpecialCount() >= 10) {
+//            String errMssg = "[ERR]: " + game.getPlayer2().getUser().getName() + "should pick at least 22 cards or has more than 10 special cards!";
+//            alert.setContentText(errMssg);
+//            System.out.println(errMssg);
+//            alert.show();
+//            return;
+//        }
+//        else{
+//
+//        }
 
-        User user1 = game.getPlayer1().getUser();
-        User user2 = game.getPlayer2().getUser();
-        try {
-            GameLauncher gameLauncher = new GameLauncher();
-            gameLauncher.start(ApplicationController.getStage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        User user1 = game.getPlayer1().getUser();
+//        User user2 = game.getPlayer2().getUser();
+//        try {
+//            GameLauncher gameLauncher = new GameLauncher();
+//            gameLauncher.start(ApplicationController.getStage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -415,12 +418,12 @@ public class PreGameMenu<T> extends AppMenu {
             showLeaders(new ObjectMapper().readValue(Regexes.SHOW_LEADER.getGroup(command, "factionJson"), Faction.class));
         } else if (Regexes.DOWNLOAD_DECK.matches(command)) {
             downloadDeck(new ObjectMapper().readValue(Regexes.DOWNLOAD_DECK.getGroup(command, "deckJson"), ArrayList.class));
-        } else if(Regexes.SHOW_FACTION_RESULT.matches(command)){
+        } else if (Regexes.SHOW_FACTION_RESULT.matches(command)) {
             showAndChangeFaction(new ObjectMapper().readValue(Regexes.SHOW_FACTION_RESULT.getGroup(command, "factionJson"), Faction.class));
         }
     }
 
-    private  void showAndChangeFaction(Faction faction) throws MalformedURLException {
+    private void showAndChangeFaction(Faction faction) throws MalformedURLException {
 
         HBox content = new HBox(20); // Add spacing between each VBox
         content.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/PreGamePages.css")).toExternalForm());

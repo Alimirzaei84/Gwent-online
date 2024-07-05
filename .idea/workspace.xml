@@ -69,10 +69,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.RegisterMenu.executor": "Run"
+  }
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -129,7 +131,7 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
-      <module name="advanced-programming-project-group-17" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -155,7 +157,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
-      <module name="advanced-programming-project-group-17" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.view.*" />

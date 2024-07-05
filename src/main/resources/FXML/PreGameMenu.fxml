@@ -13,8 +13,8 @@
    <Button layoutX="716.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#showCards" prefHeight="46.0" prefWidth="207.0" text="show cards" />
    <Button layoutX="716.0" layoutY="193.0" mnemonicParsing="false" onMouseClicked="#uploadDeck" prefHeight="46.0" prefWidth="207.0" text="upload deck" />
    <Button layoutX="486.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#downloadDeck" text="download deck" />
-   <Button layoutX="404.0" layoutY="526.0" mnemonicParsing="false" onMouseClicked="#readyToPlay" prefHeight="46.0" prefWidth="207.0" text="Let's go..." />
-   <Button layoutX="589.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="I'm ready..." />
+<!--   <Button layoutX="404.0" layoutY="526.0" mnemonicParsing="false" onMouseClicked="#readyToPlay" prefHeight="46.0" prefWidth="207.0" text="Let's go..." />-->
+<!--   <Button layoutX="589.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="46.0" prefWidth="209.0" text="I'm ready..." />-->
    <Button layoutX="26.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="46.0" prefWidth="131.0" text="back" />
    <Button layoutX="487.0" layoutY="257.0" mnemonicParsing="false" onMouseClicked="#showLeaders" prefHeight="46.0" prefWidth="207.0" text="change leaders" />
    <Label layoutX="101.0" layoutY="177.0" text="username" />

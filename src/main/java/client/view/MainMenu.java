@@ -41,9 +41,9 @@ public class MainMenu extends AppMenu {
     @FXML
     public void playGame(MouseEvent mouseEvent) throws Exception {
         PreGameMenu preGameMenu = new PreGameMenu<>();
-//        usernameField.getScene().getWindow().hide();
+        this.profileMenuButton.getScene().getWindow().hide();
         preGameMenu.start((Stage) this.profileMenuButton.getScene().getWindow());
-//        //TODO :
+////        //TODO :
 //        String username = null;
 //        boolean validUsername = false;
 //        Alert alert = new Alert(Alert.AlertType.WARNING);

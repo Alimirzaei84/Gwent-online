@@ -29,6 +29,7 @@ public abstract class ServerController {
         game.getChatroom().handleCommand(user, message);
     }
 
+
     public static void passMessageToGameOfUser(User user, String message) throws IOException {
         int gameId = user.getGameId();
 
