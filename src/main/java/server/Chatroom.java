@@ -3,9 +3,10 @@ package server;
 import server.Account.User;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Chatroom {
+public class Chatroom implements Serializable {
 
     private final ArrayList<User> attendees;
 

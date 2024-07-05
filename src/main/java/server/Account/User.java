@@ -9,9 +9,10 @@ import server.game.GameHistory;
 import model.role.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class User {
+public class User implements Serializable {
 
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
@@ -22,7 +23,7 @@ public class User {
 
     private String email;
     private String nickname;
-    private int rank; //TODO : UPDATE AFTER EACH GAME
+    private int rank;
     private int highestScore;
     private int ties;
     private int wins;

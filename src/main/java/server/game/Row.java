@@ -3,9 +3,10 @@ package server.game;
 import model.role.Card;
 import model.role.Special;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Row {
+public class Row implements Serializable {
     private boolean isOnFrost;
 
     public enum RowName {
@@ -23,13 +24,11 @@ public class Row {
         }
     }
 
-    private final RowName name;
     private Special special;
     private ArrayList<Card> cards;
     private int point;
 
-    public Row(RowName name) {
-        this.name = name;
+    public Row() {
         cards = new ArrayList<>();
         special = null;
         point = 0;
@@ -48,9 +47,6 @@ public class Row {
         cards.add(card);
     }
 
-    public RowName getName() {
-        return name;
-    }
 
     public void increaseScore(int score) {
         point += score;

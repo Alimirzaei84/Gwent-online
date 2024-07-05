@@ -1,6 +1,8 @@
 package model.role;
 
-public enum Type {
+import java.io.Serializable;
+
+public enum Type implements Serializable {
     CLOSE,
     RANGED,
     AGILE,

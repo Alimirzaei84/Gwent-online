@@ -5,10 +5,12 @@ import client.view.AppMenu;
 public class User {
 
     private static User user = null ;
+    private boolean isPlaying;
     private String username;
     private AppMenu appMenu ;
 
     public User(){
+        isPlaying = false;
         username = "unknown";
     }
 

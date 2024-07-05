@@ -21,6 +21,7 @@ import server.request.Invitation;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommunicationHandler implements Runnable {
+public class CommunicationHandler implements Runnable, Serializable {
     private final Socket socket;
     private DataInputStream in;
     private DataOutputStream out;

@@ -7,17 +7,17 @@ import server.Chatroom;
 import server.Account.User;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Game implements Runnable {
+public class Game implements Runnable, Serializable {
 
     private static int gameCounter = 0;
 
     public enum AccessType {
-        PRIVATE(0),
-        PUBLIC(1);
+        PRIVATE(0), PUBLIC(1);
 
         private final int index;
 
@@ -28,6 +28,32 @@ public class Game implements Runnable {
         public int getIndex() {
             return index;
         }
+    }
+
+    public Board getCurrentPlayerBoard() {
+        return generateBoard(getCurrentPlayer(), getOtherPlayer());
+    }
+
+    public Board getOtherPlayerBoard() {
+        return generateBoard(getOtherPlayer(), getCurrentPlayer());
+    }
+
+    private Board generateBoard(Player curr, Player other) {
+
+        Board board = new Board(this);
+        board.setWeatherArrayList(this.getWeathers());
+
+        board.setMyDeck(curr.getUser().getDeck());
+        board.setMyHand(curr.getInHand());
+        board.setMyRows(curr.getRows());
+        board.setMyPoint(curr.getTotalPoint());
+
+        board.setOppDeck(other.getUser().getDeck());
+        board.setOppHand(other.getInHand());
+        board.setOppRows(other.getRows());
+        board.setOppPoint(other.getTotalPoint());
+
+        return board;
     }
 
 
@@ -170,8 +196,6 @@ public class Game implements Runnable {
     }
 
 
-
-
     public void endOfTheGame(Player winner) {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
@@ -298,4 +322,12 @@ public class Game implements Runnable {
         getChatroom().broadcast(message);
     }
 
+//    @Override
+//    public String toString() {
+//        StringBuilder builder = new StringBuilder();
+//        builder.append("[ROW0]");
+//
+//
+//        return builder.toString();
+//    }
 }

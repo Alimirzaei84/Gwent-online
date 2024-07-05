@@ -5,8 +5,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Card extends TypeAdapter<Card> {
+public class Card extends TypeAdapter<Card> implements Serializable {
     private String name;
     private String description;
     private final Type type;
@@ -131,7 +132,7 @@ public class Card extends TypeAdapter<Card> {
         return shouldBeChange;
     }
 
-    public void setShouldBeChange(){
+    public void setShouldBeChange() {
         shouldBeChange = true;
     }
 }

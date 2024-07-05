@@ -20,7 +20,9 @@
 
 package model.role;
 
-public enum Faction {
+import java.io.Serializable;
+
+public enum Faction implements Serializable {
     NORTHERN_REALMS(0),
     NILFGAARDIAN_EMPIRE(1),
     MONSTERS(2),

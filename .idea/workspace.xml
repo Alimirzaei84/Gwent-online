@@ -5,10 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/game/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/game/client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/server/game/server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Faction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Faction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Leader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Special.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Special.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/role/Weather.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Enum/GameRegexes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Enum/GameRegexes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Row.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Row.java" afterDir="false" />
     </list>
-
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,8 +42,8 @@
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="CSS File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -66,15 +86,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< Updated upstream
-=======
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.RegisterMenu.executor": "Run",
+    "Application.client.executor": "Run",
+    "Application.server.executor": "Run",
+    "Application.testJson.executor": "Run"
   }
-}</component>
->>>>>>> Stashed changes
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -102,33 +122,7 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RegisterMenu">
-    <configuration name="GFG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.request.GFG" />
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="server.request.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.view.GameLauncher" />
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="client.view.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.client">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
       <module name="testAnt" />
@@ -181,12 +175,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="client.Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.Main" />
+    <configuration name="client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.client" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.*" />
+          <option name="PATTERN" value="server.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.server" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -207,21 +214,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="testJson" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.testJson" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="Application.GFG" />
+      <item itemvalue="Application.client" />
+      <item itemvalue="Application.server" />
+      <item itemvalue="Application.testJson" />
       <item itemvalue="Application.test" />
-      <item itemvalue="Application.GameLauncher" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.client.Main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.client" />
+        <item itemvalue="Application.server" />
+        <item itemvalue="Application.testJson" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.test" />
-        <item itemvalue="Application.GFG" />
-        <item itemvalue="Application.client.Main" />
-        <item itemvalue="Application.GameLauncher" />
       </list>
     </recent_temporary>
   </component>

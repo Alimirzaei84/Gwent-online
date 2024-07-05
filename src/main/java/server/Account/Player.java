@@ -7,9 +7,10 @@ import server.game.Row;
 import model.role.*;
 import server.game.Game;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Player {
+public class Player implements Serializable {
     private short diamond;
     private ArrayList<Card> cardInfo;
     private int totalPoint;
@@ -594,9 +595,9 @@ public class Player {
 
 
     private void createRows() {
-        rows[0] = new Row(Row.RowName.FIRST);
-        rows[1] = new Row(Row.RowName.SEC);
-        rows[2] = new Row(Row.RowName.THIRD);
+        rows[0] = new Row();
+        rows[1] = new Row();
+        rows[2] = new Row();
     }
 
     public User getUser() {
