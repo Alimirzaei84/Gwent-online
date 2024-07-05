@@ -15,6 +15,7 @@ import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
 import server.request.FriendRequest;
+import server.request.Invitation;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -61,7 +62,7 @@ public class CommunicationHandler implements Runnable {
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
+    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
     private void handleCommand(String inMessage) throws Exception {
@@ -103,35 +104,6 @@ public class CommunicationHandler implements Runnable {
             }
 
         } else if (user.isOffline()) {
-
-//            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
-//                System.out.println("the user favorite color set");
-//            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
-//                System.out.println("the user favorite month set");
-//            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
-//                System.out.println("the user favorite food set");
-//            } else if (inMessage.equals("back")) {
-//                user = null;
-//                tempUser = null;
-//            } else if (Regexes.LOGIN.matches(inMessage)) {
-//                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
-//                if (result.startsWith("[INFO]")) {
-//                    user = tempUser;
-//                    tempUser = null;
-//                    user.getOnline(this);
-//                }
-//                sendMessage("login " + result);
-//            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
-//                System.out.println("I am here");
-//                handleForgetPasswordRequest(inMessage);
-//            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
-//                handleChangePasswordRequest(inMessage);
-//            }
-
-
             if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -228,7 +200,7 @@ public class CommunicationHandler implements Runnable {
                 StringBuilder builder = new StringBuilder();
                 builder.append("[REQUESTS]:");
 
-                for (FriendRequest request : requests){
+                for (FriendRequest request : requests) {
                     builder.append(request.getRequester().getUsername()).append("|");
                 }
 
@@ -298,7 +270,15 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("show factions " + new ObjectMapper().writeValueAsString(user.getFaction()));
             } else if (Regexes.SET_FACTION.matches(inMessage)) {
                 setFaction(inMessage);
+            } else if (Regexes.GET_INVITES.matches(inMessage)) {
+                StringBuilder builder = new StringBuilder();
+                builder.append("[INVITES]:");
+                ArrayList<Invitation> invites = ServerController.getAUsersInvitations(user);
+                for (Invitation invite : invites){
+                    builder.append(invite.getInviter().getUsername()).append("|");
+                }
 
+                sendMessage(builder.toString());
             } else {
                 sendMessage("[ERROR] unknown command");
             }

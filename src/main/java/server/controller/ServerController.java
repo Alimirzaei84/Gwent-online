@@ -1,5 +1,6 @@
 package server.controller;
 
+import client.In;
 import server.Chatroom;
 import server.game.Game;
 import server.User;
@@ -218,6 +219,16 @@ public abstract class ServerController {
 
         // start a new game
         startNewGame(inviter, recipient);
+    }
+
+    public static ArrayList<Invitation> getAUsersInvitations(User user) {
+        ArrayList<Invitation> invites = new ArrayList<>();
+        for (Invitation invite : invitations) {
+            if (invite.getRecipient().getUsername().equals(user.getUsername()))
+                invites.add(invite);
+        }
+
+        return invites;
     }
 
     private static Invitation getInvitationByMember(User inviter, User recipient) {
