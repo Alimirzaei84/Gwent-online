@@ -322,12 +322,4 @@ public class Game implements Runnable, Serializable {
         getChatroom().broadcast(message);
     }
 
-//    @Override
-//    public String toString() {
-//        StringBuilder builder = new StringBuilder();
-//        builder.append("[ROW0]");
-//
-//
-//        return builder.toString();
-//    }
 }

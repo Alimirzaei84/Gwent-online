@@ -12,7 +12,6 @@ module testAnt {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     exports server to com.fasterxml.jackson.databind;
-    exports view to com.fasterxml.jackson.databind;
     opens server to com.fasterxml.jackson.databind;
     opens model.role to  com.fasterxml.jackson.databind;
 //    opens model.game to  com.fasterxml.jackson.databind;

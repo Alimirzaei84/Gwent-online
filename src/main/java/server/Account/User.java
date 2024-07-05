@@ -367,7 +367,7 @@ public class User implements Serializable {
         this.handler = handler;
     }
 
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(Object message) throws IOException {
         getHandler().sendMessage(message);
     }
 

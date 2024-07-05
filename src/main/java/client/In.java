@@ -2,6 +2,7 @@ package client;
 
 import javafx.application.Platform;
 import client.view.AppMenu;
+import server.game.Board;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -69,7 +70,7 @@ public class In implements Runnable {
 
         else if (object instanceof Board) {
             Board board = (Board) object;
-            System.out.println(board.name);
+            System.out.println(board);
         }
 
         else {

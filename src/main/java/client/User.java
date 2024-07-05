@@ -8,7 +8,6 @@ public class User {
     private boolean isPlaying;
     private String username;
     private AppMenu appMenu ;
-    private boolean isPlaying;
 
     public User(){
         isPlaying = false;

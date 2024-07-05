@@ -7,6 +7,7 @@ import server.Account.User;
 import server.Enum.GameRegexes;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class GameCommunicationHandler implements Runnable {
 
@@ -53,7 +54,7 @@ public class GameCommunicationHandler implements Runnable {
         return null;
     }
 
-    private void sendBoardObjectToEachPlayer() {
+    private void sendBoardObjectToEachPlayer() throws IOException {
         game.getCurrentPlayer().getUser().sendMessage(game.getCurrentPlayerBoard());
         game.getOtherPlayer().getUser().sendMessage(game.getOtherPlayerBoard());
     }
