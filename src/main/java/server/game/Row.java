@@ -1,4 +1,4 @@
-package model.game;
+package server.game;
 
 import model.role.Card;
 import model.role.Special;

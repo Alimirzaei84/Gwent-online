@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.CardController;
 import model.role.Faction;
-import model.role.Unit;
-import server.User;
 
 import java.io.IOException;
 

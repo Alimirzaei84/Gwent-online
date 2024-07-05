@@ -14,9 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.game.GameHistory;
-import model.game.StateAfterADiamond;
-import server.User;
+import server.game.GameHistory;
+import server.game.StateAfterADiamond;
 
 import java.io.IOException;
 import java.net.URL;

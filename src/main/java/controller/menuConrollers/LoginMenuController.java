@@ -1,7 +1,7 @@
 package controller.menuConrollers;
 
 
-import server.User;
+import server.Account.User;
 
 public class LoginMenuController {
     public static String login(String username, String password) {

@@ -1,12 +1,11 @@
-package model.Account;
+package server.Account;
 
 import controller.ApplicationController;
 import controller.CardController;
 import controller.PlayerController;
-import model.game.Game;
-import model.game.Row;
+import server.game.Row;
 import model.role.*;
-import server.User;
+import server.game.Game;
 
 import java.util.*;
 
@@ -21,8 +20,9 @@ public class Player {
     private final ArrayList<Card> inHand;
     private final ArrayList<Card> discardCards;
     private final PlayerController controller;
+    private Game game;
 
-    public Player(User user) {
+    public Player(User user, Game game) {
         actionLeaderDone = false;
         cardInfo = new ArrayList<>();
         totalPoint = 0;
@@ -34,6 +34,7 @@ public class Player {
         discardCards = new ArrayList<>();
         createRows();
         controller = new PlayerController(this);
+        this.game = game;
     }
 
 
@@ -50,8 +51,8 @@ public class Player {
     }
 
     private Player getOpponent() {
-        Player player1 = Game.getCurrentGame().getPlayer1();
-        Player player2 = Game.getCurrentGame().getPlayer2();
+        Player player1 = game.getPlayer1();
+        Player player2 = game.getPlayer2();
         if (player1.equals(this)) return player2;
         else return player1;
     }
@@ -89,7 +90,7 @@ public class Player {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();
-        Game.getCurrentGame().changeTurn();
+        game.changeTurn();
     }
 
 
@@ -97,7 +98,7 @@ public class Player {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();
-        Game.getCurrentGame().passRound();
+        game.passRound();
     }
 
 
@@ -105,7 +106,7 @@ public class Player {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             inHand.remove(card);
-            Game.getCurrentGame().getWeathers().add(card);
+            game.getWeathers().add(card);
             String weatherType = card.getName().split(" ")[1];
             int whichRow = 0;
             switch (weatherType) {
@@ -257,7 +258,7 @@ public class Player {
         Card card = getRandomCard(weathersOfMyhand);
         if (card == null) return;
         inHand.remove(card);
-        Game.getCurrentGame().getWeathers().add(card);
+         game.getWeathers().add(card);
         String weatherType = card.getName().split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
@@ -277,7 +278,7 @@ public class Player {
         }
         Card card = getRandomCard(weathersOfMyhand);
         inHand.remove(card);
-        Game.getCurrentGame().getWeathers().add(card);
+        game.getWeathers().add(card);
         String weatherType = cardName.split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
@@ -289,7 +290,7 @@ public class Player {
     }
 
     private void avoidFreezingAspect() {
-        Game.getCurrentGame().getWeathers().clear();
+        game.getWeathers().clear();
 
         for (Row row : rows) {
             row.setOnFrost(false);
@@ -650,7 +651,7 @@ public class Player {
 
     public void addADiamond() {
         if (++diamond >= 2) {
-            Game.getCurrentGame().endOfTheGame(this);
+            game.endOfTheGame(this);
         }
     }
 
@@ -694,5 +695,6 @@ public class Player {
     public void setVetoCounter(short vetoCounter) {
         this.vetoCounter = vetoCounter;
     }
+
 
 }

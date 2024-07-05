@@ -1,8 +1,7 @@
 package controller.menuConrollers;
 
 import model.Enum.Regexes;
-import model.game.Game;
-import server.User;
+import server.Account.User;
 
 public class MainMenuController {
 
@@ -20,15 +19,12 @@ public class MainMenuController {
             throw new Exception("You can't play with yourself!");
         }
 
-        server.User opponent = server.User.getUserByUsername(opponentUsername);
+        User opponent = User.getUserByUsername(opponentUsername);
 
         if (opponent == null) {
             throw new Exception("Such user doesn't exist!");
         }
 
-        //TODO : EDIT BELLOW
-        Game game = new Game(User.getLoggedInUser(),opponent);
-        Game.setCurrentGame(game);
         return "Entered Username is valid!";
     }
 

@@ -10,6 +10,7 @@ import controller.menuConrollers.*;
 import model.role.Card;
 import model.role.Faction;
 import model.role.Leader;
+import server.Account.User;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;

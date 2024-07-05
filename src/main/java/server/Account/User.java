@@ -1,10 +1,11 @@
-package server;
+package server.Account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
-import model.game.GameHistory;
+import server.CommunicationHandler;
+import server.game.GameHistory;
 import model.role.*;
 
 import java.io.IOException;

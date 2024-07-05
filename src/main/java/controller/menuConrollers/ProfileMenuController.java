@@ -1,7 +1,7 @@
 package controller.menuConrollers;
 
 import model.Enum.Regexes;
-import server.User;
+import server.Account.User;
 
 public class ProfileMenuController {
 

@@ -20,10 +20,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.game.Game;
 import model.role.*;
 import server.Enum.Regexes;
-import server.User;
 
 import java.io.*;
 import java.net.MalformedURLException;

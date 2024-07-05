@@ -1,9 +1,7 @@
 package server.controller;
 
-import client.In;
-import server.Chatroom;
 import server.game.Game;
-import server.User;
+import server.Account.User;
 import server.error.SimilarRequest;
 import server.request.FriendRequest;
 import server.request.Invitation;

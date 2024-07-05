@@ -1,6 +1,6 @@
 package server.controller;
 
-import server.User;
+import server.Account.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

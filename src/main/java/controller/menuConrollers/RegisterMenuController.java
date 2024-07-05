@@ -2,7 +2,7 @@ package controller.menuConrollers;
 
 
 import javafx.stage.Stage;
-import server.User;
+import server.Account.User;
 import model.Enum.Regexes;
 
 public class RegisterMenuController {

@@ -1,6 +1,6 @@
 package controller;
 
-import model.Account.Player;
+import server.Account.Player;
 import model.role.Card;
 
 import java.util.ArrayList;
