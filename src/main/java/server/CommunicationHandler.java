@@ -18,10 +18,7 @@ import server.error.SimilarRequest;
 import server.request.FriendRequest;
 import server.request.Invitation;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,21 +26,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommunicationHandler implements Runnable, Serializable {
+public class CommunicationHandler implements Runnable {
     private final Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
+    private final ObjectInputStream in;
+    private ObjectOutputStream out;
     private User user;
     private User tempUser;
 
     public CommunicationHandler(Socket socket) throws IOException {
         this.socket = socket;
 
-        out = new DataOutputStream(socket.getOutputStream());
-        in = new DataInputStream(socket.getInputStream());
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
 
         user = null;
-
     }
 
     @Override
@@ -51,7 +47,7 @@ public class CommunicationHandler implements Runnable, Serializable {
 
         try {
             String inMessage;
-            while ((inMessage = in.readUTF()) != null) {
+            while ((inMessage = (String) in.readObject()) != null) {
                 // for debug purpose
                 System.out.println("[" + getUsername() + "] \"" + inMessage + "\"");
                 handleCommand(inMessage);
@@ -68,7 +64,6 @@ public class CommunicationHandler implements Runnable, Serializable {
 
 
     private void handleCommand(String inMessage) throws Exception {
-
         if (user == null) {
 
             if (Regexes.REGISTER.matches(inMessage)) {
@@ -103,6 +98,10 @@ public class CommunicationHandler implements Runnable, Serializable {
                 handleForgetPasswordRequest(inMessage);
             } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
                 handleChangePasswordRequest(inMessage);
+            }
+
+            else {
+                sendMessage("invalid command");
             }
 
         } else if (user.isOffline()) {
@@ -281,7 +280,9 @@ public class CommunicationHandler implements Runnable, Serializable {
                 }
 
                 sendMessage(builder.toString());
-            } else {
+            }
+
+            else {
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -588,8 +589,8 @@ public class CommunicationHandler implements Runnable, Serializable {
         }
     }
 
-    public void sendMessage(String message) throws IOException {
-        out.writeUTF(message);
+    public void sendMessage(Object message) throws IOException {
+        out.writeObject(message);
     }
 
     public void shutdown() {
@@ -610,11 +611,11 @@ public class CommunicationHandler implements Runnable, Serializable {
         }
     }
 
-    public DataOutputStream getOut() {
+    public ObjectOutputStream getOut() {
         return out;
     }
 
-    public DataInputStream getIn() {
+    public ObjectInputStream getIn() {
         return in;
     }
 

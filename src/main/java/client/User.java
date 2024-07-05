@@ -8,10 +8,12 @@ public class User {
     private boolean isPlaying;
     private String username;
     private AppMenu appMenu ;
+    private boolean isPlaying;
 
     public User(){
         isPlaying = false;
         username = "unknown";
+        isPlaying = false;
     }
 
     public String getUsername() {
@@ -23,6 +25,14 @@ public class User {
             user = new User();
         }
         return user;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying() {
+        this.isPlaying = true;
     }
 
     public AppMenu getAppMenu(){

@@ -3,16 +3,18 @@ package client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class Out {
 
-    private static DataOutputStream out;
+    private static ObjectOutputStream out;
 
-    public static void setOut(DataOutputStream out) {
+    public static void setOut(ObjectOutputStream out) {
         Out.out = out;
     }
 
     public static void sendMessage(String message) throws IOException {
-        out.writeUTF(message);
+        out.writeObject(message);
+        out.reset();
     }
 }
