@@ -27,6 +27,7 @@ public class FriendsMenu extends AppMenu {
     public HBox friendsContainer;
     public HBox requestsContainer;
     public Timeline refreshTimeLine;
+
     //TODO : PUT TIMELINE
 
     @Override
@@ -40,8 +41,8 @@ public class FriendsMenu extends AppMenu {
         }
 
         refreshTimeLine = new Timeline(new KeyFrame(Duration.seconds(3), event -> refreshData()));
-//        refreshTimeLine.setCycleCount(-1);
-//        refreshTimeLine.play();
+        refreshTimeLine.setCycleCount(-1);
+        refreshTimeLine.play();
     }
 
     @Override
@@ -52,7 +53,7 @@ public class FriendsMenu extends AppMenu {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/FriendsMenu.css")).toExternalForm());
-//        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/ScrollBarCss.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/ScrollBarCss.css")).toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
@@ -77,9 +78,10 @@ public class FriendsMenu extends AppMenu {
             VBox acceptButtons = new VBox();
             requestsContainer.getChildren().clear();
             requestsContainer.getChildren().addAll(usernames, denyButtons, acceptButtons);
-            for (FriendRequest request : requests) {
-                for (int i = 0; i < 10; i++)
-                    System.out.println("HERE --->" + request.getRequester().getUsername());
+
+
+            for (int j = 0; j < requests.size(); j++) {
+                FriendRequest request = requests.get(j);
                 Label usernameLabel = new Label();
                 usernameLabel.setText(request.getRequester().getUsername());
                 Button denyButton = new Button();
@@ -92,6 +94,7 @@ public class FriendsMenu extends AppMenu {
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
             }
+
 
         } else if (command.startsWith("[SUCC]")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -122,10 +125,47 @@ public class FriendsMenu extends AppMenu {
                     continue;
                 Label usernameLabel = new Label();
                 usernameLabel.setText(username);
+                usernameLabel.setPrefHeight(46);
                 vBox1.getChildren().add(usernameLabel);
                 Button playButton = new Button();
+                playButton.setText("play");
+                usernameLabel.setPrefWidth(250);
+                playButton.setPrefHeight(46);
                 playButton.setOnMouseClicked(event -> playGame());
                 vBox2.getChildren().add(playButton);
+            }
+        } else if (command.startsWith("[REQUESTS]:")) {
+            String input = command.substring("[REQUESTS]:".length());
+            String[] usernames = input.split("\\|");
+            VBox usernamesVBox = new VBox();
+            VBox denyButtons = new VBox();
+            VBox acceptButtons = new VBox();
+            requestsContainer.getChildren().clear();
+            requestsContainer.getChildren().addAll(usernamesVBox, denyButtons, acceptButtons);
+
+            for (String username : usernames) {
+                if (username.equals(""))
+                    continue;
+                Label usernameLabel = new Label();
+                usernameLabel.setText(username);
+                Button denyButton = new Button();
+                Button acceptButton = new Button();
+                denyButton.setOnMouseClicked(event -> reject(username));
+                acceptButton.setOnMouseClicked(event -> accept(username));
+                denyButton.setStyle("-fx-background-color: red;");
+                acceptButton.setStyle("-fx-background-color: green;");
+                usernameLabel.setMinWidth(250);
+                usernameLabel.setMaxWidth(250);
+                usernameLabel.setPrefHeight(46);
+                denyButton.setPrefHeight(46);
+                acceptButton.setPrefHeight(46);
+                acceptButton.setPrefWidth(1);
+                denyButton.setPrefWidth(1);
+//                denyButton.setText("REJECT");
+//                acceptButton.setText("ACCEPT");
+                usernamesVBox.getChildren().add(usernameLabel);
+                denyButtons.getChildren().add(denyButton);
+                acceptButtons.getChildren().add(acceptButton);
             }
         }
     }

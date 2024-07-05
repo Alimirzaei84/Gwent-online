@@ -224,9 +224,15 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(res);
             } else if (Regexes.GET_REQUESTS.matches(inMessage)) {
                 ArrayList<FriendRequest> requests = ServerController.getAUsersFriendRequests(user);
-                System.out.println("requestNum ----> " + requests.size());
                 String jsonString = toJsonStringRequestsArrayList(requests);
-                sendMessage(jsonString);
+                StringBuilder builder = new StringBuilder();
+                builder.append("[REQUESTS]:");
+
+                for (FriendRequest request : requests){
+                    builder.append(request.getRequester().getUsername()).append("|");
+                }
+
+                sendMessage(builder.toString());
             } else if (inMessage.matches(invitationRequestRegex)) {
                 Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
                 matcher.find();
@@ -480,10 +486,10 @@ public class CommunicationHandler implements Runnable {
     private void denyFriendRequest(Matcher matcher) throws IOException {
         String requesterName = matcher.group(1);
 
-        User requester = UserController.getUserByName(requesterName);
+        User requester = User.getUserByUsername(requesterName);
         if (requester == null) {
-            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            System.out.println("[ERR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + requesterName + "\"");
             return;
         }
 
@@ -510,7 +516,7 @@ public class CommunicationHandler implements Runnable {
     private void acceptFriendRequest(Matcher matcher) throws IOException {
         String requesterName = matcher.group(1);
 
-        User requester = UserController.getUserByName(requesterName);
+        User requester = User.getUserByUsername(requesterName);
         if (requester == null) {
             System.out.println("[ERR] user \"" + requesterName + "\" not found");
             sendMessage("[ERR] there is no user \"" + requesterName + "\"");

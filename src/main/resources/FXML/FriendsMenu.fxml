@@ -11,9 +11,9 @@
     <children>
         <Button fx:id="sendFriendRequest" layoutX="1061.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#sendFriendRequest" prefHeight="46.0" prefWidth="175.0" text="send request" />
         <TextField fx:id="usernameField" layoutX="1036.0" layoutY="26.0" prefHeight="30.0" prefWidth="226.0" />
-        <TabPane layoutX="14.0" layoutY="9.0" prefHeight="701.0" prefWidth="357.0">
+        <TabPane fx:id="tab" layoutX="14.0" layoutY="9.0" prefHeight="701.0" prefWidth="357.0">
             <tabs>
-                <Tab text="Friends">
+                <Tab closable="false" text="Friends">
                     <content>
                         <ScrollPane fx:id="scrollPaneFriends" prefHeight="672.0" prefWidth="339.0">
                             <content>
@@ -22,7 +22,7 @@
                         </ScrollPane>
                     </content>
                 </Tab>
-                <Tab text="Requests">
+                <Tab closable="false" text="Requests">
                     <content>
                         <ScrollPane fx:id="scrollPaneRequests" prefHeight="701.0" prefWidth="246.0">
                             <content>
