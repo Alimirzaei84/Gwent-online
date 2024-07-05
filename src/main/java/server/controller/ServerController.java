@@ -114,7 +114,7 @@ public abstract class ServerController {
         removeFriendRequest(request);
         recipient.sendMessage("[SUCC] the friend request from " + requester.getUsername() + " was denied.");
         requester.sendMessage("[INFO] " + recipient.getUsername() + " denied your friend request.");
-        System.out.println("[INFO] " + recipient.getUsername() + "denied friend request from " + requester.getUsername()+ ".");
+        System.out.println("[INFO] " + recipient.getUsername() + "denied friend request from " + requester.getUsername() + ".");
     }
 
     public static void denyInvitation(User recipient, User inviter) throws IOException {
@@ -129,7 +129,7 @@ public abstract class ServerController {
 
         recipient.sendMessage("[SUCC] the invitation from " + inviter.getUsername() + " was denied.");
         inviter.sendMessage("[INFO] " + recipient.getUsername() + " denied your friend request.");
-        System.out.println("[INFO] " + recipient.getUsername() + "denied friend request from " + inviter.getUsername()+ ".");
+        System.out.println("[INFO] " + recipient.getUsername() + "denied friend request from " + inviter.getUsername() + ".");
     }
 
     public static void cancelFriendRequest(User requester, User recipient) throws IOException {
@@ -143,7 +143,7 @@ public abstract class ServerController {
         removeFriendRequest(request);
 
         System.out.println("[INFO] " + requester.getUsername() + " cancels his friend request");
-        requester.sendMessage("[SUCC] your friend request has been cancelled" );
+        requester.sendMessage("[SUCC] your friend request has been cancelled");
         recipient.sendMessage("[INFO] " + requester.getUsername() + " has cancelled his friend request.");
     }
 
@@ -154,6 +154,16 @@ public abstract class ServerController {
         }
 
         return null;
+    }
+
+    public static ArrayList<FriendRequest> getAUsersFriendRequests(User recipient) {
+        ArrayList<FriendRequest> requests = new ArrayList<>();
+        for (FriendRequest request : friendRequests) {
+            if (request.getRecipient().equals(recipient))
+                requests.add(request);
+        }
+
+        return requests;
     }
 
     public static void createNewInvitation(User inviter, User receiver) throws IOException {
@@ -255,7 +265,7 @@ public abstract class ServerController {
         removeInvitation(invitation);
 
         System.out.println("[INFO] " + inviter.getUsername() + " cancels his invitation");
-        inviter.sendMessage("[SUCC] your invitation has been cancelled" );
+        inviter.sendMessage("[SUCC] your invitation has been cancelled");
         invitation.getRecipient().sendMessage("[INFO] " + inviter.getUsername() + " has cancelled his invitation.");
     }
 

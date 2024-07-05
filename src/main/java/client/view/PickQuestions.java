@@ -1,12 +1,11 @@
 package client.view;
 
-import controller.ApplicationController;
+import client.Out;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import server.User;
 
 import java.net.URL;
 import java.util.Objects;
@@ -28,25 +27,26 @@ public class PickQuestions extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client.User.getInstance().setAppMenu(this);
     }
 
     public void setFavoriteColor() throws Exception {
         if (color.getText() != null && color.getText().length() > 2) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite color?", color.getText());
+            Out.sendMessage("favorite color " + color.getText());
             System.out.println("[INFO]: user favorite color is -->>  " + color.getText());
         }
     }
 
     public void setFavoriteMonth() throws Exception {
         if (month.getText() != null && month.getText().length() > 2) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite month?", month.getText());
+            Out.sendMessage("favorite month " + month.getText());
             System.out.println("[INFO]: user favorite month is -->>  " + month.getText());
         }
     }
 
     public void setFavoriteFood() throws Exception {
         if (food.getText() != null && food.getText().length() > 1) {
-            User.getLoggedInUser().addQuestionAnswer("your favorite food?", food.getText());
+            Out.sendMessage("favorite food " + food.getText());
             System.out.println("[INFO]: user favorite food is -->>  " + food.getText());
         }
     }
@@ -56,10 +56,13 @@ public class PickQuestions extends AppMenu {
         setFavoriteFood();
         setFavoriteMonth();
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(ApplicationController.getStage());
+        food.getScene().getWindow().hide();
+        loginMenu.start((Stage) food.getScene().getWindow());
     }
 
+
     @Override
-    public void initialize() {
+    public void handleCommand(String command) throws Exception {
+
     }
 }

@@ -1,21 +1,21 @@
 package server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
 import model.game.GameHistory;
 import model.role.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class User {
 
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
     }
+
     private final ArrayList<GameHistory> gameHistories;
     private final ArrayList<User> friends;
 
@@ -32,26 +32,21 @@ public class User {
     private Leader leader;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser;
+    @JsonIgnore
     private CommunicationHandler handler;
     private String username;
     private String password;
-//    private final ArrayList<User> friends;
 
     private Status status;
 
     private int gameId = -1; // -1 means home
-//    private int roomId = -1; // -1 means home
-
-//    public User(String name, String password) throws IOException {
-//        this.username = name;
-//        this.password = password;
-//        status = Status.OFFLINE;
-//        friends = new ArrayList<>();
-//    }
 
     private HashMap<String, String> answers;
 
-    public User(String username, String password, String email, String nickname) {
+    public User(@JsonProperty("username") String username,
+                @JsonProperty("password") String password,
+                @JsonProperty("email") String email,
+                @JsonProperty("nickname") String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -98,7 +93,7 @@ public class User {
 
 
     private Leader getRandomLeader() {
-        System.out.println("++++" +   CardController.leaders.size());
+        System.out.println("++++" + CardController.leaders.size());
         String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));
         return (Leader) CardController.createLeaderCard(leaderName);
     }
@@ -152,9 +147,6 @@ public class User {
         this.username = name;
     }
 
-    public int getRank() {
-        return rank;
-    }
 
     public void setRank(int rank) {
         this.rank = rank;
@@ -203,7 +195,8 @@ public class User {
     public String getEmail() {
         return email;
     }
-    public static ArrayList<User> getAllUsers(){
+
+    public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
 
@@ -235,13 +228,10 @@ public class User {
         this.answers = answers;
     }
 
-
     public static User getUserByUsername(String username) {
-        for (User user : allUsers) {
-            if (user.getName().equals(username)) {
-                return user;
-            }
-        }
+
+        for (User user : allUsers)
+            if (user.getName().equals(username)) return user;
 
         return null;
     }
@@ -408,34 +398,22 @@ public class User {
         return gameId;
     }
 
-//    public int getRoomId() {
-//        return roomId;
-//    }
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 
-//    public void setRoomId(int roomId) {
-//        this.roomId = roomId;
-//    }
-
     public void setStatus(Status status) {
         this.status = status;
     }
-        @Override
+
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
         return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword());
     }
-//    @Override
-//    public boolean equals(Object object) {
-//        if (this == object) return true;
-//        if (object == null || getClass() != object.getClass()) return false;
-//        User user = (User) object;
-//        return getUsername().equals(user.getUsername());
-//    }
 
     public static User getLoggedInUser() {
         return loggedInUser;
@@ -445,5 +423,23 @@ public class User {
         User.loggedInUser = loggedInUser;
     }
 
+    public int getRank() {
+        allUsers.sort(Comparator.comparingInt(User::getWins).thenComparingInt(User::getHighestScore).thenComparingInt(User::getGamesPlayed).reversed());
+        return allUsers.indexOf(this) + 1;
+    }
+
+    public void addToDeck(Card card) {
+        deck.add(card);
+    }
+
+    public String getFriendsUsernames() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[FRIENDS]:");
+        for (User user : friends) {
+            builder.append(user.getUsername()).append("|");
+        }
+
+        return builder.toString();
+    }
 
 }

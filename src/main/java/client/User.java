@@ -16,7 +16,7 @@ public class User {
         return username;
     }
 
-    public static User getInsetance(){
+    public static User getInstance(){
         if (user ==null){
             user = new User();
         }
@@ -29,5 +29,9 @@ public class User {
 
     public void setAppMenu(AppMenu appMenu) {
         this.appMenu = appMenu;
+    }
+
+    public void setUsername(String text) {
+        username = text;
     }
 }

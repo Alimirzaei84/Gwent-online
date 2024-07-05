@@ -1,6 +1,8 @@
 package model.game;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import server.User;
 
 import java.util.ArrayList;
@@ -12,7 +14,12 @@ public class GameHistory {
     private final String dateFormattedString;
     private final ArrayList<StateAfterADiamond> roundsInformations;
 
-    public GameHistory(User opponent, User winner, String date, ArrayList<StateAfterADiamond> roundsInformation) {
+    @JsonCreator
+    public GameHistory(
+            @JsonProperty("opponent") User opponent,
+            @JsonProperty("winner") User winner,
+            @JsonProperty("dateFormattedString") String date,
+            @JsonProperty("roundsInformations") ArrayList<StateAfterADiamond> roundsInformation) {
         this.winner = winner;
         this.opponent = opponent;
         this.dateFormattedString = date;

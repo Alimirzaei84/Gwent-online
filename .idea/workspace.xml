@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/controller/EmailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/server/controller/EmailControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +22,9 @@
         <option value="JUnit4 Test Class" />
         <option value="CSS File" />
         <option value="FxmlFile" />
+
         <option value="Enum" />
+        <option value="FxmlFile" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
       </list>
@@ -48,7 +49,11 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/CSS/FriendsMenu.css" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -131,9 +136,22 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.EmailControllerTest.testSendEmail">
-    <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
+  <component name="RunManager" selected="Application.RegisterMenu">
+    <configuration name="GFG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.request.GFG" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.request.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.view.GameLauncher" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
@@ -205,7 +223,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmailControllerTest.testSendEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="client.Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.Main" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
@@ -239,19 +258,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="JUnit.DBControllerTest.findTest" />
-      <item itemvalue="JUnit.DBControllerTest.nullDeleteTest" />
-      <item itemvalue="JUnit.EmailControllerTest" />
-      <item itemvalue="JUnit.EmailControllerTest.testSendEmail" />
-      <item itemvalue="JUnit.EmailControllerTest.testVerify" />
+      <item itemvalue="Application.GFG" />
+      <item itemvalue="Application.test" />
+      <item itemvalue="Application.GameLauncher" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.client.Main" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EmailControllerTest.testSendEmail" />
-        <item itemvalue="JUnit.EmailControllerTest.testVerify" />
-        <item itemvalue="JUnit.EmailControllerTest" />
-        <item itemvalue="JUnit.DBControllerTest.findTest" />
-        <item itemvalue="JUnit.DBControllerTest.nullDeleteTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.test" />
+        <item itemvalue="Application.GFG" />
+        <item itemvalue="Application.client.Main" />
+        <item itemvalue="Application.GameLauncher" />
       </list>
     </recent_temporary>
   </component>
@@ -305,9 +324,10 @@
       <workItem from="1719870160301" duration="3135000" />
       <workItem from="1719905249593" duration="1490000" />
       <workItem from="1719908744444" duration="1798000" />
-      <workItem from="1719991015287" duration="5230000" />
-      <workItem from="1720038694562" duration="2885000" />
-      <workItem from="1720079750677" duration="974000" />
+      <workItem from="1719993083895" duration="13928000" />
+      <workItem from="1720102627112" duration="1742000" />
+      <workItem from="1720104402664" duration="11138000" />
+      <workItem from="1720161996741" duration="3558000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />

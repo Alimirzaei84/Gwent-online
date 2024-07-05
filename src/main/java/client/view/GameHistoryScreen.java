@@ -1,6 +1,9 @@
 package client.view;
 
-import controller.ApplicationController;
+import client.Out;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import controller.menuConrollers.GameHistoryController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,10 +14,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import model.game.GameHistory;
 import model.game.StateAfterADiamond;
 import server.User;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -26,6 +32,7 @@ public class GameHistoryScreen extends AppMenu {
     private VBox vBox3 = new VBox();
     AnchorPane pane;
     private int number = 0;
+    ArrayList<GameHistory> gameHistories;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -43,24 +50,42 @@ public class GameHistoryScreen extends AppMenu {
     public void back() {
         try {
             ProfileMenu profileMenu = new ProfileMenu();
-            profileMenu.start(ApplicationController.getStage());
+            client.User.getInstance().setAppMenu(profileMenu);
+            profileMenu.start((Stage) dataHBox.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void initialize() {
-
+    public static boolean isJsonValid(String jsonString) {
+        try {
+            ObjectMapper objectMapper = GameHistoryController.getObjectMapper();
+            objectMapper.readTree(jsonString);
+            return true;
+        } catch (JsonProcessingException e) {
+            return false;
+        }
     }
 
-    public void showAGameHistory(int index) {
-        System.out.println(index);
-        if (User.getLoggedInUser().getGameHistories().size() <= index || index < 0  )
-            return;
+    @Override
+    public void handleCommand(String command) {
+        if (isJsonValid(command)) {
+            gameHistories = GameHistoryController.fromJson(command);
+            if (!gameHistories.isEmpty()) {
+                showAGameHistory(number);
+            }
+        }
+    }
+
+
+    public boolean showAGameHistory(int index) {
+        if (gameHistories.size() <= index || index < 0)
+            return false;
+
         vBox1.getChildren().clear();
         vBox2.getChildren().clear();
         vBox3.getChildren().clear();
-        model.game.GameHistory gameHistory = User.getLoggedInUser().getGameHistories().get(index);
+        GameHistory gameHistory = gameHistories.get(index);
         int roundNum = 1;
         for (StateAfterADiamond state : gameHistory.getRoundsInformations()) {
             Label roundLabel = new Label();
@@ -105,7 +130,6 @@ public class GameHistoryScreen extends AppMenu {
         dateLabelData.setAlignment(Pos.CENTER);
         dateLabelData.setTextAlignment(TextAlignment.CENTER);
 
-
         loserInfoLabel.setText("LOSER");
         winnerInfoLabel.setText("WINNER");
         winnerTotalScore.setText(gameHistory.getWinner().getUsername());
@@ -122,12 +146,12 @@ public class GameHistoryScreen extends AppMenu {
         vBox2.getChildren().addAll(winnerTotalScore, loserTotalScore, dateLabelData);
         vBox3.getChildren().addAll(winnerTotalScoreData, loserTotalScoreData);
 
+        return true;
     }
 
     public void next() {
         int num = number + 1;
-        if (User.getLoggedInUser().getGameHistories().size() > num) {
-            showAGameHistory(num);
+        if (showAGameHistory(num)) {
             number++;
         }
     }
@@ -142,14 +166,17 @@ public class GameHistoryScreen extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        client.User.getInstance().setAppMenu(this);
         dataHBox.getChildren().addAll(vBox1, vBox2, vBox3);
         vBox1.setAlignment(Pos.CENTER);
         vBox3.setAlignment(Pos.CENTER);
         vBox2.setAlignment(Pos.CENTER);
         dataHBox.setSpacing(20);
         dataHBox.setAlignment(Pos.CENTER);
-        if (!User.getLoggedInUser().getGameHistories().isEmpty()) {
-            showAGameHistory(number);
+        try {
+            Out.sendMessage("get game histories");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

@@ -20,13 +20,13 @@ public class MainMenuController {
             throw new Exception("You can't play with yourself!");
         }
 
-//        server.User opponent = server.User.getUserByUsername(opponentUsername);
         server.User opponent = server.User.getUserByUsername(opponentUsername);
 
         if (opponent == null) {
             throw new Exception("Such user doesn't exist!");
         }
 
+        //TODO : EDIT BELLOW
         Game game = new Game(User.getLoggedInUser(),opponent);
         Game.setCurrentGame(game);
         return "Entered Username is valid!";

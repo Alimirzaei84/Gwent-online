@@ -22,6 +22,7 @@ import java.util.*;
  * */
 
 public abstract class CardController {
+    private static boolean isLoaded = false;
 
     public static HashMap<String, Type> type = new HashMap<>();
     public static HashMap<String, Faction> faction = new HashMap<>();
@@ -30,16 +31,17 @@ public abstract class CardController {
     public static HashMap<String, String> ability = new HashMap<>();
     public static HashMap<String, String> description = new HashMap<>();
     public static HashMap<String, String> imagePath = new HashMap<>();
-    public static int getRowNumber(String cardName){
+
+    public static int getRowNumber(String cardName) {
         switch (CardController.type.get(cardName)) {
             case SIEGE -> {
                 return 2;
             }
             case CLOSE -> {
-                return  0;
+                return 0;
             }
             case RANGED -> {
-                return  1;
+                return 1;
             }
             default -> {
                 // Handle `Agile` type...
@@ -60,13 +62,9 @@ public abstract class CardController {
         return new ArrayList<>(set);
     }
 
-    public static void load_data() throws IOException {
-        String unitPath = "./src/main/resources/data/unit cards",
-                leaderPath = "./src/main/resources/data/leader cards",
-                specialPath = "./src/main/resources/data/special cards";
-        BufferedReader unitReader = new BufferedReader(new FileReader(unitPath)),
-                specialReader = new BufferedReader(new FileReader(specialPath)),
-                leaderReader = new BufferedReader(new FileReader(leaderPath));
+    private static void loadData() throws IOException {
+        String unitPath = "./src/main/resources/data/unit cards", leaderPath = "./src/main/resources/data/leader cards", specialPath = "./src/main/resources/data/special cards";
+        BufferedReader unitReader = new BufferedReader(new FileReader(unitPath)), specialReader = new BufferedReader(new FileReader(specialPath)), leaderReader = new BufferedReader(new FileReader(leaderPath));
 
         String line;
 
@@ -97,6 +95,12 @@ public abstract class CardController {
         leaderReader.close();
     }
 
+    public static void load_data() throws IOException {
+        if (isLoaded) return;
+        isLoaded = true;
+        loadData();
+    }
+
     private static void addLeaderToRecord(String[] data) {
         String index = data[0];
         String factionName = data[1];
@@ -113,17 +117,11 @@ public abstract class CardController {
         String tmp1 = factionName.toLowerCase();
         if (tmp1.equals("all")) {
             tmp1 = "neutral";
-        }
-
-        else if (tmp1.equals("scoia'tael")) {
+        } else if (tmp1.equals("scoia'tael")) {
             tmp1 = "scoiatael";
-        }
-
-        else if (tmp1.startsWith("northern")) {
+        } else if (tmp1.startsWith("northern")) {
             tmp1 = tmp1.split(" ")[1];
-        }
-
-        else if (tmp1.startsWith("nilfgaardian")) {
+        } else if (tmp1.startsWith("nilfgaardian")) {
             tmp1 = "nilfgaard";
         }
 
@@ -203,17 +201,11 @@ public abstract class CardController {
         String tmp1 = factionName.toLowerCase();
         if (tmp1.equals("all")) {
             tmp1 = "neutral";
-        }
-
-        else if (tmp1.equals("scoia'tael")) {
+        } else if (tmp1.equals("scoia'tael")) {
             tmp1 = "scoiatael";
-        }
-
-        else if (tmp1.startsWith("northern")) {
+        } else if (tmp1.startsWith("northern")) {
             tmp1 = tmp1.split(" ")[1];
-        }
-
-        else if (tmp1.startsWith("nilfgaardian")) {
+        } else if (tmp1.startsWith("nilfgaardian")) {
             tmp1 = "nilfgaard";
         }
 
@@ -231,10 +223,8 @@ public abstract class CardController {
         }
 
         boolean isHero = Boolean.parseBoolean(isHeroStr);
-        if (isHero)
-            heroes.add(cardName);
-        else
-            units.add(cardName);
+        if (isHero) heroes.add(cardName);
+        else units.add(cardName);
     }
 
     public static Card createCardWithName(String name) {

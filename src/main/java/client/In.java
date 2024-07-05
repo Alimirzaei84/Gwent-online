@@ -1,5 +1,6 @@
 package client;
 
+import client.view.ProfileMenu;
 import javafx.application.Platform;
 import client.view.AppMenu;
 import client.view.LoginMenu;
@@ -28,7 +29,11 @@ public class In implements Runnable {
                     String finalServerMessage = serverMessage;
                     Platform.runLater(() -> {
                         System.out.println(finalServerMessage);
-                        serverMessageHandler(finalServerMessage);
+                        try {
+                            serverMessageHandler(finalServerMessage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     });
                 }
 
@@ -39,15 +44,10 @@ public class In implements Runnable {
         }
     }
 
-    public void serverMessageHandler(String message) {
-        // TODO
-        User user = User.getInsetance();
+    public void serverMessageHandler(String message) throws Exception {
+        User user = User.getInstance();
         AppMenu appMenu = user.getAppMenu();
-        if (appMenu instanceof RegisterMenu){
-            ((RegisterMenu) appMenu).handleCommand(message);
-        } else if (appMenu instanceof LoginMenu){
-
-        }
+        appMenu.handleCommand(message);
     }
 
     public DataInputStream getIn() {

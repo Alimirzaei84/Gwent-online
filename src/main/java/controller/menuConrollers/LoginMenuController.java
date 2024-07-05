@@ -4,17 +4,15 @@ package controller.menuConrollers;
 import server.User;
 
 public class LoginMenuController {
-    public String login(String username, String password) throws Exception {
+    public static String login(String username, String password) {
         User user = User.getUserByUsername(username);
         if (user == null) {
-            throw new Exception("[ERR]: Username not found!");
+            return ("[ERR]: Username not found!");
         }
         if (!user.getPassword().equals(password)) {
-            throw new Exception("[ERR]: Password is incorrect");
+            return ("[ERR]: Password is incorrect");
         }
 
-        User.setLoggedInUser(user);
         return "[INFO]: user << " + username + " >> logged in successfully";
     }
 }
-

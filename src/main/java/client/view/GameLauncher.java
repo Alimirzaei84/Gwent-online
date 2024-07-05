@@ -288,7 +288,6 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-
     private void setUpTimeLine() {
         sideSwapTimeLine = new Timeline(new KeyFrame(
                 Duration.seconds(3), event -> {
@@ -734,10 +733,10 @@ public class GameLauncher extends AppMenu {
         endOfTurn(curPlayer);
     }
 
-
-
     @Override
-    public void initialize() {
+    public void handleCommand(String command) {
 
     }
+
+
 }

@@ -19,8 +19,6 @@ import java.util.ResourceBundle;
 
 public class RegisterMenu extends AppMenu {
     public TextField username;
-    private Wrapper wrapper;
-    private int id;
     public TextField nickname;
     public PasswordField password;
     public PasswordField passwordAgain;
@@ -53,13 +51,13 @@ public class RegisterMenu extends AppMenu {
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/RegisterMenu.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
-//        System.out.println(stage);
+        CardController.load_data();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Main.connectSocket();
-        client.User.getInsetance().setAppMenu(this);
+        client.User.getInstance().setAppMenu(this);
     }
 
     public void exitFromGame() {
@@ -72,7 +70,7 @@ public class RegisterMenu extends AppMenu {
         int targetStringLength = 9; // desired length
         String generatedString = ApplicationController.getRandom().ints(leftLimit, rightLimit + 1).filter(Character::isLetterOrDigit).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         password.setText(generatedString);
-        passwordAgain.setText(generatedString);
+        passwordAgain.setText(generatedString + ApplicationController.getRandom().nextInt(0, 10));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("your random password is -->>  " + generatedString + "  <<--");
         Scene scene = alert.getDialogPane().getScene();
@@ -82,50 +80,36 @@ public class RegisterMenu extends AppMenu {
 
     public void goToLoginMenu() throws Exception {
         LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(ApplicationController.getStage());
+        loginMenu.start((Stage) username.getScene().getWindow());
     }
 
     public void register() throws Exception {
-        Out.sendMessage("register " +  username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + email.getText());
-
-        //        System.out.println(result);
-
-//        if (result.startsWith("[SUCC]")) {
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setContentText(result);
-//
-//            Scene scene = alert.getDialogPane().getScene();
-//            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-////            User newUser = new User(username.getText(), password.getText(), email.getText(), nickname.getText());
-//
-//
-//            Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + nickname.getText() + " " + email.getText());
-////            User.setLoggedInUser(newUser);
-//            email.getScene().getWindow().hide();
-////            ApplicationController.closeStage(id).close();
-//            PickQuestions pickQuestions = new PickQuestions();
-//            pickQuestions.start((Stage) email.getScene().getWindow());
-//
-//        } else if (result.startsWith("[ERR]")) {
-//            System.out.println(result);
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            Scene scene = alert.getDialogPane().getScene();
-//            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
-//            alert.setContentText(result);
-//            alert.showAndWait();
-//        } else {
-//            throw new RuntimeException("Invalid result");
-//        }
-
+        Out.sendMessage("register " + username.getText() + " " + password.getText() + " " + passwordAgain.getText() + " " + nickname.getText() + " " + email.getText());
     }
 
-    public void handleCommand(String command){
-        //TODO
-        System.out.println(command);
+    public void handleCommand(String result) throws Exception {
+
+        if (result.startsWith("[SUCC]")) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(result);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+
+            client.User.getInstance().setUsername(username.getText());
+            email.getScene().getWindow().hide();
+            PickQuestions pickQuestions = new PickQuestions();
+            pickQuestions.start((Stage) email.getScene().getWindow());
+
+        } else if (result.startsWith("[ERR]")) {
+            System.out.println(result);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Scene scene = alert.getDialogPane().getScene();
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
+            alert.setContentText(result);
+            alert.showAndWait();
+        } else {
+            throw new RuntimeException("Invalid result");
+        }
     }
 
-    @Override
-    public void initialize() {
-
-    }
 }

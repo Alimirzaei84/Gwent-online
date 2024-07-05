@@ -1,16 +1,28 @@
 package server;
 
-import controller.menuConrollers.RegisterMenuController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import controller.CardController;
+import controller.menuConrollers.*;
 
+import model.role.Card;
+import model.role.Faction;
+import model.role.Leader;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
+import server.request.FriendRequest;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +31,7 @@ public class CommunicationHandler implements Runnable {
     private DataInputStream in;
     private DataOutputStream out;
     private User user;
+    private User tempUser;
 
     public CommunicationHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -42,57 +55,186 @@ public class CommunicationHandler implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from ([\\S]+)$", friendRequestRegex = "^let's be friend ([\\S]+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
+    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
-    private void handleCommand(String inMessage) throws IOException {
+    private void handleCommand(String inMessage) throws Exception {
 
         if (user == null) {
-//            if (inMessage.matches(registerRegex)) {
-//                Matcher matcher = Pattern.compile(registerRegex).matcher(inMessage);
-//                matcher.find();
-//
-//                User user = UserController.register(matcher);
-//                if (user == null) {
-//                    sendMessage("[ERROR] register failed");
-//                } else {
-//                    sendMessage("[SUCC] register successful");
-//                    user.getOnline(this);
-//                    setUser(user);
-//                }
-//            }
-            if (Regexes.REGISTER.matches(inMessage)) {
-//                register(inMessage);
-                String message = RegisterMenuController.register(Regexes.REGISTER.getGroup(inMessage, "username"), Regexes.REGISTER.getGroup(inMessage, "password"),
-                        Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), Regexes.REGISTER.getGroup(inMessage, "nickname"), Regexes.REGISTER.getGroup(inMessage, "email"));
 
+            if (Regexes.REGISTER.matches(inMessage)) {
+                String username = Regexes.REGISTER.getGroup(inMessage, "username"), password = Regexes.REGISTER.getGroup(inMessage, "password"), passwordAgain = Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), nickname = Regexes.REGISTER.getGroup(inMessage, "nickname"), email = Regexes.REGISTER.getGroup(inMessage, "email");
+                String message = RegisterMenuController.register(username, password, passwordAgain, nickname, email);
+                if (message.startsWith("[SUCC]")) {
+                    tempUser = new User(username, password, nickname, email);
+                    System.out.println("user with username: " + username + " created");
+                }
                 sendMessage(message);
+              
+            } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+                System.out.println("the user favorite color set");
+            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+                System.out.println("the user favorite month set");
+            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+                System.out.println("the user favorite food set");
+            } else if (inMessage.equals("back")) {
+                tempUser = null;
+            } else if (Regexes.LOGIN.matches(inMessage)) {
+                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+                if (result.startsWith("[INFO]")) {
+                    user = tempUser;
+                    user.getOnline(this);
+                    tempUser = null;
+                }
+                sendMessage("login " + result);
+            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+                System.out.println("I am here");
+                handleForgetPasswordRequest(inMessage);
+            } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
+                handleChangePasswordRequest(inMessage);
             }
-//            else if (inMessage.matches(loginRegex)) {
-//                Matcher matcher = Pattern.compile(loginRegex).matcher(inMessage);
-//                matcher.find();
-//
-//                User user = UserController.login(matcher);
-//                if (user == null) {
-//                    sendMessage("[ERROR] login failed");
-//                } else {
-//                    sendMessage("[SUCC] login successful");
-//                    user.getOnline(this);
-//                    setUser(user);
-//                }
-//            } else {
-//                sendMessage("[ERROR] unknown command");
-//            }
 
         } else if (user.isOffline()) {
-            sendMessage("[ERROR] offline");
+
+//            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+//                System.out.println("the user favorite color set");
+//            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+//                System.out.println("the user favorite month set");
+//            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+//                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+//                System.out.println("the user favorite food set");
+//            } else if (inMessage.equals("back")) {
+//                user = null;
+//                tempUser = null;
+//            } else if (Regexes.LOGIN.matches(inMessage)) {
+//                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+//                if (result.startsWith("[INFO]")) {
+//                    user = tempUser;
+//                    tempUser = null;
+//                    user.getOnline(this);
+//                }
+//                sendMessage("login " + result);
+//            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+//                System.out.println("I am here");
+//                handleForgetPasswordRequest(inMessage);
+//            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
+//                handleChangePasswordRequest(inMessage);
+//            }
+
+
+            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
+                System.out.println("the user favorite color set");
+            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
+                System.out.println("the user favorite month set");
+            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
+                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
+                System.out.println("the user favorite food set");
+            } else if (inMessage.equals("back")) {
+                user = null;
+                tempUser = null;
+            } else if (Regexes.LOGIN.matches(inMessage)) {
+                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
+                if (result.startsWith("[INFO]")) {
+                    user.getOnline(this);
+                    tempUser = null;
+                }
+                sendMessage("login " + result);
+            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
+                System.out.println("I am here");
+                handleForgetPasswordRequest(inMessage);
+            } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
+                handleChangePasswordRequest(inMessage);
+            }
+
         } else if (user.isJustOnline()) {
 
-            if (inMessage.matches(invitationRequestRegex)) {
+            if (Regexes.GET_USERNAME.matches(inMessage)) {
+                sendMessage("[USERNAME]:" + user.getUsername());
+            } else if (Regexes.GET_EMAIL.matches(inMessage)) {
+                sendMessage("[EMAIL]:" + user.getEmail());
+            } else if (Regexes.GET_NICKNAME.matches(inMessage)) {
+                sendMessage("[NICKNAME]:" + user.getNickname());
+            } else if (Regexes.GET_GAMES_PLAYED.matches(inMessage)) {
+                sendMessage("[GAMESPLAYED]:" + user.getGamesPlayed());
+            } else if (Regexes.GET_LOSSES.matches(inMessage)) {
+                sendMessage("[LOSSES]:" + user.getLosses());
+            } else if (Regexes.GET_WINS.matches(inMessage)) {
+                sendMessage("[WINS]:" + user.getWins());
+            } else if (Regexes.GET_TIE.matches(inMessage)) {
+                sendMessage("[TIE]:" + user.getTies());
+            } else if (Regexes.GET_RANK.matches(inMessage)) {
+                sendMessage("[RANK]:" + user.getRank());
+            } else if (Regexes.GET_MAX_SCORE.matches(inMessage)) {
+                sendMessage("[MAXSCORE]:" + user.getHighestScore());
+            } else if (Regexes.CHANGE_PASSWORD_PROFILEMENU.matches(inMessage)) {
+                String newPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage, "password");
+                String oldPassword = Regexes.CHANGE_PASSWORD_PROFILEMENU.getGroup(inMessage, "oldPassword");
+                String res = ProfileMenuController.changePassword(newPassword, oldPassword, user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setPassword(newPassword);
+                }
+
+                sendMessage(res);
+            } else if (Regexes.LOGOUT.matches(inMessage)) {
+                user.getOffline();
+//                this.setUser(null);
+            } else if (Regexes.CHANGE_NICKNAME.matches(inMessage)) {
+                String res = ProfileMenuController.changeNickname(Regexes.CHANGE_NICKNAME.getGroup(inMessage, "newNickname"), user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setNickname(Regexes.CHANGE_NICKNAME.getGroup(inMessage, "newNickname"));
+                }
+
+                sendMessage(res);
+            } else if (Regexes.CHANGE_USERNAME.matches(inMessage)) {
+                String res = ProfileMenuController.changeUsername(Regexes.CHANGE_USERNAME.getGroup(inMessage, "newUsername"), user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setUsername(Regexes.CHANGE_USERNAME.getGroup(inMessage, "newUsername"));
+                }
+
+                sendMessage(res);
+            } else if (Regexes.CHANGE_EMAIL.matches(inMessage)) {
+                String newEmail = Regexes.CHANGE_EMAIL.getGroup(inMessage, "newEmail");
+                String res = ProfileMenuController.changeEmail(newEmail, user);
+                if (res.startsWith("[SUCC]")) {
+                    user.setEmail(newEmail);
+                }
+
+                sendMessage(res);
+            } else if (Regexes.GET_GAME_HISTORIES.matches(inMessage)) {
+                String res = GameHistoryController.convertToJson(user.getGameHistories());
+                if (res == null) {
+                    sendMessage("");
+                } else {
+                    sendMessage(res);
+                }
+            } else if (Regexes.GET_FRIENDS.matches(inMessage)) {
+                String res = user.getFriendsUsernames();
+                sendMessage(res);
+            } else if (Regexes.GET_REQUESTS.matches(inMessage)) {
+                ArrayList<FriendRequest> requests = ServerController.getAUsersFriendRequests(user);
+                String jsonString = toJsonStringRequestsArrayList(requests);
+                StringBuilder builder = new StringBuilder();
+                builder.append("[REQUESTS]:");
+
+                for (FriendRequest request : requests){
+                    builder.append(request.getRequester().getUsername()).append("|");
+                }
+
+                sendMessage(builder.toString());
+            } else if (inMessage.matches(invitationRequestRegex)) {
                 Matcher matcher = getMatcher(invitationRequestRegex, inMessage);
                 matcher.find();
 
@@ -113,7 +255,6 @@ public class CommunicationHandler implements Runnable {
             } else if (inMessage.matches(friendRequestRegex)) {
                 Matcher matcher = getMatcher(friendRequestRegex, inMessage);
                 matcher.find();
-
                 friendRequest(matcher);
             } else if (inMessage.matches(acceptFriendRequestRegex)) {
                 Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
@@ -135,15 +276,44 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 watchOnlineGame(matcher);
+            } else if (inMessage.equals("user please")) {
+                sendMessage("user: " + new ObjectMapper().writeValueAsString(user));
+            } else if (inMessage.equals("show cards")) {
+                sendShowCardCommand();
+            } else if (inMessage.equals("show deck")) {
+                sendShowDeckCommand();
+            } else if (inMessage.equals("showCurrentUserInfo")) {
+                sendShowCurrentUserInfo();
+            } else if (Regexes.ADD_TO_DECK.matches(inMessage)) {
+                handleAddToDeckRequest(Regexes.ADD_TO_DECK.getGroup(inMessage, "cardName"));
+            } else if (Regexes.REMOVE_FROM_DECK_REQUEST.matches(inMessage)) {
+                getUser().getDeck().remove(getUser().getCardFromDeckByName(Regexes.REMOVE_FROM_DECK_REQUEST.getGroup(inMessage, "cardName")));
+            } else if (inMessage.startsWith("show leader")) {
+                sendFactionForShowLeaderRequest();
+            } else if (Regexes.CHANGE_LEADER_REQUEST.matches(inMessage)) {
+                handleChangeLeaderRequest(inMessage);
+            } else if (inMessage.equals("download deck")) {
+                sendMessage("download deck " + new ObjectMapper().writeValueAsString(convertToTheirName(user.getDeck())));
+            } else if (Regexes.SET_DECK.matches(inMessage)) {
+                handleSetDeckRequest(inMessage);
+            } else if (inMessage.equals("show factions")) {
+                sendMessage("show factions " + new ObjectMapper().writeValueAsString(user.getFaction()));
+            } else if (Regexes.SET_FACTION.matches(inMessage)) {
+                setFaction(inMessage);
+
             } else {
                 sendMessage("[ERROR] unknown command");
             }
+
+
         } else if (user.isInviting()) {
+
             if (inMessage.matches(cancelInvitationRegex)) {
                 cancelInvitation();
             } else {
                 sendMessage("[ERROR] unknown command");
             }
+
         } else if (user.isPlaying()) {
             ServerController.passMessageToGameOfUser(this.getUser(), inMessage);
         } else if (user.isViewing()) {
@@ -151,6 +321,129 @@ public class CommunicationHandler implements Runnable {
             ServerController.passMessageToChatRoom(this.getUser(), inMessage);
         } else {
             sendMessage("[ERROR] unknown command");
+        }
+    }
+
+    private void setFaction(String message) {
+        String factionName = Regexes.SET_FACTION.getGroup(message, "factionName");
+        this.getUser().setFaction(Faction.valueOf(factionName.toUpperCase()));
+        this.getUser().getDeck().clear();
+    }
+
+    private void handleSetDeckRequest(String message) throws JsonProcessingException {
+        System.out.println("we are trying to update");
+        ArrayList<String> arrayList = new ObjectMapper().readValue(Regexes.SET_DECK.getGroup(message, "deckJson"), ArrayList.class);
+        getUser().getDeck().clear();
+        for (String cardName : arrayList) {
+            getUser().addToDeck(CardController.createCardWithName(cardName));
+        }
+    }
+
+    private void handleChangeLeaderRequest(String message) {
+        String leaderName = Regexes.CHANGE_LEADER_REQUEST.getGroup(message, "leaderName");
+        Card card = CardController.createCardWithName(leaderName);
+        getUser().setLeader((Leader) card);
+        System.out.println("[INFO]: " + user.getName() + " changed its leader to " + user.getLeader().getName());
+    }
+
+    private String toJsonStringRequestsArrayList(List<FriendRequest> friendRequests) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        try {
+            return mapper.writeValueAsString(friendRequests);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void sendFactionForShowLeaderRequest() throws IOException {
+        String factionJson = (new ObjectMapper()).writeValueAsString(user.getFaction());
+        sendMessage("showLeader " + factionJson);
+    }
+
+    private void handleAddToDeckRequest(String cardName) throws Exception {
+        String result = PreGameMenuController.addToDeck(cardName, user);
+        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
+        sendMessage("addToDeckResult " + result);
+    }
+
+    private void sendShowCurrentUserInfo() throws IOException {
+        sendMessage("showCurrentUserInfo " + user.getName() + " " + user.getFaction().name() + " " + user.getDeck().size() + " " + user.getUnitCount() + " " + user.getSpecialCount()
+                + " " + user.getHeroCount() + " " + user.getSumOfPower());
+    }
+
+    private void sendShowDeckCommand() throws IOException {
+        ArrayList<String> cardNames = new ArrayList<>();
+        for (Card card : user.getDeck()) {
+            cardNames.add(card.getName());
+        }
+
+        Gson gson = new Gson();
+        String json = gson.toJson(cardNames);
+
+        sendMessage("showManyCardsInScrollBar " + json + " true " + gson.toJson(convertToTheirName(user.getDeck())));
+    }
+
+    private ArrayList<String> convertToTheirName(ArrayList<Card> arrayList) {
+        ArrayList<String> result = new ArrayList<>();
+        for (Card card : arrayList) {
+            result.add(card.getName());
+        }
+        return result;
+    }
+
+    private void sendShowCardCommand() throws IOException {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(CardController.units);
+        result.addAll(CardController.specials);
+        result.addAll(CardController.heroes);
+        for (String cardName : result) {
+            Faction faction = CardController.faction.getOrDefault(cardName, Faction.ALL);
+            if (faction.equals(user.getFaction())
+                    || faction.equals(Faction.ALL)) {
+                arrayList.add(cardName);
+            }
+
+
+        }
+
+
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+
+        sendMessage("showManyCardsInScrollBar " + json + " false " + gson.toJson(convertToTheirName(user.getDeck())));
+    }
+
+    private void handleChangePasswordRequest(String request) throws IOException {
+        String color = Regexes.CHANGE_PASSWORD.getGroup(request, "color");
+        String food = Regexes.CHANGE_PASSWORD.getGroup(request, "food");
+        String month = Regexes.CHANGE_PASSWORD.getGroup(request, "month");
+        String newPassword = Regexes.CHANGE_PASSWORD.getGroup(request, "newPassword");
+        HashMap<String, String> answers = tempUser.getAnswers();
+
+        if (!answers.getOrDefault("your favorite color?", "DASH!").equals(color)
+                && !answers.getOrDefault("your favorite food?", "^DASH^").equals(food)
+                && !answers.getOrDefault("your favorite month?", "DASH").equals(month)
+        ) {
+            sendMessage("[ERR]: your answers does not correct!");
+            return;
+        }
+
+
+        tempUser.setPassword(newPassword);
+        sendMessage("[SUCC]: password changed successfully");
+    }
+
+    private void handleForgetPasswordRequest(String message) throws IOException {
+        User temp = User.getUserByUsername(Regexes.FORGET_PASSWORD.getGroup(message, "username"));
+        if (temp == null) sendMessage("forgetPassword [ERR]");
+        else {
+            tempUser = temp;
+            user = null;
+            sendMessage("forgetPassword [SUCC]");
         }
     }
 
@@ -184,8 +477,8 @@ public class CommunicationHandler implements Runnable {
         User inviter = UserController.getUserByName(inviterName);
 
         if (inviter == null) {
-            System.out.println("[ERROR] user \"" + inviterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + inviterName + "\"");
+            System.out.println("[ERR]: user \"" + inviterName + "\" not found");
+            sendMessage("[ERR]: there is no user \"" + inviterName + "\"");
             return;
         }
 
@@ -195,10 +488,10 @@ public class CommunicationHandler implements Runnable {
     private void denyFriendRequest(Matcher matcher) throws IOException {
         String requesterName = matcher.group(1);
 
-        User requester = UserController.getUserByName(requesterName);
+        User requester = User.getUserByUsername(requesterName);
         if (requester == null) {
-            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            System.out.println("[ERR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + requesterName + "\"");
             return;
         }
 
@@ -210,8 +503,8 @@ public class CommunicationHandler implements Runnable {
 
         User recipient = UserController.getUserByName(recipientName);
         if (recipient == null) {
-            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            System.out.println("[ERR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + recipientName + "\"");
             return;
         }
 
@@ -225,10 +518,10 @@ public class CommunicationHandler implements Runnable {
     private void acceptFriendRequest(Matcher matcher) throws IOException {
         String requesterName = matcher.group(1);
 
-        User requester = UserController.getUserByName(requesterName);
+        User requester = User.getUserByUsername(requesterName);
         if (requester == null) {
-            System.out.println("[ERROR] user \"" + requesterName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + requesterName + "\"");
+            System.out.println("[ERR] user \"" + requesterName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + requesterName + "\"");
             return;
         }
 
@@ -238,28 +531,28 @@ public class CommunicationHandler implements Runnable {
     private void friendRequest(Matcher matcher) throws IOException {
         String recipientName = matcher.group(1);
 
-        User recipient = UserController.getUserByName(recipientName);
+        User recipient = User.getUserByUsername(recipientName);
         if (recipient == null) {
-            System.out.println("[ERROR] user \"" + recipientName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + recipientName + "\"");
+            System.out.println("[ERR] user \"" + recipientName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + recipientName + "\"");
             return;
         }
 
         if (this.getUser().equals(recipient)) {
-            sendMessage("[ERROR] you can not send friend request to yourself.");
+            sendMessage("[ERR] you can not send friend request to yourself.");
             return;
         }
 
         if (this.getUser().friendsWith(recipient)) {
-            sendMessage("[ERROR] you are already " + recipientName + "'s friend");
+            sendMessage("[ERR] you are already " + recipientName + "'s friend");
             return;
         }
 
         try {
             ServerController.createNewFriendRequest(this.getUser(), recipient);
         } catch (SimilarRequest e) {
-            System.out.println("[ERROR] similar friend request");
-            sendMessage("[ERROR] similar friend request");
+            System.out.println("[ERR] similar friend request");
+            sendMessage("[ERR] similar friend request");
         }
     }
 
