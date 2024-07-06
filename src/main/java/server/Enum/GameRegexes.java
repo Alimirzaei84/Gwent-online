@@ -14,7 +14,7 @@ public enum GameRegexes {
     PLACE_CARD("place card (?<cardName>.+) (?<rowNumber>\\d+)"),
     A_USER_PLACED_A_CARD("(?<username>.+) place card (?<cardName>.+) (?<rowNumber>\\d+)"),
     JSON_OF_ROWS("(?<username>.+)Row0(?<json0>.+)Row1(?<json1>.+)Row2(?<json2>.+)"),
-    PLAY_LEADER("(?<username>.+) leader (?<leaderName>.+)"),
+    PLAY_LEADER("(?<username>.+) leader"),
     EXIT("^exit$"),
     SHOW_HAND("^show hand$"),
     GET_ROW("^(?<username>.+) get row(?<rowIndex>.+)$"),

@@ -1,7 +1,6 @@
 package server.game;
 
 import model.role.Card;
-import model.role.Weather;
 import server.Account.Player;
 
 import java.util.ArrayList;
