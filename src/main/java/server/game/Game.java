@@ -41,7 +41,7 @@ public class Game implements Runnable, Serializable {
 
     private Board generateBoard(Player curr, Player other) {
 
-        Board board = new Board(this);
+        Board board = new Board();
         board.setWeatherArrayList(this.getWeathers());
 
         board.setCurrPlayer(curr);
@@ -55,7 +55,7 @@ public class Game implements Runnable, Serializable {
         board.setOppHand(other.getInHand());
         board.setOppRows(other.getRows());
         board.setOppPoint(other.getTotalPoint());
-
+        board.setNumTurn(numTurn);
         return board;
     }
 

@@ -194,9 +194,11 @@ public class GameLauncher extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        inHandCurHbox.getChildren().add(inHandPlayer1);
-
-
+//       try {
+//           Out.sendMessage("give board");
+//       } catch (Exception e){
+//           e.printStackTrace();
+//       }
 //
 //        Platform.runLater(() -> {
 //            for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {
@@ -315,7 +317,7 @@ public class GameLauncher extends AppMenu {
 
         displayCard(curPlayer, otherPlayer);
         //remove veto button
-        if (board.getGame().getNumTurn() == 1) {
+        if (board.getNumTurn() == 1) {
             if (vetoButton != null)
                 vetoButton.setVisible(false);
         }

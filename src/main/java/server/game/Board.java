@@ -3,10 +3,11 @@ package server.game;
 import model.role.Card;
 import server.Account.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
-    private Game game;
+public class Board implements Serializable {
+    private int numTurn;
     private Player currPlayer;
     private Player oppPlayer;
     private Row[] myRows;
@@ -19,16 +20,16 @@ public class Board {
     private ArrayList<Card> myDeck;
     private ArrayList<Card> oppDeck;
 
-    public Board(Game game) {
-        this.game = game;
+    public Board() {
+
     }
 
-    public Game getGame() {
-        return game;
+    public int getNumTurn() {
+        return numTurn;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setNumTurn(int numTurn) {
+        this.numTurn = numTurn;
     }
 
     public Row[] getMyRows() {

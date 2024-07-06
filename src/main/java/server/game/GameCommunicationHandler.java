@@ -11,6 +11,7 @@ import server.Account.User;
 import server.Enum.GameRegexes;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 public class GameCommunicationHandler implements Runnable {
 
@@ -22,15 +23,6 @@ public class GameCommunicationHandler implements Runnable {
 
     @Override
     public void run() {
-        Timeline refresh = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-            try {
-                sendBoardObjectToEachPlayer();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }));
-        refresh.setCycleCount(Animation.INDEFINITE);
-        refresh.play();
     }
 
     public String handleCommand(String command) throws IOException {

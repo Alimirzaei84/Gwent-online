@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
+    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,324 +205,136 @@
       </method>
     </configuration>
     <list>
-        <option value="module-info"/>
-        <option value="JUnit4 Test Class"/>
-        <option value="JUnit5 Test Class"/>
-        <option value="Enum"/>
-        <option value="FxmlFile"/>
-        <option value="CSS File"/>
-        <option value="Class"/>
+      <item itemvalue="Application.RegisterMenu" />
+      <item itemvalue="Application.client" />
+      <item itemvalue="Application.server" />
+      <item itemvalue="Application.testJson" />
+      <item itemvalue="Application.test" />
+      <item itemvalue="Application.Main" />
     </list>
-</option>
-</component>
-<component name="Git.Settings">
-<option name="RECENT_BRANCH_BY_REPOSITORY">
-    <map>
-        <entry key="$PROJECT_DIR$" value="model-structure"/>
-    </map>
-</option>
-<option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$"/>
-</component>
-<component name="GitSEFilterConfiguration">
-<file-type-list>
-    <filtered-out-file-type name="LOCAL_BRANCH"/>
-    <filtered-out-file-type name="REMOTE_BRANCH"/>
-    <filtered-out-file-type name="TAG"/>
-    <filtered-out-file-type name="COMMIT_BY_MESSAGE"/>
-</file-type-list>
-</component>
-<component name="HighlightingSettingsPerFile">
-<setting file="file://$PROJECT_DIR$/src/main/java/client/view/RegisterMenu.java" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/resources/CSS/RegisterMenu.css" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/resources/FXML/RegisterMenu.fxml" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" root0="FORCE_HIGHLIGHTING"/>
-<setting file="file://$PROJECT_DIR$/src/main/resources/CSS/FriendsMenu.css" root0="FORCE_HIGHLIGHTING"/>
-</component>
-<component name="MarkdownSettingsMigration">
-<option name="stateVersion" value="1"/>
-</component>
-<component name="ProblemsViewState">
-<option name="selectedTabId" value="CurrentFile"/>
-</component>
-<component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI"/>
-<component name="ProjectLevelVcsManager" settingsEditedManually="true">
-<ConfirmationsSetting value="2" id="Add"/>
-</component>
-<component name="ProjectViewState">
-<option name="hideEmptyMiddlePackages" value="true"/>
-<option name="showLibraryContents" value="true"/>
-</component>
-<component name="PropertiesComponent">
-<property name="WebServerToolWindowFactoryState" value="false"/>
-</component>
-<component name="ReaderModeSettings">
-<option name="enabled" value="false"/>
-</component>
-<component name="RecentsManager">
-<key name="CopyFile.RECENT_KEYS">
-    <recent name="$PROJECT_DIR$/src/main/resources/assets/sm"/>
-    <recent name="$PROJECT_DIR$/src/main/resources/assets/lg"/>
-</key>
-<key name="MoveFile.RECENT_KEYS">
-    <recent name="$PROJECT_DIR$/src/main/resources/assets/sm"/>
-    <recent name="$PROJECT_DIR$/src/main/resources/assets/lg"/>
-    <recent name="$PROJECT_DIR$/src/main/resources/data"/>
-</key>
-<key name="CreateTestDialog.Recents.Supers">
-    <recent name=""/>
-</key>
-<key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-    <recent name=""/>
-</key>
-<key name="CreateTestDialog.RecentsKey">
-    <recent name="controller"/>
-    <recent name="model.game"/>
-</key>
-<key name="CopyClassDialog.RECENTS_KEY">
-    <recent name="client"/>
-</key>
-</component>
-<component name="RunManager" selected="Application.RegisterMenu">
-<configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="server.Main"/>
-    <module name="advanced-programming-project-group-17"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="server.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="client.view.Main"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="client.view.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
-    <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu"/>
-    <module name="advanced-programming-project-group-17"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="client.view.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="RegisterMenu" type="Application" factoryName="Application" temporary="true">
-    <option name="MAIN_CLASS_NAME" value="view.RegisterMenu"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="view.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="server.game.client"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="server.game.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="server.game.server"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="server.game.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="server.request.test"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="server.request.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<configuration name="testJson" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="server.game.testJson"/>
-    <module name="testAnt"/>
-    <extension name="coverage">
-        <pattern>
-            <option name="PATTERN" value="server.game.*"/>
-            <option name="ENABLED" value="true"/>
-        </pattern>
-    </extension>
-    <method v="2">
-        <option name="Make" enabled="true"/>
-    </method>
-</configuration>
-<list>
-    <item itemvalue="Application.RegisterMenu"/>
-    <item itemvalue="Application.client"/>
-    <item itemvalue="Application.server"/>
-    <item itemvalue="Application.testJson"/>
-    <item itemvalue="Application.test"/>
-    <item itemvalue="Application.Main"/>
-</list>
-<recent_temporary>
-    <list>
-        <item itemvalue="Application.Main"/>
-        <item itemvalue="Application.client"/>
-        <item itemvalue="Application.server"/>
-        <item itemvalue="Application.testJson"/>
-        <item itemvalue="Application.test"/>
-    </list>
-</recent_temporary>
-</component>
-<component name="SharedIndexes">
-<attachedChunks>
-    <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021"/>
-    </set>
-</attachedChunks>
-</component>
-<component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0"
-           DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true"/>
-<component name="TaskManager">
-<task active="true" id="Default" summary="Default task">
-    <changelist id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User."/>
-    <created>1716838699015</created>
-    <option name="number" value="Default"/>
-    <option name="presentableId" value="Default"/>
-    <updated>1716838699015</updated>
-    <workItem from="1717062348582" duration="1058000"/>
-    <workItem from="1717063429813" duration="942000"/>
-    <workItem from="1717064392244" duration="5353000"/>
-    <workItem from="1717240115907" duration="455000"/>
-    <workItem from="1717316913036" duration="5986000"/>
-    <workItem from="1717580002506" duration="18319000"/>
-    <workItem from="1717677950121" duration="2022000"/>
-    <workItem from="1717842766654" duration="1327000"/>
-    <workItem from="1718362798869" duration="1233000"/>
-    <workItem from="1718438838413" duration="3093000"/>
-    <workItem from="1718523358873" duration="3053000"/>
-    <workItem from="1718526667084" duration="112000"/>
-    <workItem from="1718527503426" duration="47000"/>
-    <workItem from="1718527574330" duration="2409000"/>
-    <workItem from="1718541916689" duration="1037000"/>
-    <workItem from="1718960551084" duration="668000"/>
-    <workItem from="1718962064506" duration="5245000"/>
-    <workItem from="1718998528963" duration="2983000"/>
-    <workItem from="1719041793085" duration="5623000"/>
-    <workItem from="1719136658174" duration="4866000"/>
-    <workItem from="1719141589171" duration="4851000"/>
-    <workItem from="1719165433877" duration="8466000"/>
-    <workItem from="1719214785500" duration="5433000"/>
-    <workItem from="1719320023623" duration="3709000"/>
-    <workItem from="1719477341232" duration="1000000"/>
-    <workItem from="1719480412349" duration="267000"/>
-    <workItem from="1719497895993" duration="8351000"/>
-    <workItem from="1719641559998" duration="33604000"/>
-    <workItem from="1719730049880" duration="5016000"/>
-    <workItem from="1719751308479" duration="543000"/>
-    <workItem from="1719826893427" duration="6178000"/>
-    <workItem from="1719870160301" duration="3135000"/>
-    <workItem from="1719905249593" duration="1490000"/>
-    <workItem from="1719908744444" duration="1798000"/>
-    <workItem from="1719993083895" duration="13928000"/>
-    <workItem from="1720102627112" duration="1742000"/>
-    <workItem from="1720104402664" duration="11138000"/>
-    <workItem from="1720161996741" duration="7538000"/>
-    <workItem from="1720173730569" duration="10277000"/>
-    <workItem from="1720250332325" duration="1730000"/>
-</task>
-<task id="LOCAL-00001" summary="view package created">
-    <option name="closed" value="true"/>
-    <created>1716840884730</created>
-    <option name="number" value="00001"/>
-    <option name="presentableId" value="LOCAL-00001"/>
-    <option name="project" value="LOCAL"/>
-    <updated>1716840884730</updated>
-</task>
-<task id="LOCAL-00002" summary="add the basic of net and create the test folder">
-    <option name="closed" value="true"/>
-    <created>1719148906073</created>
-    <option name="number" value="00002"/>
-    <option name="presentableId" value="LOCAL-00002"/>
-    <option name="project" value="LOCAL"/>
-    <updated>1719148906073</updated>
-</task>
-<option name="localTasksCounter" value="3"/>
-<servers/>
-</component>
-<component name="TypeScriptGeneratedFilesManager">
-<option name="version" value="3"/>
-</component>
-<component name="Vcs.Log.Tabs.Properties">
-<option name="TAB_STATES">
-    <map>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.client" />
+        <item itemvalue="Application.server" />
+        <item itemvalue="Application.testJson" />
+        <item itemvalue="Application.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="Added LoggedInUser in User." />
+      <created>1716838699015</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1716838699015</updated>
+      <workItem from="1717062348582" duration="1058000" />
+      <workItem from="1717063429813" duration="942000" />
+      <workItem from="1717064392244" duration="5353000" />
+      <workItem from="1717240115907" duration="455000" />
+      <workItem from="1717316913036" duration="5986000" />
+      <workItem from="1717580002506" duration="18319000" />
+      <workItem from="1717677950121" duration="2022000" />
+      <workItem from="1717842766654" duration="1327000" />
+      <workItem from="1718362798869" duration="1233000" />
+      <workItem from="1718438838413" duration="3093000" />
+      <workItem from="1718523358873" duration="3053000" />
+      <workItem from="1718526667084" duration="112000" />
+      <workItem from="1718527503426" duration="47000" />
+      <workItem from="1718527574330" duration="2409000" />
+      <workItem from="1718541916689" duration="1037000" />
+      <workItem from="1718960551084" duration="668000" />
+      <workItem from="1718962064506" duration="5245000" />
+      <workItem from="1718998528963" duration="2983000" />
+      <workItem from="1719041793085" duration="5623000" />
+      <workItem from="1719136658174" duration="4866000" />
+      <workItem from="1719141589171" duration="4851000" />
+      <workItem from="1719165433877" duration="8466000" />
+      <workItem from="1719214785500" duration="5433000" />
+      <workItem from="1719320023623" duration="3709000" />
+      <workItem from="1719477341232" duration="1000000" />
+      <workItem from="1719480412349" duration="267000" />
+      <workItem from="1719497895993" duration="8351000" />
+      <workItem from="1719641559998" duration="33604000" />
+      <workItem from="1719730049880" duration="5016000" />
+      <workItem from="1719751308479" duration="543000" />
+      <workItem from="1719826893427" duration="6178000" />
+      <workItem from="1719870160301" duration="3135000" />
+      <workItem from="1719905249593" duration="1490000" />
+      <workItem from="1719908744444" duration="1798000" />
+      <workItem from="1719993083895" duration="13928000" />
+      <workItem from="1720102627112" duration="1742000" />
+      <workItem from="1720104402664" duration="11138000" />
+      <workItem from="1720161996741" duration="7538000" />
+      <workItem from="1720173730569" duration="10277000" />
+      <workItem from="1720250332325" duration="1730000" />
+    </task>
+    <task id="LOCAL-00001" summary="view package created">
+      <option name="closed" value="true" />
+      <created>1716840884730</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1716840884730</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add the basic of net and create the test folder">
+      <option name="closed" value="true" />
+      <created>1719148906073</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719148906073</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
         <entry key="MAIN">
-            <value>
-                <State/>
-            </value>
+          <value>
+            <State />
+          </value>
         </entry>
-    </map>
-</option>
-<option name="RECENT_FILTERS">
-    <map>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
         <entry key="Branch">
-            <value>
-                <list>
-                    <RecentGroup>
-                        <option name="FILTER_VALUES">
-                            <option value="main"/>
-                        </option>
-                    </RecentGroup>
-                </list>
-            </value>
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
         </entry>
-    </map>
-</option>
-</component>
-<component name="VcsManagerConfiguration">
-<option name="ADD_EXTERNAL_FILES_SILENTLY" value="true"/>
-<MESSAGE value="view package created"/>
-<MESSAGE value="add the basic of net and create the test folder"/>
-<option name="LAST_COMMIT_MESSAGE" value="add the basic of net and create the test folder"/>
-</component>
-<component name="com.intellij.coverage.CoverageDataManagerImpl">
-<SUITE FILE_PATH="coverage/testAnt$test.ic" NAME="test Coverage Results" MODIFIED="1717421968035"
-       SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea"
-       COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-    <FILTER>view.*</FILTER>
-</SUITE>
-</component>
-        </project>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="view package created" />
+    <MESSAGE value="add the basic of net and create the test folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="add the basic of net and create the test folder" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/testAnt$test.ic" NAME="test Coverage Results" MODIFIED="1717421968035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>view.*</FILTER>
+    </SUITE>
+  </component>
+</project>
