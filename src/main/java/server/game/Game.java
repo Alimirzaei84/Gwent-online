@@ -44,11 +44,13 @@ public class Game implements Runnable, Serializable {
         Board board = new Board(this);
         board.setWeatherArrayList(this.getWeathers());
 
+        board.setCurrPlayer(curr);
         board.setMyDeck(curr.getUser().getDeck());
         board.setMyHand(curr.getInHand());
         board.setMyRows(curr.getRows());
         board.setMyPoint(curr.getTotalPoint());
 
+        board.setOppPlayer(other);
         board.setOppDeck(other.getUser().getDeck());
         board.setOppHand(other.getInHand());
         board.setOppRows(other.getRows());

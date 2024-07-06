@@ -2,11 +2,14 @@ package server.game;
 
 import model.role.Card;
 import model.role.Weather;
+import server.Account.Player;
 
 import java.util.ArrayList;
 
 public class Board {
     private Game game;
+    private Player currPlayer;
+    private Player oppPlayer;
     private Row[] myRows;
     private Row[] oppRows;
     private int myPoint;
@@ -47,6 +50,22 @@ public class Board {
 
     public int getMyPoint() {
         return myPoint;
+    }
+
+    public Player getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public void setCurrPlayer(Player currPlayer) {
+        this.currPlayer = currPlayer;
+    }
+
+    public Player getOppPlayer() {
+        return oppPlayer;
+    }
+
+    public void setOppPlayer(Player oppPlayer) {
+        this.oppPlayer = oppPlayer;
     }
 
     public void setMyPoint(int myPoint) {
