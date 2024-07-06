@@ -17,10 +17,9 @@ module testAnt {
     exports server to com.fasterxml.jackson.databind;
     exports view to com.fasterxml.jackson.databind;
     opens server to com.fasterxml.jackson.databind;
-    opens model.role to  com.fasterxml.jackson.databind;
     opens model.game to  com.fasterxml.jackson.databind;
     opens model.Account to  com.fasterxml.jackson.databind;
-    opens controller to  com.fasterxml.jackson.databind;
+    opens controller to com.fasterxml.jackson.databind;
     exports client.view;
     exports model.game;
     exports model.Account;
