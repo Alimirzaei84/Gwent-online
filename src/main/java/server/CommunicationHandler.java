@@ -60,7 +60,7 @@ public class CommunicationHandler implements Runnable {
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
+    private static final String invitationRequestRegex = "let's play (.+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
 
     private void handleCommand(String inMessage) throws Exception {
@@ -455,7 +455,7 @@ public class CommunicationHandler implements Runnable {
     private void denyInvitation(Matcher matcher) throws IOException {
         String inviterName = matcher.group(1);
 
-        User inviter = UserController.getUserByName(inviterName);
+        User inviter = User.getUserByUsername(inviterName);
 
         if (inviter == null) {
             System.out.println("[ERR]: user \"" + inviterName + "\" not found");
@@ -544,16 +544,16 @@ public class CommunicationHandler implements Runnable {
     private void acceptGame(Matcher matcher) throws IOException {
         String oppName = matcher.group(1);
 
-        User inviter = UserController.getUserByName(oppName);
-        if (user == null) {
-            System.out.println("[ERROR] user \"" + oppName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + oppName + "\"");
+        User inviter = User.getUserByUsername(oppName);
+        if (inviter == null) {
+            System.out.println("[ERR] user \"" + oppName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + oppName + "\"");
             return;
         }
 
-        if (user.isOffline()) {
-            System.out.println("[ERROR] user \"" + oppName + "\" is offline");
-            sendMessage("[ERROR] user \"" + oppName + "\" is offline");
+        if (inviter.isOffline()) {
+            System.out.println("[ERR] user \"" + oppName + "\" is offline");
+            sendMessage("[ERR] user \"" + oppName + "\" is offline");
             return;
         }
 
@@ -563,29 +563,29 @@ public class CommunicationHandler implements Runnable {
     private void invitation(Matcher matcher) throws IOException {
         String receiverName = matcher.group(1);
 
-//        User user = UserController.getUserByName(receiverName);
+        User user = User.getUserByUsername(receiverName);
         if (user == null) {
-            System.out.println("[ERROR] user \"" + receiverName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + receiverName + "\"");
+            System.out.println("[ERR] user \"" + receiverName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + receiverName + "\"");
             return;
         }
 
         if (user.isOffline()) {
-            System.out.println("[ERROR] user \"" + receiverName + "\" is offline");
-            sendMessage("[ERROR] user \"" + receiverName + "\" is offline");
+            System.out.println("[ERR] user \"" + receiverName + "\" is offline");
+            sendMessage("[ERR] user \"" + receiverName + "\" is offline");
             return;
         }
 
         if (user.equals(this.getUser())) {
-            sendMessage("[ERROR] you can not invite yourself.");
+            sendMessage("[ERR] you can not invite yourself.");
             return;
         }
 
         try {
             ServerController.createNewInvitation(this.getUser(), user);
         } catch (SimilarRequest e) {
-            System.out.println("[ERROR] similar invitation");
-            sendMessage("[ERROR] similar invitation");
+            System.out.println("[ERR] similar invitation");
+            sendMessage("[ERR] similar invitation");
         }
     }
 

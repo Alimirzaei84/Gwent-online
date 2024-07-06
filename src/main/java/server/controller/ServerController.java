@@ -27,7 +27,6 @@ public abstract class ServerController {
         game.getChatroom().handleCommand(user, message);
     }
 
-
     public static void passMessageToGameOfUser(User user, String message) throws IOException {
         int gameId = user.getGameId();
 
@@ -107,9 +106,10 @@ public abstract class ServerController {
         FriendRequest request = getFriendRequestByMember(requester, recipient);
 
         if (request == null) {
-            recipient.sendMessage("[ERROR] you don't have an active friend request from " + requester.getUsername() + ".");
+            recipient.sendMessage("[ERR] you don't have an active friend request from " + requester.getUsername() + ".");
             return;
         }
+
 
         removeFriendRequest(request);
         recipient.sendMessage("[SUCC] the friend request from " + requester.getUsername() + " was denied.");
@@ -126,7 +126,7 @@ public abstract class ServerController {
         }
 
         removeInvitation(invitation);
-
+        inviter.getOnline(inviter.getHandler());
         recipient.sendMessage("[SUCC] the invitation from " + inviter.getUsername() + " was denied.");
         inviter.sendMessage("[INFO] " + recipient.getUsername() + " denied your friend request.");
         System.out.println("[INFO] " + recipient.getUsername() + "denied friend request from " + inviter.getUsername() + ".");
@@ -202,7 +202,7 @@ public abstract class ServerController {
 
         // there is no invitation from inviter
         if (invitation == null) {
-            recipient.getHandler().sendMessage("[ERROR] you can't accept a game since you are not invited");
+            recipient.getHandler().sendMessage("[ERR] you can't accept a game since you are not invited");
             return;
         }
 
@@ -210,7 +210,18 @@ public abstract class ServerController {
 
         // inviter is now play another game so his invitation now dismissed
         if (inviter.isPlaying()) {
-            recipient.sendMessage("[ERROR] inviter has attended to another game");
+            recipient.sendMessage("[ERR] inviter has attended to another game");
+            return;
+        }
+
+        if (recipient.getDeck().size() < 22 || recipient.getSpecialCount() > 10){
+            recipient.sendMessage("[ERR] change your deck");
+            return;
+        }
+
+        if (inviter.getDeck().size() < 22 || inviter.getSpecialCount() > 10){
+            inviter.sendMessage("[ERR] change your deck");
+
             return;
         }
 
@@ -240,17 +251,18 @@ public abstract class ServerController {
     }
 
     private static void removeInvitation(Invitation invitation) {
+        invitation.getRecipient().getOnline(invitation.getRecipient().getHandler());
+        invitation.getInviter().getOnline(invitation.getInviter().getHandler());
         invitations.remove(invitation);
     }
 
     private static void startNewGame(User user1, User user2) throws IOException {
-        // TODO what are the restrictions for starting a game?
 
         user1.setPlaying();
         user2.setPlaying();
 
-        user1.sendMessage("[INFO] starting a game with " + user2.getUsername() + ".");
-        user2.sendMessage("[INFO] starting a game with " + user1.getUsername() + ".");
+        user1.sendMessage("[PLAYGAME] starting a game with " + user2.getUsername() + ".");
+        user2.sendMessage("[PLAYGAME] starting a game with " + user1.getUsername() + ".");
 
         // TODO for now every game is public
         Game game = new Game(user1, user2, Game.AccessType.PUBLIC);

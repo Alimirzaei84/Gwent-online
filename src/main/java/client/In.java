@@ -1,5 +1,6 @@
 package client;
 
+import client.view.GameLauncher;
 import javafx.application.Platform;
 import client.view.AppMenu;
 import server.game.Board;

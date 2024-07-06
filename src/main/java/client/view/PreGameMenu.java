@@ -418,6 +418,13 @@ public class PreGameMenu<T> extends AppMenu {
             downloadDeck(new ObjectMapper().readValue(Regexes.DOWNLOAD_DECK.getGroup(command, "deckJson"), ArrayList.class));
         } else if (Regexes.SHOW_FACTION_RESULT.matches(command)) {
             showAndChangeFaction(new ObjectMapper().readValue(Regexes.SHOW_FACTION_RESULT.getGroup(command, "factionJson"), Faction.class));
+        } else if (command.startsWith("[PLAYGAME]")) {
+            try {
+                GameLauncher gameLauncher = new GameLauncher();
+                gameLauncher.start((Stage) usernameLabel.getScene().getWindow());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

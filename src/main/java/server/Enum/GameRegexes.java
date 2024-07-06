@@ -17,6 +17,8 @@ public enum GameRegexes {
     PLAY_LEADER("(?<username>.+) leader (?<leaderName>.+)"),
     EXIT("^exit$"),
     SHOW_HAND("^show hand$"),
+    GET_ROW("^(?<username>.+) get row(?<rowIndex>.+)$"),
+    GET_USER_DATA("^(?<username>.+) get data$"),
     ECHO("^echo (.+)$");
 
 

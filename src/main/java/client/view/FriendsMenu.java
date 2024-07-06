@@ -130,8 +130,10 @@ public class FriendsMenu extends AppMenu {
                 vBox1.getChildren().add(usernameLabel);
                 Button playButton = new Button();
                 playButton.setText("play");
+                playButton.setOnMouseClicked(event -> playGame(username));
                 usernameLabel.setPrefWidth(250);
                 playButton.setPrefHeight(46);
+                vBox2.getChildren().add(playButton);
             }
 
         } else if (command.startsWith("[REQUESTS]:")) {
@@ -161,8 +163,6 @@ public class FriendsMenu extends AppMenu {
                 acceptButton.setPrefHeight(46);
                 acceptButton.setPrefWidth(1);
                 denyButton.setPrefWidth(1);
-//                denyButton.setText("REJECT");
-//                acceptButton.setText("ACCEPT");
                 usernamesVBox.getChildren().add(usernameLabel);
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
@@ -200,8 +200,12 @@ public class FriendsMenu extends AppMenu {
             }}
         }
 
-        public void playGame () {
-            //TODO
+        public void playGame (String username) {
+            try{
+                Out.sendMessage("let's play " + username);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         public void sendFriendRequest () {
