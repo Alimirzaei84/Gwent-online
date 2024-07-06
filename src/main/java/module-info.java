@@ -25,4 +25,6 @@ module testAnt {
     opens server.request to com.fasterxml.jackson.databind;
     exports server.game;
     opens server.game to com.fasterxml.jackson.databind;
+    exports server.chatroom to com.fasterxml.jackson.databind;
+    opens server.chatroom to com.fasterxml.jackson.databind;
 }
