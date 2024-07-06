@@ -32,11 +32,15 @@ public class Game implements Runnable, Serializable {
     }
 
     public synchronized Board getCurrentPlayerBoard() {
-        return generateBoard(getCurrentPlayer(), getOtherPlayer());
+        Board board = generateBoard(getCurrentPlayer(), getOtherPlayer());
+        board.setMyTurn(true);
+        return board;
     }
 
     public synchronized Board getOtherPlayerBoard() {
-        return generateBoard(getOtherPlayer(), getCurrentPlayer());
+        Board board = generateBoard(getOtherPlayer(), getCurrentPlayer());
+        board.setMyTurn(false);
+        return board;
     }
 
     private synchronized Board generateBoard(Player curr, Player other) {

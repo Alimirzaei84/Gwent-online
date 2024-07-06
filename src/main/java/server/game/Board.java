@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Board implements Serializable {
     private int numTurn;
+    private boolean isMyTurn;
     private int myDiamondCount;
     private int opponentDiamondCount;
     private ArrayList<Card> myDiscardPile;
@@ -188,5 +189,13 @@ public class Board implements Serializable {
 
     public void setNumTurn(int numTurn) {
         this.numTurn = numTurn;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }

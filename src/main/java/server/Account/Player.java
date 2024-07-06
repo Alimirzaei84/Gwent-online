@@ -113,6 +113,7 @@ public class Player implements Serializable {
 
 
     public void putCard(Card card) {
+        System.out.println(user.getName() + " put card " + card.getName());
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             if (game.getWeathers().size() < 3) {
