@@ -2,12 +2,15 @@ package server.game;
 
 
 import controller.CardController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import model.role.Card;
 import server.Account.User;
 import server.Enum.GameRegexes;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class GameCommunicationHandler implements Runnable {
 
@@ -19,6 +22,15 @@ public class GameCommunicationHandler implements Runnable {
 
     @Override
     public void run() {
+        Timeline refresh = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            try {
+                sendBoardObjectToEachPlayer();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }));
+        refresh.setCycleCount(Animation.INDEFINITE);
+        refresh.play();
     }
 
     public String handleCommand(String command) throws IOException {

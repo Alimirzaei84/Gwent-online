@@ -9,6 +9,8 @@ public class GameController {
     private ImageView selectedImageView;
 
     public GameController( ){
+        selectedCard = null;
+        selectedImageView= null;
     }
 
     public Card getSelectedCard() {
