@@ -196,11 +196,11 @@ public class GameLauncher extends AppMenu {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client.User.getInstance().setAppMenu(this);
         gameController = new GameController();
-          try {
-              Out.sendMessage(client.User.getInstance().getUsername() + " give board");
-          } catch (IOException e) {
-              throw new RuntimeException(e);
-          }
+        try {
+            Out.sendMessage(client.User.getInstance().getUsername() + " give board");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 //
 //        Platform.runLater(() -> {
 //            for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {
@@ -337,10 +337,10 @@ public class GameLauncher extends AppMenu {
             curUsernameLabel.setTextFill(Color.RED);
         else
             otherUsernameLabel.setTextFill(Color.RED);
-            
+
         //TODO : UPDATE DIAMONDS
-//        updateDiamondsForPlayer(curPlayer, curDiamondHBox);
-//        updateDiamondsForPlayer(otherPlayer, otherDiamondHBox);
+        updateDiamondsForPlayer(board.getMyDiamondCount(), curDiamondHBox);
+        updateDiamondsForPlayer(board.getOpponentDiamondCount(), otherDiamondHBox);
         refreshLeaderOnScreen(board.getMyLeader().getName(), board.getOpponentLeader().getName());
 
         //Right side of the screen
@@ -350,8 +350,8 @@ public class GameLauncher extends AppMenu {
         setFactionOnDeckView(board.getOpponentFaction().name(), otherDeckVBox);
 
         //TODO : update discard pile
-//        setUpDiscardPile(curPlayer, curDiscardPileVBox);
-//        setUpDiscardPile(otherPlayer, otherDiscardPileVBox);
+        setUpDiscardPile(board.getMyDiscardPile(), curDiscardPileVBox);
+        setUpDiscardPile(board.getOpponentDiscardPile(), otherDiscardPileVBox);
 
         //curRows
         Row[] curRows = board.getMyRows();
@@ -366,21 +366,21 @@ public class GameLauncher extends AppMenu {
         setRowOnScreen(otherRows[2], otherRow2StackPane, otherRow2HBox, otherSpecialRow2HBox);
 
         //scores
-        refreshScores(curRows, otherRows ,board.getMyPoint(), board.getOppPoint());
+        refreshScores(curRows, otherRows, board.getMyPoint(), board.getOppPoint());
 
         //Weather pile
         setWeatherOnScreen(board.getWeatherArrayList()); //TODO : TEST
 
     }
 
-    private void setUpDiscardPile(Player player, VBox discardPile) throws MalformedURLException {
+    private void setUpDiscardPile(ArrayList<Card> discardArr, VBox discardPile) throws MalformedURLException {
         if (discardPile == null) return;
         discardPile.getChildren().clear();
         discardPile.setAlignment(Pos.CENTER);
         discardPile.setSpacing(10);
-        if (player.getDiscardCards().size() == 0) return;
+        if (discardArr.size() == 0) return;
 
-        Card card = player.getDiscardCards().getLast();
+        Card card = discardArr.getLast();
         String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
         ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
         imageView.setOnDragExited(event -> System.out.println("swipe down"));
@@ -466,8 +466,8 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void updateDiamondsForPlayer(Player player, HBox diamondHBox) {
-        int max = player.getDiamond();
+    private void updateDiamondsForPlayer(int diamondCo, HBox diamondHBox) {
+        int max = diamondCo;
         int num = 0;
         for (Node node : diamondHBox.getChildren()) {
             if (node instanceof Polygon polygon) {
@@ -500,7 +500,7 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void refreshScores(Row[] curRows, Row[] otherRows , int curTotalPoint , int otherTotalPoint) {
+    private void refreshScores(Row[] curRows, Row[] otherRows, int curTotalPoint, int otherTotalPoint) {
         curRow0ScoreText.setText(String.valueOf(curRows[0].getPoint()));
         curRow1ScoreText.setText(String.valueOf(curRows[1].getPoint()));
         curRow2ScoreText.setText(String.valueOf(curRows[2].getPoint()));
