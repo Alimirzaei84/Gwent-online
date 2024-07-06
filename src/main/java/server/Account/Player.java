@@ -7,6 +7,7 @@ import server.game.Row;
 import model.role.*;
 import server.game.Game;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -78,6 +79,7 @@ public class Player implements Serializable {
 
 
     public void makeHandReady() {
+        if (!inHand.isEmpty()) return;
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int c = 0; c < counter; c++) {
             Card card = getRandomCard(getUser().getDeck());
@@ -102,7 +104,7 @@ public class Player implements Serializable {
         this.game = game;
     }
 
-    public void passRound() {
+    public void passRound() throws IOException {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();
@@ -659,7 +661,7 @@ public class Player implements Serializable {
         }
     }
 
-    public void addADiamond() {
+    public void addADiamond() throws IOException {
         if (++diamond >= 2) {
             game.endOfTheGame(this);
         }

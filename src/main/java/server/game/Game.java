@@ -31,15 +31,15 @@ public class Game implements Runnable, Serializable {
         }
     }
 
-    public Board getCurrentPlayerBoard() {
+    public synchronized Board getCurrentPlayerBoard() {
         return generateBoard(getCurrentPlayer(), getOtherPlayer());
     }
 
-    public Board getOtherPlayerBoard() {
+    public synchronized Board getOtherPlayerBoard() {
         return generateBoard(getOtherPlayer(), getCurrentPlayer());
     }
 
-    private Board generateBoard(Player curr, Player other) {
+    private synchronized Board generateBoard(Player curr, Player other) {
 
         // Initialize basic data
         Board board = new Board();
@@ -131,7 +131,7 @@ public class Game implements Runnable, Serializable {
         return states;
     }
 
-    public void passRound() {
+    public void passRound() throws IOException {
         if (++passedTurnCounter >= 2) {
             giveADiamondToWinner();
         }
@@ -155,7 +155,7 @@ public class Game implements Runnable, Serializable {
         getOtherPlayer().getCardInfo().clear();
     }
 
-    private void giveADiamondToWinner() {
+    private void giveADiamondToWinner() throws IOException {
         passedTurnCounter = 0;
         if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
             getPlayer1().addADiamond();

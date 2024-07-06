@@ -195,7 +195,11 @@ public class GameLauncher extends AppMenu {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client.User.getInstance().setAppMenu(this);
-
+          try {
+              Out.sendMessage(client.User.getInstance().getUsername() + " give board");
+          } catch (IOException e) {
+              throw new RuntimeException(e);
+          }
 //
 //        Platform.runLater(() -> {
 //            for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {

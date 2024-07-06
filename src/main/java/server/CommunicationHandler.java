@@ -62,7 +62,6 @@ public class CommunicationHandler implements Runnable {
 
     private static final String invitationRequestRegex = "let's play (.+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
-
     private void handleCommand(String inMessage) throws Exception {
         if (user == null) {
 
