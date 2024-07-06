@@ -119,7 +119,7 @@ public class FriendsMenu extends AppMenu {
             VBox vBox1 = new VBox();
             VBox vBox2 = new VBox();
             friendsContainer.getChildren().clear();
-            friendsContainer.getChildren().addAll(vBox1 , vBox2);
+            friendsContainer.getChildren().addAll(vBox1, vBox2);
 
             for (String username : usernames) {
                 if (username.equals(""))
@@ -197,90 +197,99 @@ public class FriendsMenu extends AppMenu {
                 usernamesVBox.getChildren().add(usernameLabel);
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
-            }}
-        }
-
-        public void playGame (String username) {
-            try{
-                Out.sendMessage("let's play " + username);
-            } catch (Exception e){
-                e.printStackTrace();
             }
-        }
-
-        public void sendFriendRequest () {
-            try {
-                Out.sendMessage("let's be friend " + usernameField.getText());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public static boolean isValidFriendRequestJson (String jsonString){
-            ObjectMapper mapper = new ObjectMapper();
-
-            try {
-                mapper.readValue(jsonString, new TypeReference<ArrayList<FriendRequest>>() {
-                });
-                return true; // Successfully parsed, valid JSON
-            } catch (Exception e) {
-                return false; // Failed to parse, invalid JSON
-            }
-        }
-
-        public static ArrayList<FriendRequest> fromJsonString (String jsonString){
-            ObjectMapper mapper = new ObjectMapper();
-
-            try {
-                return mapper.readValue(jsonString, new TypeReference<ArrayList<FriendRequest>>() {
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        public void acceptRequest (String username){
-            try {
-                Out.sendMessage("accept friend request from " + username);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void rejectRequest (String username){
-            try {
-                Out.sendMessage("deny friend request from " + username);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void rejectInvite(String username){
-            try {
-                Out.sendMessage("deny invitation from " + username);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void acceptInvite(String username){
-            try {
-                Out.sendMessage("accept game with " + username);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void back () {
+        } else if (command.startsWith("[PLAYGAME]")) {
             try {
                 refreshTimeLine.stop();
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.start((Stage) friendsContainer.getScene().getWindow());
+                GameLauncher gameLauncher = new GameLauncher();
+                gameLauncher.start((Stage) usernameField.getScene().getWindow());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
+
+    public void playGame(String username) {
+        try {
+            Out.sendMessage("let's play " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendFriendRequest() {
+        try {
+            Out.sendMessage("let's be friend " + usernameField.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isValidFriendRequestJson(String jsonString) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            mapper.readValue(jsonString, new TypeReference<ArrayList<FriendRequest>>() {
+            });
+            return true; // Successfully parsed, valid JSON
+        } catch (Exception e) {
+            return false; // Failed to parse, invalid JSON
+        }
+    }
+
+    public static ArrayList<FriendRequest> fromJsonString(String jsonString) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue(jsonString, new TypeReference<ArrayList<FriendRequest>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void acceptRequest(String username) {
+        try {
+            Out.sendMessage("accept friend request from " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rejectRequest(String username) {
+        try {
+            Out.sendMessage("deny friend request from " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rejectInvite(String username) {
+        try {
+            Out.sendMessage("deny invitation from " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void acceptInvite(String username) {
+        try {
+            Out.sendMessage("accept game with " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void back() {
+        try {
+            refreshTimeLine.stop();
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.start((Stage) friendsContainer.getScene().getWindow());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
 

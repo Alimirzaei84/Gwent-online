@@ -688,6 +688,7 @@ public class GameLauncher extends AppMenu {
     }
 
     public void getBoard(Board board) throws MalformedURLException {
+        System.out.println("I GOT BOARD HERE!");
         refreshScreen(board);
     }
 
