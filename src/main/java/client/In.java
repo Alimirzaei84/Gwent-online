@@ -3,6 +3,7 @@ package client;
 import client.view.GameLauncher;
 import javafx.application.Platform;
 import client.view.AppMenu;
+import model.Message;
 import server.game.Board;
 
 import java.io.IOException;
@@ -18,12 +19,8 @@ public class In implements Runnable {
 
     @Override
     public void run() {
-        String serverMessage;
-
         while (clientIsConnected()) {
             try {
-
-//                if (User.getInstance().isPlaying()) {
 
                     Object object = objectIn.readObject();
                     Platform.runLater(() -> {
@@ -34,23 +31,6 @@ public class In implements Runnable {
                         }
                     });
 
-//                    return;
-//                }
-
-//                serverMessage = in.readUTF();
-//                if (!serverMessage.isEmpty()) {
-//
-//                    String finalServerMessage = serverMessage;
-//                    Platform.runLater(() -> {
-//                        System.out.println(finalServerMessage);
-//                        try {
-//                            serverMessageHandler(finalServerMessage);
-//                        } catch (Exception e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    });
-//                }
-
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
@@ -59,7 +39,6 @@ public class In implements Runnable {
             }
         }
     }
-
 
     public void serverMessageHandler(Object object) throws Exception {
 
@@ -74,6 +53,11 @@ public class In implements Runnable {
             AppMenu appMenu = user.getAppMenu();
             ((GameLauncher)appMenu).getBoard((Board) object);
             System.out.println(board);
+        }
+
+        else if (object instanceof Message message) {
+            User user = User.getInstance();
+            System.out.println(message.getMessage());
         }
 
         else {
