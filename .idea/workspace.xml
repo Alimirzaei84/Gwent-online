@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/PreGameMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +69,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
-    "Application.RegisterMenu.executor": "Run"
+    "Application.RegisterMenu.executor": "Debug"
   }
 }]]></component>
   <component name="ReaderModeSettings">
