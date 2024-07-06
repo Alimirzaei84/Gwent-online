@@ -3,22 +3,22 @@ package server.game;
 import model.role.Card;
 import model.role.Faction;
 import model.role.Leader;
-import server.Account.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Board implements Serializable {
     private int numTurn;
+    private int myDiamondCount;
+    private int opponentDiamondCount;
+    private ArrayList<Card> myDiscardPile;
+    private ArrayList<Card> opponentDiscardPile;
     private Leader myLeader;
     private Leader opponentLeader;
     private String myUsername;
     private String opponentUsername;
     private Faction myFaction;
     private Faction opponentFaction;
-    private Game game;
-    private Player currPlayer;
-    private Player oppPlayer;
     private Row[] myRows;
     private Row[] oppRows;
     private int myPoint;
@@ -29,20 +29,25 @@ public class Board implements Serializable {
     private ArrayList<Card> myDeck;
     private ArrayList<Card> oppDeck;
 
-    public Board(Game game) {
-        this.game = game;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
 
     public Row[] getMyRows() {
         return myRows;
+    }
+
+    public ArrayList<Card> getMyDiscardPile() {
+        return myDiscardPile;
+    }
+
+    public void setMyDiscardPile(ArrayList<Card> myDiscardPile) {
+        this.myDiscardPile = myDiscardPile;
+    }
+
+    public ArrayList<Card> getOpponentDiscardPile() {
+        return opponentDiscardPile;
+    }
+
+    public void setOpponentDiscardPile(ArrayList<Card> opponentDiscardPile) {
+        this.opponentDiscardPile = opponentDiscardPile;
     }
 
     public void setMyRows(Row[] myRows) {
@@ -53,28 +58,28 @@ public class Board implements Serializable {
         return oppRows;
     }
 
+    public int getMyDiamondCount() {
+        return myDiamondCount;
+    }
+
+    public void setMyDiamondCount(int myDiamondCount) {
+        this.myDiamondCount = myDiamondCount;
+    }
+
+    public int getOpponentDiamondCount() {
+        return opponentDiamondCount;
+    }
+
+    public void setOpponentDiamondCount(int opponentDiamondCount) {
+        this.opponentDiamondCount = opponentDiamondCount;
+    }
+
     public void setOppRows(Row[] oppRows) {
         this.oppRows = oppRows;
     }
 
     public int getMyPoint() {
         return myPoint;
-    }
-
-    public Player getCurrPlayer() {
-        return currPlayer;
-    }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.currPlayer = currPlayer;
-    }
-
-    public Player getOppPlayer() {
-        return oppPlayer;
-    }
-
-    public void setOppPlayer(Player oppPlayer) {
-        this.oppPlayer = oppPlayer;
     }
 
     public void setMyPoint(int myPoint) {

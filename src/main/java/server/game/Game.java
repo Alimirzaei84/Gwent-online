@@ -41,11 +41,14 @@ public class Game implements Runnable, Serializable {
 
     private Board generateBoard(Player curr, Player other) {
 
-        Board board = new Board(this);
+        // Initialize basic data
+        Board board = new Board();
         board.setWeatherArrayList(this.getWeathers());
         board.setNumTurn(curr.getGame().numTurn);
 
-        board.setCurrPlayer(curr);
+        // Initialize my data
+        board.setMyDiamondCount(curr.getDiamond());
+        board.setMyDiscardPile(curr.getDiscardCards());
         board.setMyDeck(curr.getUser().getDeck());
         board.setMyHand(curr.getInHand());
         board.setMyRows(curr.getRows());
@@ -54,7 +57,9 @@ public class Game implements Runnable, Serializable {
         board.setMyLeader(curr.getUser().getLeader());
         board.setMyUsername(curr.getUser().getName());
 
-        board.setOppPlayer(other);
+        // Initialize my opponent data
+        board.setOpponentDiamondCount(other.getDiamond());
+        board.setOpponentDiscardPile(other.getDiscardCards());
         board.setOppDeck(other.getUser().getDeck());
         board.setOppHand(other.getInHand());
         board.setOppRows(other.getRows());
@@ -206,12 +211,13 @@ public class Game implements Runnable, Serializable {
     }
 
 
-    public void endOfTheGame(@NotNull Player winner) {
+    public void endOfTheGame(@NotNull Player winner) throws IOException {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         this.winner = winner;
         updateUserHistory(getPlayer1());
         updateUserHistory(getPlayer2());
+        broadcast("[OVER]");
     }
 
     private void updateUserHistory(Player player) {

@@ -346,7 +346,7 @@ public class CommunicationHandler implements Runnable {
 
     private void handleAddToDeckRequest(String cardName) throws Exception {
         String result = PreGameMenuController.addToDeck(cardName, user);
-        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
+//        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
         sendMessage("addToDeckResult " + result);
     }
 

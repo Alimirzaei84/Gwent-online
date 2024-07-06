@@ -315,7 +315,7 @@ public class GameLauncher extends AppMenu {
 
         displayCard(curPlayer, otherPlayer);
         //remove veto button
-        if (board.getGame().getNumTurn() == 1) {
+        if (board.getNumTurn() == 1) {
             if (vetoButton != null)
                 vetoButton.setVisible(false);
         }
