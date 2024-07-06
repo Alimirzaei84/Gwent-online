@@ -22,7 +22,7 @@ public enum Regexes {
     SET_DECK("set deck (?<deckJson>.+)"),
     SHOW_FACTION_RESULT("show factions (?<factionJson>.+)"),
     SET_FACTION("set faction (?<factionName>.+)"),
-    SEND_DATA("winner(?<winnerUsername>.+)winnerScores(?<winnerScores>.+)looser(?<looserUsername>.+)looserScores(?<looserScores>.+)total(?<winnerTotal>.+)total(?<looserTotal>.+)"),
+    SEND_DATA("winner(?<winnerUsername>.+)winnerScores(?<winnerScores>.+)looser(?<loserUsername>.+)looserScores(?<looserScores>.+)total(?<winnerTotal>.+)total(?<looserTotal>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
 
     CHOOSE_CARD("choose card"),
