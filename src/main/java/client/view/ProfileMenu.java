@@ -47,7 +47,6 @@ public class ProfileMenu extends AppMenu {
     @FXML
     private PasswordField oldPasswordField;
 
-
     public void start(Stage stage) throws Exception {
         URL url = ProfileMenu.class.getResource("/FXML/ProfileMenu.fxml");
         assert url != null;
@@ -209,6 +208,13 @@ public class ProfileMenu extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
+        }else if (command.startsWith("[PLAYGAME]")){
+            try{
+                GameLauncher gameLauncher = new GameLauncher();
+                gameLauncher.start((Stage) usernameLabel.getScene().getWindow());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

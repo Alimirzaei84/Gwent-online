@@ -73,6 +73,13 @@ public class GameHistoryScreen extends AppMenu {
             if (!gameHistories.isEmpty()) {
                 showAGameHistory(number);
             }
+        } else if (command.startsWith("[PLAYGAME]")){
+            try{
+                GameLauncher gameLauncher = new GameLauncher();
+                gameLauncher.start((Stage) dataHBox.getScene().getWindow());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
