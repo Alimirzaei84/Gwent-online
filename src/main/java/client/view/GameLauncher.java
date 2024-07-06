@@ -696,7 +696,9 @@ public class GameLauncher extends AppMenu {
 
     }
 
-    public void getBoard(Board board) throws MalformedURLException {
+    public synchronized void getBoard(Board board) throws MalformedURLException {
+        System.out.println("in line 700 game launcher " + board.getMyHand().size());
+        System.out.println("in line 700 game launcher " + board.getOppHand().size());
         System.out.println("----I GOT BOARD HERE!-----");
         refreshScreen(board);
     }

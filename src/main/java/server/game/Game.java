@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game implements Runnable, Serializable {
 
@@ -45,6 +46,10 @@ public class Game implements Runnable, Serializable {
 
     private synchronized Board generateBoard(Player curr, Player other) {
 
+        System.out.println("hand size in top of board " + curr.getInHand().size());
+        System.out.println("hand size in top of board " + other.getInHand().size());
+
+
         // Initialize basic data
         Board board = new Board();
         board.setWeatherArrayList(this.getWeathers());
@@ -72,6 +77,9 @@ public class Game implements Runnable, Serializable {
         board.setOpponentLeader(other.getUser().getLeader());
         board.setOpponentUsername(other.getUser().getUsername());
 
+
+        System.out.println("hand size end of board" + board.getMyHand().size());
+        System.out.println("hand size end of board" + board.getOppHand().size());
         return board;
     }
 
@@ -281,7 +289,7 @@ public class Game implements Runnable, Serializable {
         }
     }
 
-    public String handleCommand(String command) throws IOException {
+    public String handleCommand(String command) throws IOException, InterruptedException {
         return handler.handleCommand(command);
     }
 
@@ -336,7 +344,7 @@ public class Game implements Runnable, Serializable {
         isPlayerListening = true;
     }
 
-    public void broadcast(String message) throws IOException {
+    public void broadcast(Object message) throws IOException {
         getUser1().sendMessage(message);
         getUser2().sendMessage(message);
         getChatroom().broadcast(message);

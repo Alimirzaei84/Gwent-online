@@ -113,7 +113,7 @@ public class Player implements Serializable {
 
 
     public void putCard(Card card) {
-        System.out.println(user.getName() + " put card " + card.getName());
+        System.out.println("put card method in player class " + user.getName() + " put card " + card.getName());
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
             if (game.getWeathers().size() < 3) {
@@ -434,6 +434,8 @@ public class Player implements Serializable {
     }
 
     private void putCardForMe(Card card, int rowNumber) {
+        System.out.println("put crud for me in player class ");
+        System.out.println("Hand size is " + inHand);
         if (card.getAbility().equals("Spy")) {
             getOpponent().rows[rowNumber].addCard(card);
             inHand.remove(card);
@@ -444,9 +446,13 @@ public class Player implements Serializable {
                 break;
             }
         } else {
+            System.out.println("we are in else and the Hand size is " + inHand.size());
             rows[rowNumber].addCard(card);
             inHand.remove(card);
+            System.out.println("remove from inHand and now the size of hand is " + inHand.size());
         }
+
+        System.out.println("Hand size is " + inHand.size());
 
 
         switch (card.getAbility()) {
@@ -709,5 +715,11 @@ public class Player implements Serializable {
         this.vetoCounter = vetoCounter;
     }
 
+    public Card getCardFromHandByName(String carName) {
+        for (Card card : inHand) {
+            if (card.getName().equals(carName)) return card;
+        }
+        return null;
+    }
 
 }

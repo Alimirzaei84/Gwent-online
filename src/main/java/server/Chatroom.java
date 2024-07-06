@@ -14,7 +14,7 @@ public class Chatroom implements Serializable {
         attendees = new ArrayList<>();
     }
 
-    public synchronized void broadcast(String message) throws IOException {
+    public synchronized void broadcast(Object message) throws IOException {
         for (User user : attendees) {
             user.sendMessage(message);
         }
