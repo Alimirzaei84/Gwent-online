@@ -91,7 +91,6 @@ public class User {
         }
     }
 
-
     private Leader getRandomLeader() {
         System.out.println("++++" + CardController.leaders.size());
         String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));

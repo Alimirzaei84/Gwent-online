@@ -33,6 +33,84 @@ public abstract class DBController {
         return userData;
     }
 
+    public static Map<String, String> getUserHistory(String name) throws SQLException {
+        int user_id = getId(name);
+
+        Map<String, String> userHistory = new HashMap<>();
+        userHistory.put("id", "");
+        userHistory.put("user_id", Integer.toString(user_id));
+        userHistory.put("ties", "");
+        userHistory.put("wins", "");
+        userHistory.put("looses", "");
+        userHistory.put("gamePlayed", "");
+        userHistory.put("faction", "");
+        userHistory.put("leader", "");
+
+        String query = "SELECT * FROM user_history WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, user_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                userHistory.put("id", resultSet.getString("id"));
+                userHistory.put("user_id", Integer.toString(user_id));
+                userHistory.put("ties", resultSet.getString("ties"));
+                userHistory.put("wins", resultSet.getString("wins"));
+                userHistory.put("looses", resultSet.getString("looses"));
+                userHistory.put("gamePlayed", resultSet.getString("gamePlayed"));
+                userHistory.put("faction", resultSet.getString("faction"));
+                userHistory.put("leader", resultSet.getString("leader"));
+            }
+        }
+
+        return userHistory;
+    }
+
+    public static String getLeader(String name) throws SQLException {
+        return getUserHistory(name).get("leader");
+    }
+
+    public static String getFaction(String name) throws SQLException {
+        return getUserHistory(name).get("faction");
+    }
+
+    public static void setFaction(String name, String faction) throws SQLException {
+        int user_id = getId(name);
+        String query = "UPDATE user_history SET faction = ? WHERE user_id = ?";
+
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.setString(2, faction);
+
+            preparedStatement.executeQuery();
+        }
+    }
+
+    public static void setLeader(String name, String leader) throws SQLException {
+        int user_id = getId(name);
+        String query = "UPDATE user_history SET leader = ? WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(query)) {
+            preparedStatement.setString(2, leader);
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.executeQuery();
+        }
+    }
+
+    public static int getGamePlayed(String name) throws SQLException {
+        return Integer.parseInt(getUserHistory(name).get("gamePlayed"));
+    }
+
+    public static int getWins(String name) throws SQLException {
+        return Integer.parseInt(getUserHistory(name).get("wins"));
+    }
+
+    public static int getLoses(String name) throws SQLException {
+        return Integer.parseInt(getUserHistory(name).get("looses"));
+    }
+
+    public static int getTies(String name) throws SQLException {
+        return Integer.parseInt(getUserHistory(name).get("ties"));
+    }
+
     public static int getId(String name) throws SQLException {
         return Integer.parseInt(getUserData(name).get("id"));
     }
@@ -89,6 +167,11 @@ public abstract class DBController {
                     "VALUES ('" + name + "', '" + password + "', '" + email + "', '" + nickname + "')";
 
             int rowsAffected = statement.executeUpdate(query);
+            if (rowsAffected <= 0) {
+                throw new SQLException();
+            }
+
+            query = "SELECT * FROM users WHERE name = '" + name + "'";
             System.out.println("[INFO] Registered " + rowsAffected + " user to users table.");
         }
     }
@@ -140,9 +223,5 @@ public abstract class DBController {
 
     public static void closeConnection() throws SQLException {
         getConnection().close();
-    }
-
-    public static void main(String[] args) throws SQLException {
-        showUsersTable();
     }
 }
