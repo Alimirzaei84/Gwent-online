@@ -68,8 +68,10 @@ public class In implements Runnable {
             appMenu.handleCommand((String) object);
         }
 
-        else if (object instanceof Board) {
-            Board board = (Board) object;
+        else if (object instanceof Board board) {
+            User user = User.getInstance();
+            AppMenu appMenu = user.getAppMenu();
+            ((GameLauncher)appMenu).getBoard((Board) object);
             System.out.println(board);
         }
 

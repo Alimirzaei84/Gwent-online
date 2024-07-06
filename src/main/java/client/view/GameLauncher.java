@@ -1,4 +1,4 @@
-//package client.view;
+import server.game.Board;//package client.view;
 //
 //import controller.ApplicationController;
 //import controller.CardController;
@@ -738,4 +738,7 @@
 //    }
 //
 //
+public void getBoard(Board board){
+
+}
 //}

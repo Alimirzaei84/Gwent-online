@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import server.game.Board;
 
 import java.net.URL;
 import java.util.Objects;
@@ -110,4 +111,5 @@ public class ForgetPassword extends AppMenu {
 
 
     }
+
 }

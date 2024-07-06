@@ -1,5 +1,6 @@
 package server.game;
 
+import org.jetbrains.annotations.NotNull;
 import server.Account.Player;
 import model.role.Card;
 import model.role.Faction;
@@ -196,7 +197,7 @@ public class Game implements Runnable, Serializable {
     }
 
 
-    public void endOfTheGame(Player winner) {
+    public void endOfTheGame(@NotNull Player winner) {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         this.winner = winner;
