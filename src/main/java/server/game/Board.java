@@ -1,6 +1,8 @@
 package server.game;
 
 import model.role.Card;
+import model.role.Faction;
+import model.role.Leader;
 import server.Account.Player;
 
 import java.io.Serializable;
@@ -8,8 +10,12 @@ import java.util.ArrayList;
 
 public class Board implements Serializable {
     private int numTurn;
-    private Player currPlayer;
-    private Player oppPlayer;
+    private Leader myLeader;
+    private Leader opponentLeader;
+    private String myUsername;
+    private String opponentUsername;
+    private Faction myFaction;
+    private Faction opponentFaction;
     private Row[] myRows;
     private Row[] oppRows;
     private int myPoint;
@@ -22,14 +28,6 @@ public class Board implements Serializable {
 
     public Board() {
 
-    }
-
-    public int getNumTurn() {
-        return numTurn;
-    }
-
-    public void setNumTurn(int numTurn) {
-        this.numTurn = numTurn;
     }
 
     public Row[] getMyRows() {
@@ -52,21 +50,6 @@ public class Board implements Serializable {
         return myPoint;
     }
 
-    public Player getCurrPlayer() {
-        return currPlayer;
-    }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.currPlayer = currPlayer;
-    }
-
-    public Player getOppPlayer() {
-        return oppPlayer;
-    }
-
-    public void setOppPlayer(Player oppPlayer) {
-        this.oppPlayer = oppPlayer;
-    }
 
     public void setMyPoint(int myPoint) {
         this.myPoint = myPoint;
@@ -118,5 +101,61 @@ public class Board implements Serializable {
 
     public void setOppDeck(ArrayList<Card> oppDeck) {
         this.oppDeck = oppDeck;
+    }
+
+    public Leader getMyLeader() {
+        return myLeader;
+    }
+
+    public void setMyLeader(Leader myLeader) {
+        this.myLeader = myLeader;
+    }
+
+    public Leader getOpponentLeader() {
+        return opponentLeader;
+    }
+
+    public void setOpponentLeader(Leader opponentLeader) {
+        this.opponentLeader = opponentLeader;
+    }
+
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
+    }
+
+    public Faction getMyFaction() {
+        return myFaction;
+    }
+
+    public void setMyFaction(Faction myFaction) {
+        this.myFaction = myFaction;
+    }
+
+    public Faction getOpponentFaction() {
+        return opponentFaction;
+    }
+
+    public void setOpponentFaction(Faction opponentFaction) {
+        this.opponentFaction = opponentFaction;
+    }
+
+    public int getNumTurn() {
+        return numTurn;
+    }
+
+    public void setNumTurn(int numTurn) {
+        this.numTurn = numTurn;
     }
 }
