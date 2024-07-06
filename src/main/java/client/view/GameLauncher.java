@@ -333,11 +333,13 @@ public class GameLauncher extends AppMenu {
         otherFactionLabel.setText(board.getOpponentFaction().name());
         otherInHandCoLabel.setText("In Hand : " + board.getOppHand().size());
 
-        if (board.isMyTurn())
+        if (board.isMyTurn()) {
             curUsernameLabel.setTextFill(Color.RED);
-        else
+            otherUsernameLabel.setTextFill(Color.WHITE);
+        } else {
             otherUsernameLabel.setTextFill(Color.RED);
-
+            curUsernameLabel.setTextFill(Color.WHITE);
+        }
         //TODO : UPDATE DIAMONDS
         updateDiamondsForPlayer(board.getMyDiamondCount(), curDiamondHBox);
         updateDiamondsForPlayer(board.getOpponentDiamondCount(), otherDiamondHBox);
