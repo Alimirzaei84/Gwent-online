@@ -41,7 +41,7 @@ public class EndOfGameScreen extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+            client.User.getInstance().setAppMenu(this);
 //        this.winnerLabel.setText("WINNER " + Game.getCurrentGame().getWinner().getUser().getUsername() + " : " + Game.getCurrentGame().getWinner().getTotalPoint());
 //        this.winnerLabel.setAlignment(Pos.CENTER);
 //        this.winnerLabel.setTextAlignment(TextAlignment.CENTER);

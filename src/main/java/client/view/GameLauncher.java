@@ -691,6 +691,14 @@ public class GameLauncher extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
+        } else if (command.startsWith("[OVER]")){
+            try {
+                EndOfGameScreen endOfGameScreen = new EndOfGameScreen();
+                endOfGameScreen.start((Stage) curUsernameLabel.getScene().getWindow());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
 
