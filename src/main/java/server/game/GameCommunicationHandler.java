@@ -22,6 +22,7 @@ public class GameCommunicationHandler implements Runnable {
     }
 
     public String handleCommand(String command) throws IOException {
+        sendBoardObjectToEachPlayer();
         if (!isGameListening()) {
             return "[ERR] server isn't listening right now.";
         }

@@ -106,16 +106,18 @@ public class Player implements Serializable {
     public void putCard(Card card) {
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
-            inHand.remove(card);
-            game.getWeathers().add(card);
-            String weatherType = card.getName().split(" ")[1];
-            int whichRow = 0;
-            switch (weatherType) {
-                case "rain" -> whichRow = 2;
-                case "fog" -> whichRow = 1;
+            if (game.getWeathers().size() < 3) {
+                inHand.remove(card);
+                game.getWeathers().add(card);
+                String weatherType = card.getName().split(" ")[1];
+                int whichRow = 0;
+                switch (weatherType) {
+                    case "rain" -> whichRow = 2;
+                    case "fog" -> whichRow = 1;
+                }
+                freeze(rows[whichRow]);
+                freeze(getOpponent().rows[whichRow]);
             }
-            freeze(rows[whichRow]);
-            freeze(getOpponent().rows[whichRow]);
             changeTurn();
         } else if (card.getName().equals("")) {
 
@@ -259,7 +261,7 @@ public class Player implements Serializable {
         Card card = getRandomCard(weathersOfMyhand);
         if (card == null) return;
         inHand.remove(card);
-         game.getWeathers().add(card);
+        game.getWeathers().add(card);
         String weatherType = card.getName().split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
