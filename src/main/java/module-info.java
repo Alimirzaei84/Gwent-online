@@ -11,6 +11,7 @@ module testAnt {
     requires org.testng;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
+    requires org.jetbrains.annotations;
     exports server to com.fasterxml.jackson.databind;
     opens server to com.fasterxml.jackson.databind;
     opens model.role to  com.fasterxml.jackson.databind;

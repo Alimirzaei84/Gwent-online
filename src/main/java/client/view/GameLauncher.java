@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.game.Board;
 import server.game.Row;
 import model.role.Card;
 import model.role.Special;
@@ -738,5 +739,8 @@ public class GameLauncher extends AppMenu {
 
     }
 
+    public void getBoard(Board board){
+
+    }
 
 }
