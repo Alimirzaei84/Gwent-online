@@ -590,6 +590,8 @@ public class CommunicationHandler implements Runnable {
 
     public void sendMessage(Object message) throws IOException {
         out.writeObject(message);
+        out.flush();
+        out.reset();
     }
 
     public void shutdown() {
