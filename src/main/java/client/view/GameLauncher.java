@@ -689,7 +689,7 @@ public class GameLauncher extends AppMenu {
             alert.setHeaderText("Error");
             alert.setContentText(command.substring("[ERR]:".length()));
             Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.showAndWait();
         }
 

@@ -84,17 +84,19 @@ public class GameCommunicationHandler implements Runnable {
         System.out.println("74 " + game.getCurrentPlayer().getInHand().size());
 
 
+        for (int i = 0; i < 10; i++) {
 
-        Thread.sleep(4000);
-        Board currBoard1 = game.getCurrentPlayerBoard();
-        System.out.println(currBoard1);
-        System.out.println("the board hand size is " + currBoard1.getMyHand().size() + " " + currBoard1.getOppHand().size());
-        game.getCurrentPlayer().getUser().sendMessage(currBoard1);
-        Board otherBoard1 = game.getOtherPlayerBoard();
-        System.out.println(otherBoard1);
-        System.out.println(otherBoard1.getMyHand().size() + " " + otherBoard1.getOppHand().size());
-        game.getOtherPlayer().getUser().sendMessage(otherBoard1);
+            Thread.sleep(4000);
+            Board currBoard1 = game.getCurrentPlayerBoard();
+            System.out.println(currBoard1);
+            System.out.println("the board hand size is " + currBoard1.getMyHand().size() + " " + currBoard1.getOppHand().size());
+            game.getCurrentPlayer().getUser().sendMessage(currBoard1);
+            Board otherBoard1 = game.getOtherPlayerBoard();
+            System.out.println(otherBoard1);
+            System.out.println(otherBoard1.getMyHand().size() + " " + otherBoard1.getOppHand().size());
+            game.getOtherPlayer().getUser().sendMessage(otherBoard1);
 
+        }
     }
 
     private synchronized void veto(String command) throws IOException {
