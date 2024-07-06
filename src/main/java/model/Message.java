@@ -16,11 +16,35 @@ public class Message {
     private final int id;
     private final int chatroomId;
 
-    public Message(String senderName, String message, int chatroomId) {
-        this(senderName, new Date(), message, chatroomId);
+    private Message reply;
+    private React react = null;
+
+    public enum React {
+        LAUGH(0),
+        ANGRY(1),
+        CRY(2);
+
+        private final int value;
+        React(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
-    public Message(String senderName, Date date, String message, int chatroomId) {
+    public Message(String senderName, String message, int chatroomId, Message reply) {
+        this(senderName, new Date(), message, chatroomId);
+        this.reply = reply;
+    }
+
+    public Message(String senderName, String message, int chatroomId) {
+        this(senderName, new Date(), message, chatroomId);
+        this.reply = null;
+    }
+
+    private Message(String senderName, Date date, String message, int chatroomId) {
         this.senderName = senderName;
         this.time = timeFormatter.format(date);
         this.message = message;
@@ -63,5 +87,13 @@ public class Message {
         }
 
         return null;
+    }
+
+    public React getReact() {
+        return react;
+    }
+
+    public void setReact(React react) {
+        this.react = react;
     }
 }

@@ -59,7 +59,6 @@ public class Game implements Runnable, Serializable {
         return board;
     }
 
-
     private final User[] users;
     private final AccessType accessType;
     private final Chatroom chatroom;
