@@ -1,11 +1,21 @@
 package server.game;
 
 import model.role.Card;
+import model.role.Faction;
+import model.role.Leader;
 import server.Account.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable {
+    private int numTurn;
+    private Leader myLeader;
+    private Leader opponentLeader;
+    private String myUsername;
+    private String opponentUsername;
+    private Faction myFaction;
+    private Faction opponentFaction;
     private Game game;
     private Player currPlayer;
     private Player oppPlayer;
@@ -117,5 +127,61 @@ public class Board {
 
     public void setOppDeck(ArrayList<Card> oppDeck) {
         this.oppDeck = oppDeck;
+    }
+
+    public Leader getMyLeader() {
+        return myLeader;
+    }
+
+    public void setMyLeader(Leader myLeader) {
+        this.myLeader = myLeader;
+    }
+
+    public Leader getOpponentLeader() {
+        return opponentLeader;
+    }
+
+    public void setOpponentLeader(Leader opponentLeader) {
+        this.opponentLeader = opponentLeader;
+    }
+
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
+    }
+
+    public Faction getMyFaction() {
+        return myFaction;
+    }
+
+    public void setMyFaction(Faction myFaction) {
+        this.myFaction = myFaction;
+    }
+
+    public Faction getOpponentFaction() {
+        return opponentFaction;
+    }
+
+    public void setOpponentFaction(Faction opponentFaction) {
+        this.opponentFaction = opponentFaction;
+    }
+
+    public int getNumTurn() {
+        return numTurn;
+    }
+
+    public void setNumTurn(int numTurn) {
+        this.numTurn = numTurn;
     }
 }

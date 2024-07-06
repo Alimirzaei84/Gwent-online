@@ -94,6 +94,13 @@ public class Player implements Serializable {
         game.changeTurn();
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public void passRound() {
         handleTransformers();
