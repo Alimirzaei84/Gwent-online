@@ -11,6 +11,7 @@ import server.Account.User;
 import server.Enum.GameRegexes;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 public class GameCommunicationHandler implements Runnable {
 
@@ -25,7 +26,7 @@ public class GameCommunicationHandler implements Runnable {
     }
 
     public String handleCommand(String command) throws IOException {
-        sendBoardObjectToEachPlayer();
+//        sendBoardObjectToEachPlayer();
         if (!isGameListening()) {
             return "[ERR] server isn't listening right now.";
         }
@@ -34,6 +35,7 @@ public class GameCommunicationHandler implements Runnable {
         assert user != null;
         if (!user.equals(game.getCurrentPlayer().getUser())) {
             game.getOtherPlayer().getUser().sendMessage("[ERR]: Now is your opponent turn");
+            sendBoardObjectToEachPlayer();
             return "[ERR]: Now is your opponent turn";
         }
 

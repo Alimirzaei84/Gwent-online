@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,10 +62,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-        &quot;customColor&quot;: &quot;&quot;,
-        &quot;associatedIndex&quot;: 7
-        }</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -68,17 +70,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-        &quot;keyToString&quot;: {
-        &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-        &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
-        &quot;Application.client.executor&quot;: &quot;Run&quot;,
-        &quot;Application.server.executor&quot;: &quot;Run&quot;,
-        &quot;Application.testJson.executor&quot;: &quot;Run&quot;,
-        &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-        &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
-        }
-        }</component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -109,7 +100,7 @@
   <component name="RunManager" selected="Application.RegisterMenu">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -135,7 +126,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
-      <module name="testAnt" />
+      <module name="advanced-programming-project-group-17" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.view.*" />
@@ -282,7 +273,8 @@
       <workItem from="1720102627112" duration="1742000" />
       <workItem from="1720104402664" duration="11138000" />
       <workItem from="1720161996741" duration="7538000" />
-      <workItem from="1720173730569" duration="972000" />
+      <workItem from="1720173730569" duration="10277000" />
+      <workItem from="1720250332325" duration="1730000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
