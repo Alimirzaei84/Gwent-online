@@ -14,8 +14,8 @@
         <introspection-scope>
           <node kind="schema">
             <name qname="@" />
-            <name qname="schema_name" />
             <name qname="gwent" />
+            <name qname="schema_name" />
           </node>
         </introspection-scope>
       </schema-mapping>

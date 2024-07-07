@@ -77,7 +77,6 @@ public class Game implements Runnable {
         return handler.handleCommand(command);
     }
 
-
     private void waitUntilPlayersAreListening() {
 
         while (!isPlayerListening) {

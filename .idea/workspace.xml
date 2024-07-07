@@ -7,11 +7,12 @@
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15/storage_v2/_src_/schema/gwent.-xXjBQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/8a35813c-277b-439a-bdb8-8e24973c4a15/storage_v2/_src_/schema/gwent.-xXjBQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/database/DBController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/server/database/DBControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/server/database/DBControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,43 +75,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.DBController.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MySQLConnector.executor": "Run",
-    "Application.RegisterMenu.executor": "Run",
-    "JUnit.ChatroomTest.test1.executor": "Run",
-    "JUnit.DBControllerTest.deleteTest.executor": "Run",
-    "JUnit.DBControllerTest.findTest.executor": "Run",
-    "JUnit.DBControllerTest.loginTest.executor": "Run",
-    "JUnit.DBControllerTest.nullDeleteTest.executor": "Run",
-    "JUnit.DBControllerTest.registerTest.executor": "Run",
-    "JUnit.DBControllerTest.truncateTest.executor": "Run",
-    "JUnit.EmailControllerTest.executor": "Run",
-    "JUnit.EmailControllerTest.testSendEmail.executor": "Run",
-    "JUnit.EmailControllerTest.testVerify.executor": "Run",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "phase3",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.DBController.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MySQLConnector.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.ChatroomTest.test1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.deleteTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.findTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.friendshipExistTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.friendshipTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.loginTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.nullDeleteTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.registerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.saveTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBControllerTest.truncateTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmailControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmailControllerTest.testSendEmail.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmailControllerTest.testVerify.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;phase3&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -138,42 +146,51 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DBControllerTest.registerTest">
-    <configuration name="GFG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.request.GFG" />
+  <component name="RunManager" selected="JUnit.DBControllerTest.friendshipExistTest">
+    <configuration name="DBControllerTest.deleteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.request.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="deleteTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.view.GameLauncher" />
+    <configuration name="DBControllerTest.friendshipExistTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="client.view.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="friendshipExistTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="client.Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
+    <configuration name="DBControllerTest.friendshipTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.controller.*" />
+          <option name="PATTERN" value="server.database.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="server.database" />
+      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
+      <option name="METHOD_NAME" value="friendshipTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -194,7 +211,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBControllerTest.truncateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DBControllerTest.saveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
@@ -204,26 +221,26 @@
       </extension>
       <option name="PACKAGE_NAME" value="server.database" />
       <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="truncateTest" />
+      <option name="METHOD_NAME" value="saveTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.GFG" />
-      <item itemvalue="Application.GameLauncher" />
-      <item itemvalue="Application.client.Main" />
+      <item itemvalue="JUnit.DBControllerTest.friendshipExistTest" />
+      <item itemvalue="JUnit.DBControllerTest.friendshipTest" />
+      <item itemvalue="JUnit.DBControllerTest.deleteTest" />
+      <item itemvalue="JUnit.DBControllerTest.saveTest" />
       <item itemvalue="JUnit.DBControllerTest.registerTest" />
-      <item itemvalue="JUnit.DBControllerTest.truncateTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DBControllerTest.friendshipExistTest" />
+        <item itemvalue="JUnit.DBControllerTest.friendshipTest" />
+        <item itemvalue="JUnit.DBControllerTest.deleteTest" />
+        <item itemvalue="JUnit.DBControllerTest.saveTest" />
         <item itemvalue="JUnit.DBControllerTest.registerTest" />
-        <item itemvalue="JUnit.DBControllerTest.truncateTest" />
-        <item itemvalue="Application.GFG" />
-        <item itemvalue="Application.client.Main" />
-        <item itemvalue="Application.GameLauncher" />
       </list>
     </recent_temporary>
   </component>
@@ -281,6 +298,8 @@
       <workItem from="1720102627112" duration="1742000" />
       <workItem from="1720104402664" duration="11138000" />
       <workItem from="1720161996741" duration="3558000" />
+      <workItem from="1720295916816" duration="1396000" />
+      <workItem from="1720337462968" duration="1922000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
