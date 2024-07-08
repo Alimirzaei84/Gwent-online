@@ -73,6 +73,7 @@ public class CommunicationHandler implements Runnable {
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
+              
             } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -210,6 +211,7 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 invitation(matcher);
+            
             } else if (inMessage.matches(acceptGameRegex)) {
                 Matcher matcher = getMatcher(acceptGameRegex, inMessage);
                 matcher.find();
