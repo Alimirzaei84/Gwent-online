@@ -4,12 +4,10 @@ import model.Message;
 import server.Account.User;
 
 import java.io.IOException;
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Chatroom implements Serializable {
+public class Chatroom {
 
     private static int incrementer = 0;
 
@@ -33,6 +31,7 @@ public class Chatroom implements Serializable {
         for (User user : attendees) {
             user.sendMessage(message);
         }
+
     }
 
     private static final String replyRegex = "^reply to:([\\d]+) message:(.+)$",

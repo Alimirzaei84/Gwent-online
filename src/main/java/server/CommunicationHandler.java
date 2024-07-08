@@ -62,7 +62,6 @@ public class CommunicationHandler implements Runnable {
 
     private static final String invitationRequestRegex = "let's play (.+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
-
     private void handleCommand(String inMessage) throws Exception {
         if (user == null) {
 
@@ -74,6 +73,7 @@ public class CommunicationHandler implements Runnable {
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
+              
             } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -211,6 +211,7 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 invitation(matcher);
+            
             } else if (inMessage.matches(acceptGameRegex)) {
                 Matcher matcher = getMatcher(acceptGameRegex, inMessage);
                 matcher.find();
@@ -280,9 +281,9 @@ public class CommunicationHandler implements Runnable {
                 }
 
                 sendMessage(builder.toString());
-            }
-
-            else {
+            } else if (inMessage.equals("get end of game data")) {
+                sendMessage(user.getGameHistories().getLast().toString());
+            } else{
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -346,7 +347,7 @@ public class CommunicationHandler implements Runnable {
 
     private void handleAddToDeckRequest(String cardName) throws Exception {
         String result = PreGameMenuController.addToDeck(cardName, user);
-        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
+//        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
         sendMessage("addToDeckResult " + result);
     }
 
@@ -591,6 +592,8 @@ public class CommunicationHandler implements Runnable {
 
     public void sendMessage(Object message) throws IOException {
         out.writeObject(message);
+        out.flush();
+        out.reset();
     }
 
     public void shutdown() {

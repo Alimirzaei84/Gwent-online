@@ -194,9 +194,13 @@ public class GameLauncher extends AppMenu {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        inHandCurHbox.getChildren().add(inHandPlayer1);
-
-
+        client.User.getInstance().setAppMenu(this);
+        gameController = new GameController();
+        try {
+            Out.sendMessage(client.User.getInstance().getUsername() + " give board");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 //
 //        Platform.runLater(() -> {
 //            for (Card card : Game.getCurrentGame().getPlayer1().getInHand()) {
@@ -309,68 +313,76 @@ public class GameLauncher extends AppMenu {
     }
 
     private void refreshScreen(Board board) throws MalformedURLException {
-        Player curPlayer = board.getCurrPlayer();
-        Player otherPlayer = board.getOppPlayer();
 
 
-        displayCard(curPlayer, otherPlayer);
+        //TODO : FIX later
+//        displayCard(curPlayer, otherPlayer);
         //remove veto button
-        if (board.getGame().getNumTurn() == 1) {
+        if (board.getNumTurn() == 1) {
             if (vetoButton != null)
                 vetoButton.setVisible(false);
         }
-        //Deck
-        setUpHand(curPlayer);
-        //Left side of the screen
-        curUsernameLabel.setText(curPlayer.getUser().getUsername());
-        curFactionLabel.setText(curPlayer.getUser().getLeader().getFaction().name());
-        curInHandCoLabel.setText("In Hand : " + curPlayer.getInHand().size());
-        otherUsernameLabel.setText(otherPlayer.getUser().getUsername());
-        otherFactionLabel.setText(otherPlayer.getUser().getLeader().getFaction().name());
-        otherInHandCoLabel.setText("In Hand : " + otherPlayer.getInHand().size());
 
-        updateDiamondsForPlayer(curPlayer, curDiamondHBox);
-        updateDiamondsForPlayer(otherPlayer, otherDiamondHBox);
-        refreshLeaderOnScreen(curPlayer, otherPlayer);
+        //Deck
+        setUpHand(board.getMyHand());
+        //Left side of the screen
+        curUsernameLabel.setText(board.getMyUsername());
+        curFactionLabel.setText(board.getMyFaction().name());
+        curInHandCoLabel.setText("In Hand : " + board.getMyHand().size());
+        otherUsernameLabel.setText(board.getOpponentUsername());
+        otherFactionLabel.setText(board.getOpponentFaction().name());
+        otherInHandCoLabel.setText("In Hand : " + board.getOppHand().size());
+
+        if (board.isMyTurn()) {
+            curUsernameLabel.setTextFill(Color.RED);
+            otherUsernameLabel.setTextFill(Color.WHITE);
+        } else {
+            otherUsernameLabel.setTextFill(Color.RED);
+            curUsernameLabel.setTextFill(Color.WHITE);
+        }
+        //TODO : UPDATE DIAMONDS
+        updateDiamondsForPlayer(board.getMyDiamondCount(), curDiamondHBox);
+        updateDiamondsForPlayer(board.getOpponentDiamondCount(), otherDiamondHBox);
+        refreshLeaderOnScreen(board.getMyLeader().getName(), board.getOpponentLeader().getName());
 
         //Right side of the screen
-        curDeckCountLabel.setText(String.valueOf(curPlayer.getUser().getDeck().size()));
-        otherDeckCountLabel.setText(String.valueOf(otherPlayer.getUser().getDeck().size()));
-        setFactionOnDeckView(curPlayer.getUser().getLeader().getFaction().name(), curDeckVBox);
-        setFactionOnDeckView(otherPlayer.getUser().getLeader().getFaction().name(), otherDeckVBox);
+        curDeckCountLabel.setText(String.valueOf(board.getMyDeck().size()));
+        otherDeckCountLabel.setText(String.valueOf(board.getOppDeck().size()));
+        setFactionOnDeckView(board.getMyFaction().name(), curDeckVBox);
+        setFactionOnDeckView(board.getOpponentFaction().name(), otherDeckVBox);
 
-        //TODO : test discard pile
-        setUpDiscardPile(curPlayer, curDiscardPileVBox);
-        setUpDiscardPile(otherPlayer, otherDiscardPileVBox);
+        //TODO : update discard pile
+        setUpDiscardPile(board.getMyDiscardPile(), curDiscardPileVBox);
+        setUpDiscardPile(board.getOpponentDiscardPile(), otherDiscardPileVBox);
 
         //curRows
-        Row[] curRows = curPlayer.getRows();
-        setRowOnScreen(curPlayer, curRows[0], curRow0StackPane, curRow0HBox, curSpecialRow0HBox);
-        setRowOnScreen(curPlayer, curRows[1], curRow1StackPane, curRow1HBox, curSpecialRow1HBox);
-        setRowOnScreen(curPlayer, curRows[2], curRow2StackPane, curRow2HBox, curSpecialRow2HBox);
+        Row[] curRows = board.getMyRows();
+        setRowOnScreen(curRows[0], curRow0StackPane, curRow0HBox, curSpecialRow0HBox);
+        setRowOnScreen(curRows[1], curRow1StackPane, curRow1HBox, curSpecialRow1HBox);
+        setRowOnScreen(curRows[2], curRow2StackPane, curRow2HBox, curSpecialRow2HBox);
 
         //otherRows
-        Row[] otherRows = otherPlayer.getRows();
-        setRowOnScreen(otherPlayer, otherRows[0], otherRow0StackPane, otherRow0HBox, otherSpecialRow0HBox);
-        setRowOnScreen(otherPlayer, otherRows[1], otherRow1StackPane, otherRow1HBox, otherSpecialRow1HBox);
-        setRowOnScreen(otherPlayer, otherRows[2], otherRow2StackPane, otherRow2HBox, otherSpecialRow2HBox);
+        Row[] otherRows = board.getOppRows();
+        setRowOnScreen(otherRows[0], otherRow0StackPane, otherRow0HBox, otherSpecialRow0HBox);
+        setRowOnScreen(otherRows[1], otherRow1StackPane, otherRow1HBox, otherSpecialRow1HBox);
+        setRowOnScreen(otherRows[2], otherRow2StackPane, otherRow2HBox, otherSpecialRow2HBox);
 
         //scores
-        refreshScores(curPlayer, otherPlayer);
+        refreshScores(curRows, otherRows, board.getMyPoint(), board.getOppPoint());
 
         //Weather pile
         setWeatherOnScreen(board.getWeatherArrayList()); //TODO : TEST
 
     }
 
-    private void setUpDiscardPile(Player player, VBox discardPile) throws MalformedURLException {
+    private void setUpDiscardPile(ArrayList<Card> discardArr, VBox discardPile) throws MalformedURLException {
         if (discardPile == null) return;
         discardPile.getChildren().clear();
         discardPile.setAlignment(Pos.CENTER);
         discardPile.setSpacing(10);
-        if (player.getDiscardCards().size() == 0) return;
+        if (discardArr.size() == 0) return;
 
-        Card card = player.getDiscardCards().getLast();
+        Card card = discardArr.getLast();
         String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
         ImageView imageView = new ImageView(new Image(new File(imagePath).toURI().toURL().toString()));
         imageView.setOnDragExited(event -> System.out.println("swipe down"));
@@ -394,7 +406,7 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void setRowOnScreen(Player player, Row row, StackPane rowStackPane, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
+    private void setRowOnScreen(Row row, StackPane rowStackPane, HBox rowHBox, HBox specialRowBox) throws MalformedURLException {
         // Clear existing children from rowHBox and specialRowBox
         rowHBox.getChildren().clear();
         specialRowBox.getChildren().clear();
@@ -444,9 +456,9 @@ public class GameLauncher extends AppMenu {
     }
 
 
-    private void refreshLeaderOnScreen(Player curPlayer, Player otherPlayer) {
-        String curLeaderPath = CardController.imagePath.get(curPlayer.getUser().getLeader().getName());
-        String otherLeaderPath = CardController.imagePath.get(otherPlayer.getUser().getLeader().getName());
+    private void refreshLeaderOnScreen(String curLeaderName, String otherLeaderName) {
+        String curLeaderPath = CardController.imagePath.get(curLeaderName);
+        String otherLeaderPath = CardController.imagePath.get(otherLeaderName);
         try {
             setLeadersOnScreen(curLeaderPath, curLeaderVbox);
             setLeadersOnScreen(otherLeaderPath, otherLeaderVbox);
@@ -456,8 +468,8 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void updateDiamondsForPlayer(Player player, HBox diamondHBox) {
-        int max = player.getDiamond();
+    private void updateDiamondsForPlayer(int diamondCo, HBox diamondHBox) {
+        int max = diamondCo;
         int num = 0;
         for (Node node : diamondHBox.getChildren()) {
             if (node instanceof Polygon polygon) {
@@ -468,10 +480,11 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void setUpHand(Player curPlayer) {
+    private void setUpHand(ArrayList<Card> inHand) {
         inHandCurHbox.getChildren().clear();
         int index = 0;
-        for (Card card : curPlayer.getInHand()) {
+        System.out.println("HAND : ---->" + inHand.size());
+        for (Card card : inHand) {
             try {
                 if (index >= MAX_CARD_SHOW) continue;
                 String imagePath = CardController.imagePath.getOrDefault(card.getName(), "/assets/sm/monsters_arachas_behemoth.jpg");
@@ -489,9 +502,7 @@ public class GameLauncher extends AppMenu {
         }
     }
 
-    private void refreshScores(Player curPlayer, Player otherPlayer) {
-        Row[] curRows = curPlayer.getRows();
-        Row[] otherRows = otherPlayer.getRows();
+    private void refreshScores(Row[] curRows, Row[] otherRows, int curTotalPoint, int otherTotalPoint) {
         curRow0ScoreText.setText(String.valueOf(curRows[0].getPoint()));
         curRow1ScoreText.setText(String.valueOf(curRows[1].getPoint()));
         curRow2ScoreText.setText(String.valueOf(curRows[2].getPoint()));
@@ -499,10 +510,8 @@ public class GameLauncher extends AppMenu {
         otherRow1ScoreText.setText(String.valueOf(otherRows[1].getPoint()));
         otherRow2ScoreText.setText(String.valueOf(otherRows[2].getPoint()));
 
-        curPlayer.updateTotalPoint();
-        otherPlayer.updateTotalPoint();
-        curScore.setText(String.valueOf(curPlayer.getTotalPoint()));
-        otherScore.setText(String.valueOf(otherPlayer.getTotalPoint()));
+        curScore.setText(String.valueOf(curTotalPoint));
+        otherScore.setText(String.valueOf(otherTotalPoint));
 
         curRow0ScoreText.setTextAlignment(TextAlignment.CENTER);
         curRow2ScoreText.setTextAlignment(TextAlignment.CENTER);
@@ -674,20 +683,31 @@ public class GameLauncher extends AppMenu {
     @Override
     public void handleCommand(String command) {
         //TODO : handle winning condition
-        if (command.startsWith("[ERR]")){
+        if (command.startsWith("[ERR]")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
             alert.setContentText(command.substring("[ERR]:".length()));
             Scene scene = alert.getDialogPane().getScene();
-            scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.showAndWait();
+        } else if (command.startsWith("[OVER]")){
+            try {
+                EndOfGameScreen endOfGameScreen = new EndOfGameScreen();
+                endOfGameScreen.start((Stage) curUsernameLabel.getScene().getWindow());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
 
 
     }
 
-    public void getBoard(Board board) throws MalformedURLException {
+    public synchronized void getBoard(Board board) throws MalformedURLException {
+        System.out.println("in line 700 game launcher " + board.getMyHand().size());
+        System.out.println("in line 700 game launcher " + board.getOppHand().size());
+        System.out.println("----I GOT BOARD HERE!-----");
         refreshScreen(board);
     }
 

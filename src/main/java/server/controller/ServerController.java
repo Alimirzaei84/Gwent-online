@@ -27,7 +27,7 @@ public abstract class ServerController {
         game.getChatroom().handleCommand(user, message);
     }
 
-    public static void passMessageToGameOfUser(User user, String message) throws IOException {
+    public static void passMessageToGameOfUser(User user, String message) throws IOException, InterruptedException {
         int gameId = user.getGameId();
 
         Game game = getRunningGameById(gameId);

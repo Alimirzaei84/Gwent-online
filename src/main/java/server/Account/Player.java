@@ -7,6 +7,7 @@ import server.game.Row;
 import model.role.*;
 import server.game.Game;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -78,6 +79,7 @@ public class Player implements Serializable {
 
 
     public void makeHandReady() {
+        if (!inHand.isEmpty()) return;
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int c = 0; c < counter; c++) {
             Card card = getRandomCard(getUser().getDeck());
@@ -94,8 +96,15 @@ public class Player implements Serializable {
         game.changeTurn();
     }
 
+    public Game getGame() {
+        return game;
+    }
 
-    public void passRound() {
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void passRound() throws IOException {
         handleTransformers();
         updatePointOfRows();
         getOpponent().updatePointOfRows();
@@ -104,18 +113,21 @@ public class Player implements Serializable {
 
 
     public void putCard(Card card) {
+        System.out.println("put card method in player class " + user.getName() + " put card " + card.getName());
         int rowNumber = CardController.getRowNumber(card.getName());
         if (card.getType().equals(Type.WEATHER)) {
-            inHand.remove(card);
-            game.getWeathers().add(card);
-            String weatherType = card.getName().split(" ")[1];
-            int whichRow = 0;
-            switch (weatherType) {
-                case "rain" -> whichRow = 2;
-                case "fog" -> whichRow = 1;
+            if (game.getWeathers().size() < 3) {
+                inHand.remove(card);
+                game.getWeathers().add(card);
+                String weatherType = card.getName().split(" ")[1];
+                int whichRow = 0;
+                switch (weatherType) {
+                    case "rain" -> whichRow = 2;
+                    case "fog" -> whichRow = 1;
+                }
+                freeze(rows[whichRow]);
+                freeze(getOpponent().rows[whichRow]);
             }
-            freeze(rows[whichRow]);
-            freeze(getOpponent().rows[whichRow]);
             changeTurn();
         } else if (card.getName().equals("")) {
 
@@ -259,7 +271,7 @@ public class Player implements Serializable {
         Card card = getRandomCard(weathersOfMyhand);
         if (card == null) return;
         inHand.remove(card);
-         game.getWeathers().add(card);
+        game.getWeathers().add(card);
         String weatherType = card.getName().split(" ")[1];
         int whichRow = 0;
         switch (weatherType) {
@@ -422,6 +434,8 @@ public class Player implements Serializable {
     }
 
     private void putCardForMe(Card card, int rowNumber) {
+        System.out.println("put crud for me in player class ");
+        System.out.println("Hand size is " + inHand);
         if (card.getAbility().equals("Spy")) {
             getOpponent().rows[rowNumber].addCard(card);
             inHand.remove(card);
@@ -432,9 +446,13 @@ public class Player implements Serializable {
                 break;
             }
         } else {
+            System.out.println("we are in else and the Hand size is " + inHand.size());
             rows[rowNumber].addCard(card);
             inHand.remove(card);
+            System.out.println("remove from inHand and now the size of hand is " + inHand.size());
         }
+
+        System.out.println("Hand size is " + inHand.size());
 
 
         switch (card.getAbility()) {
@@ -650,7 +668,7 @@ public class Player implements Serializable {
         }
     }
 
-    public void addADiamond() {
+    public void addADiamond() throws IOException {
         if (++diamond >= 2) {
             game.endOfTheGame(this);
         }
@@ -697,5 +715,11 @@ public class Player implements Serializable {
         this.vetoCounter = vetoCounter;
     }
 
+    public Card getCardFromHandByName(String carName) {
+        for (Card card : inHand) {
+            if (card.getName().equals(carName)) return card;
+        }
+        return null;
+    }
 
 }

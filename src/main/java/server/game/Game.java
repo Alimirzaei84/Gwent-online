@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game implements Runnable, Serializable {
 
@@ -31,31 +32,54 @@ public class Game implements Runnable, Serializable {
         }
     }
 
-    public Board getCurrentPlayerBoard() {
-        return generateBoard(getCurrentPlayer(), getOtherPlayer());
+    public synchronized Board getCurrentPlayerBoard() {
+        Board board = generateBoard(getCurrentPlayer(), getOtherPlayer());
+        board.setMyTurn(true);
+        return board;
     }
 
-    public Board getOtherPlayerBoard() {
-        return generateBoard(getOtherPlayer(), getCurrentPlayer());
+    public synchronized Board getOtherPlayerBoard() {
+        Board board = generateBoard(getOtherPlayer(), getCurrentPlayer());
+        board.setMyTurn(false);
+        return board;
     }
 
-    private Board generateBoard(Player curr, Player other) {
+    private synchronized Board generateBoard(Player curr, Player other) {
 
-        Board board = new Board(this);
+        System.out.println("hand size in top of board " + curr.getInHand().size());
+        System.out.println("hand size in top of board " + other.getInHand().size());
+
+
+        // Initialize basic data
+        Board board = new Board();
         board.setWeatherArrayList(this.getWeathers());
+        board.setNumTurn(curr.getGame().numTurn);
 
-        board.setCurrPlayer(curr);
+        // Initialize my data
+        board.setMyDiamondCount(curr.getDiamond());
+        board.setMyDiscardPile(curr.getDiscardCards());
         board.setMyDeck(curr.getUser().getDeck());
         board.setMyHand(curr.getInHand());
         board.setMyRows(curr.getRows());
         board.setMyPoint(curr.getTotalPoint());
+        board.setMyFaction(curr.getUser().getFaction());
+        board.setMyLeader(curr.getUser().getLeader());
+        board.setMyUsername(curr.getUser().getName());
 
-        board.setOppPlayer(other);
+        // Initialize my opponent data
+        board.setOpponentDiamondCount(other.getDiamond());
+        board.setOpponentDiscardPile(other.getDiscardCards());
         board.setOppDeck(other.getUser().getDeck());
         board.setOppHand(other.getInHand());
         board.setOppRows(other.getRows());
         board.setOppPoint(other.getTotalPoint());
+        board.setOpponentFaction(other.getUser().getFaction());
+        board.setOpponentLeader(other.getUser().getLeader());
+        board.setOpponentUsername(other.getUser().getUsername());
 
+
+        System.out.println("hand size end of board" + board.getMyHand().size());
+        System.out.println("hand size end of board" + board.getOppHand().size());
         return board;
     }
 
@@ -118,7 +142,7 @@ public class Game implements Runnable, Serializable {
         return states;
     }
 
-    public void passRound() {
+    public void passRound() throws IOException {
         if (++passedTurnCounter >= 2) {
             giveADiamondToWinner();
         }
@@ -142,7 +166,7 @@ public class Game implements Runnable, Serializable {
         getOtherPlayer().getCardInfo().clear();
     }
 
-    private void giveADiamondToWinner() {
+    private void giveADiamondToWinner() throws IOException {
         passedTurnCounter = 0;
         if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
             getPlayer1().addADiamond();
@@ -198,12 +222,16 @@ public class Game implements Runnable, Serializable {
     }
 
 
-    public void endOfTheGame(@NotNull Player winner) {
+    public void endOfTheGame(@NotNull Player winner) throws IOException {
         if (winner.getUser().getFaction().equals(Faction.MONSTERS))
             winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
         this.winner = winner;
         updateUserHistory(getPlayer1());
         updateUserHistory(getPlayer2());
+        getUser1().getOnline(getUser1().getHandler());
+        getUser2().getOnline(getUser2().getHandler());
+        broadcast("[OVER]");
+        running = false;
     }
 
     private void updateUserHistory(Player player) {
@@ -263,10 +291,9 @@ public class Game implements Runnable, Serializable {
         }
     }
 
-    public String handleCommand(String command) throws IOException {
+    public String handleCommand(String command) throws IOException, InterruptedException {
         return handler.handleCommand(command);
     }
-
 
     private void waitUntilPlayersAreListening() {
 
@@ -318,7 +345,7 @@ public class Game implements Runnable, Serializable {
         isPlayerListening = true;
     }
 
-    public void broadcast(String message) throws IOException {
+    public void broadcast(Object message) throws IOException {
         getUser1().sendMessage(message);
         getUser2().sendMessage(message);
         getChatroom().broadcast(message);

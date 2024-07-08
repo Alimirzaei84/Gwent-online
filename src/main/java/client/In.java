@@ -40,8 +40,7 @@ public class In implements Runnable {
         }
     }
 
-    public void serverMessageHandler(Object object) throws Exception {
-
+    public synchronized void serverMessageHandler(Object object) throws Exception {
         if (object instanceof String) {
             User user = User.getInstance();
             AppMenu appMenu = user.getAppMenu();
@@ -49,9 +48,12 @@ public class In implements Runnable {
         }
 
         else if (object instanceof Board board) {
+            System.out.println(board);
+            System.out.println("in In class line 73 + " + board.getMyHand().size() + " " + board.getOppHand().size());
             User user = User.getInstance();
             AppMenu appMenu = user.getAppMenu();
-            ((GameLauncher)appMenu).getBoard((Board) object);
+            System.out.println("size of hand in 75 of In class " + ((Board) object).getMyHand().size() + " " + ((Board) object).getOppHand().size());
+            ((GameLauncher)appMenu).getBoard(board);
             System.out.println(board);
         }
 

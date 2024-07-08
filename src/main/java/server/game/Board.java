@@ -1,14 +1,25 @@
 package server.game;
 
 import model.role.Card;
-import server.Account.Player;
+import model.role.Faction;
+import model.role.Leader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
-    private Game game;
-    private Player currPlayer;
-    private Player oppPlayer;
+public class Board implements Serializable {
+    private int numTurn;
+    private boolean isMyTurn;
+    private int myDiamondCount;
+    private int opponentDiamondCount;
+    private ArrayList<Card> myDiscardPile;
+    private ArrayList<Card> opponentDiscardPile;
+    private Leader myLeader;
+    private Leader opponentLeader;
+    private String myUsername;
+    private String opponentUsername;
+    private Faction myFaction;
+    private Faction opponentFaction;
     private Row[] myRows;
     private Row[] oppRows;
     private int myPoint;
@@ -19,20 +30,25 @@ public class Board {
     private ArrayList<Card> myDeck;
     private ArrayList<Card> oppDeck;
 
-    public Board(Game game) {
-        this.game = game;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
 
     public Row[] getMyRows() {
         return myRows;
+    }
+
+    public ArrayList<Card> getMyDiscardPile() {
+        return myDiscardPile;
+    }
+
+    public void setMyDiscardPile(ArrayList<Card> myDiscardPile) {
+        this.myDiscardPile = myDiscardPile;
+    }
+
+    public ArrayList<Card> getOpponentDiscardPile() {
+        return opponentDiscardPile;
+    }
+
+    public void setOpponentDiscardPile(ArrayList<Card> opponentDiscardPile) {
+        this.opponentDiscardPile = opponentDiscardPile;
     }
 
     public void setMyRows(Row[] myRows) {
@@ -43,28 +59,28 @@ public class Board {
         return oppRows;
     }
 
+    public int getMyDiamondCount() {
+        return myDiamondCount;
+    }
+
+    public void setMyDiamondCount(int myDiamondCount) {
+        this.myDiamondCount = myDiamondCount;
+    }
+
+    public int getOpponentDiamondCount() {
+        return opponentDiamondCount;
+    }
+
+    public void setOpponentDiamondCount(int opponentDiamondCount) {
+        this.opponentDiamondCount = opponentDiamondCount;
+    }
+
     public void setOppRows(Row[] oppRows) {
         this.oppRows = oppRows;
     }
 
     public int getMyPoint() {
         return myPoint;
-    }
-
-    public Player getCurrPlayer() {
-        return currPlayer;
-    }
-
-    public void setCurrPlayer(Player currPlayer) {
-        this.currPlayer = currPlayer;
-    }
-
-    public Player getOppPlayer() {
-        return oppPlayer;
-    }
-
-    public void setOppPlayer(Player oppPlayer) {
-        this.oppPlayer = oppPlayer;
     }
 
     public void setMyPoint(int myPoint) {
@@ -117,5 +133,69 @@ public class Board {
 
     public void setOppDeck(ArrayList<Card> oppDeck) {
         this.oppDeck = oppDeck;
+    }
+
+    public Leader getMyLeader() {
+        return myLeader;
+    }
+
+    public void setMyLeader(Leader myLeader) {
+        this.myLeader = myLeader;
+    }
+
+    public Leader getOpponentLeader() {
+        return opponentLeader;
+    }
+
+    public void setOpponentLeader(Leader opponentLeader) {
+        this.opponentLeader = opponentLeader;
+    }
+
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
+
+    public String getOpponentUsername() {
+        return opponentUsername;
+    }
+
+    public void setOpponentUsername(String opponentUsername) {
+        this.opponentUsername = opponentUsername;
+    }
+
+    public Faction getMyFaction() {
+        return myFaction;
+    }
+
+    public void setMyFaction(Faction myFaction) {
+        this.myFaction = myFaction;
+    }
+
+    public Faction getOpponentFaction() {
+        return opponentFaction;
+    }
+
+    public void setOpponentFaction(Faction opponentFaction) {
+        this.opponentFaction = opponentFaction;
+    }
+
+    public int getNumTurn() {
+        return numTurn;
+    }
+
+    public void setNumTurn(int numTurn) {
+        this.numTurn = numTurn;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }

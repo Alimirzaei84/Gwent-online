@@ -583,7 +583,7 @@ public class PreGameMenu<T> extends AppMenu {
         if (result.startsWith("[SUCC]")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(result);
-            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             System.out.println(result);
 
             for (Node node : vBox.getChildren()) {
@@ -596,7 +596,7 @@ public class PreGameMenu<T> extends AppMenu {
         } else if (result.startsWith("[ERR]")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(result);
-            alert.getDialogPane().getScene().getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
+            alert.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.show();
         } else throw new RuntimeException("\"" + result + "\"" + " is not a valid result for adding to deck request");
     }

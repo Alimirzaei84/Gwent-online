@@ -8,6 +8,7 @@ import server.CommunicationHandler;
 import server.game.GameHistory;
 import model.role.*;
 
+import java.beans.Transient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -34,8 +35,7 @@ public class User implements Serializable {
     private Leader leader;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser;
-    @JsonIgnore
-    private CommunicationHandler handler;
+    private transient CommunicationHandler handler;
     private String username;
     private String password;
 
@@ -92,7 +92,6 @@ public class User implements Serializable {
             }
         }
     }
-
 
     private Leader getRandomLeader() {
         System.out.println("++++" + CardController.leaders.size());
