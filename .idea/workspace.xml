@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="842a06b1-0be8-4c1c-ac95-7aaa64aa2d7e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/client/view/GameView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/GameView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/GameView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

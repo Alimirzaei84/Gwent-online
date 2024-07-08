@@ -117,7 +117,7 @@ public class GameView extends AppMenu {
 
         pane.requestFocus();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         client.User.getInstance().setAppMenu(this);
@@ -150,7 +150,7 @@ public class GameView extends AppMenu {
 
 
     //TODO : CALL AFTER END OF THE GAME
-    private void back() {
+    public void back() {
         try {
             FriendsMenu friendsMenu = new FriendsMenu();
             friendsMenu.start(ApplicationController.getStage());
