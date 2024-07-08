@@ -1,11 +1,7 @@
 package client;
 
-import javafx.application.Platform;
-import client.view.RegisterMenu;
-
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Main {
 
@@ -21,10 +17,7 @@ public class Main {
             socket = new Socket("127.0.0.1", 8080);
             running = true;
 
-//            DataInputStream in = new DataInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-
-//            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             Out.setOut(out);
 
