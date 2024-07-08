@@ -12,7 +12,7 @@ public class GameHistory {
     private final User opponent;
     private final User winner;
     private final String dateFormattedString;
-    private final ArrayList<StateAfterADiamond> roundsInformations;
+    private final ArrayList<StateAfterADiamond> roundsInformation;
 
     @JsonCreator
     public GameHistory(
@@ -23,7 +23,7 @@ public class GameHistory {
         this.winner = winner;
         this.opponent = opponent;
         this.dateFormattedString = date;
-        this.roundsInformations = roundsInformation;
+        this.roundsInformation = roundsInformation;
     }
 
     public User getOpponent() {
@@ -38,24 +38,50 @@ public class GameHistory {
         return dateFormattedString;
     }
 
-    public ArrayList<StateAfterADiamond> getRoundsInformations() {
-        return roundsInformations;
+    public ArrayList<StateAfterADiamond> getRoundsInformation() {
+        return roundsInformation;
     }
 
-    public int getWinnerTotalScore(){
+    public int getWinnerTotalScore() {
         int point = 0;
-        for (StateAfterADiamond stateAfterADiamond : roundsInformations){
+        for (StateAfterADiamond stateAfterADiamond : roundsInformation) {
             point += stateAfterADiamond.winnerScore();
         }
 
         return point;
     }
 
-    public int getLoserTotalScore(){
+    public int getLoserTotalScore() {
         int point = 0;
-        for (StateAfterADiamond stateAfterADiamond : roundsInformations){
+        for (StateAfterADiamond stateAfterADiamond : roundsInformation) {
             point += stateAfterADiamond.looserScore();
         }
         return point;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("winner").append(winner.getUsername()).append("winnerScores");
+        int winnerScore = 0;
+        for (StateAfterADiamond state : roundsInformation) {
+            builder.append(state.winnerScore()).append(" ");
+            winnerScore += state.winnerScore();
+        }
+
+        int looserScore = 0;
+        builder.append("looser").append(opponent.getUsername()).append("looserScores");
+        for (StateAfterADiamond state : roundsInformation) {
+            builder.append(state.looserScore()).append(" ");
+            looserScore += state.looserScore();
+        }
+
+        builder.append("total").append(winnerScore);
+        builder.append("total").append(looserScore);
+
+
+
+        return builder.toString();
     }
 }

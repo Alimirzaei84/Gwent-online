@@ -279,9 +279,9 @@ public class CommunicationHandler implements Runnable {
                 }
 
                 sendMessage(builder.toString());
-            }
-
-            else {
+            } else if (inMessage.equals("get end of game data")) {
+                sendMessage(user.getGameHistories().getLast().toString());
+            } else{
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -590,6 +590,8 @@ public class CommunicationHandler implements Runnable {
 
     public void sendMessage(Object message) throws IOException {
         out.writeObject(message);
+        out.flush();
+        out.reset();
     }
 
     public void shutdown() {
