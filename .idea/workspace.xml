@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/FriendsMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/In.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/In.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/GameLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/menuConrollers/RegisterMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Chatroom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/game/GameCommunicationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,13 +26,11 @@
       <list>
         <option value="module-info" />
         <option value="JUnit4 Test Class" />
-        <option value="CSS File" />
-        <option value="FxmlFile" />
-
+        <option value="JUnit5 Test Class" />
         <option value="Enum" />
         <option value="FxmlFile" />
+        <option value="CSS File" />
         <option value="Class" />
-        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -61,9 +65,6 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -72,43 +73,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.DBController.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MySQLConnector.executor": "Run",
-    "Application.RegisterMenu.executor": "Run",
-    "JUnit.ChatroomTest.test1.executor": "Run",
-    "JUnit.DBControllerTest.deleteTest.executor": "Run",
-    "JUnit.DBControllerTest.findTest.executor": "Run",
-    "JUnit.DBControllerTest.loginTest.executor": "Run",
-    "JUnit.DBControllerTest.nullDeleteTest.executor": "Run",
-    "JUnit.DBControllerTest.registerTest.executor": "Run",
-    "JUnit.DBControllerTest.truncateTest.executor": "Run",
-    "JUnit.EmailControllerTest.executor": "Run",
-    "JUnit.EmailControllerTest.testSendEmail.executor": "Run",
-    "JUnit.EmailControllerTest.testVerify.executor": "Run",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "email-sender",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;gamePhase3&quot;
   }
-}]]></component>
+}</component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/assets/sm" />
@@ -126,9 +100,6 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="server.controller" />
-      <recent name="server.database" />
-      <recent name="server" />
       <recent name="controller" />
       <recent name="model.game" />
     </key>
@@ -136,13 +107,13 @@
       <recent name="client" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RegisterMenu">
-    <configuration name="GFG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="server.request.GFG" />
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.Main" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.request.*" />
+          <option name="PATTERN" value="server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -150,8 +121,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.view.GameLauncher" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.view.Main" />
+      <module name="testAnt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
+      <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
@@ -176,109 +160,80 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBControllerTest.findTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.client" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.database.*" />
+          <option name="PATTERN" value="server.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="server.database" />
-      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="findTest" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DBControllerTest.nullDeleteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.server" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.database.*" />
+          <option name="PATTERN" value="server.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="server.database" />
-      <option name="MAIN_CLASS_NAME" value="server.database.DBControllerTest" />
-      <option name="METHOD_NAME" value="nullDeleteTest" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmailControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.request.test" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.controller.*" />
+          <option name="PATTERN" value="server.request.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="server.controller" />
-      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="client.Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="client.Main" />
+    <configuration name="testJson" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.game.testJson" />
       <module name="testAnt" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="server.controller.*" />
+          <option name="PATTERN" value="server.game.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="server.controller" />
-      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
-      <option name="METHOD_NAME" value="testSendEmail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmailControllerTest.testVerify" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="testAnt" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="server.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="server.controller" />
-      <option name="MAIN_CLASS_NAME" value="server.controller.EmailControllerTest" />
-      <option name="METHOD_NAME" value="testVerify" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.RegisterMenu" />
-      <item itemvalue="Application.GFG" />
+      <item itemvalue="Application.client" />
+      <item itemvalue="Application.server" />
+      <item itemvalue="Application.testJson" />
       <item itemvalue="Application.test" />
-      <item itemvalue="Application.GameLauncher" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.client.Main" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.client" />
+        <item itemvalue="Application.server" />
+        <item itemvalue="Application.testJson" />
         <item itemvalue="Application.test" />
-        <item itemvalue="Application.GFG" />
-        <item itemvalue="Application.client.Main" />
-        <item itemvalue="Application.GameLauncher" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
@@ -327,7 +282,9 @@
       <workItem from="1719993083895" duration="13928000" />
       <workItem from="1720102627112" duration="1742000" />
       <workItem from="1720104402664" duration="11138000" />
-      <workItem from="1720161996741" duration="3558000" />
+      <workItem from="1720161996741" duration="7538000" />
+      <workItem from="1720173730569" duration="10277000" />
+      <workItem from="1720250332325" duration="1730000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
@@ -352,6 +309,21 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">

@@ -93,7 +93,7 @@ public class GameHistoryScreen extends AppMenu {
         vBox3.getChildren().clear();
         GameHistory gameHistory = gameHistories.get(index);
         int roundNum = 1;
-        for (StateAfterADiamond state : gameHistory.getRoundsInformations()) {
+        for (StateAfterADiamond state : gameHistory.getRoundsInformation()) {
             Label roundLabel = new Label();
             Label winnerLabel = new Label();
             Label loserLabel = new Label();

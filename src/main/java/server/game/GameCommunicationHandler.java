@@ -67,36 +67,21 @@ public class GameCommunicationHandler implements Runnable {
     }
 
     private synchronized void sendBoardObjectToEachPlayer() throws IOException, InterruptedException {
-        System.out.println("70 " + game.getOtherPlayer().getInHand().size());
-        System.out.println("71 " + game.getCurrentPlayer().getInHand().size());
 
 
         Board currBoard = game.getCurrentPlayerBoard();
-        System.out.println(currBoard);
-        System.out.println("the board hand size is " + currBoard.getMyHand().size() + " " + currBoard.getOppHand().size());
         game.getCurrentPlayer().getUser().sendMessage(currBoard);
         Board otherBoard = game.getOtherPlayerBoard();
-        System.out.println(otherBoard);
-        System.out.println(otherBoard.getMyHand().size() + " " + otherBoard.getOppHand().size());
         game.getOtherPlayer().getUser().sendMessage(otherBoard);
 
-        System.out.println("73 " + game.getOtherPlayer().getInHand().size());
-        System.out.println("74 " + game.getCurrentPlayer().getInHand().size());
 
 
-        for (int i = 0; i < 10; i++) {
 
-            Thread.sleep(4000);
-            Board currBoard1 = game.getCurrentPlayerBoard();
-            System.out.println(currBoard1);
-            System.out.println("the board hand size is " + currBoard1.getMyHand().size() + " " + currBoard1.getOppHand().size());
-            game.getCurrentPlayer().getUser().sendMessage(currBoard1);
-            Board otherBoard1 = game.getOtherPlayerBoard();
-            System.out.println(otherBoard1);
-            System.out.println(otherBoard1.getMyHand().size() + " " + otherBoard1.getOppHand().size());
-            game.getOtherPlayer().getUser().sendMessage(otherBoard1);
+        Board currBoard1 = game.getCurrentPlayerBoard();
+        game.getCurrentPlayer().getUser().sendMessage(currBoard1);
+        Board otherBoard1 = game.getOtherPlayerBoard();
+        game.getOtherPlayer().getUser().sendMessage(otherBoard1);
 
-        }
     }
 
     private synchronized void veto(String command) throws IOException {
