@@ -15,6 +15,7 @@ import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
+import server.game.GameHistory;
 import server.request.FriendRequest;
 import server.request.Invitation;
 
@@ -186,7 +187,8 @@ public class CommunicationHandler implements Runnable {
 
                 sendMessage(res);
             } else if (Regexes.GET_GAME_HISTORIES.matches(inMessage)) {
-                String res = GameHistoryController.convertToJson(user.getGameHistories());
+                String res = convertToJson(user.getGameHistories());
+                System.out.println("JSON STRING IN SERVER ------>" + res);
                 if (res == null) {
                     sendMessage("");
                 } else {
@@ -559,6 +561,16 @@ public class CommunicationHandler implements Runnable {
         }
 
         ServerController.acceptGame(this.getUser(), inviter);
+    }
+
+    public static String convertToJson(ArrayList<GameHistory> gameHistories) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(gameHistories);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void invitation(Matcher matcher) throws IOException {

@@ -6,6 +6,8 @@ import server.Account.User;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Chatroom {
 
@@ -21,7 +23,7 @@ public class Chatroom {
         id = incrementer++;
     }
 
-    public synchronized void broadcast(String message) throws IOException {
+    public synchronized void broadcast(Object message) throws IOException {
         for (User user : attendees) {
             user.sendMessage(message);
         }
@@ -35,7 +37,7 @@ public class Chatroom {
     }
 
     private static final String replyRegex = "^reply to:([\\d]+) message:(.+)$",
-        reactRegex = "^react to :([\\d]+) ([\\S]+)$)";
+        reactRegex = "^react to :([\\d]+) ([\\S]+)$";
 
     public void handleCommand(User user, String command) throws IOException {
 
