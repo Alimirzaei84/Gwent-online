@@ -337,17 +337,6 @@ public class CommunicationHandler implements Runnable {
     }
 
 
-    private ArrayList<String[]> tranclateInfo(String info) {
-        // String[0] : game id && String[1] = the friend username
-        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
-        for (String pair : (info.substring("[RUNNING_GAMES_INFO] ".length()).split(" ")[1]).split(" ")) {
-            String[] result = new String[2];
-            System.arraycopy(pair.split(":"), 0, result, 0, 2);
-            gamePairedByUsername.add(result);
-        }
-        return gamePairedByUsername;
-
-    }
 
     private void tryVerify(String code) throws IOException {
         if (EmailController.verify(user.getEmail(), code)) {

@@ -28,6 +28,7 @@ public class FriendsMenu extends AppMenu {
     public HBox requestsContainer;
     public Timeline refreshTimeLine;
     public HBox inviteContainer;
+    public HBox gamesContainer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,10 +100,27 @@ public class FriendsMenu extends AppMenu {
             }
 
 
-        } else if (isJackSonValid(command)) {
-            ArrayList<String> gamesArr = new ArrayList<>();
-            for(String gamesData : gamesArr){
+        } else if (command.startsWith("[RUNNING_GAMES_INFO]")) {
+            ArrayList<String[]> gameData = translateInfo(command);
+            VBox vBox1 = new VBox();
+            VBox vBox2 = new VBox();
+            gamesContainer.getChildren().clear();
+            gamesContainer.getChildren().addAll(vBox1, vBox2);
 
+            for(String[] strings : gameData){
+                String username = strings[0];
+                int gameId = Integer.parseInt(strings[1]);
+
+                Label usernameLabel = new Label();
+                usernameLabel.setText(username);
+                usernameLabel.setPrefHeight(46);
+                vBox1.getChildren().add(usernameLabel);
+                Button playButton = new Button();
+                playButton.setText("view");
+                playButton.setOnMouseClicked(event -> view(username,gameId));
+                usernameLabel.setPrefWidth(250);
+                playButton.setPrefHeight(46);
+                vBox2.getChildren().add(playButton);
             }
 
         } else if (command.startsWith("[SUCC]")) {
@@ -299,8 +317,26 @@ public class FriendsMenu extends AppMenu {
         }
     }
 
-    public boolean isJackSonValid(String jacksonString) {
-        return true;
+    private ArrayList<String[]> translateInfo(String info) {
+        // String[0] : game id && String[1] = the friend username
+        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
+        for (String pair : (info.split(" ")[1]).split(" ")) {
+            String[] result = new String[2];
+            System.arraycopy(pair.split(":"), 0, result, 0, 2);
+            gamePairedByUsername.add(result);
+        }
+        return gamePairedByUsername;
+
+    }
+
+    public void view(String username , int gameId){
+        try {
+            GameView view = new GameView();
+            view.start((Stage) friendsContainer.getScene().getWindow());
+            Out.sendMessage("watch " + gameId);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
