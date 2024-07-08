@@ -36,6 +36,7 @@ public class FriendsMenu extends AppMenu {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
             Out.sendMessage("get invites");
+            Out.sendMessage("get games");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +66,7 @@ public class FriendsMenu extends AppMenu {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
             Out.sendMessage("get invites");
+            Out.sendMessage("get games");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,6 +98,12 @@ public class FriendsMenu extends AppMenu {
                 acceptButtons.getChildren().add(acceptButton);
             }
 
+
+        } else if (isJackSonValid(command)) {
+            ArrayList<String> gamesArr = new ArrayList<>();
+            for(String gamesData : gamesArr){
+
+            }
 
         } else if (command.startsWith("[SUCC]")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -289,6 +297,10 @@ public class FriendsMenu extends AppMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isJackSonValid(String jacksonString) {
+        return true;
     }
 
 }

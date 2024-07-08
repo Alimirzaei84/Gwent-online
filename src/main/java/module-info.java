@@ -25,4 +25,5 @@ module testAnt {
     exports model.role;
     opens client.view to javafx.fxml;
     opens server.request to com.fasterxml.jackson.databind;
+    exports server.game to com.fasterxml.jackson.databind;
 }

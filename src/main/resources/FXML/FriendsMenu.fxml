@@ -40,6 +40,15 @@
                         </ScrollPane>
                     </content>
                 </Tab>
+                <Tab closable="false" text="Games">
+                    <content>
+                        <ScrollPane fx:id="scrollPaneGames" prefHeight="672.0" prefWidth="339.0">
+                            <content>
+                                <HBox fx:id="gamesContainer" spacing="10.0" />
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
             </tabs>
         </TabPane>
       <Button layoutX="1168.0" layoutY="660.0" mnemonicParsing="false" onMouseClicked="#back" text="back" />
