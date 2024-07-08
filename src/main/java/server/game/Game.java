@@ -229,7 +229,10 @@ public class Game implements Runnable, Serializable {
         this.winner = winner;
         updateUserHistory(getPlayer1());
         updateUserHistory(getPlayer2());
+        getUser1().getOnline(getUser1().getHandler());
+        getUser2().getOnline(getUser2().getHandler());
         broadcast("[OVER]");
+        running = false;
     }
 
     private void updateUserHistory(Player player) {
