@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 public class ProfileMenu extends AppMenu {
 
     @FXML
+    public TextField verificationText;
+    @FXML
     public Label usernameLabel;
     @FXML
     public Label nicknameLabel;
@@ -102,6 +104,12 @@ public class ProfileMenu extends AppMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void verify(MouseEvent mouseEvent) throws IOException {
+        String verificationCode = verificationText.getText();
+        Out.sendMessage("verify " + verificationCode);
     }
 
     public void changeNickName(MouseEvent mouseEvent) throws IOException {
@@ -208,11 +216,11 @@ public class ProfileMenu extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
-        }else if (command.startsWith("[PLAYGAME]")){
-            try{
+        } else if (command.startsWith("[PLAYGAME]")) {
+            try {
                 GameLauncher gameLauncher = new GameLauncher();
                 gameLauncher.start((Stage) usernameLabel.getScene().getWindow());
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

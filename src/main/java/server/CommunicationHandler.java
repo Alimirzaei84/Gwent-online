@@ -12,6 +12,7 @@ import model.role.Faction;
 import model.role.Leader;
 import server.Account.User;
 import server.Enum.Regexes;
+import server.controller.EmailController;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
@@ -73,7 +74,7 @@ public class CommunicationHandler implements Runnable {
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
-              
+
             } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -98,9 +99,7 @@ public class CommunicationHandler implements Runnable {
                 handleForgetPasswordRequest(inMessage);
             } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
                 handleChangePasswordRequest(inMessage);
-            }
-
-            else {
+            } else {
                 sendMessage("invalid command");
             }
 
@@ -145,6 +144,9 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("[LOSSES]:" + user.getLosses());
             } else if (Regexes.GET_WINS.matches(inMessage)) {
                 sendMessage("[WINS]:" + user.getWins());
+            } else if (inMessage.startsWith("verify")) {
+                tryVerify(inMessage.split(" ")[1]);
+
             } else if (Regexes.GET_TIE.matches(inMessage)) {
                 sendMessage("[TIE]:" + user.getTies());
             } else if (Regexes.GET_RANK.matches(inMessage)) {
@@ -211,7 +213,7 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 invitation(matcher);
-            
+
             } else if (inMessage.matches(acceptGameRegex)) {
                 Matcher matcher = getMatcher(acceptGameRegex, inMessage);
                 matcher.find();
@@ -276,14 +278,12 @@ public class CommunicationHandler implements Runnable {
                 StringBuilder builder = new StringBuilder();
                 builder.append("[INVITES]:");
                 ArrayList<Invitation> invites = ServerController.getAUsersInvitations(user);
-                for (Invitation invite : invites){
+                for (Invitation invite : invites) {
                     builder.append(invite.getInviter().getUsername()).append("|");
                 }
 
                 sendMessage(builder.toString());
-            }
-
-            else {
+            } else {
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -304,6 +304,13 @@ public class CommunicationHandler implements Runnable {
         } else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void tryVerify(String code) throws IOException {
+        if (EmailController.verify(user.getEmail(), code)) {
+            user.setVerified();
+            sendMessage("[SUCC]: Yor email is verified and you can enjoy playing with your friends :)) ");
+        } else sendMessage("[ERR]: Your code isn't correct");
     }
 
     private void setFaction(String message) {

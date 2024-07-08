@@ -1,14 +1,13 @@
 package server.Account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
-import server.CommunicationHandler;
-import server.game.GameHistory;
 import model.role.*;
+import server.CommunicationHandler;
+import server.controller.EmailController;
+import server.game.GameHistory;
 
-import java.beans.Transient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -19,6 +18,7 @@ public class User implements Serializable {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
     }
 
+    private boolean isVerified;
     private final ArrayList<GameHistory> gameHistories;
     private final ArrayList<User> friends;
 
@@ -66,6 +66,8 @@ public class User implements Serializable {
         leader = getRandomLeader();
         status = Status.OFFLINE;
         friends = new ArrayList<>();
+        isVerified = false;
+        EmailController.sendVerificationEmail(email);
     }
 
     public void addToHistory(GameHistory gameHistory) {
@@ -95,9 +97,16 @@ public class User implements Serializable {
 
 
     private Leader getRandomLeader() {
-        System.out.println("++++" + CardController.leaders.size());
         String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));
         return (Leader) CardController.createLeaderCard(leaderName);
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified() {
+        isVerified = true;
     }
 
     public Leader getLeader() {
@@ -412,6 +421,7 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object o) {
+        if (o == null) return false;
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
         return Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword());

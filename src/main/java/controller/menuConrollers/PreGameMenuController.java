@@ -24,12 +24,18 @@ public class PreGameMenuController {
     }
 
     public static String addToDeck(String cardName, User currentUser) {
+
+        if(!currentUser.isVerified()) {
+            return ("[ERR]: Please go to profile menu and verify your email first");
+        }
+
         Card card = CardController.createCardWithName(cardName);
         currentUser.getDeck().add(card);
         if (currentUser.getSpecialCount() > 10) {
             currentUser.getDeck().remove(card);
             return ("[ERR]: you already have 10 special cards");
         }
+
         return "[SUCC]: " + cardName + " added to deck";
     }
 
