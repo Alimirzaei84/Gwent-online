@@ -3,6 +3,7 @@ package server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.StdTypeResolverBuilder;
 import com.google.gson.Gson;
 import controller.CardController;
 import controller.menuConrollers.*;
@@ -16,6 +17,7 @@ import server.controller.EmailController;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
+import server.game.Game;
 import server.request.FriendRequest;
 import server.request.Invitation;
 
@@ -90,7 +92,7 @@ public class CommunicationHandler implements Runnable {
             } else if (Regexes.LOGIN.matches(inMessage)) {
                 String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
                 if (result.startsWith("[INFO]")) {
-                    User user1 = user!= null ? user : tempUser;
+                    User user1 = user != null ? user : tempUser;
                     EmailController.sendVerificationEmail(user1.getEmail());
                     user = tempUser;
                     user.getOnline(this);
@@ -292,6 +294,8 @@ public class CommunicationHandler implements Runnable {
                 }
 
                 sendMessage(builder.toString());
+            } else if (inMessage.equals("get games")) {
+                sendGamesInformation();
             } else if (inMessage.equals("get end of game data")) {
                 sendMessage(user.getGameHistories().getLast().toString());
             } else {
@@ -315,6 +319,32 @@ public class CommunicationHandler implements Runnable {
         } else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void sendGamesInformation() throws IOException {
+        StringBuilder builder = new StringBuilder("[RUNNING_GAMES_INFO] ");
+        for (Game runningGame : ServerController.runningGames) {
+            for (User gameUser : runningGame.getUsers()) {
+                if (user.getFriends().contains(gameUser)) {
+                    builder.append(runningGame.getId()).append(":").append(gameUser.getUsername()).append(" ");
+                }
+            }
+        }
+
+        sendMessage(builder.toString());
+    }
+
+
+    private ArrayList<String[]> tranclateInfo(String info) {
+        // String[0] : game id && String[1] = the friend username
+        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
+        for (String pair : (info.substring("[RUNNING_GAMES_INFO] ".length()).split(" ")[1]).split(" ")) {
+            String[] result = new String[2];
+            System.arraycopy(pair.split(":"), 0, result, 0, 2);
+            gamePairedByUsername.add(result);
+        }
+        return gamePairedByUsername;
+
     }
 
     private void tryVerify(String code) throws IOException {

@@ -1,15 +1,12 @@
 package server.Account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
-import server.CommunicationHandler;
-import server.controller.EmailController;
-import server.game.GameHistory;
 import model.role.*;
+import server.CommunicationHandler;
+import server.game.GameHistory;
 
-import java.beans.Transient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;

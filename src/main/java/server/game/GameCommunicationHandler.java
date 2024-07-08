@@ -1,7 +1,6 @@
 package server.game;
 
 
-import controller.CardController;
 import model.role.Card;
 import server.Account.User;
 import server.Enum.GameRegexes;
@@ -75,8 +74,6 @@ public class GameCommunicationHandler implements Runnable {
         game.getOtherPlayer().getUser().sendMessage(otherBoard);
 
 
-
-
         Board currBoard1 = game.getCurrentPlayerBoard();
         game.getCurrentPlayer().getUser().sendMessage(currBoard1);
         Board otherBoard1 = game.getOtherPlayerBoard();
@@ -111,7 +108,6 @@ public class GameCommunicationHandler implements Runnable {
         game.getCurrentPlayer().passRound();
         game.setPlayerListening();
     }
-
 
 
     private synchronized void putCard(String command) {
