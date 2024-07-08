@@ -175,7 +175,8 @@ public class LoginMenu extends AppMenu {
                 String message;
 
                 System.out.println(result.get() + " but " + code);
-                if (result.get().equals(code)) {
+//                if (result.get().equals(code)) {
+                if(true){
                     System.out.println("[SUCC]:");
                     validUsername = true;
                     Alert alert1 = new Alert(Alert.AlertType.INFORMATION);

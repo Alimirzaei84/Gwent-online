@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.Enum.Regexes;
 import server.request.FriendRequest;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class FriendsMenu extends AppMenu {
     public HBox requestsContainer;
     public Timeline refreshTimeLine;
     public HBox inviteContainer;
+    public HBox gamesContainer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,12 +99,30 @@ public class FriendsMenu extends AppMenu {
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
             }
+            System.out.println("command:" + command);
+        } else if (Regexes.RUNNING_GAMES_INFO.matches(command)) {
+            System.out.println("matches");
+            ArrayList<String[]> gameData = translateInfo(command);
+            VBox vBox1 = new VBox();
+            VBox vBox2 = new VBox();
+            gamesContainer.getChildren().clear();
+            gamesContainer.getChildren().addAll(vBox1, vBox2);
 
+            for (String[] strings : gameData) {
+                String username = strings[1];
+                int gameId = Integer.parseInt(strings[0]);
+                System.out.println(username + " " + gameId);
 
-        } else if (isJackSonValid(command)) {
-            ArrayList<String> gamesArr = new ArrayList<>();
-            for(String gamesData : gamesArr){
-
+                Label usernameLabel = new Label();
+                usernameLabel.setText(username);
+                usernameLabel.setPrefHeight(46);
+                vBox1.getChildren().add(usernameLabel);
+                Button playButton = new Button();
+                playButton.setText("view");
+                playButton.setOnMouseClicked(event -> view(username, gameId));
+                usernameLabel.setPrefWidth(250);
+                playButton.setPrefHeight(46);
+                vBox2.getChildren().add(playButton);
             }
 
         } else if (command.startsWith("[SUCC]")) {
@@ -299,8 +319,26 @@ public class FriendsMenu extends AppMenu {
         }
     }
 
-    public boolean isJackSonValid(String jacksonString) {
-        return true;
+    private ArrayList<String[]> translateInfo(String info) {
+        System.out.println(info);
+        // String[0] : game id && String[1] = the friend username
+        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
+        String[] pairs = Regexes.RUNNING_GAMES_INFO.getGroup(info, "INFO").split(" ");
+        for (String pair : pairs) {
+            gamePairedByUsername.add(pair.split("_"));
+        }
+        return gamePairedByUsername;
+
+    }
+
+    public void view(String username, int gameId) {
+        try {
+            GameView view = new GameView();
+            view.start((Stage) friendsContainer.getScene().getWindow());
+            Out.sendMessage("watch " + gameId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

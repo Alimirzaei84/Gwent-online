@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 public class CommunicationHandler implements Runnable {
     private final Socket socket;
     private final ObjectInputStream in;
-    private ObjectOutputStream out;
+    private final ObjectOutputStream out;
     private User user;
     private User tempUser;
 
@@ -327,36 +327,21 @@ public class CommunicationHandler implements Runnable {
         }
     }
 
-    private void addToViewers(String inMessage) throws IOException {
-        user.setViewing();
-        Objects.requireNonNull(ServerController.getRunningGameById(Integer.parseInt(Regexes.WATCH_GAME.getGroup(inMessage, "gameId")))).getChatroom().addAttendee(this.getUser());
-    }
 
     private void sendGamesInformation() throws IOException {
-        StringBuilder builder = new StringBuilder("[RUNNING_GAMES_INFO] ");
+        StringBuilder builder = new StringBuilder("RUNNING_GAMES_INFO");
         for (Game runningGame : ServerController.runningGames) {
             for (User gameUser : runningGame.getUsers()) {
                 if (user.getFriends().contains(gameUser)) {
-                    builder.append(runningGame.getId()).append(":").append(gameUser.getUsername()).append(" ");
+                    builder.append(runningGame.getId()).append("_").append(gameUser.getUsername()).append(" ");
                 }
             }
         }
-
+        System.out.println(builder);
         sendMessage(builder.toString());
     }
 
 
-    private ArrayList<String[]> tranclateInfo(String info) {
-        // String[0] : game id && String[1] = the friend username
-        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
-        for (String pair : (info.substring("[RUNNING_GAMES_INFO] ".length()).split(" ")[1]).split(" ")) {
-            String[] result = new String[2];
-            System.arraycopy(pair.split(":"), 0, result, 0, 2);
-            gamePairedByUsername.add(result);
-        }
-        return gamePairedByUsername;
-
-    }
 
     private void tryVerify(String code) throws IOException {
         if (EmailController.verify(user.getEmail(), code)) {

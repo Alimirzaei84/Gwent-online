@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable {
 
     private static final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
     private static int incrementer = 0;
@@ -19,7 +20,7 @@ public class Message {
     private Message reply;
     private React react = null;
 
-    public enum React {
+    public enum React implements Serializable{
         LAUGH(0),
         ANGRY(1),
         CRY(2);

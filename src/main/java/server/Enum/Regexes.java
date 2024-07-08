@@ -25,6 +25,7 @@ public enum Regexes {
     SEND_DATA("winner(?<winnerUsername>.+)winnerScores(?<winnerScores>.+)looser(?<loserUsername>.+)looserScores(?<looserScores>.+)total(?<winnerTotal>.+)total(?<looserTotal>.+)"),
     VALID_USERNAME("[a-zA-Z\\d\\-]+"),
     WATCH_GAME("watch (?<gameId>.+)"),
+    RUNNING_GAMES_INFO("RUNNING_GAMES_INFO(?<INFO>.+)"),
 
     CHOOSE_CARD("choose card"),
 

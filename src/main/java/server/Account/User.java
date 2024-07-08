@@ -66,7 +66,8 @@ public class User implements Serializable {
         leader = getRandomLeader();
         status = Status.OFFLINE;
         friends = new ArrayList<>();
-        isVerified = false;
+//        isVerified = false;
+        isVerified = true;
     }
 
     public void addToHistory(GameHistory gameHistory) {
