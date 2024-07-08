@@ -141,7 +141,7 @@ public class LoginMenu extends AppMenu {
             }
 
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Enter Username");
+            dialog.setTitle("Enter the code  ");
             dialog.setHeaderText("Please enter the username of the target player:");
             dialog.getDialogPane().getScene().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
 
@@ -151,11 +151,11 @@ public class LoginMenu extends AppMenu {
             dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
 
             TextField usernameField = new TextField();
-            usernameField.setPromptText("Username");
+            usernameField.setPromptText("2FA code");
 
             VBox dialogVBox = new VBox(10);
             dialogVBox.setPadding(new Insets(20));
-            Label label = new Label("Username:");
+            Label label = new Label("Code:");
             label.setTextFill(Color.WHITE);
             dialogVBox.getChildren().addAll(label, usernameField);
 

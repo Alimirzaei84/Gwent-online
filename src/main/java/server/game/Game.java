@@ -38,6 +38,15 @@ public class Game implements Runnable, Serializable {
         return board;
     }
 
+    public Board getBoardForClosestFriendOfUser(User viewer) {
+        if (viewer.getFriends().contains(getPlayer1().getUser())) {
+            return generateBoard(getPlayer1(), getPlayer2());
+        } else {
+            return generateBoard(getPlayer2(), getPlayer1());
+        }
+
+    }
+
     public synchronized Board getOtherPlayerBoard() {
         Board board = generateBoard(getOtherPlayer(), getCurrentPlayer());
         board.setMyTurn(false);

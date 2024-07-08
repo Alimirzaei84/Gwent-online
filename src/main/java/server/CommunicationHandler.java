@@ -18,6 +18,7 @@ import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
 import server.game.Game;
+import server.game.GameCommunicationHandler;
 import server.game.GameHistory;
 import server.request.FriendRequest;
 import server.request.Invitation;
@@ -28,6 +29,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -296,6 +298,8 @@ public class CommunicationHandler implements Runnable {
                 }
 
                 sendMessage(builder.toString());
+            } else if (Regexes.WATCH_GAME.matches(inMessage)) {
+                ServerController.attendNewViewerToRunningGame(this.getUser(), Integer.parseInt(Regexes.WATCH_GAME.getGroup(inMessage, "gameId")));
             } else if (inMessage.equals("get games")) {
                 sendGamesInformation();
             } else if (inMessage.equals("get end of game data")) {
@@ -321,6 +325,11 @@ public class CommunicationHandler implements Runnable {
         } else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void addToViewers(String inMessage) throws IOException {
+        user.setViewing();
+        Objects.requireNonNull(ServerController.getRunningGameById(Integer.parseInt(Regexes.WATCH_GAME.getGroup(inMessage, "gameId")))).getChatroom().addAttendee(this.getUser());
     }
 
     private void sendGamesInformation() throws IOException {

@@ -65,19 +65,25 @@ public class GameCommunicationHandler implements Runnable {
         return null;
     }
 
-    private synchronized void sendBoardObjectToEachPlayer() throws IOException, InterruptedException {
+    private synchronized void sendBoardObjectToEachPlayer() throws IOException {
 
-
+        // for me
         Board currBoard = game.getCurrentPlayerBoard();
         game.getCurrentPlayer().getUser().sendMessage(currBoard);
         Board otherBoard = game.getOtherPlayerBoard();
         game.getOtherPlayer().getUser().sendMessage(otherBoard);
 
-
+        // for other
         Board currBoard1 = game.getCurrentPlayerBoard();
         game.getCurrentPlayer().getUser().sendMessage(currBoard1);
         Board otherBoard1 = game.getOtherPlayerBoard();
         game.getOtherPlayer().getUser().sendMessage(otherBoard1);
+
+
+        // for viewers
+        for (User attendee : game.getChatroom().getAttendees())
+            attendee.sendMessage(game.getBoardForClosestFriendOfUser(attendee));
+
 
     }
 
