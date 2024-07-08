@@ -99,9 +99,7 @@ public class FriendsMenu extends AppMenu {
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
             }
-            System.out.println("command:" + command);
         } else if (Regexes.RUNNING_GAMES_INFO.matches(command)) {
-            System.out.println("matches");
             ArrayList<String[]> gameData = translateInfo(command);
             VBox vBox1 = new VBox();
             VBox vBox2 = new VBox();

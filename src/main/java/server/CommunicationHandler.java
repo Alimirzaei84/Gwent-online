@@ -337,7 +337,6 @@ public class CommunicationHandler implements Runnable {
                 }
             }
         }
-        System.out.println(builder);
         sendMessage(builder.toString());
     }
 

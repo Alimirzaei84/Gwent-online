@@ -25,6 +25,7 @@ public class Message implements Serializable {
         ANGRY(1),
         CRY(2);
 
+
         private final int value;
         React(int value) {
             this.value = value;
