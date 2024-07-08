@@ -1015,7 +1015,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="294" parent="1" name="gwent">
-      <LastIntrospectionLocalTimestamp>2024-07-06.20:31:45</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-03.20:39:45</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="295" parent="1" name="mysql.infoschema">
@@ -1037,271 +1037,51 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="299" parent="294" name="friend_request">
+    <table id="299" parent="294" name="users">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="300" parent="294" name="friendship">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <table id="301" parent="294" name="user_deck">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <table id="302" parent="294" name="user_history">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <table id="303" parent="294" name="users">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <column id="304" parent="299" name="id">
+    <column id="300" parent="299" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="305" parent="299" name="requester">
-      <DasType>int|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="306" parent="299" name="recipient">
-      <DasType>int|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <foreign-key id="307" parent="299" name="friend_request_ibfk_2">
-      <ColNames>requester</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <foreign-key id="308" parent="299" name="friend_request_ibfk_1">
-      <ColNames>recipient</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <index id="309" parent="299" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="310" parent="299" name="requester">
-      <ColNames>requester
-recipient</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="311" parent="299" name="recipient">
-      <ColNames>recipient</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="312" parent="299" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <key id="313" parent="299" name="requester">
-      <UnderlyingIndexName>requester</UnderlyingIndexName>
-    </key>
-    <column id="314" parent="300" name="id">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="315" parent="300" name="user_id">
-      <DasType>int|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="316" parent="300" name="friend_id">
-      <DasType>int|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <foreign-key id="317" parent="300" name="friendship_ibfk_1">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <foreign-key id="318" parent="300" name="friendship_ibfk_2">
-      <ColNames>friend_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <index id="319" parent="300" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="320" parent="300" name="user_id">
-      <ColNames>user_id
-friend_id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="321" parent="300" name="friend_id">
-      <ColNames>friend_id
-user_id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <key id="322" parent="300" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <key id="323" parent="300" name="user_id">
-      <UnderlyingIndexName>user_id</UnderlyingIndexName>
-    </key>
-    <key id="324" parent="300" name="friend_id">
-      <UnderlyingIndexName>friend_id</UnderlyingIndexName>
-    </key>
-    <column id="325" parent="301" name="id">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="326" parent="301" name="user_id">
-      <DasType>int|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="327" parent="301" name="card_name">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>3</Position>
-    </column>
-    <foreign-key id="328" parent="301" name="user_deck_ibfk_1">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <index id="329" parent="301" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="330" parent="301" name="user_id">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="331" parent="301" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="332" parent="302" name="id">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="333" parent="302" name="user_id">
-      <DasType>int|0s</DasType>
-      <Position>2</Position>
-    </column>
-    <column id="334" parent="302" name="ties">
-      <DasType>int|0s</DasType>
-      <DefaultExpression>0</DefaultExpression>
-      <Position>3</Position>
-    </column>
-    <column id="335" parent="302" name="wins">
-      <DasType>int|0s</DasType>
-      <DefaultExpression>0</DefaultExpression>
-      <Position>4</Position>
-    </column>
-    <column id="336" parent="302" name="losses">
-      <DasType>int|0s</DasType>
-      <DefaultExpression>0</DefaultExpression>
-      <Position>5</Position>
-    </column>
-    <column id="337" parent="302" name="gamesPlayed">
-      <DasType>int|0s</DasType>
-      <DefaultExpression>0</DefaultExpression>
-      <Position>6</Position>
-    </column>
-    <column id="338" parent="302" name="faction">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>7</Position>
-    </column>
-    <column id="339" parent="302" name="leader">
-      <DasType>varchar(255)|0s</DasType>
-      <Position>8</Position>
-    </column>
-    <foreign-key id="340" parent="302" name="user_history_ibfk_1">
-      <ColNames>user_id</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>users</RefTableName>
-    </foreign-key>
-    <index id="341" parent="302" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="342" parent="302" name="user_id">
-      <ColNames>user_id</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <key id="343" parent="302" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <key id="344" parent="302" name="user_id">
-      <UnderlyingIndexName>user_id</UnderlyingIndexName>
-    </key>
-    <column id="345" parent="303" name="id">
-      <AutoIncrement>4</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="346" parent="303" name="name">
+    <column id="301" parent="299" name="name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="347" parent="303" name="password">
+    <column id="302" parent="299" name="password">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="348" parent="303" name="email">
+    <column id="303" parent="299" name="email">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="349" parent="303" name="nickname">
+    <column id="304" parent="299" name="nickname">
       <DasType>varchar(255)|0s</DasType>
       <Position>5</Position>
     </column>
-    <index id="350" parent="303" name="PRIMARY">
+    <index id="305" parent="299" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="351" parent="303" name="name">
+    <index id="306" parent="299" name="name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="352" parent="303" name="PRIMARY">
+    <key id="307" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="353" parent="303" name="name">
+    <key id="308" parent="299" name="name">
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <trigger id="354" parent="303" name="new_user_history">
-      <Definer>root@localhost</Definer>
-      <Events>I</Events>
-      <SourceTextLength>50</SourceTextLength>
-    </trigger>
-    <trigger id="355" parent="303" name="delete_user">
-      <Definer>root@localhost</Definer>
-      <Events>D</Events>
-      <SourceTextLength>124</SourceTextLength>
-      <Turn>before-row</Turn>
-    </trigger>
   </database-model>
 </dataSource>

@@ -293,7 +293,6 @@ public class Game implements Runnable, Serializable {
         return handler.handleCommand(command);
     }
 
-
     private void waitUntilPlayersAreListening() {
 
         while (!isPlayerListening) {
