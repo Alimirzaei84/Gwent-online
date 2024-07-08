@@ -2,8 +2,8 @@ package client.view;
 
 import client.Out;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controller.menuConrollers.GameHistoryController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -58,7 +58,7 @@ public class GameHistoryScreen extends AppMenu {
 
     public static boolean isJsonValid(String jsonString) {
         try {
-            ObjectMapper objectMapper = GameHistoryController.getObjectMapper();
+            ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.readTree(jsonString);
             return true;
         } catch (JsonProcessingException e) {
@@ -69,20 +69,31 @@ public class GameHistoryScreen extends AppMenu {
     @Override
     public void handleCommand(String command) {
         if (isJsonValid(command)) {
-            gameHistories = GameHistoryController.fromJson(command);
+            gameHistories = fromJson(command);
             if (!gameHistories.isEmpty()) {
                 showAGameHistory(number);
             }
-        } else if (command.startsWith("[PLAYGAME]")){
-            try{
+        } else if (command.startsWith("[PLAYGAME]")) {
+            try {
                 GameLauncher gameLauncher = new GameLauncher();
                 gameLauncher.start((Stage) dataHBox.getScene().getWindow());
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    public static ArrayList<GameHistory> fromJson(String jsonString) {
+        System.out.println("JSON STRING :------>" + jsonString );
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(jsonString, new TypeReference<ArrayList<GameHistory>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public boolean showAGameHistory(int index) {
         if (gameHistories.size() <= index || index < 0)
