@@ -75,9 +75,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;chatroom-emtiazi&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.RegisterMenu.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;gamePhase3&quot;
+
   }
 }</component>
   <component name="ReaderModeSettings">
@@ -97,6 +100,7 @@
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="server" />
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
