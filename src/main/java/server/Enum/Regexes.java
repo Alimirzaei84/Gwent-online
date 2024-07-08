@@ -68,7 +68,8 @@ public enum Regexes {
     GET_GAME_HISTORIES("^get game histories$"),
     GET_FRIENDS("^get friends$"),
     GET_REQUESTS("^get requests$"),
-    SEND_FRIEND_REQUEST("^send friend request -u (?<username>.*)$")
+    SEND_FRIEND_REQUEST("^send friend request -u (?<username>.*)$"),
+    GET_INVITES("^get invites$")
     ;
 
 

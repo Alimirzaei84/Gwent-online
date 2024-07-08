@@ -1,20 +1,28 @@
 package server.game;
 
+import org.jetbrains.annotations.NotNull;
+import server.Account.Player;
+import model.role.Card;
+import model.role.Faction;
 import server.Chatroom;
-import server.Enum.GameRegexes;
-import server.User;
+import server.Account.User;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Objects;
 
-public class Game implements Runnable {
+public class Game implements Runnable, Serializable {
 
     private static int gameCounter = 0;
 
     public enum AccessType {
-        PRIVATE(0),
-        PUBLIC(1);
+        PRIVATE(0), PUBLIC(1);
 
         private final int index;
+
         AccessType(int index) {
             this.index = index;
         }
@@ -22,6 +30,57 @@ public class Game implements Runnable {
         public int getIndex() {
             return index;
         }
+    }
+
+    public synchronized Board getCurrentPlayerBoard() {
+        Board board = generateBoard(getCurrentPlayer(), getOtherPlayer());
+        board.setMyTurn(true);
+        return board;
+    }
+
+    public synchronized Board getOtherPlayerBoard() {
+        Board board = generateBoard(getOtherPlayer(), getCurrentPlayer());
+        board.setMyTurn(false);
+        return board;
+    }
+
+    private synchronized Board generateBoard(Player curr, Player other) {
+
+        System.out.println("hand size in top of board " + curr.getInHand().size());
+        System.out.println("hand size in top of board " + other.getInHand().size());
+
+
+        // Initialize basic data
+        Board board = new Board();
+        board.setWeatherArrayList(this.getWeathers());
+        board.setNumTurn(curr.getGame().numTurn);
+
+        // Initialize my data
+        board.setMyDiamondCount(curr.getDiamond());
+        board.setMyDiscardPile(curr.getDiscardCards());
+        board.setMyDeck(curr.getUser().getDeck());
+        board.setMyHand(curr.getInHand());
+        board.setMyRows(curr.getRows());
+        board.setMyPoint(curr.getTotalPoint());
+        board.setMyFaction(curr.getUser().getFaction());
+        board.setMyLeader(curr.getUser().getLeader());
+        board.setMyUsername(curr.getUser().getName());
+
+        // Initialize my opponent data
+        board.setOpponentDiamondCount(other.getDiamond());
+        board.setOpponentDiscardPile(other.getDiscardCards());
+        board.setOppDeck(other.getUser().getDeck());
+        board.setOppHand(other.getInHand());
+        board.setOppRows(other.getRows());
+        board.setOppPoint(other.getTotalPoint());
+        board.setOpponentFaction(other.getUser().getFaction());
+        board.setOpponentLeader(other.getUser().getLeader());
+        board.setOpponentUsername(other.getUser().getUsername());
+
+
+        System.out.println("hand size end of board" + board.getMyHand().size());
+        System.out.println("hand size end of board" + board.getOppHand().size());
+        return board;
     }
 
 
@@ -35,12 +94,169 @@ public class Game implements Runnable {
 
     private GameCommunicationHandler handler;
 
+
+    private final ArrayList<StateAfterADiamond> states;
+    private final Player[] players;
+    private short passedTurnCounter;
+    private final ArrayList<Card> weathers;
+    private int numTurn;
+    private int indexCurPlayer;
+    private Player winner;
+//    private static model.game.Game currentGame = null;
+
+
     public Game(User user1, User user2, AccessType accessType) {
         users = new User[]{user1, user2};
         this.accessType = accessType;
         chatroom = new Chatroom();
         id = gameCounter++;
+
+        players = new Player[2];
+        winner = null;
+        if (!user1.getFaction().equals(Faction.SCOIA_TAEL) && user2.getFaction().equals(Faction.SCOIA_TAEL))
+            createPlayers(user2, user1);
+        else createPlayers(user1, user2);
+        indexCurPlayer = 0;
+        weathers = new ArrayList<>();
+        numTurn = 0;
+        passedTurnCounter = 0;
+        states = new ArrayList<>();
+
     }
+
+
+    public void createPlayers(User user1, User user2) {
+        players[0] = new Player(user1, this);
+        players[1] = new Player(user2, this);
+    }
+
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public int getNumTurn() {
+        return numTurn;
+    }
+
+    public ArrayList<StateAfterADiamond> getStates() {
+        return states;
+    }
+
+    public void passRound() throws IOException {
+        if (++passedTurnCounter >= 2) {
+            giveADiamondToWinner();
+        }
+        for (Card card : getCurrentPlayer().getInHand()) {
+            card.setShouldBeChange();
+        }
+        indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
+        if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
+        handleExtraTasks();
+    }
+
+
+    private void handleExtraTasks() {
+        if (numTurn == 3) getCurrentPlayer().handleSkellige();
+        getPlayer1().removeDeadCards();
+        getPlayer2().removeDeadCards();
+        getPlayer1().handleTransformers();
+        getPlayer2().handleTransformers();
+        getPlayer1().updatePointOfRows();
+        getPlayer2().updatePointOfRows();
+        getOtherPlayer().getCardInfo().clear();
+    }
+
+    private void giveADiamondToWinner() throws IOException {
+        passedTurnCounter = 0;
+        if (getPlayer1().getTotalPoint() > getPlayer2().getTotalPoint()) {
+            getPlayer1().addADiamond();
+            addToStates(getPlayer1(), getPlayer2());
+        } else if (getPlayer1().getTotalPoint() < getPlayer2().getTotalPoint()) {
+            getPlayer2().addADiamond();
+            addToStates(getPlayer2(), getPlayer1());
+        } else {
+            if (getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && !getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE)) {
+                getPlayer1().addADiamond();
+                addToStates(getPlayer1(), getPlayer2());
+            } else if (!getPlayer1().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE) && getPlayer2().getUser().getFaction().equals(Faction.NILFGAARDIAN_EMPIRE)) {
+                getPlayer2().addADiamond();
+                addToStates(getPlayer2(), getPlayer1());
+            } else {
+            }
+        }
+    }
+
+
+    private void addToStates(Player winner, Player looser) {
+        states.add(new StateAfterADiamond(winner, looser, winner.getTotalPoint(), looser.getTotalPoint(), numTurn, winner.getDiamond() + looser.getDiamond()));
+    }
+
+
+    public void changeTurn() {
+        for (Card card : getCurrentPlayer().getInHand()) {
+            card.setShouldBeChange();
+        }
+        indexCurPlayer = indexCurPlayer == 0 ? 1 : 0;
+        passedTurnCounter = 0;
+        if (getCurrentPlayer().equals(getPlayer1())) numTurn++;
+        handleExtraTasks();
+    }
+
+
+    public Player getCurrentPlayer() {
+        return players[indexCurPlayer];
+    }
+
+    public Player getOtherPlayer() {
+        if (indexCurPlayer == 0) return players[1];
+        return players[0];
+    }
+
+
+    public Player getPlayer1() {
+        return players[0];
+    }
+
+    public Player getPlayer2() {
+        return players[1];
+    }
+
+
+    public void endOfTheGame(@NotNull Player winner) throws IOException {
+        if (winner.getUser().getFaction().equals(Faction.MONSTERS))
+            winner.getInHand().add(winner.getRandomCard(winner.getUser().getDeck()));
+        this.winner = winner;
+        updateUserHistory(getPlayer1());
+        updateUserHistory(getPlayer2());
+        broadcast("[OVER]");
+    }
+
+    private void updateUserHistory(Player player) {
+        User user = player.getUser();
+        Player opponent = getPlayer1().equals(player) ? getPlayer2() : getPlayer1();
+
+        if (user.equals(winner.getUser())) user.setWins(player.getUser().getWins() + 1);
+        else user.setLosses((user.getLosses() + 1));
+
+        user.setHighestScore(Math.max(user.getHighestScore(), player.getTotalPoint()));
+        user.setGamesPlayed(user.getGamesPlayed() + 1);
+        user.addToHistory(new GameHistory(opponent.getUser(), winner.getUser(), createFormattedDate(), states));
+        player.getInHand().clear();
+    }
+
+    private String createFormattedDate() {
+        LocalDateTime myDateObj = LocalDateTime.now();
+        System.out.println("Date of the game before formatting: " + myDateObj);
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return myDateObj.format(myFormatObj);
+    }
+
+
+    public ArrayList<Card> getWeathers() {
+        return weathers;
+    }
+
 
     @Override
     public void run() {
@@ -67,13 +283,13 @@ public class Game implements Runnable {
                 isPlayerListening = false;
             }
 
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
     }
 
-    public String handleCommand(String command) throws IOException {
+    public String handleCommand(String command) throws IOException, InterruptedException {
         return handler.handleCommand(command);
     }
 
@@ -128,9 +344,10 @@ public class Game implements Runnable {
         isPlayerListening = true;
     }
 
-    public void broadcast(String message) throws IOException {
+    public void broadcast(Object message) throws IOException {
         getUser1().sendMessage(message);
         getUser2().sendMessage(message);
         getChatroom().broadcast(message);
     }
+
 }

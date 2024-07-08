@@ -1,9 +1,9 @@
-package model.game;
+package server.game;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import server.User;
+import server.Account.User;
 
 import java.util.ArrayList;
 

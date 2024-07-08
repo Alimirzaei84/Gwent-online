@@ -1,7 +1,7 @@
 package controller;
 
 import javafx.stage.Stage;
-import server.User;
+import server.Account.User;
 
 import java.util.*;
 

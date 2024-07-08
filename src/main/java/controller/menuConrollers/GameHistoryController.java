@@ -1,7 +1,7 @@
 package controller.menuConrollers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import model.game.GameHistory;
+import server.game.GameHistory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

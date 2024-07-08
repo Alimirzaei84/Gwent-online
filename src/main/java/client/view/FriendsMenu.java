@@ -27,8 +27,7 @@ public class FriendsMenu extends AppMenu {
     public HBox friendsContainer;
     public HBox requestsContainer;
     public Timeline refreshTimeLine;
-
-    //TODO : PUT TIMELINE
+    public HBox inviteContainer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,11 +35,12 @@ public class FriendsMenu extends AppMenu {
         try {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
+            Out.sendMessage("get invites");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        refreshTimeLine = new Timeline(new KeyFrame(Duration.seconds(3), event -> refreshData()));
+        refreshTimeLine = new Timeline(new KeyFrame(Duration.seconds(1), event -> refreshData()));
         refreshTimeLine.setCycleCount(-1);
         refreshTimeLine.play();
     }
@@ -64,6 +64,7 @@ public class FriendsMenu extends AppMenu {
         try {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
+            Out.sendMessage("get invites");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,8 +87,8 @@ public class FriendsMenu extends AppMenu {
                 usernameLabel.setText(request.getRequester().getUsername());
                 Button denyButton = new Button();
                 Button acceptButton = new Button();
-                denyButton.setOnMouseClicked(event -> reject(usernameLabel.getText()));
-                acceptButton.setOnMouseClicked(event -> accept(usernameLabel.getText()));
+                denyButton.setOnMouseClicked(event -> rejectRequest(usernameLabel.getText()));
+                acceptButton.setOnMouseClicked(event -> acceptRequest(usernameLabel.getText()));
                 denyButton.setText("REJECT");
                 acceptButton.setText("ACCEPT");
                 usernames.getChildren().add(usernameLabel);
@@ -129,11 +130,12 @@ public class FriendsMenu extends AppMenu {
                 vBox1.getChildren().add(usernameLabel);
                 Button playButton = new Button();
                 playButton.setText("play");
+                playButton.setOnMouseClicked(event -> playGame(username));
                 usernameLabel.setPrefWidth(250);
                 playButton.setPrefHeight(46);
-                playButton.setOnMouseClicked(event -> playGame());
                 vBox2.getChildren().add(playButton);
             }
+
         } else if (command.startsWith("[REQUESTS]:")) {
             String input = command.substring("[REQUESTS]:".length());
             String[] usernames = input.split("\\|");
@@ -150,8 +152,8 @@ public class FriendsMenu extends AppMenu {
                 usernameLabel.setText(username);
                 Button denyButton = new Button();
                 Button acceptButton = new Button();
-                denyButton.setOnMouseClicked(event -> reject(username));
-                acceptButton.setOnMouseClicked(event -> accept(username));
+                denyButton.setOnMouseClicked(event -> rejectRequest(username));
+                acceptButton.setOnMouseClicked(event -> acceptRequest(username));
                 denyButton.setStyle("-fx-background-color: red;");
                 acceptButton.setStyle("-fx-background-color: green;");
                 usernameLabel.setMinWidth(250);
@@ -161,17 +163,58 @@ public class FriendsMenu extends AppMenu {
                 acceptButton.setPrefHeight(46);
                 acceptButton.setPrefWidth(1);
                 denyButton.setPrefWidth(1);
-//                denyButton.setText("REJECT");
-//                acceptButton.setText("ACCEPT");
                 usernamesVBox.getChildren().add(usernameLabel);
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
             }
+        } else if (command.startsWith("[INVITES]")) {
+            String input = command.substring("[INVITES]:".length());
+            String[] usernames = input.split("\\|");
+            VBox usernamesVBox = new VBox();
+            VBox denyButtons = new VBox();
+            VBox acceptButtons = new VBox();
+            inviteContainer.getChildren().clear();
+            inviteContainer.getChildren().addAll(usernamesVBox, denyButtons, acceptButtons);
+
+            for (String username : usernames) {
+                if (username.equals(""))
+                    continue;
+                Label usernameLabel = new Label();
+                usernameLabel.setText(username);
+                Button denyButton = new Button();
+                Button acceptButton = new Button();
+                denyButton.setOnMouseClicked(event -> rejectInvite(username));
+                acceptButton.setOnMouseClicked(event -> acceptInvite(username));
+                denyButton.setStyle("-fx-background-color: red;");
+                acceptButton.setStyle("-fx-background-color: green;");
+                usernameLabel.setMinWidth(250);
+                usernameLabel.setMaxWidth(250);
+                usernameLabel.setPrefHeight(46);
+                denyButton.setPrefHeight(46);
+                acceptButton.setPrefHeight(46);
+                acceptButton.setPrefWidth(1);
+                denyButton.setPrefWidth(1);
+                usernamesVBox.getChildren().add(usernameLabel);
+                denyButtons.getChildren().add(denyButton);
+                acceptButtons.getChildren().add(acceptButton);
+            }
+        } else if (command.startsWith("[PLAYGAME]")) {
+            try {
+                refreshTimeLine.stop();
+                GameLauncher gameLauncher = new GameLauncher();
+                gameLauncher.start((Stage) usernameField.getScene().getWindow());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void playGame() {
-        //TODO
+    public void playGame(String username) {
+        try {
+            Out.sendMessage("let's play " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendFriendRequest() {
@@ -206,7 +249,7 @@ public class FriendsMenu extends AppMenu {
         }
     }
 
-    public void accept(String username) {
+    public void acceptRequest(String username) {
         try {
             Out.sendMessage("accept friend request from " + username);
         } catch (Exception e) {
@@ -214,9 +257,25 @@ public class FriendsMenu extends AppMenu {
         }
     }
 
-    public void reject(String username) {
+    public void rejectRequest(String username) {
         try {
             Out.sendMessage("deny friend request from " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rejectInvite(String username) {
+        try {
+            Out.sendMessage("deny invitation from " + username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void acceptInvite(String username) {
+        try {
+            Out.sendMessage("accept game with " + username);
         } catch (Exception e) {
             e.printStackTrace();
         }

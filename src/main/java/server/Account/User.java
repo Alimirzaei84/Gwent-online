@@ -1,16 +1,19 @@
-package server;
+package server.Account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
-import model.game.GameHistory;
+import server.CommunicationHandler;
+import server.game.GameHistory;
 import model.role.*;
 
+import java.beans.Transient;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class User {
+public class User implements Serializable {
 
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
@@ -21,7 +24,7 @@ public class User {
 
     private String email;
     private String nickname;
-    private int rank; //TODO : UPDATE AFTER EACH GAME
+    private int rank;
     private int highestScore;
     private int ties;
     private int wins;
@@ -32,8 +35,7 @@ public class User {
     private Leader leader;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser;
-    @JsonIgnore
-    private CommunicationHandler handler;
+    private transient CommunicationHandler handler;
     private String username;
     private String password;
 
@@ -365,7 +367,7 @@ public class User {
         this.handler = handler;
     }
 
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(Object message) throws IOException {
         getHandler().sendMessage(message);
     }
 

@@ -31,6 +31,15 @@
                         </ScrollPane>
                     </content>
                 </Tab>
+                <Tab closable="false" text="Invites">
+                    <content>
+                        <ScrollPane fx:id="scrollPaneInvites" prefHeight="672.0" prefWidth="339.0">
+                            <content>
+                                <HBox fx:id="inviteContainer" spacing="10.0" />
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
             </tabs>
         </TabPane>
       <Button layoutX="1168.0" layoutY="660.0" mnemonicParsing="false" onMouseClicked="#back" text="back" />

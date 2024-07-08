@@ -1,15 +1,17 @@
 package controller;
 
-import model.Account.Player;
+import server.Account.Player;
 import model.role.Card;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PlayerController {
+public class PlayerController implements Serializable {
     private final Player player;
     private String responseToGame;
 

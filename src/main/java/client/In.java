@@ -1,20 +1,19 @@
 package client;
 
-import client.view.ProfileMenu;
+import client.view.GameLauncher;
 import javafx.application.Platform;
 import client.view.AppMenu;
-import client.view.LoginMenu;
-import client.view.RegisterMenu;
+import server.game.Board;
 
-import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class In implements Runnable {
 
-    private final DataInputStream in;
+    private final ObjectInputStream objectIn;
 
-    public In(DataInputStream in) {
-        this.in = in;
+    public In(ObjectInputStream objectIn) {
+        this.objectIn = objectIn;
     }
 
     @Override
@@ -23,35 +22,69 @@ public class In implements Runnable {
 
         while (clientIsConnected()) {
             try {
-                serverMessage = in.readUTF();
-                if (!serverMessage.isEmpty()) {
 
-                    String finalServerMessage = serverMessage;
+//                if (User.getInstance().isPlaying()) {
+
+                    Object object = objectIn.readObject();
                     Platform.runLater(() -> {
-                        System.out.println(finalServerMessage);
                         try {
-                            serverMessageHandler(finalServerMessage);
+                            serverMessageHandler(object);
                         } catch (Exception e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
                         }
                     });
-                }
+
+//                    return;
+//                }
+
+//                serverMessage = in.readUTF();
+//                if (!serverMessage.isEmpty()) {
+//
+//                    String finalServerMessage = serverMessage;
+//                    Platform.runLater(() -> {
+//                        System.out.println(finalServerMessage);
+//                        try {
+//                            serverMessageHandler(finalServerMessage);
+//                        } catch (Exception e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    });
+//                }
 
             } catch (IOException e) {
                 e.printStackTrace();
                 break;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
-    public void serverMessageHandler(String message) throws Exception {
-        User user = User.getInstance();
-        AppMenu appMenu = user.getAppMenu();
-        appMenu.handleCommand(message);
+
+    public synchronized void serverMessageHandler(Object object) throws Exception {
+        if (object instanceof String) {
+            User user = User.getInstance();
+            AppMenu appMenu = user.getAppMenu();
+            appMenu.handleCommand((String) object);
+        }
+
+        else if (object instanceof Board board) {
+            System.out.println(board);
+            System.out.println("in In class line 73 + " + board.getMyHand().size() + " " + board.getOppHand().size());
+            User user = User.getInstance();
+            AppMenu appMenu = user.getAppMenu();
+            System.out.println("size of hand in 75 of In class " + ((Board) object).getMyHand().size() + " " + ((Board) object).getOppHand().size());
+            ((GameLauncher)appMenu).getBoard(board);
+            System.out.println(board);
+        }
+
+        else {
+            throw new ClassCastException();
+        }
     }
 
-    public DataInputStream getIn() {
-        return in;
+    public ObjectInputStream getIn() {
+        return objectIn;
     }
 
     private boolean clientIsConnected() {

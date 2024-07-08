@@ -3,20 +3,15 @@ package client;
 import javafx.application.Platform;
 import client.view.RegisterMenu;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Main {
 
     private static Socket socket;
-    private static DataInputStream in;
-    private static DataOutputStream out;
     private static Thread accessThread;
     private static boolean running;
-
-
 
 
     public static boolean connectSocket() {
@@ -26,16 +21,16 @@ public class Main {
             socket = new Socket("127.0.0.1", 8080);
             running = true;
 
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
+//            DataInputStream in = new DataInputStream(socket.getInputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
+//            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             Out.setOut(out);
 
             In inHandler = new In(in);
             accessThread = new Thread(inHandler);
             accessThread.start();
-
-//            Platform.runLater(inHandler);
 
             Thread.sleep(1000);
             System.out.println("connected!");

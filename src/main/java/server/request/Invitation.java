@@ -1,6 +1,6 @@
 package server.request;
 
-import server.User;
+import server.Account.User;
 
 public class Invitation {
 

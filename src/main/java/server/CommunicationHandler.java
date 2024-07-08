@@ -10,15 +10,15 @@ import controller.menuConrollers.*;
 import model.role.Card;
 import model.role.Faction;
 import model.role.Leader;
+import server.Account.User;
 import server.Enum.Regexes;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
 import server.request.FriendRequest;
+import server.request.Invitation;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,19 +28,18 @@ import java.util.regex.Pattern;
 
 public class CommunicationHandler implements Runnable {
     private final Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
+    private final ObjectInputStream in;
+    private ObjectOutputStream out;
     private User user;
     private User tempUser;
 
     public CommunicationHandler(Socket socket) throws IOException {
         this.socket = socket;
 
-        out = new DataOutputStream(socket.getOutputStream());
-        in = new DataInputStream(socket.getInputStream());
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
 
         user = null;
-
     }
 
     @Override
@@ -48,7 +47,7 @@ public class CommunicationHandler implements Runnable {
 
         try {
             String inMessage;
-            while ((inMessage = in.readUTF()) != null) {
+            while ((inMessage = (String) in.readObject()) != null) {
                 // for debug purpose
                 System.out.println("[" + getUsername() + "] \"" + inMessage + "\"");
                 handleCommand(inMessage);
@@ -61,11 +60,9 @@ public class CommunicationHandler implements Runnable {
 
     }
 
-    private static final String invitationRequestRegex = "let's play ([\\S]+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with ([\\S]+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
-
+    private static final String invitationRequestRegex = "let's play (.+)", registerRegex = "^register ([\\S]+) ([\\S]+)$", loginRegex = "^login ([\\S]+) ([\\S]+)$", acceptGameRegex = "^accept game with (.+)$", cancelInvitationRegex = "^cancel invitation$", denyInvitationRegex = "^deny invitation from (.+)$", friendRequestRegex = "^let's be friend (.+)$", acceptFriendRequestRegex = "^accept friend request from ([\\S]+)$", showFriendsRegex = "^show friends$", cancelFriendRequestRegex = "^cancel friend request to ([\\S]+)$", denyFriendRequestRegex = "^deny friend request from ([\\S]+)$", watchOnlineGameRegex = "^watch online game:([\\d]+)";
 
     private void handleCommand(String inMessage) throws Exception {
-
         if (user == null) {
 
             if (Regexes.REGISTER.matches(inMessage)) {
@@ -103,36 +100,11 @@ public class CommunicationHandler implements Runnable {
                 handleChangePasswordRequest(inMessage);
             }
 
+            else {
+                sendMessage("invalid command");
+            }
+
         } else if (user.isOffline()) {
-
-//            if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
-//                System.out.println("the user favorite color set");
-//            } else if (Regexes.FAVORITE_MONTH.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite month?", Regexes.FAVORITE_MONTH.getGroup(inMessage, "month"));
-//                System.out.println("the user favorite month set");
-//            } else if (Regexes.FAVORITE_FOOD.matches(inMessage)) {
-//                tempUser.addQuestionAnswer("your favorite food?", Regexes.FAVORITE_FOOD.getGroup(inMessage, "food"));
-//                System.out.println("the user favorite food set");
-//            } else if (inMessage.equals("back")) {
-//                user = null;
-//                tempUser = null;
-//            } else if (Regexes.LOGIN.matches(inMessage)) {
-//                String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
-//                if (result.startsWith("[INFO]")) {
-//                    user = tempUser;
-//                    tempUser = null;
-//                    user.getOnline(this);
-//                }
-//                sendMessage("login " + result);
-//            } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
-//                System.out.println("I am here");
-//                handleForgetPasswordRequest(inMessage);
-//            }else if (Regexes.CHANGE_PASSWORD.matches(inMessage)){
-//                handleChangePasswordRequest(inMessage);
-//            }
-
-
             if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -229,7 +201,7 @@ public class CommunicationHandler implements Runnable {
                 StringBuilder builder = new StringBuilder();
                 builder.append("[REQUESTS]:");
 
-                for (FriendRequest request : requests){
+                for (FriendRequest request : requests) {
                     builder.append(request.getRequester().getUsername()).append("|");
                 }
 
@@ -300,8 +272,18 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("show factions " + new ObjectMapper().writeValueAsString(user.getFaction()));
             } else if (Regexes.SET_FACTION.matches(inMessage)) {
                 setFaction(inMessage);
+            } else if (Regexes.GET_INVITES.matches(inMessage)) {
+                StringBuilder builder = new StringBuilder();
+                builder.append("[INVITES]:");
+                ArrayList<Invitation> invites = ServerController.getAUsersInvitations(user);
+                for (Invitation invite : invites){
+                    builder.append(invite.getInviter().getUsername()).append("|");
+                }
 
-            } else {
+                sendMessage(builder.toString());
+            }
+
+            else {
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -365,7 +347,7 @@ public class CommunicationHandler implements Runnable {
 
     private void handleAddToDeckRequest(String cardName) throws Exception {
         String result = PreGameMenuController.addToDeck(cardName, user);
-        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
+//        if (result.startsWith("[SUCC]")) user.addToDeck(CardController.createCardWithName(cardName));
         sendMessage("addToDeckResult " + result);
     }
 
@@ -474,7 +456,7 @@ public class CommunicationHandler implements Runnable {
     private void denyInvitation(Matcher matcher) throws IOException {
         String inviterName = matcher.group(1);
 
-        User inviter = UserController.getUserByName(inviterName);
+        User inviter = User.getUserByUsername(inviterName);
 
         if (inviter == null) {
             System.out.println("[ERR]: user \"" + inviterName + "\" not found");
@@ -563,16 +545,16 @@ public class CommunicationHandler implements Runnable {
     private void acceptGame(Matcher matcher) throws IOException {
         String oppName = matcher.group(1);
 
-        User inviter = UserController.getUserByName(oppName);
-        if (user == null) {
-            System.out.println("[ERROR] user \"" + oppName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + oppName + "\"");
+        User inviter = User.getUserByUsername(oppName);
+        if (inviter == null) {
+            System.out.println("[ERR] user \"" + oppName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + oppName + "\"");
             return;
         }
 
-        if (user.isOffline()) {
-            System.out.println("[ERROR] user \"" + oppName + "\" is offline");
-            sendMessage("[ERROR] user \"" + oppName + "\" is offline");
+        if (inviter.isOffline()) {
+            System.out.println("[ERR] user \"" + oppName + "\" is offline");
+            sendMessage("[ERR] user \"" + oppName + "\" is offline");
             return;
         }
 
@@ -582,34 +564,34 @@ public class CommunicationHandler implements Runnable {
     private void invitation(Matcher matcher) throws IOException {
         String receiverName = matcher.group(1);
 
-//        User user = UserController.getUserByName(receiverName);
+        User user = User.getUserByUsername(receiverName);
         if (user == null) {
-            System.out.println("[ERROR] user \"" + receiverName + "\" not found");
-            sendMessage("[ERROR] there is no user \"" + receiverName + "\"");
+            System.out.println("[ERR] user \"" + receiverName + "\" not found");
+            sendMessage("[ERR] there is no user \"" + receiverName + "\"");
             return;
         }
 
         if (user.isOffline()) {
-            System.out.println("[ERROR] user \"" + receiverName + "\" is offline");
-            sendMessage("[ERROR] user \"" + receiverName + "\" is offline");
+            System.out.println("[ERR] user \"" + receiverName + "\" is offline");
+            sendMessage("[ERR] user \"" + receiverName + "\" is offline");
             return;
         }
 
         if (user.equals(this.getUser())) {
-            sendMessage("[ERROR] you can not invite yourself.");
+            sendMessage("[ERR] you can not invite yourself.");
             return;
         }
 
         try {
             ServerController.createNewInvitation(this.getUser(), user);
         } catch (SimilarRequest e) {
-            System.out.println("[ERROR] similar invitation");
-            sendMessage("[ERROR] similar invitation");
+            System.out.println("[ERR] similar invitation");
+            sendMessage("[ERR] similar invitation");
         }
     }
 
-    public void sendMessage(String message) throws IOException {
-        out.writeUTF(message);
+    public void sendMessage(Object message) throws IOException {
+        out.writeObject(message);
     }
 
     public void shutdown() {
@@ -630,11 +612,11 @@ public class CommunicationHandler implements Runnable {
         }
     }
 
-    public DataOutputStream getOut() {
+    public ObjectOutputStream getOut() {
         return out;
     }
 
-    public DataInputStream getIn() {
+    public ObjectInputStream getIn() {
         return in;
     }
 

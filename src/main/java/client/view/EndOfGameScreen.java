@@ -11,8 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.game.Game;
-import model.game.StateAfterADiamond;
+import server.game.Board;
+import server.game.StateAfterADiamond;
 
 import java.net.URL;
 import java.util.Objects;
@@ -42,39 +42,39 @@ public class EndOfGameScreen extends AppMenu {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.winnerLabel.setText("WINNER " + Game.getCurrentGame().getWinner().getUser().getUsername() + " : " + Game.getCurrentGame().getWinner().getTotalPoint());
-        this.winnerLabel.setAlignment(Pos.CENTER);
-        this.winnerLabel.setTextAlignment(TextAlignment.CENTER);
-        VBox vBox1 = new VBox();
-        VBox vBox2 = new VBox();
-        VBox vBox3 = new VBox();
-        vBox1.setAlignment(Pos.CENTER);
-        vBox3.setAlignment(Pos.CENTER);
-        vBox2.setAlignment(Pos.CENTER);
-
-        dataHBox.getChildren().addAll(vBox1, vBox2, vBox3);
-        dataHBox.setSpacing(20);
-        dataHBox.setAlignment(Pos.CENTER);
-
-        int roundNum = 1;
-        for (StateAfterADiamond state : Game.getCurrentGame().getStates()) {
-            Label roundLabel = new Label();
-            Label winnerLabel = new Label();
-            Label loserLabel = new Label();
-            roundLabel.setText("Round " + roundNum);
-            winnerLabel.setText(state.winner().getUser().getUsername() + " : " + state.winnerScore());
-            winnerLabel.setTextFill(Color.RED);
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
-            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
-
-            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
-            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
-            vBox1.getChildren().add(roundLabel);
-            vBox2.getChildren().add(winnerLabel);
-            vBox3.getChildren().add(loserLabel);
-            roundNum ++;
-        }
+//        this.winnerLabel.setText("WINNER " + Game.getCurrentGame().getWinner().getUser().getUsername() + " : " + Game.getCurrentGame().getWinner().getTotalPoint());
+//        this.winnerLabel.setAlignment(Pos.CENTER);
+//        this.winnerLabel.setTextAlignment(TextAlignment.CENTER);
+//        VBox vBox1 = new VBox();
+//        VBox vBox2 = new VBox();
+//        VBox vBox3 = new VBox();
+//        vBox1.setAlignment(Pos.CENTER);
+//        vBox3.setAlignment(Pos.CENTER);
+//        vBox2.setAlignment(Pos.CENTER);
+//
+//        dataHBox.getChildren().addAll(vBox1, vBox2, vBox3);
+//        dataHBox.setSpacing(20);
+//        dataHBox.setAlignment(Pos.CENTER);
+//
+//        int roundNum = 1;
+//        for (StateAfterADiamond state : Game.getCurrentGame().getStates()) {
+//            Label roundLabel = new Label();
+//            Label winnerLabel = new Label();
+//            Label loserLabel = new Label();
+//            roundLabel.setText("Round " + roundNum);
+//            winnerLabel.setText(state.winner().getUser().getUsername() + " : " + state.winnerScore());
+//            winnerLabel.setTextFill(Color.RED);
+//            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
+//            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
+//            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
+//
+//            winnerLabel.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/WinnerStyle.css")).toExternalForm());
+//            loserLabel.setText(state.getLooser().getUser().getUsername() + " : " + state.getLooserScore());
+//            vBox1.getChildren().add(roundLabel);
+//            vBox2.getChildren().add(winnerLabel);
+//            vBox3.getChildren().add(loserLabel);
+//            roundNum ++;
+//        }
     }
 
     public void setSizes(){
@@ -95,6 +95,7 @@ public class EndOfGameScreen extends AppMenu {
     public void handleCommand(String command) {
 
     }
+
 
 
 }

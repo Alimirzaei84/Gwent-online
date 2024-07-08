@@ -1,23 +1,16 @@
 package controller.menuConrollers;
 
 import javafx.scene.image.ImageView;
-import model.game.Game;
 import model.role.*;
 
 public class GameController {
 
-    private final Game game;
     private Card selectedCard;
     private ImageView selectedImageView;
 
-    public GameController(Game game){
-        this.game = game;
-    }
-
-    public void initializeGame(){
-        game.getPlayer1().makeHandReady();
-        game.getPlayer2().makeHandReady();
-
+    public GameController( ){
+        selectedCard = null;
+        selectedImageView= null;
     }
 
     public Card getSelectedCard() {

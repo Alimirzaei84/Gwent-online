@@ -1,7 +1,7 @@
 package server.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import server.User;
+import server.Account.User;
 import java.util.Objects;
 
 public class FriendRequest {
