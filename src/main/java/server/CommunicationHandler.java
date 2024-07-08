@@ -12,6 +12,7 @@ import model.role.Faction;
 import model.role.Leader;
 import server.Account.User;
 import server.Enum.Regexes;
+import server.controller.EmailController;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
@@ -19,6 +20,7 @@ import server.request.FriendRequest;
 import server.request.Invitation;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,11 +71,11 @@ public class CommunicationHandler implements Runnable {
                 String username = Regexes.REGISTER.getGroup(inMessage, "username"), password = Regexes.REGISTER.getGroup(inMessage, "password"), passwordAgain = Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), nickname = Regexes.REGISTER.getGroup(inMessage, "nickname"), email = Regexes.REGISTER.getGroup(inMessage, "email");
                 String message = RegisterMenuController.register(username, password, passwordAgain, nickname, email);
                 if (message.startsWith("[SUCC]")) {
-                    tempUser = new User(username, password, nickname, email);
+                    tempUser = new User(username, password, email, nickname);
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
-              
+
             } else if (Regexes.FAVORITE_COLOR.matches(inMessage)) {
                 tempUser.addQuestionAnswer("your favorite color?", Regexes.FAVORITE_COLOR.getGroup(inMessage, "color"));
                 System.out.println("the user favorite color set");
@@ -88,19 +90,26 @@ public class CommunicationHandler implements Runnable {
             } else if (Regexes.LOGIN.matches(inMessage)) {
                 String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
                 if (result.startsWith("[INFO]")) {
+                    User user1 = user!= null ? user : tempUser;
+                    EmailController.sendVerificationEmail(user1.getEmail());
                     user = tempUser;
                     user.getOnline(this);
                     tempUser = null;
+
+                    Method method = EmailController.class.getDeclaredMethod("getVerificationCode", String.class);
+                    method.setAccessible(true);
+                    String code = (String) method.invoke(null, user.getEmail());
+
+                    sendMessage("login " + "dialog " + code);
+                } else {
+                    sendMessage("login " + result);
                 }
-                sendMessage("login " + result);
             } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
                 System.out.println("I am here");
                 handleForgetPasswordRequest(inMessage);
             } else if (Regexes.CHANGE_PASSWORD.matches(inMessage)) {
                 handleChangePasswordRequest(inMessage);
-            }
-
-            else {
+            } else {
                 sendMessage("invalid command");
             }
 
@@ -149,6 +158,8 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("[TIE]:" + user.getTies());
             } else if (Regexes.GET_RANK.matches(inMessage)) {
                 sendMessage("[RANK]:" + user.getRank());
+            } else if (inMessage.startsWith("verify")) {
+                tryVerify(inMessage.split(" ")[1]);
             } else if (Regexes.GET_MAX_SCORE.matches(inMessage)) {
                 sendMessage("[MAXSCORE]:" + user.getHighestScore());
             } else if (Regexes.CHANGE_PASSWORD_PROFILEMENU.matches(inMessage)) {
@@ -211,7 +222,7 @@ public class CommunicationHandler implements Runnable {
                 matcher.find();
 
                 invitation(matcher);
-            
+
             } else if (inMessage.matches(acceptGameRegex)) {
                 Matcher matcher = getMatcher(acceptGameRegex, inMessage);
                 matcher.find();
@@ -276,14 +287,14 @@ public class CommunicationHandler implements Runnable {
                 StringBuilder builder = new StringBuilder();
                 builder.append("[INVITES]:");
                 ArrayList<Invitation> invites = ServerController.getAUsersInvitations(user);
-                for (Invitation invite : invites){
+                for (Invitation invite : invites) {
                     builder.append(invite.getInviter().getUsername()).append("|");
                 }
 
                 sendMessage(builder.toString());
             } else if (inMessage.equals("get end of game data")) {
                 sendMessage(user.getGameHistories().getLast().toString());
-            } else{
+            } else {
                 sendMessage("[ERROR] unknown command");
             }
 
@@ -304,6 +315,13 @@ public class CommunicationHandler implements Runnable {
         } else {
             sendMessage("[ERROR] unknown command");
         }
+    }
+
+    private void tryVerify(String code) throws IOException {
+        if (EmailController.verify(user.getEmail(), code)) {
+            user.setVerified();
+            sendMessage("[SUCC]: Yor email is verified and you can enjoy playing with your friends :)) ");
+        } else sendMessage("[ERR]: Your code isn't correct");
     }
 
     private void setFaction(String message) {
@@ -537,6 +555,7 @@ public class CommunicationHandler implements Runnable {
             sendMessage("[ERR] similar friend request");
         }
     }
+
 
     private void cancelInvitation() throws IOException {
         ServerController.cancelInvitation(this.getUser());

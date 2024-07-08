@@ -17,7 +17,9 @@
       <Label fx:id="nicknameLabel" layoutX="292.0" layoutY="183.0" text="Label" />
       <Label layoutX="119.0" layoutY="248.0" text="Email" />
       <Label fx:id="emailLabel" layoutX="292.0" layoutY="248.0" text="Label" />
-      <TextField fx:id="emailField" layoutX="1021.0" layoutY="181.0" />
+      <TextField fx:id="emailField" layoutX="1100.0" layoutY="150.0" />
+      <TextField fx:id="verificationTextField" layoutX="1021.0" layoutY="181.0" />
+      <Button layoutX="1129.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#sendVerificationCode" text="Change Email" />
       <Label layoutX="1061.0" layoutY="128.0" text="New Email" />
       <Button layoutX="1029.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#changeEmail" text="Change Email" />
       <TextField fx:id="nicknameField" layoutX="1021.0" layoutY="360.0" />

@@ -112,6 +112,8 @@ public class GameCommunicationHandler implements Runnable {
         game.setPlayerListening();
     }
 
+
+
     private synchronized void putCard(String command) {
         game.getCurrentPlayer().putCard(game.getCurrentPlayer().getCardFromHandByName(GameRegexes.PUT_CARD.getGroup(command, "cardName")));
         game.setPlayerListening();
@@ -121,6 +123,7 @@ public class GameCommunicationHandler implements Runnable {
     private boolean isGameListening() {
         return game.isGameListening();
     }
+
 
     private void setPlayerListening() {
         game.setPlayerListening();
