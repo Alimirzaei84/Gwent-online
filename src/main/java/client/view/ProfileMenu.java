@@ -126,8 +126,8 @@ public class ProfileMenu extends AppMenu {
 
     public void showGameHistories(MouseEvent mouseEvent) {
         try {
-            GameHistoryScreen gameHistory = new GameHistoryScreen();
-            gameHistory.start((Stage) usernameLabel.getScene().getWindow());
+//            GameHistoryScreen gameHistory = new GameHistoryScreen();
+//            gameHistory.start((Stage) usernameLabel.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
