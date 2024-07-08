@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import controller.ApplicationController;
 import controller.CardController;
 import server.CommunicationHandler;
+import server.controller.EmailController;
 import server.game.GameHistory;
 import model.role.*;
 
@@ -15,10 +16,12 @@ import java.util.*;
 
 public class User implements Serializable {
 
+
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
     }
 
+    private boolean isVerified;
     private final ArrayList<GameHistory> gameHistories;
     private final ArrayList<User> friends;
 
@@ -66,6 +69,7 @@ public class User implements Serializable {
         leader = getRandomLeader();
         status = Status.OFFLINE;
         friends = new ArrayList<>();
+        isVerified = false;
     }
 
     public void addToHistory(GameHistory gameHistory) {
@@ -443,4 +447,11 @@ public class User implements Serializable {
         return builder.toString();
     }
 
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified() {
+        isVerified = true;
+    }
 }

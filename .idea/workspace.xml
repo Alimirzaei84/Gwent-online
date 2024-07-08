@@ -63,6 +63,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
   <component name="ProjectId" id="2h41mzPOAXgLFWCtkZzGstdAAsI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -91,7 +94,6 @@
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="server" />
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
@@ -218,10 +220,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.test" />
         <item itemvalue="Application.client" />
         <item itemvalue="Application.server" />
         <item itemvalue="Application.testJson" />
-        <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
   </component>

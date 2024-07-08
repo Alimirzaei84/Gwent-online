@@ -18,6 +18,8 @@ module testAnt {
     requires org.jetbrains.annotations;
     exports server to com.fasterxml.jackson.databind;
     opens server to com.fasterxml.jackson.databind;
+//    opens model.game to  com.fasterxml.jackson.databind;
+//    opens model.Account to  com.fasterxml.jackson.databind;
     opens controller to com.fasterxml.jackson.databind;
     exports client.view;
     exports model.role;

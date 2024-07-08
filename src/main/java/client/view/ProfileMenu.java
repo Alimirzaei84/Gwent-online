@@ -23,6 +23,8 @@ public class ProfileMenu extends AppMenu {
     @FXML
     public Label nicknameLabel;
     @FXML
+    public TextField verificationTextField;
+    @FXML
     private Label emailLabel;
     @FXML
     private Label rankLabel;
@@ -208,14 +210,19 @@ public class ProfileMenu extends AppMenu {
             Scene scene = alert.getDialogPane().getScene();
             scene.getStylesheets().add(getClass().getResource("/CSS/AlertStyler.css").toExternalForm());
             alert.showAndWait();
-        }else if (command.startsWith("[PLAYGAME]")){
-            try{
+        } else if (command.startsWith("[PLAYGAME]")) {
+            try {
                 GameLauncher gameLauncher = new GameLauncher();
                 gameLauncher.start((Stage) usernameLabel.getScene().getWindow());
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    public void sendVerificationCode() throws IOException {
+        Out.sendMessage("verify " + verificationTextField);
     }
 
 }
