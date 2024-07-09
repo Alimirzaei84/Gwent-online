@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import server.Enum.Regexes;
@@ -30,9 +33,12 @@ public class FriendsMenu extends AppMenu {
     public Timeline refreshTimeLine;
     public HBox inviteContainer;
     public HBox gamesContainer;
+    public Text myUsernameText;
+    public VBox searchedUserDataBox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         client.User.getInstance().setAppMenu(this);
         try {
             Out.sendMessage("get friends");
@@ -46,6 +52,9 @@ public class FriendsMenu extends AppMenu {
         refreshTimeLine = new Timeline(new KeyFrame(Duration.seconds(1), event -> refreshData()));
         refreshTimeLine.setCycleCount(-1);
         refreshTimeLine.play();
+
+        myUsernameText.setText(client.User.getInstance().getUsername());
+        myUsernameText.setTextAlignment(TextAlignment.CENTER);
     }
 
     @Override
@@ -232,6 +241,20 @@ public class FriendsMenu extends AppMenu {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (command.startsWith("[SEARCHED_USER_PROFILE]")) {
+            System.out.println("WE ARE HERE-------?>");
+            String[] userData = command.substring("[SEARCHED_USER_PROFILE]:".length()).split("\\|");
+            searchedUserDataBox.getChildren().clear();
+            for (int i = 0; i < 3; i++) {
+                Label label = new Label();
+                label.setText(userData[i]);
+                label.setTextAlignment(TextAlignment.CENTER);
+                label.setPrefWidth(175);
+                label.setPrefHeight(46);
+                searchedUserDataBox.setAlignment(Pos.CENTER);
+                searchedUserDataBox.getChildren().add(label);
+                label.setAlignment(Pos.CENTER);
+            }
         }
     }
 
@@ -331,6 +354,7 @@ public class FriendsMenu extends AppMenu {
 
     public void view(String username, int gameId) {
         try {
+            refreshTimeLine.stop();
             GameView view = new GameView();
             view.start((Stage) friendsContainer.getScene().getWindow());
             Out.sendMessage("watch " + gameId);

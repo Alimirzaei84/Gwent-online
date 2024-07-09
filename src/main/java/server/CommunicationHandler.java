@@ -1,5 +1,6 @@
 package server;
 
+import client.Out;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -214,7 +215,6 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(res);
             } else if (Regexes.GET_REQUESTS.matches(inMessage)) {
                 ArrayList<FriendRequest> requests = ServerController.getAUsersFriendRequests(user);
-                String jsonString = toJsonStringRequestsArrayList(requests);
                 StringBuilder builder = new StringBuilder();
                 builder.append("[REQUESTS]:");
 
@@ -245,6 +245,12 @@ public class CommunicationHandler implements Runnable {
                 Matcher matcher = getMatcher(friendRequestRegex, inMessage);
                 matcher.find();
                 friendRequest(matcher);
+//                User user = User.getUserByUsername(matcher.group(1));
+//                if (user != null) {
+//                    Out.sendMessage("[SEARCHED_USER_PROFILE]:" + user.getUsername() + "|wins:" + user.getWins() + "|losses:" + user.getLosses());
+//                } else {
+//                    Out.sendMessage("[ERR]:No such user!");
+//                }
             } else if (inMessage.matches(acceptFriendRequestRegex)) {
                 Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
                 matcher.find();
@@ -339,7 +345,6 @@ public class CommunicationHandler implements Runnable {
         }
         sendMessage(builder.toString());
     }
-
 
 
     private void tryVerify(String code) throws IOException {

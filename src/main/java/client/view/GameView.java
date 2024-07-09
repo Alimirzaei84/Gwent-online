@@ -153,7 +153,7 @@ public class GameView extends AppMenu {
     public void back() {
         try {
             FriendsMenu friendsMenu = new FriendsMenu();
-            friendsMenu.start(ApplicationController.getStage());
+            friendsMenu.start((Stage) inHandCurHbox.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
