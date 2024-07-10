@@ -245,12 +245,6 @@ public class CommunicationHandler implements Runnable {
                 Matcher matcher = getMatcher(friendRequestRegex, inMessage);
                 matcher.find();
                 friendRequest(matcher);
-//                User user = User.getUserByUsername(matcher.group(1));
-//                if (user != null) {
-//                    Out.sendMessage("[SEARCHED_USER_PROFILE]:" + user.getUsername() + "|wins:" + user.getWins() + "|losses:" + user.getLosses());
-//                } else {
-//                    Out.sendMessage("[ERR]:No such user!");
-//                }
             } else if (inMessage.matches(acceptFriendRequestRegex)) {
                 Matcher matcher = getMatcher(acceptFriendRequestRegex, inMessage);
                 matcher.find();
@@ -579,6 +573,7 @@ public class CommunicationHandler implements Runnable {
         }
 
         try {
+            sendMessage("[SEARCHED_USER_PROFILE]:" + recipient.getUsername() + "|wins:" + recipient.getWins() + "|losses:" + recipient.getLosses());
             ServerController.createNewFriendRequest(this.getUser(), recipient);
         } catch (SimilarRequest e) {
             System.out.println("[ERR] similar friend request");
