@@ -13,7 +13,7 @@ module testAnt {
     requires java.mail;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
-    requires mysql.connector.j;
+//    requires mysql.connector.j;
     requires jcommander;
     requires org.jetbrains.annotations;
     exports server to com.fasterxml.jackson.databind;

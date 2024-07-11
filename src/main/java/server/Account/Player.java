@@ -17,6 +17,7 @@ public class Player implements Serializable {
     private int totalPoint;
     private boolean actionLeaderDone;
     private User user;
+    private boolean makeHandReadyCalled;
     private short vetoCounter;
     private final Row[] rows;
     private final ArrayList<Card> inHand;
@@ -25,6 +26,7 @@ public class Player implements Serializable {
     private Game game;
 
     public Player(User user, Game game) {
+        makeHandReadyCalled = false;
         actionLeaderDone = false;
         cardInfo = new ArrayList<>();
         totalPoint = 0;
@@ -79,13 +81,14 @@ public class Player implements Serializable {
 
 
     public void makeHandReady() {
-        if (!inHand.isEmpty()) return;
+        if (!inHand.isEmpty() || makeHandReadyCalled) return;
         int counter = user.getLeader().getName().equals("Daisy of the Valley") ? 11 : 10;
         for (int c = 0; c < counter; c++) {
             Card card = getRandomCard(getUser().getDeck());
             user.getDeck().remove(card);
             inHand.add(card);
         }
+        makeHandReadyCalled = true;
     }
 
 
@@ -596,6 +599,7 @@ public class Player implements Serializable {
 
 
     public void updatePointOfRows() {
+        totalPoint = 0;
         for (Row row : rows) {
             int point = 0;
             if (row.isOnFrost()) {

@@ -375,6 +375,7 @@ public class User implements Serializable {
         this.handler = handler;
     }
 
+
     public void sendMessage(Object message) throws IOException {
         getHandler().sendMessage(message);
     }
@@ -404,6 +405,7 @@ public class User implements Serializable {
         return status;
     }
 
+
     public int getGameId() {
         return gameId;
     }
@@ -418,6 +420,7 @@ public class User implements Serializable {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
@@ -430,18 +433,22 @@ public class User implements Serializable {
         return loggedInUser;
     }
 
+
     public static void setLoggedInUser(User loggedInUser) {
         User.loggedInUser = loggedInUser;
     }
+
 
     public int getRank() {
         allUsers.sort(Comparator.comparingInt(User::getWins).thenComparingInt(User::getHighestScore).thenComparingInt(User::getGamesPlayed).reversed());
         return allUsers.indexOf(this) + 1;
     }
 
+
     public void addToDeck(Card card) {
         deck.add(card);
     }
+
 
     public String getFriendsUsernames() {
         StringBuilder builder = new StringBuilder();

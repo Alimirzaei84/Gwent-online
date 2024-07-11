@@ -646,7 +646,7 @@ public class CommunicationHandler implements Runnable {
             sendMessage("[ERR] similar invitation");
         }
     }
-
+    
     public void sendMessage(Object message) throws IOException {
         out.writeObject(message);
         out.flush();

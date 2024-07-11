@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CommunicationHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,12 +68,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.46091953" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.RegisterMenu.executor": "Run"
+  }
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -100,7 +104,7 @@
   <component name="RunManager" selected="Application.RegisterMenu">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.Main" />
-      <module name="advanced-programming-project-group-17" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="server.*" />
@@ -126,7 +130,7 @@
     </configuration>
     <configuration name="RegisterMenu" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="client.view.RegisterMenu" />
-      <module name="advanced-programming-project-group-17" />
+      <module name="testAnt" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.view.*" />
@@ -302,15 +306,6 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -322,6 +317,15 @@
                 </option>
               </RecentGroup>
             </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
           </value>
         </entry>
       </map>
