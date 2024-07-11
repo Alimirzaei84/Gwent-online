@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/view/FriendsMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Account/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Account/User.java" afterDir="false" />
-    </list>
+    <list default="true" id="e3ec8117-9f0a-4350-828f-d1acab9581d6" name="Changes" comment="add the basic of net and create the test folder" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -279,7 +275,7 @@
       <workItem from="1720250332325" duration="1730000" />
       <workItem from="1720518951103" duration="4453000" />
       <workItem from="1720605954339" duration="915000" />
-      <workItem from="1720681815465" duration="3281000" />
+      <workItem from="1720681815465" duration="3605000" />
     </task>
     <task id="LOCAL-00001" summary="view package created">
       <option name="closed" value="true" />
