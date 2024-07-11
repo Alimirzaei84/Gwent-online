@@ -75,7 +75,6 @@ public class LoginMenu extends AppMenu {
                 handleForgetPasswordResult(result);
             }
             default -> {
-                throw new RuntimeException("Invalid command type");
             }
         }
     }

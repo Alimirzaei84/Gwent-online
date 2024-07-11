@@ -453,11 +453,5 @@ public class User implements Serializable {
         return builder.toString();
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
 
-    public void setVerified() {
-        isVerified = true;
-    }
 }
