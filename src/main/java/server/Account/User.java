@@ -454,7 +454,11 @@ public class User implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append("[FRIENDS]:");
         for (User user : friends) {
-            builder.append(user.getUsername()).append("|");
+            builder.append(user.getUsername()).append(":");
+            if (!user.isOffline())
+                builder.append("online|");
+            else
+                builder.append("offline|");
         }
 
         return builder.toString();

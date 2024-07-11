@@ -437,12 +437,7 @@ public class GameView extends AppMenu {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/CSS/AlertStyler.css")).toExternalForm());
             alert.showAndWait();
         } else if (command.startsWith("[OVER]")) {
-            try {
-                EndOfGameScreen endOfGameScreen = new EndOfGameScreen();
-                endOfGameScreen.start((Stage) curUsernameLabel.getScene().getWindow());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            back();
         }
     }
 
