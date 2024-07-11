@@ -57,6 +57,9 @@ public class GameHistoryScreen extends AppMenu {
     }
 
     public static boolean isJsonValid(String jsonString) {
+        if (jsonString == "" || jsonString == null)
+            return false;
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.readTree(jsonString);
@@ -84,10 +87,9 @@ public class GameHistoryScreen extends AppMenu {
     }
 
     public static ArrayList<GameHistory> fromJson(String jsonString) {
-        System.out.println("JSON STRING :------>" + jsonString );
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonString, new TypeReference<ArrayList<GameHistory>>() {
+            return objectMapper.readValue(jsonString, new TypeReference<>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -98,7 +100,6 @@ public class GameHistoryScreen extends AppMenu {
     public boolean showAGameHistory(int index) {
         if (gameHistories.size() <= index || index < 0)
             return false;
-
         vBox1.getChildren().clear();
         vBox2.getChildren().clear();
         vBox3.getChildren().clear();

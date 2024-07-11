@@ -1,7 +1,6 @@
 package server.game;
 
 
-import controller.CardController;
 import model.role.Card;
 import server.Account.User;
 import server.Enum.GameRegexes;
@@ -66,36 +65,26 @@ public class GameCommunicationHandler implements Runnable {
         return null;
     }
 
-    private synchronized void sendBoardObjectToEachPlayer() throws IOException, InterruptedException {
+    private synchronized void sendBoardObjectToEachPlayer() throws IOException {
 
-
+        // for me
         Board currBoard = game.getCurrentPlayerBoard();
         game.getCurrentPlayer().getUser().sendMessage(currBoard);
         Board otherBoard = game.getOtherPlayerBoard();
         game.getOtherPlayer().getUser().sendMessage(otherBoard);
 
-
-
-        for (int i = 0; i < 10; i++) {
-
-<<<<<<< HEAD
-            Thread.sleep(4000);
-            Board currBoard1 = game.getCurrentPlayerBoard();
-            System.out.println(currBoard1);
-            System.out.println("the board hand size is " + currBoard1.getMyHand().size() + " " + currBoard1.getOppHand().size());
-            game.getCurrentPlayer().getUser().sendMessage(currBoard1);
-            Board otherBoard1 = game.getOtherPlayerBoard();
-            System.out.println(otherBoard1);
-            System.out.println(otherBoard1.getMyHand().size() + " " + otherBoard1.getOppHand().size());
-            game.getOtherPlayer().getUser().sendMessage(otherBoard1);
-=======
+        // for other
         Board currBoard1 = game.getCurrentPlayerBoard();
         game.getCurrentPlayer().getUser().sendMessage(currBoard1);
         Board otherBoard1 = game.getOtherPlayerBoard();
         game.getOtherPlayer().getUser().sendMessage(otherBoard1);
->>>>>>> bd0e23ef22c61e10808bec17b464d9abc617b740
 
-        }
+
+        // for viewers
+        for (User attendee : game.getChatroom().getAttendees())
+            attendee.sendMessage(game.getBoardForClosestFriendOfUser(attendee));
+
+
     }
 
     private synchronized void veto(String command) throws IOException {
@@ -126,6 +115,7 @@ public class GameCommunicationHandler implements Runnable {
         game.setPlayerListening();
     }
 
+
     private synchronized void putCard(String command) {
         game.getCurrentPlayer().putCard(game.getCurrentPlayer().getCardFromHandByName(GameRegexes.PUT_CARD.getGroup(command, "cardName")));
         game.setPlayerListening();
@@ -135,6 +125,7 @@ public class GameCommunicationHandler implements Runnable {
     private boolean isGameListening() {
         return game.isGameListening();
     }
+
 
     private void setPlayerListening() {
         game.setPlayerListening();

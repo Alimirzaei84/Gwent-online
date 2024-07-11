@@ -1,8 +1,10 @@
 package client;
 
 import client.view.GameLauncher;
+import client.view.GameView;
 import javafx.application.Platform;
 import client.view.AppMenu;
+import model.Message;
 import server.game.Board;
 
 import java.io.IOException;
@@ -18,38 +20,17 @@ public class In implements Runnable {
 
     @Override
     public void run() {
-        String serverMessage;
-
         while (clientIsConnected()) {
             try {
 
-//                if (User.getInstance().isPlaying()) {
-
-                    Object object = objectIn.readObject();
-                    Platform.runLater(() -> {
-                        try {
-                            serverMessageHandler(object);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-//                    return;
-//                }
-
-//                serverMessage = in.readUTF();
-//                if (!serverMessage.isEmpty()) {
-//
-//                    String finalServerMessage = serverMessage;
-//                    Platform.runLater(() -> {
-//                        System.out.println(finalServerMessage);
-//                        try {
-//                            serverMessageHandler(finalServerMessage);
-//                        } catch (Exception e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    });
-//                }
+                Object object = objectIn.readObject();
+                Platform.runLater(() -> {
+                    try {
+                        serverMessageHandler(object);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -60,28 +41,32 @@ public class In implements Runnable {
         }
     }
 
-
     public synchronized void serverMessageHandler(Object object) throws Exception {
         if (object instanceof String) {
+            String s = (String) object;
             User user = User.getInstance();
             AppMenu appMenu = user.getAppMenu();
-            appMenu.handleCommand((String) object);
+            appMenu.handleCommand(s);
         }
-
-        else if (object instanceof Board board) {
-            System.out.println(board);
-            System.out.println("in In class line 73 + " + board.getMyHand().size() + " " + board.getOppHand().size());
+        if (object instanceof Board) {
+            Board board = (Board) object;
             User user = User.getInstance();
             AppMenu appMenu = user.getAppMenu();
-            System.out.println("size of hand in 75 of In class " + ((Board) object).getMyHand().size() + " " + ((Board) object).getOppHand().size());
-            ((GameLauncher)appMenu).getBoard(board);
-            System.out.println(board);
+            if (appMenu instanceof GameLauncher) {
+                ((GameLauncher) appMenu).getBoard(board);
+            } else if (appMenu instanceof GameView) {
+                ((GameView) appMenu).getBoard(board);
+            } else
+                throw new RuntimeException(appMenu.getClass().toString().toUpperCase() + " is not a valid menu for get the board object");
         }
-
-        else {
-            throw new ClassCastException();
-        }
+        if (object instanceof Message) {
+            Message message = (Message) object;
+            User user = User.getInstance();
+            System.out.println(message.getMessage());
+        } else if (object == null) throw new ClassCastException();
     }
+
+
 
     public ObjectInputStream getIn() {
         return objectIn;

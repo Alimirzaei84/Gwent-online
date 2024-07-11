@@ -5,7 +5,6 @@ import controller.ApplicationController;
 import controller.CardController;
 import model.role.*;
 import server.CommunicationHandler;
-import server.controller.EmailController;
 import server.game.GameHistory;
 
 import java.io.IOException;
@@ -13,6 +12,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class User implements Serializable {
+
 
     public enum Status {
         PLAYING, OFFLINE, INVITING, VIEWING, ONLINE
@@ -66,8 +66,8 @@ public class User implements Serializable {
         leader = getRandomLeader();
         status = Status.OFFLINE;
         friends = new ArrayList<>();
-        isVerified = false;
-        EmailController.sendVerificationEmail(email);
+//        isVerified = false;
+        isVerified = true;
     }
 
     public void addToHistory(GameHistory gameHistory) {
@@ -94,7 +94,6 @@ public class User implements Serializable {
             }
         }
     }
-
 
     private Leader getRandomLeader() {
         String leaderName = CardController.leaders.get(ApplicationController.getRandom().nextInt(0, CardController.leaders.size()));
@@ -454,4 +453,11 @@ public class User implements Serializable {
         return builder.toString();
     }
 
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified() {
+        isVerified = true;
+    }
 }

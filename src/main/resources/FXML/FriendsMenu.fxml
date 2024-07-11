@@ -3,6 +3,7 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.FriendsMenu">
     <stylesheets>
@@ -11,11 +12,11 @@
     <children>
         <Button fx:id="sendFriendRequest" layoutX="1061.0" layoutY="73.0" mnemonicParsing="false" onMouseClicked="#sendFriendRequest" prefHeight="46.0" prefWidth="175.0" text="send request" />
         <TextField fx:id="usernameField" layoutX="1036.0" layoutY="26.0" prefHeight="30.0" prefWidth="226.0" />
-        <TabPane fx:id="tab" layoutX="14.0" layoutY="9.0" prefHeight="701.0" prefWidth="357.0">
+        <TabPane fx:id="tab" layoutX="14.0" layoutY="9.0" prefHeight="701.0" prefWidth="370.0">
             <tabs>
                 <Tab closable="false" text="Friends">
                     <content>
-                        <ScrollPane fx:id="scrollPaneFriends" prefHeight="672.0" prefWidth="339.0">
+                        <ScrollPane fx:id="scrollPaneFriends" prefHeight="672.0" prefWidth="373.0">
                             <content>
                                 <HBox fx:id="friendsContainer" spacing="10.0" />
                             </content>
@@ -40,8 +41,19 @@
                         </ScrollPane>
                     </content>
                 </Tab>
+                <Tab closable="false" text="Games">
+                    <content>
+                        <ScrollPane fx:id="scrollPaneGames" prefHeight="672.0" prefWidth="339.0">
+                            <content>
+                                <HBox fx:id="gamesContainer" spacing="10.0" />
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
             </tabs>
         </TabPane>
       <Button layoutX="1168.0" layoutY="660.0" mnemonicParsing="false" onMouseClicked="#back" text="back" />
+      <Text fx:id="myUsernameText" fill="red" layoutX="629.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <VBox fx:id="searchedUserDataBox" layoutX="1061.0" layoutY="160.0" prefHeight="200.0" prefWidth="175.0" />
     </children>
 </AnchorPane>

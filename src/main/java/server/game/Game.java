@@ -38,6 +38,15 @@ public class Game implements Runnable, Serializable {
         return board;
     }
 
+    public Board getBoardForClosestFriendOfUser(User viewer) {
+        if (viewer.getFriends().contains(getPlayer1().getUser())) {
+            return generateBoard(getPlayer1(), getPlayer2());
+        } else {
+            return generateBoard(getPlayer2(), getPlayer1());
+        }
+
+    }
+
     public synchronized Board getOtherPlayerBoard() {
         Board board = generateBoard(getOtherPlayer(), getCurrentPlayer());
         board.setMyTurn(false);
@@ -82,7 +91,6 @@ public class Game implements Runnable, Serializable {
         System.out.println("hand size end of board" + board.getOppHand().size());
         return board;
     }
-
 
     private final User[] users;
     private final AccessType accessType;
@@ -295,7 +303,6 @@ public class Game implements Runnable, Serializable {
     public String handleCommand(String command) throws IOException, InterruptedException {
         return handler.handleCommand(command);
     }
-
 
     private void waitUntilPlayersAreListening() {
 

@@ -1,8 +1,10 @@
 package server;
 
+import client.Out;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.StdTypeResolverBuilder;
 import com.google.gson.Gson;
 import controller.CardController;
 import controller.menuConrollers.*;
@@ -16,22 +18,26 @@ import server.controller.EmailController;
 import server.controller.ServerController;
 import server.controller.UserController;
 import server.error.SimilarRequest;
+import server.game.Game;
+import server.game.GameCommunicationHandler;
 import server.game.GameHistory;
 import server.request.FriendRequest;
 import server.request.Invitation;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommunicationHandler implements Runnable {
     private final Socket socket;
     private final ObjectInputStream in;
-    private ObjectOutputStream out;
+    private final ObjectOutputStream out;
     private User user;
     private User tempUser;
 
@@ -71,7 +77,7 @@ public class CommunicationHandler implements Runnable {
                 String username = Regexes.REGISTER.getGroup(inMessage, "username"), password = Regexes.REGISTER.getGroup(inMessage, "password"), passwordAgain = Regexes.REGISTER.getGroup(inMessage, "passwordAgain"), nickname = Regexes.REGISTER.getGroup(inMessage, "nickname"), email = Regexes.REGISTER.getGroup(inMessage, "email");
                 String message = RegisterMenuController.register(username, password, passwordAgain, nickname, email);
                 if (message.startsWith("[SUCC]")) {
-                    tempUser = new User(username, password, nickname, email);
+                    tempUser = new User(username, password, email, nickname);
                     System.out.println("user with username: " + username + " created");
                 }
                 sendMessage(message);
@@ -90,11 +96,20 @@ public class CommunicationHandler implements Runnable {
             } else if (Regexes.LOGIN.matches(inMessage)) {
                 String result = LoginMenuController.login(Regexes.LOGIN.getGroup(inMessage, "username"), Regexes.LOGIN.getGroup(inMessage, "password"));
                 if (result.startsWith("[INFO]")) {
+                    User user1 = user != null ? user : tempUser;
+                    EmailController.sendVerificationEmail(user1.getEmail());
                     user = tempUser;
                     user.getOnline(this);
                     tempUser = null;
+
+                    Method method = EmailController.class.getDeclaredMethod("getVerificationCode", String.class);
+                    method.setAccessible(true);
+                    String code = (String) method.invoke(null, user.getEmail());
+
+                    sendMessage("login " + "dialog " + code);
+                } else {
+                    sendMessage("login " + result);
                 }
-                sendMessage("login " + result);
             } else if (Regexes.FORGET_PASSWORD.matches(inMessage)) {
                 System.out.println("I am here");
                 handleForgetPasswordRequest(inMessage);
@@ -152,6 +167,8 @@ public class CommunicationHandler implements Runnable {
                 sendMessage("[TIE]:" + user.getTies());
             } else if (Regexes.GET_RANK.matches(inMessage)) {
                 sendMessage("[RANK]:" + user.getRank());
+            } else if (inMessage.startsWith("verify")) {
+                tryVerify(inMessage.split(" ")[1]);
             } else if (Regexes.GET_MAX_SCORE.matches(inMessage)) {
                 sendMessage("[MAXSCORE]:" + user.getHighestScore());
             } else if (Regexes.CHANGE_PASSWORD_PROFILEMENU.matches(inMessage)) {
@@ -190,6 +207,7 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(res);
             } else if (Regexes.GET_GAME_HISTORIES.matches(inMessage)) {
                 String res = convertToJson(user.getGameHistories());
+                System.out.println("JSON STRING IN SERVER ------>" + res);
                 if (res == null) {
                     sendMessage("");
                 } else {
@@ -200,7 +218,6 @@ public class CommunicationHandler implements Runnable {
                 sendMessage(res);
             } else if (Regexes.GET_REQUESTS.matches(inMessage)) {
                 ArrayList<FriendRequest> requests = ServerController.getAUsersFriendRequests(user);
-                String jsonString = toJsonStringRequestsArrayList(requests);
                 StringBuilder builder = new StringBuilder();
                 builder.append("[REQUESTS]:");
 
@@ -284,6 +301,12 @@ public class CommunicationHandler implements Runnable {
                 }
 
                 sendMessage(builder.toString());
+            } else if (Regexes.WATCH_GAME.matches(inMessage)) {
+                ServerController.attendNewViewerToRunningGame(this.getUser(), Integer.parseInt(Regexes.WATCH_GAME.getGroup(inMessage, "gameId")));
+            } else if (inMessage.equals("get games")) {
+                sendGamesInformation();
+            } else if (inMessage.equals("get end of game data")) {
+                sendMessage(user.getGameHistories().getLast().toString());
             } else {
                 sendMessage("[ERROR] unknown command");
             }
@@ -306,6 +329,20 @@ public class CommunicationHandler implements Runnable {
             sendMessage("[ERROR] unknown command");
         }
     }
+
+
+    private void sendGamesInformation() throws IOException {
+        StringBuilder builder = new StringBuilder("RUNNING_GAMES_INFO");
+        for (Game runningGame : ServerController.runningGames) {
+            for (User gameUser : runningGame.getUsers()) {
+                if (user.getFriends().contains(gameUser)) {
+                    builder.append(runningGame.getId()).append("_").append(gameUser.getUsername()).append(" ");
+                }
+            }
+        }
+        sendMessage(builder.toString());
+    }
+
 
     private void tryVerify(String code) throws IOException {
         if (EmailController.verify(user.getEmail(), code)) {
@@ -539,6 +576,7 @@ public class CommunicationHandler implements Runnable {
         }
 
         try {
+            sendMessage("[SEARCHED_USER_PROFILE]:" + recipient.getUsername() + "|wins:" + recipient.getWins() + "|losses:" + recipient.getLosses());
             ServerController.createNewFriendRequest(this.getUser(), recipient);
         } catch (SimilarRequest e) {
             System.out.println("[ERR] similar friend request");
@@ -546,15 +584,6 @@ public class CommunicationHandler implements Runnable {
         }
     }
 
-    public static String convertToJson(ArrayList<GameHistory> gameHistories) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(gameHistories);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     private void cancelInvitation() throws IOException {
         ServerController.cancelInvitation(this.getUser());
@@ -577,6 +606,16 @@ public class CommunicationHandler implements Runnable {
         }
 
         ServerController.acceptGame(this.getUser(), inviter);
+    }
+
+    public static String convertToJson(ArrayList<GameHistory> gameHistories) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(gameHistories);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void invitation(Matcher matcher) throws IOException {

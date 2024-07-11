@@ -25,6 +25,8 @@ public class ProfileMenu extends AppMenu {
     @FXML
     public Label nicknameLabel;
     @FXML
+    public TextField verificationTextField;
+    @FXML
     private Label emailLabel;
     @FXML
     private Label rankLabel;
@@ -132,8 +134,8 @@ public class ProfileMenu extends AppMenu {
 
     public void showGameHistories(MouseEvent mouseEvent) {
         try {
-            GameHistoryScreen gameHistory = new GameHistoryScreen();
-            gameHistory.start((Stage) usernameLabel.getScene().getWindow());
+//            GameHistoryScreen gameHistory = new GameHistoryScreen();
+//            gameHistory.start((Stage) usernameLabel.getScene().getWindow());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,6 +226,11 @@ public class ProfileMenu extends AppMenu {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    public void sendVerificationCode() throws IOException {
+        Out.sendMessage("verify " + verificationTextField);
     }
 
 }

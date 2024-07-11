@@ -6,13 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import server.Enum.Regexes;
 import server.request.FriendRequest;
 
 import java.io.IOException;
@@ -28,14 +32,19 @@ public class FriendsMenu extends AppMenu {
     public HBox requestsContainer;
     public Timeline refreshTimeLine;
     public HBox inviteContainer;
+    public HBox gamesContainer;
+    public Text myUsernameText;
+    public VBox searchedUserDataBox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         client.User.getInstance().setAppMenu(this);
         try {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
             Out.sendMessage("get invites");
+            Out.sendMessage("get games");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +52,9 @@ public class FriendsMenu extends AppMenu {
         refreshTimeLine = new Timeline(new KeyFrame(Duration.seconds(1), event -> refreshData()));
         refreshTimeLine.setCycleCount(-1);
         refreshTimeLine.play();
+
+        myUsernameText.setText(client.User.getInstance().getUsername());
+        myUsernameText.setTextAlignment(TextAlignment.CENTER);
     }
 
     @Override
@@ -65,6 +77,7 @@ public class FriendsMenu extends AppMenu {
             Out.sendMessage("get friends");
             Out.sendMessage("get requests");
             Out.sendMessage("get invites");
+            Out.sendMessage("get games");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +108,29 @@ public class FriendsMenu extends AppMenu {
                 denyButtons.getChildren().add(denyButton);
                 acceptButtons.getChildren().add(acceptButton);
             }
+        } else if (Regexes.RUNNING_GAMES_INFO.matches(command)) {
+            ArrayList<String[]> gameData = translateInfo(command);
+            VBox vBox1 = new VBox();
+            VBox vBox2 = new VBox();
+            gamesContainer.getChildren().clear();
+            gamesContainer.getChildren().addAll(vBox1, vBox2);
 
+            for (String[] strings : gameData) {
+                String username = strings[1];
+                int gameId = Integer.parseInt(strings[0]);
+                System.out.println(username + " " + gameId);
+
+                Label usernameLabel = new Label();
+                usernameLabel.setText(username);
+                usernameLabel.setPrefHeight(46);
+                vBox1.getChildren().add(usernameLabel);
+                Button playButton = new Button();
+                playButton.setText("view");
+                playButton.setOnMouseClicked(event -> view(username, gameId));
+                usernameLabel.setPrefWidth(250);
+                playButton.setPrefHeight(46);
+                vBox2.getChildren().add(playButton);
+            }
 
         } else if (command.startsWith("[SUCC]")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -206,6 +241,20 @@ public class FriendsMenu extends AppMenu {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (command.startsWith("[SEARCHED_USER_PROFILE]")) {
+            System.out.println("WE ARE HERE-------?>");
+            String[] userData = command.substring("[SEARCHED_USER_PROFILE]:".length()).split("\\|");
+            searchedUserDataBox.getChildren().clear();
+            for (int i = 0; i < 3; i++) {
+                Label label = new Label();
+                label.setText(userData[i]);
+                label.setTextAlignment(TextAlignment.CENTER);
+                label.setPrefWidth(175);
+                label.setPrefHeight(46);
+                searchedUserDataBox.setAlignment(Pos.CENTER);
+                searchedUserDataBox.getChildren().add(label);
+                label.setAlignment(Pos.CENTER);
+            }
         }
     }
 
@@ -286,6 +335,29 @@ public class FriendsMenu extends AppMenu {
             refreshTimeLine.stop();
             MainMenu mainMenu = new MainMenu();
             mainMenu.start((Stage) friendsContainer.getScene().getWindow());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<String[]> translateInfo(String info) {
+        System.out.println(info);
+        // String[0] : game id && String[1] = the friend username
+        ArrayList<String[]> gamePairedByUsername = new ArrayList<>();
+        String[] pairs = Regexes.RUNNING_GAMES_INFO.getGroup(info, "INFO").split(" ");
+        for (String pair : pairs) {
+            gamePairedByUsername.add(pair.split("_"));
+        }
+        return gamePairedByUsername;
+
+    }
+
+    public void view(String username, int gameId) {
+        try {
+            refreshTimeLine.stop();
+            GameView view = new GameView();
+            view.start((Stage) friendsContainer.getScene().getWindow());
+            Out.sendMessage("watch " + gameId);
         } catch (Exception e) {
             e.printStackTrace();
         }
