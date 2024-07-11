@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -156,12 +157,28 @@ public class FriendsMenu extends AppMenu {
             friendsContainer.getChildren().clear();
             friendsContainer.getChildren().addAll(vBox1, vBox2);
 
-            for (String username : usernames) {
-                if (username.equals(""))
+            for (String string : usernames) {
+                if (string.equals("")) {
                     continue;
+                }
+                System.out.println(string);
+                String[] data = string.split(":");
+                String username = data[0];
+                String status = data[1];
+                if (username.equals("")) {
+                    continue;
+                }
+
                 Label usernameLabel = new Label();
                 usernameLabel.setText(username);
                 usernameLabel.setPrefHeight(46);
+
+                if (status.equals("online")) {
+                    usernameLabel.setStyle("-fx-text-fill: green;");
+                } else if (status.equals("offline")) {
+                    usernameLabel.setStyle("-fx-text-fill: red;");
+                }
+
                 vBox1.getChildren().add(usernameLabel);
                 Button playButton = new Button();
                 playButton.setText("play");
