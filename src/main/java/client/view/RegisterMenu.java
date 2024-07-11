@@ -3,7 +3,7 @@ package client.view;
 import client.Main;
 import client.Out;
 import controller.*;
-import controller.menuConrollers.RegisterMenuController;
+import client.menuConrollers.RegisterMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

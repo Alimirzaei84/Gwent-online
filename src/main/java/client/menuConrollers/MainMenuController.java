@@ -1,4 +1,4 @@
-package controller.menuConrollers;
+package client.menuConrollers;
 
 import model.Enum.Regexes;
 import server.Account.User;

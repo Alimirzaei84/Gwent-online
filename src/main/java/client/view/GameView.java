@@ -1,13 +1,9 @@
 package client.view;
 
 import client.Out;
-import controller.ApplicationController;
 import controller.CardController;
-import controller.menuConrollers.GameController;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,10 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -31,11 +23,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import server.Account.Player;
 import server.game.Board;
-import server.game.Game;
 import server.game.Row;
 import model.role.Card;
-import model.role.Special;
-import model.role.Weather;
 
 import java.io.File;
 import java.io.IOException;

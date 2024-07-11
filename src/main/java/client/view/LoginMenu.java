@@ -2,7 +2,7 @@ package client.view;
 
 import client.Out;
 import client.User;
-import controller.menuConrollers.LoginMenuController;
+import client.menuConrollers.LoginMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -174,8 +174,8 @@ public class LoginMenu extends AppMenu {
                 String message;
 
                 System.out.println(result.get() + " but " + code);
-//                if (result.get().equals(code)) {
-                if(true){
+                if (result.get().equals(code)) {
+//                if(true){
                     System.out.println("[SUCC]:");
                     validUsername = true;
                     Alert alert1 = new Alert(Alert.AlertType.INFORMATION);

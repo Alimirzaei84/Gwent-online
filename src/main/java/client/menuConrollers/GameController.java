@@ -1,4 +1,4 @@
-package controller.menuConrollers;
+package client.menuConrollers;
 
 import javafx.scene.image.ImageView;
 import model.role.*;

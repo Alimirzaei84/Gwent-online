@@ -1,4 +1,4 @@
-package controller.menuConrollers;
+package client.menuConrollers;
 
 
 import server.Account.User;
