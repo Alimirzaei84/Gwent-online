@@ -19,7 +19,6 @@ Gwent-Online is a Java-based networked implementation of the popular card game *
 - **Game Persistence**: Save and load decks, player stats, and match history using JSON/XML storage.
 - **Cheat Menu**: Developer console for testing special codes and debugging.
 - **MVC Structure**: Clean separation of concerns across client, server, and data models.
-- **UML Documentation**: Class diagrams available in `faaz-aval-uml.pdf` and `Untitled Diagram.drawio.xml`.
 
 ## Architecture
 
